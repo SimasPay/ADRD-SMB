@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+<RelativeLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/top"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/sina_logo" />
+
+        <!-- <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logout_button" /> -->
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/update" />
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/imageView3"
+             >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@layout/rounded"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/update_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="Do you want to purchase from Code: 007 Amount: 1000 Desc: "
+                    style="@style/font_style_spinner"
+                     >
+                </TextView>
+                <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/Update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/update_msg"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dip"
+                android:text="Confirm"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+
+            <Button
+                android:id="@+id/Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:text="Cancel"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</LinearLayout>

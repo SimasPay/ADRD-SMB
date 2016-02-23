@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@layout/rounded"
+        android:padding="10dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/accountOldMDN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Old MDN"
+                    style="@style/font_style_spinner" >
+                </TextView>
+
+                <EditText
+                    android:id="@+id/ed_oldMDNValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:inputType="number" >
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/accountNewMDN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" New MDN"
+                     style="@style/font_style_spinner" >
+                </TextView>
+
+                <EditText
+                    android:id="@+id/ed_newMDNValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ems="10"
+                    android:inputType="number" >
+
+                    <requestFocus />
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" mPIN"
+                     style="@style/font_style_spinner" >
+                </TextView>
+
+                <EditText
+                    android:id="@+id/ed_pinValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:password="true" >
+                </EditText>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_EnterPin_Ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="Submit"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--
+    <FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_gravity="bottom"
+		android:layout_marginBottom="10dp" android:visibility="invisible">
+		<Button android:id="@+id/btn_EnterPin_Ok"
+			android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+			android:layout_width="wrap_content" android:background="@drawable/ok_btn_hover"></Button>
+		<Button android:id="@+id/btn_EnterPin_Back"
+			android:layout_height="wrap_content" android:layout_width="80dp"
+			android:layout_gravity="right" android:text="Back"
+			android:visibility="invisible"></Button>
+	</FrameLayout>
+    -->
+
+</LinearLayout>

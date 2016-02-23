@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+
+<include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header1" />
+<RelativeLayout
+            android:id="@+id/linearText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:background="@layout/rounded"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:orientation="vertical" >
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp" >
+
+        <LinearLayout
+            android:id="@+id/linearText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/terms_conditions"
+                style="@style/font_style_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:text="Your consent through your Banksinarmas application is your consent to the terms and conditions of this service. Banksinarmas Bank retains the right to amend these terms any time without notice. " >
+            </TextView>
+            <!--
+            <TextView android:layout_height="wrap_content" android:id="@+id/textView2"
+			android:text="I understand that, by using this service that by"
+			android:layout_gravity="center_horizontal" android:gravity="center_horizontal"
+			android:layout_width="wrap_content"
+			android:textSize="30sp" android:layout_marginLeft="20sp"
+			android:layout_marginRight="20sp" android:textColor="@color/WHITE"></TextView>
+            -->
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/divider" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp" >
+
+            <Button
+                android:id="@+id/agreeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Agree"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+             <Button
+                android:id="@+id/decline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/agreeButton"
+                android:text="Cancel"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+        </RelativeLayout>
+    </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

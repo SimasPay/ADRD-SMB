@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+ <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" />
+    
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@layout/rounded"
+            android:layout_margin="15dp"
+            android:padding="15dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_BillPaymentConfirmation_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your bill of 1000 was paid successfully to &lt;Biller Code>. Current e-money balance: NGN 10000"
+                style="@style/font_style_spinner" >
+            </TextView>
+            <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_ConfirmationBillPayment_Home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Ok"
+            style="@style/font_button"
+            android:background="@drawable/button_empty" >
+        </Button>
+
+        <Button
+            android:id="@+id/btn_ConfirmationBillPayment_Logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/logout_btn_hover" >
+        </Button>
+    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

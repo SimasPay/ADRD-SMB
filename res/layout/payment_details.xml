@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+<include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+       
+        android:layout_marginTop="20dp" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@layout/rounded"
+        android:layout_margin="15dp"
+        android:padding="15dp"
+        android:layout_gravity="center_horizontal"
+         android:orientation="vertical"
+       >
+
+<LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mdnLayout"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView_paymentDestMDN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Destination MDN"
+                style="@style/font_style_spinner" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_mdnValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                style="@style/text_box_style"
+                 >
+            </EditText>
+        </LinearLayout><LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/amountLayout"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView_paymentAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Amount"
+                android:layout_marginTop="5dp"
+                style="@style/font_style_spinner">
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_amountValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                style="@style/text_box_style"
+                 >
+            </EditText>
+
+        </LinearLayout>
+        <!-- <RelativeLayout
+            android:layout_width="fill_parent"
+            android:id="@+id/denomLayout"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/denom"
+                style="@style/font_style_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available denom are"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/ed_denom"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@+id/denom"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="5dp"
+                 android:inputType="number"
+                 style="@style/text_box_style"
+                >
+            </EditText>
+            
+            
+
+            <Spinner
+                android:id="@+id/denom_spinner"
+                android:layout_below="@+id/denom"
+                 android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/drop_down_img" />
+
+        </RelativeLayout> -->
+        <!-- <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/invoiceNumber"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView_paymentInvoiceNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Invoice Number"
+                android:layout_marginTop="5dp"
+                style="@style/font_style_spinner" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_productIdValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                style="@style/text_box_style"
+                 >
+            </EditText>
+        </LinearLayout> -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" mPIN"
+                android:layout_marginTop="5dp"
+               style="@style/font_style_spinner" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_pinValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                 android:maxLength="6"
+                android:password="true"
+                style="@style/text_box_style"
+                 >
+            </EditText>
+
+            <Button
+                android:id="@+id/btn_EnterPin_Ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="Submit"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

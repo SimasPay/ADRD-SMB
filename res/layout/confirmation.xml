@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header_no_back" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" >
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="@layout/rounded"
+            android:padding="15dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <!--
+                <TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/tv_cashout"
+				android:text="Last 3 transactions are:" android:textColor="@color/BLACK"
+				android:textSize="20sp" android:visibility="gone" android:layout_gravity="center" android:gravity="center"></TextView>
+                -->
+
+                <TextView
+                    android:id="@+id/tv_transactionDetails"
+                    style="@style/font_style_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You have successfully done your transaction " >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/aditional_info"
+                    style="@style/font_style_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_DetailsHistoryHome"
+                        style="@style/font_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/button_empty"
+                        android:text="Ok" >
+                    </Button>
+
+                    <!--
+                    <Button
+                        android:id="@+id/btn_DetailsHistory_Logout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/logout_btn_hover" >
+                    </Button>
+                    -->
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="vertical"
+            android:background="@layout/rounded"
+            android:padding="15dp"
+            android:layout_margin="15dp"
+            android:paddingTop="30dp" >
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/font_style_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Merchant Code " >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_BuyDetails_Code"
+                style="@style/text_box_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="none"
+                android:maxLength="20" >
+            </EditText>
+			-->
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/font_style_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Amount " >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_BuyDetails_Amount"
+                style="@style/text_box_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="8" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/font_style_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Bill No " >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_BuyDetails_Billno"
+                style="@style/text_box_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="30" >
+            </EditText>
+
+            <Button
+                android:id="@+id/btn_DetailsBillPayment_Ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Submit"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+    <!--
+		<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_gravity="bottom"
+		android:layout_marginBottom="10dp" android:visibility="invisible">
+
+		<Button android:layout_height="wrap_content"
+		android:id="@+id/btn_DetailsBillPayment_Ok"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:background="@drawable/ok_btn_hover"></Button> <Button
+		android:layout_height="wrap_content" android:text="Back"
+		android:layout_width="80dp" android:layout_gravity="right"
+		android:layout_marginRight="10dp"
+		android:id="@+id/btn_DetailsBillPayment_Back"
+		android:visibility="invisible"></Button> </FrameLayout>
+    -->
+
+</LinearLayout>

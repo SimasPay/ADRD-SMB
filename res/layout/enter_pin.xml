@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sample_rl"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/blue_bg2"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" 
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@layout/rounded"
+        android:orientation="vertical"
+        android:padding="15dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView1"
+                style="@style/font_style_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" mPIN" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_pinValue"
+                style="@style/text_box_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
+                android:password="true" >
+            </EditText>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal" 
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/btn_EnterPin_Ok"
+                    style="@style/font_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                 
+                    android:background="@drawable/button_empty"
+                    android:text="Ok" >
+                </Button>
+
+                <Button
+                    android:id="@+id/btn_EnterPin_cancel1"
+                    style="@style/font_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_empty"
+                    android:text="Cancel">
+                </Button>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+<!--
+    <FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_gravity="bottom"
+		android:layout_marginBottom="10dp" android:visibility="invisible">
+		<Button android:id="@+id/btn_EnterPin_Ok"
+			android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+			android:layout_width="wrap_content" android:background="@drawable/ok_btn_hover"></Button>
+		<Button android:id="@+id/btn_EnterPin_Back"
+			android:layout_height="wrap_content" android:layout_width="80dp"
+			android:layout_gravity="right" android:text="Back"
+			android:visibility="invisible"></Button>
+	</FrameLayout>
+-->
+
+
+
