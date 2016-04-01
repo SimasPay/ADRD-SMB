@@ -1,0 +1,211 @@
+<resources>
+    <string name="app_name">Pay By QR</string>
+
+    <!-- SERVER URL -->
+    <string name="server_live">https://my.flashiz.co.id</string>
+    <string name="server_dev">https://sandbox.flashiz.co.id</string>
+    <string name="server_uat">https://uat.flashiz.co.id</string>
+    <string name="url_path_login">/login/auth/connect</string>
+    <string name="url_path_invoiceDetail">/banking/v1/mobile/invoice/get</string>
+    <string name="url_path_invoiceStatus">/banking/v1/mobile/invoice/status</string>
+    <string name="url_path_joinLoyaltyProgram">/mobile/fidelitizCardCreate</string>
+    <string name="url_path_getLoyaltyList">/mobile/individualGetActiveLoyaltyPrograms</string>
+
+    <!-- CONSTANT -->
+    <string name="default_pin">0000</string>
+    <string name="font_helvetica">font/HelveticaNeue.ttf</string>
+    <string name="font_helvetica_light">font/HelveticaNeue-Light.ttf</string>
+    <string name="font_montserrat">font/Montserrat-Regular.ttf</string>
+    <string name="font_montserrat_bold">font/Montserrat-Bold.ttf</string>
+    <string name="font_montserrat_thin">font/Montserrat-Thin.ttf</string>
+    <string name="font_montserrat_light">font/Montserrat-Light.ttf</string>
+
+    <!-- STRING RESOURCE -->
+    <string name="alertdialog_message_permission_denied">Pay by QR membutuhkan akses %1$s untuk melakukan transaksi.</string>
+    <string name="alertdialog_title_error">Info</string>
+    <string name="alertdialog_posBtn_close">Tutup</string>
+    <string name="alertdialog_negBtn_retry">Coba lagi</string>
+    <string name="alertdialog_posBtn_ok">OK</string>
+    <string name="alertdialog_posBtn_batal">Batal</string>
+    <string name="alertdialog_posBtn_hapus">Hapus</string>
+
+    <string name="progressdialog_message_login_waiting">Mohon tunggu...</string>
+    <string name="progressdialog_message_get_invoice_detail">Memproses invoice...</string>
+    <string name="progressdialog_message_join_loyalty_program">Mendaftarkan program loyalti...</string>
+    <string name="progressdialog_message_get_store_item_detail">Mengambil data barang...</string>
+
+    <string name="button_EULA_accept">SETUJU</string>
+    <string name="button_EULA_decline">TOLAK</string>
+    <string name="button_flash_on">On</string>
+    <string name="button_flash_off">Off</string>
+    <string name="button_retry">Coba Lagi</string>
+    <string name="button_exit">Keluar</string>
+    <string name="button_pay">BAYAR</string>
+    <string name="button_tip">BERI TIP</string>
+    <string name="button_cek_loyalty">Cek Loyalti</string>
+    <string name="button_yes">Ya</string>
+    <string name="button_no">Tidak</string>
+    <string name="button_action_done">DONE</string>
+
+    <string name="text_EULA_title">SYARAT &amp; KETENTUAN</string>
+    <string name="text_scanqr_tutorial">Silakan scan QR\npada area yang telah ditentukan</string>
+    <string name="text_detail_currency">Rp</string>
+    <string name="text_detail_info_normal">Pastikan jumlah yang tertera di atas sesuai dengan pembayaran yang Anda lakukan</string>
+    <string name="text_header_title_input_amount">MASUKKAN NOMINAL</string>
+    <string name="text_header_title_confirm">KONFIRMASI</string>
+    <string name="text_header_title_tip">TIP</string>
+    <string name="text_header_title_loyalty">PROMO</string>
+    <string name="text_header_title_loyalty_detail">DETIL PROMO</string>
+    <string name="text_payment_success">PEMBAYARAN BERHASIL !</string>
+    <string name="text_payment_failed">PEMBAYARAN GAGAL !</string>
+    <string name="text_payment_timeout">TERJADI GANGGUAN</string>
+    <string name="text_not_authenticate">PEMBAYARAN GAGAL</string>
+    <string name="text_not_authenticate_splash">ERROR</string>
+    <string name="text_discount">DISCOUNT</string>
+    <string name="text_discount_OFF">OFF</string>
+    <string name="text_detail_voucher_anda">Voucher Anda saat ini</string>
+    <string name="text_detail_voucher_gunakan">Gunakan sekarang?</string>
+    <string name="text_voucher">Voucher</string>
+    <string name="text_detail_info_tip">Puas dengan pelayanan yang diberikan?</string>
+    <string name="text_info_voucher_max_percentage">Voucher hanya dapat dipakai satu kali per transaksi dan tidak dapat digabungkan.</string>
+    <string name="text_info_voucher_max">Anda telah memakai seluruh voucher yang Anda miliki.</string>
+    <string name="text_info_voucher_min_trx">Batas minimum transaksi setelah pemakaian voucher adalah Rp %1$s</string>
+    <string name="text_plus_tip">+ TIP</string>
+    <string name="text_tip_total">TOTAL BAYAR</string>
+    <string name="text_info_tip_max">Mohon maaf, jumlah tip tidak dapat melebihi jumlah pembayaran.\nJumlah pembayaran Anda saat ini adalah Rp %1$s</string>
+    <string name="text_info_fidelitiz1">Anda mendapatkan </string>
+    <string name="text_info_fidelitiz2">Total poin Anda adalah</string>
+    <string name="text_info_fidelitiz3">lagi untuk mendapatkan voucher</string>
+    <string name="text_info_fidelitiz3_get_voucher">Selamat! Anda mendapatkan voucher</string>
+    <string name="text_poin">%1$s poin</string>
+    <string name="text_voucher_balance">%1$sVoucher %2$s</string>
+    <string name="text_search">Search</string>
+    <string name="text_loyalty_list_desc">Dapatkan %1$s poin untuk setiap pembelanjaan %2$s\nKumpulkan %3$s poin dan dapatkan Voucher %4$s</string>
+    <string name="text_loyalty_detail_point_to_go">lagi untuk mendapatkan</string>
+    <string name="text_loyalty_detail_total_voucher">Total Voucher Anda saat ini adalah:</string>
+    <string name="text_loyalty_detail_syarat">SYARAT DAN KETENTUAN</string>
+    <string name="text_loyalty_detail_info_expired">Diskon berlaku dari:</string>
+    <string name="text_loyalty_detail_info_expired_type_point">Program loyalti berlaku dari:</string>
+    <string name="text_loyalty_detail_info_minimum">Minimum pembelian:</string>
+    <string name="text_loyalty_detail_info_maximum">Maksimum diskon:</string>
+    <string name="text_loyalty_detail_info_membership">Lokasi:</string>
+    <string name="text_loyalty_detail_info_empty">( Tidak ada %1$s )</string>
+    <string name="text_loyalty_detail_info_empty_location">( Data lokasi tidak tersedia )</string>
+    <string name="text_transaction_canceled_by_user">Anda yakin ingin membatalkan transaksi ?</string>
+
+    <string name="error_SDK_no_listener">Gagal memulai SDK: Listener tidak ditemukan.</string>
+    <string name="error_invalid_qr_title">QR TIDAK VALID</string>
+    <string name="error_invalid_qr_detail_expired">Batas waktu pembayaran QR ini sudah habis, silakan minta dibuatkan QR yang baru.</string>
+    <string name="error_invalid_qr_detail_paid">QR yang Anda scan tidak berlaku karena telah dibayar sebelumnya.</string>
+    <string name="error_invalid_qr_detail_notFound">QR yang Anda scan tidak terdaftar dalam sistem kami.</string>
+    <string name="error_no_connection_title">Tidak Ada Koneksi Internet</string>
+    <string name="error_connection_header">ERROR</string>
+    <string name="error_connection_message">Gagal terhubung dengan server Pay by QR.</string>
+    <string name="error_connection_detail">Periksa kembali koneksi internet Anda.</string>
+    <string name="error_JSON_parser">Mohon maaf, terjadi gangguan pada sistem kami. Mohon coba beberapa saat lagi.</string>
+    <string name="error_unknown">Mohon maaf, terjadi gangguan pada sistem kami. Mohon coba beberapa saat lagi.</string>
+    <string name="error_max_retry">Terjadi gangguan pada transaksi ini, silakan cek histori transaksi untuk memastikan status.</string>
+    <string name="error_authentication">Mohon maaf, terjadi gangguan pada sistem kami. Mohon coba beberapa saat lagi.</string>
+    <string name="error_minimum_trx">Jumlah pembayaran transaksi ini kurang dari minimum pembayaran yang berlaku, Rp %1$s. Silakan bertransaksi sejumlah atau diatas nilai tersebut.</string>
+    <string name="error_transaction_canceled">Transaksi ini telah dibatalkan. Silakan hubungi kasir untuk konfirmasi.</string>
+    <string name="error_transaction_expired">QR expired dikarenakan batas waktu transaksi telah habis. Silakan minta dibuatkan QR yang baru.</string>
+    <string name="error_empty_amount">Mohon masukkan nominal</string>
+
+    <!--   QR STORE - -->
+    <string name="cart_name_placeholder">Qr Store</string>
+    <string name="bt_store_add_to_cart">TAMBAH KE KERANJANG</string>
+    <string name="bt_store_checkout">PROSES KERANJANG</string>
+    <string name="bt_store_add_more">TAMBAH BARANG</string>
+    <string name="bt_store_lanjut">LANJUT</string>
+    <string name="bt_store_konfirmasi">BAYAR</string>
+    <string name="bt_store_start_shop">MULAI BELANJA</string>
+    <string name="tx_qr_store_bt">Keranjang Belanja</string>
+
+
+    <string name="text_store_normal">nama barang</string>
+    <string name="text_store_plus">+</string>
+    <string name="text_store_minus">-</string>
+    <string name="text_store_dec">1</string>
+    <string name="tx_store_pre_total">TOTAL</string>
+    <string name="tx_store_pre_totalprice">Rp. 1200</string>
+    <string name="tx_store_header">QR STORE</string>
+    <string name="tx_store_keranjang_bel">KERANJANG BELANJA</string>
+    <string name="tx_store_total_bel">TOTAL BELANJA</string>
+    <string name="tx_store_total_ship">BIAYA KIRIM</string>
+    <string name="tx_store_total_bayar">TOTAL BAYAR</string>
+    <string name="tx_store_total_pickup">PENGAMBILAN</string>
+    <string name="tx_store_total_nama">NAMA</string>
+    <string name="tx_store_total_email">E-MAIL</string>
+    <string name="tx_store_total_phone">TELEPON</string>
+    <string name="tx_store_total_address">ALAMAT</string>
+    <string name="tx_store_action_reset">Reset</string>
+    <string name="tx_store_empty_1">Keranjang belanja Anda masih kosong.\nSilakan scan QR barang\nuntuk mulai berbelanja</string>
+    <string name="tx_store_merchant">MERCHANT</string>
+
+    <string name="tx_store_number_min">7</string>
+    <string name="tx_store_number_max">16</string>
+    <string name="tx_store_name_min">2</string>
+    <string name="tx_store_name_max">30</string>
+    <string name="tx_store_address_min">9</string>
+    <string name="tx_store_address_max">60</string>
+    <string name="tx_maximum_length">30</string>
+
+    <string name="tx_store_pick_selesai">SELESAI</string>
+    <string name="tx_store_pick_batal">BATAL</string>
+
+    <string name="tx_store_checout_name_hint">MASUKKAN NAMA</string>
+    <string name="tx_store_checout_email_hint">MASUKKAN E-MAIL</string>
+    <string name="tx_store_checout_telepon_hint">MASUKKAN TELEPON</string>
+    <string name="tx_store_checout_alamat_hint">MASUKKAN ALAMAT</string>
+    <string name="tx_store_checout_name_empty">Nama tidak boleh kosong. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_email_empty">E-mail tidak boleh kosong. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_telepon_empty">Nomor Telepon tidak boleh kosong. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_alamat_empty">Alamat pengiriman tidak boleh kosong. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_name_error">Nama tidak boleh kurang dari 3 karakter. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_telepon_error">Nomor telepon tidak boleh kurang dari 7 karakter. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_alamat_error">Alamat pengiriman tidak boleh kurang dari 8 karakter. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_toko_error">Toko harus dipilih. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_kota_error">Kota harus dipilih. Mohon periksa kembali data Anda</string>
+
+    <string name="tx_store_pick_address">ALAMAT</string>
+    <string name="tx_store_pick_store">TOKO</string>
+    <string name="tx_store_pick_city">KOTA</string>
+    <string name="tx_store_pick_addressdummy">Plaza Permata 10 th floor Mh thamrin 28-30 Jakarta</string>
+    <string name="tx_store_select">TOKO [img src=v_arrow/]</string>
+    <string name="error_no_selection">Silahkan Pilih Item</string>
+    <string name="error_no_stock">Maaf, stok barang habis</string>
+    <string name="error_max_stock">Stok yang tersedia untuk barang ini adalah %1$d</string>
+    <string name="error_max_qty">Jumlah maksimal yang bisa Anda beli untuk produk ini adalah %1$d</string>
+    <string name="error_max_goods_in_cart">. Anda sudah pernah menambahkan %1$d barang di keranjang belanja Anda.</string>
+    <string name="error_lanjut_validity">Semua informasi harus diisi untuk memproses pembelanjaan</string>
+    <string name="error_lanjut_validity_number">Nomor Telepon belum valid\nSilakan diedit</string>
+    <string name="error_lanjut_validity_name">Nama belum valid \nSilakan diedit</string>
+    <string name="error_item_not_valid">Barang tidak terdaftar</string>
+
+    <string name="error_invalid_qr_store_title">QR STORE</string>
+    <string name="tx_qr_delete">Yakin untuk menghapus \"%1$s\" ?</string>
+
+    <string name="transition_name_loyalty_list_title_disc">loyalty_title_disc</string>
+    <string name="transition_name_loyalty_list_image">loyalty_image</string>
+    <string name="transition_name_loyalty_list_title">loyalty_title</string>
+    <string name="transition_name_loyalty_list_desc">loyalty_desc</string>
+
+    <string name="pilih_toko">PILIH TOKO</string>
+
+    <string-array name="pickup_method_entries">
+        <item>ALAMAT</item>
+        <item>TOKO</item>
+    </string-array>
+
+    <string-array name="city_entries">
+        <item>PILIH KOTA</item>
+        <item>JAKARTA</item>
+        <item>BEKASI</item>
+        <item>BOGOR</item>
+        <item>DEPOK</item>
+        <item>BANDUNG</item>
+        <item>KARAWANG</item>
+        <item>SUKABUMI</item>
+        <item>TANGERANG</item>
+    </string-array>
+</resources>

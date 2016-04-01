@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dimo="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.dimo.PayByQR.view.DIMOTextView
+        android:id="@+id/item_loyalty_detail_location_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_loyalty_detail_info_empty_location"
+        android:textSize="16sp"
+        android:textColor="@color/loyalty_detail_discount_info_title"
+        dimo:font="@string/font_helvetica"/>
+
+    <LinearLayout
+        android:id="@+id/item_loyalty_detail_location_visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:gravity="top"
+            android:text="-"
+            android:textSize="16sp"
+            android:textColor="@color/loyalty_detail_discount_info_title"
+            dimo:font="@string/font_helvetica_light"/>
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/item_loyalty_detail_location_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Gong Cha Grand Indonesia"
+                android:textSize="16sp"
+                android:textColor="@color/loyalty_detail_discount_info_title"
+                dimo:font="@string/font_helvetica"/>
+            <!--<com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/item_loyalty_detail_location_addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grand Indonesia Shopping Town Lt. LG, Jakarta Pusat, DKI Jakarta"
+                android:textSize="14sp"
+                android:textColor="@color/loyalty_detail_discount_info_title"
+                dimo:font="@string/font_helvetica"/>-->
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="font" format="string"/>
+
+    <declare-styleable name="com.dimo.view.DIMOButton">
+        <attr name="bgColor" format="color"/>
+        <attr name="buttonSize" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="small" value="1"/>
+            <enum name="big" value="2"/>
+        </attr>
+        <attr name="font"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.dimo.view.DIMOTextView">
+        <attr name="font"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.dimo.view.DIMOEditText">
+        <attr name="font"/>
+    </declare-styleable>
+
+    <!-- not yet used -->
+    <!--<attr name="bgColorStyle" format="reference" />
+    <attr name="fontName" format="string" />
+    <attr name="colorStyle" format="reference" />
+    <attr name="cornerRadius" format="dimension" />
+
+    <declare-styleable name="com.dimo.DIMOPay.view.DIMOTextView">
+        <attr name="fontName" />
+        <attr name="colorStyle" />
+    </declare-styleable>
+    <declare-styleable name="com.dimo.DIMOPay.view.DIMOEditText">
+        <attr name="fontName" />
+        <attr name="colorStyle" />
+    </declare-styleable>
+    <declare-styleable name="com.dimo.DIMOPay.view.DIMOLinearLayout">
+        <attr name="bgColorStyle"/>
+        <attr name="cornerRadius"/>
+    </declare-styleable>
+    <declare-styleable name="com.dimo.DIMOPay.view.DIMOFrameLayout">
+        <attr name="bgColorStyle"/>
+    </declare-styleable>
+
+    <declare-styleable name="com.dimo.DIMOPay.view.DIMOCircle">
+        <attr name="bgColorStyle"/>
+    </declare-styleable>
+    <declare-styleable name="com.dimo.DIMOPay.view.DIMOImageView">
+        <attr name="backgroundTheme" format="boolean"/>
+    </declare-styleable>-->
+
+
+
+
+</resources>

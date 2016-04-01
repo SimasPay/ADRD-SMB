@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PayByQRTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/gray_sinarmas</item>
+        <item name="colorPrimaryDark">@color/gray_sinarmas</item>
+        <item name="colorAccent">@color/gray_sinarmas</item>
+        <item name="android:windowBackground">@drawable/bg_simobi</item>
+
+    </style>
+
+    <style name="PayByQRTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/gray_sinarmas</item>
+        <item name="colorPrimaryDark">@color/gray_sinarmas</item>
+        <item name="colorAccent">@color/gray_sinarmas</item>
+        <item name="android:windowBackground">@drawable/bg_simobi</item>
+    </style>
+
+    <style name="PayByQRTheme.NoActionBar.TranslucentStatus" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/gray_sinarmas</item>
+        <item name="colorPrimaryDark">@color/gray_sinarmas</item>
+        <item name="colorAccent">@color/gray_sinarmas</item>
+        <item name="android:windowBackground">@drawable/bg_simobi</item>
+    </style>
+</resources>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:dimo="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.dimo.PayByQR.activity.FailedActivity">
+
+    <LinearLayout
+        android:id="@+id/footer_service_by_dimo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:background="@color/theme_black"
+        android:weightSum="1">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:adjustViewBounds="true"
+            android:src="@drawable/servicebydimo"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/footer_service_by_dimo"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <com.dimo.PayByQR.view.DIMOButton
+            android:id="@+id/activity_failed_btn_OK"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/alertdialog_posBtn_ok"
+            android:textColor="@color/theme_text_over_basic_bg"
+            dimo:bgColor="@color/theme_colorPrimary"
+            dimo:buttonSize="big"
+            dimo:font="@string/font_montserrat"/>
+
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/activity_failed_text_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/activity_failed_btn_OK"
+            android:gravity="center"
+            android:text="@string/text_payment_failed"
+            android:textSize="@dimen/text_size_24"
+            android:textColor="@color/theme_text_over_basic_bg"
+            dimo:font="@string/font_helvetica"/>
+
+        <ImageView
+            android:id="@+id/activity_failed_icon"
+            android:layout_width="@dimen/image_size_icon_payment_failed"
+            android:layout_height="@dimen/image_size_icon_payment_failed"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/activity_failed_text_header"
+            android:layout_marginBottom="24dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_failed"/>
+
+        <RelativeLayout
+            android:id="@+id/activity_failed_error_detail_block"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/activity_failed_btn_OK"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:visibility="visible">
+
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/activity_failed_text_error_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/padding_text_error_payment_failed"
+                android:gravity="center"
+                android:background="@drawable/background_rect_gray"
+                android:text="Saldo Anda tidak mencukupi untuk melakukan transakasi ini.\nSilahkan isi saldo Anda."
+                android:textSize="@dimen/text_size_18"
+                android:textColor="@color/theme_colorPrimary"
+                dimo:font="@string/font_montserrat"/>
+            <ImageView
+                android:layout_width="@dimen/image_size_icon_info_payment_failed"
+                android:layout_height="@dimen/image_size_icon_info_payment_failed"
+                android:layout_centerHorizontal="true"
+                android:padding="@dimen/padding_icon_info_payment_failed"
+                android:background="@drawable/background_circle_gray"
+                android:src="@drawable/ic_info_outline"
+                android:scaleType="fitXY"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

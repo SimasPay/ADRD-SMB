@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dimo="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/activity_store_confirm_shipping_addr_line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp">
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="4dp"
+            android:text="Rp. 2.700.000"
+            android:textColor="@color/store_text_checkout"
+            android:textSize="@dimen/text_size_16"
+            dimo:font="@string/font_helvetica"
+            android:id="@+id/act_item_total" />
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="1"
+            android:id="@+id/act_item_quantity"
+            android:textColor="@color/store_text_checkout"
+            android:textSize="@dimen/text_size_16"
+            android:layout_marginBottom="10dp"
+            dimo:font="@string/font_helvetica"/>
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/act_goods_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/act_item_quantity"
+            android:layout_toLeftOf="@id/act_item_total"
+            android:gravity="left"
+            android:paddingLeft="4dp"
+            android:lineSpacingExtra="1dp"
+            android:text="iPod Shuffle Blue dan bukan merah 16Gb"
+            android:textColor="@color/store_text_checkout"
+            android:textSize="@dimen/text_size_16"
+            dimo:font="@string/font_helvetica"/>
+    </RelativeLayout>
+</LinearLayout>

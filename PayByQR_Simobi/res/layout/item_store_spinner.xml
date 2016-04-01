@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dimo="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="8dp"
+    android:gravity="right"
+    android:orientation="vertical">
+
+    <com.dimo.PayByQR.view.DIMOTextView
+        android:id="@+id/item_store_spinner_title"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center|right"
+        android:text="JAKARTA"
+        android:textColor="@color/store_text_checkout"
+        android:textSize="@dimen/text_size_16"
+        dimo:font="@string/font_helvetica"/>
+
+    <com.dimo.PayByQR.view.DIMOTextView
+        android:id="@+id/item_store_spinner_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="right"
+        android:text="ADDRESS HERE"
+        android:textColor="@color/store_text_checkout"
+        android:textSize="@dimen/text_size_16"
+        dimo:font="@string/font_helvetica"
+        android:visibility="gone"/>
+
+</LinearLayout>

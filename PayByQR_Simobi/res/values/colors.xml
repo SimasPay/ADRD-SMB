@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_colorPrimary">#E32116</color>
+    <color name="theme_btn_tip">#373737</color>
+    <color name="theme_btn_redeem_point">#5d5d5d</color>
+    <color name="theme_bg_gray">#cfcfcf</color>
+    <color name="theme_bg_light_gray">#f5f5f5</color>
+    <color name="theme_text_over_basic_bg">#ffffff</color>
+    <color name="theme_btn_OK">#ffffff</color>
+    <color name="theme_colorPrimaryDark">#82151d</color>
+    <color name="theme_btn_loyalty">#4d1315</color>
+    <color name="theme_black">#000000</color>
+    <color name="theme_bg_scanQR_frame">#80a1a1a1</color>
+
+    <color name="btn_action_scanQR_transparent">#cc5d5d5d</color>
+
+    <color name="txt_scanQR_flash_on">#FEFE2D</color>
+    <color name="txt_invoiceDetail_info_plain">#4c4c4d</color>
+    <color name="txt_error_red">#951520</color>
+    <color name="txt_discount_amount">#80FFFFFF</color>
+
+    <color name="tip_accent">#FEFE2D</color>
+    <color name="tip_text_total">#C5A7A9</color>
+
+    <color name="no_connection_background">#A7A7A7</color>
+    <color name="no_connection_button_retry">#FFFFFF</color>
+    <color name="no_connection_button_close">#686868</color>
+
+    <color name="progress_bar_background">#CFD0D1</color>
+    <color name="progress_bar_progress">#E32116</color>
+
+    <color name="store_background">#F5F5F5</color>
+    <color name="store_text_checkout">#3E475E</color>
+    <color name="store_line_checkout">#D3D3D3</color>
+
+    <color name="success_fidelitiz_info_background">#32000000</color>
+    <color name="success_txt_voucher_generated">#76000A</color>
+
+    <color name="loyalty_list_icon_border">#C0C0C0</color>
+    <color name="loyalty_list_title">#5B5B5B</color>
+    <color name="loyalty_list_desc">#848484</color>
+    <color name="loyalty_list_expired">#AEAEAE</color>
+
+    <color name="loyalty_detail_discount_title_color">#951520</color>
+    <color name="loyalty_detail_discount_title_background">#EAEAEA</color>
+    <color name="loyalty_detail_discount_info">#656565</color>
+    <color name="loyalty_detail_discount_info_title">#363636</color>
+    <color name="store_header_slider">#00A5FD</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="store_detail_info_background">#80000000</color>
+
+    <color name="red_sinarmas">#E32116</color>
+    <color name="gray_sinarmas">#4a4a4a</color>
+</resources>
+<!--
+
+Default Red :
+    primary #9f1723
+    primaryDark #82151d
+
+-->

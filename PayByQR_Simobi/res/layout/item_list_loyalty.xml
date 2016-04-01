@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dimo="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:clickable="true"
+    android:background="?selectableItemBackground">
+
+    <RelativeLayout
+        android:id="@+id/item_loyalty_image_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true">
+
+        <ImageView
+            android:id="@+id/item_loyalty_image"
+            android:layout_width="@dimen/image_size_loyalty_list_image"
+            android:layout_height="@dimen/image_size_loyalty_list_image"
+            android:layout_marginTop="@dimen/margin_loyalty_list_image_top"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:transitionName="@string/transition_name_loyalty_list_image"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/background_loyalty_list_image"/>
+
+        <LinearLayout
+            android:id="@+id/item_loyalty_discount_block"
+            android:layout_width="@dimen/image_size_loyalty_list_discount"
+            android:layout_height="@dimen/image_size_loyalty_list_discount"
+            android:layout_alignTop="@id/item_loyalty_image"
+            android:layout_alignRight="@id/item_loyalty_image"
+            android:layout_marginTop="@dimen/margin_loyalty_list_discount_top_right"
+            android:layout_marginRight="@dimen/margin_loyalty_list_discount_top_right"
+            android:gravity="center"
+            android:background="@drawable/background_circle_discount_loyalty_list"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_discount"
+                android:textColor="@color/theme_text_over_basic_bg"
+                android:textSize="@dimen/text_size_loyalty_list_discount"
+                dimo:font="@string/font_helvetica"/>
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/item_loyalty_discount_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25%"
+                android:textColor="@color/theme_text_over_basic_bg"
+                android:textSize="@dimen/text_size_loyalty_list_discount_amount"
+                dimo:font="@string/font_helvetica"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/item_loyalty_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_chevron_right"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_loyalty_image_block"
+        android:layout_toLeftOf="@id/item_loyalty_icon"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/item_loyalty_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:transitionName="@string/transition_name_loyalty_list_title"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text=""
+            android:textSize="@dimen/text_size_loyalty_list_title"
+            android:textColor="@color/loyalty_list_title"
+            dimo:font="@string/font_helvetica"/>
+
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/item_loyalty_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_loyalty_title"
+            android:layout_marginBottom="8dp"
+            android:transitionName="@string/transition_name_loyalty_list_desc"
+            android:maxLines="5"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_loyalty_list_desc"
+            android:textColor="@color/loyalty_list_desc"
+            dimo:font="@string/font_helvetica_light"
+            android:visibility="visible"/>
+        <!-- android:text="Dapatkan 1 poin untuk setiap pembelanjaan Rp 50,000,-\nKumpulkan 10 poin dan dapatkan Voucher Rp 50,000,-" -->
+
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/item_loyalty_expired"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_loyalty_detail"
+            android:maxLines="2"
+            android:text=""
+            android:textSize="@dimen/text_size_loyalty_list_expired"
+            android:textColor="@color/loyalty_list_expired"
+            dimo:font="@string/font_helvetica_light"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,88 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">8dp</dimen>
+
+    <dimen name="padding_eula_header_top_bottom">16dp</dimen>
+    <dimen name="padding_icon_info_payment_failed">12dp</dimen>
+    <dimen name="padding_text_error_payment_failed">20dp</dimen>
+    <dimen name="padding_tip_left_right">20dp</dimen>
+
+    <dimen name="margin_discount_left">-15dp</dimen>
+    <dimen name="margin_voucher_used_right">-20dp</dimen>
+    <dimen name="margin_voucher_used_top">-15dp</dimen>
+    <dimen name="margin_voucher_top">15dp</dimen>
+    <dimen name="margin_tip_text_top_bottom">4dp</dimen>
+    <dimen name="margin_loyalty_list_discount_top_right">-7dp</dimen>
+    <dimen name="margin_loyalty_list_image_top">7dp</dimen>
+
+    <dimen name="radius_voucher_used">15dp</dimen>
+
+    <dimen name="image_size_icon_payment_success">65dp</dimen>
+    <dimen name="image_size_icon_payment_failed">65dp</dimen>
+    <dimen name="image_size_icon_no_connection">85dp</dimen>
+    <dimen name="image_size_icon_info_payment_failed">48dp</dimen>
+    <dimen name="image_size_icon_back">48dp</dimen>
+    <dimen name="image_size_diagonal_line">3dp</dimen>
+    <dimen name="image_size_discount">60dp</dimen>
+    <dimen name="image_size_icon_use_voucher">48dp</dimen>
+    <dimen name="image_size_voucher_box_border_width">2dp</dimen>
+    <dimen name="image_size_voucher_used_width">40dp</dimen>
+    <dimen name="image_size_voucher_used_height">30dp</dimen>
+    <dimen name="image_size_icon_clear">24dp</dimen>
+    <dimen name="image_size_loyalty_list_image">80dp</dimen>
+    <dimen name="image_size_loyalty_list_discount">45dp</dimen>
+
+    <dimen name="button_min_width">88dp</dimen>
+    <dimen name="button_small_height">32dp</dimen>
+    <dimen name="button_small_corner_radius">16dp</dimen>
+    <dimen name="button_small_drawable_size">16dp</dimen>
+    <dimen name="button_normal_height">36dp</dimen>
+    <dimen name="button_normal_corner_radius">18dp</dimen>
+    <dimen name="button_normal_drawable_size">16dp</dimen>
+    <dimen name="button_big_height">48dp</dimen>
+    <dimen name="button_big_corner_radius">24dp</dimen>
+    <dimen name="button_big_drawable_size">28dp</dimen>
+
+    <dimen name="text_size_10">6sp</dimen>
+    <dimen name="text_size_12">8sp</dimen>
+    <dimen name="text_size_14">10sp</dimen>
+    <dimen name="text_size_16">12sp</dimen>
+    <dimen name="text_size_18">14sp</dimen>
+    <dimen name="text_size_20">16sp</dimen>
+    <dimen name="text_size_22">18sp</dimen>
+    <dimen name="text_size_24">20sp</dimen>
+    <dimen name="text_size_26">22sp</dimen>
+    <dimen name="text_size_28">24sp</dimen>
+    <dimen name="text_size_32">28sp</dimen>
+    <dimen name="text_size_36">32sp</dimen>
+    <dimen name="text_size_40">36sp</dimen>
+    <dimen name="text_size_loyalty_list_discount">6sp</dimen>
+    <dimen name="text_size_loyalty_list_discount_amount">18sp</dimen>
+    <dimen name="text_size_loyalty_list_title">14sp</dimen>
+    <dimen name="text_size_loyalty_list_desc">12sp</dimen>
+    <dimen name="text_size_loyalty_list_expired">10sp</dimen>
+
+    <integer name="text_dimoButton_small">12</integer>
+    <integer name="text_dimoButton_normal">14</integer>
+    <integer name="text_dimoButton_big">18</integer>
+    <integer name="text_size_16">12</integer>
+
+    <dimen name="progress_bar_height">24dp</dimen>
+    <dimen name="progress_bar_corner">12dp</dimen>
+    <dimen name="progress_bar_progress_height">32dp</dimen>
+    <dimen name="progress_bar_progress_height_detail">40dp</dimen>
+
+
+    <dimen name="activity_horizontal_margin_store">1dp</dimen>
+    <dimen name="activity_vertical_margin_store">1dp</dimen>
+
+
+    <dimen name="WheelItemSpace">8dp</dimen>
+    <dimen name="WheelPadding">8dp</dimen>
+    <dimen name="WheelTextSize">20sp</dimen>
+
+
+
+
+</resources>
