@@ -85,6 +85,9 @@ public class Constants {
 	public static final String PARAMETER_NUMBEROFCOUPUNS = "numberOfCoupons";
 	public static final String PARAMETER_DISCOUNTED_AMOUNT = "discountAmount";
 	public static final String PARAMETER_DISCOUNTED_TYPE = "discountType";
+	public static final String PARAMETER_REDEEMED_AMOUNT = "amountRedeemed";
+	public static final String PARAMETER_REDEEMED_POINT = "pointsRedeemed";
+	public static final String PARAMETER_TIP_AMOUNT = "tippingAmount";
     
     //parameters
     public static final String PARAMETER_SERVICE_NAME = "service";

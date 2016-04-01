@@ -37,15 +37,7 @@ import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
-import com.mobey.android.api.intern.FlashizServices;
-import com.mobey.android.api.intern.FlashizUrlBuilder;
-import com.mobey.android.api.model.Error;
-import com.mobey.android.fragment.home.banksdk.BankSDKLoadingListener;
-import com.mobey.fragment.abs.SDKLinkFragmentActivity;
-import com.mobey.fragment.intern.listener.BankSDKCallBackListener;
-import com.mobey.fragment.intern.listener.SDKCallBackListener;
-import com.neopixl.fragment.NPFragment;
-
+/*
 public class QRPayment extends SDKLinkFragmentActivity implements
 		SDKCallBackListener, BankSDKCallBackListener {
 
@@ -96,7 +88,7 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 		// unregisterReceiver(broadcastReceiver);
 	}
 
-	/*
+	
 	 * BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 	 * 
 	 * @Override public void onReceive(Context context, Intent intenta) {
@@ -120,7 +112,7 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 	 * handler2.removeCallbacks(runnable); billPayConfirmation(); }
 	 * 
 	 * } };
-	 */
+	 
 
 	Handler handler2 = new Handler();
 	Runnable runnable = new Runnable() {
@@ -219,8 +211,8 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 			// FlashizServices.setFlashizServerURL("https://dev.flashiz.co.id");
 			 FlashizServices
 			 .setFlashizServerURL(FlashizUrlBuilder.BANK_SDK_SERVER_SANDBOX_URL);
-			/*FlashizServices
-					.setFlashizServerURL(FlashizUrlBuilder.BANK_SDK_SERVER_PROD_URL);*/
+			FlashizServices
+					.setFlashizServerURL(FlashizUrlBuilder.BANK_SDK_SERVER_PROD_URL);
 			// FlashizServices.setFlashizServerURL("my.flashiz.co.id");//production
 			startBankSDK((BankSDKCallBackListener) getContext(),
 					R.id.activity_sample_rl, null);
@@ -246,9 +238,9 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 		}
 	}
 
-	/*******************************************************************************
+	*//*******************************************************************************
 	 * Flashiz Callback methods
-	 *******************************************************************************/
+	 *******************************************************************************//*
 	@Override
 	public boolean callBackTransactionReject() {
 		return false;
@@ -307,10 +299,10 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 		} else {
 			Log.e("-000000000000===Ramya", "" + userApiKey);
 			listener.registerUserApiKey(userApiKey);
-			/*
+			
 			 * UserSession.getInstance(getContext()).setUserKey(userApiKey);
 			 * userKeyAvailable();
-			 */
+			 
 		}
 
 	}
@@ -343,10 +335,10 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 		}
 		Intent i = new Intent(this, QRPin1.class);
 		startActivityForResult(i, 1);
-		/*
+		
 		 * billPayInquiry(mInVoiceId, pin, mAmount, mMarchantName, loyalityName,
 		 * discountAmount, discountType, numberOfCoupuns);
-		 */
+		 
 	}
 
 	@Override
@@ -378,7 +370,7 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 		// You can use this pre-configured EULA fragment
 		// return BankSDKEulaFragment.newInstance(this,
 		// "http://www.google.com");
-		/**
+		*//**
 		 * Or define a new EULA fragment by yourself (extends with NPFragment
 		 * class !) Don't forget to take the BankSDKCallBackListener !!!
 		 * 
@@ -401,7 +393,7 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 		 * NPLog.e("can't start fragment (activity = null"); }
 		 * 
 		 * You can found an full example in MyCustomEULA class
-		 */
+		 *//*
 		return MyCustomEULA.newInstance(this);
 	}
 
@@ -428,7 +420,7 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 				if (responseXml != null) {
 
 					XMLParser obj = new XMLParser();
-					/** Parsing of response. */
+					*//** Parsing of response. *//*
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
 						responseContainer = obj.parse(responseXml);
@@ -461,16 +453,16 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 						// FlashizServices.setFlashizServerURL("https://dev.flashiz.co.id");
 						 FlashizServices
 						 .setFlashizServerURL(FlashizUrlBuilder.BANK_SDK_SERVER_SANDBOX_URL);
-						/*FlashizServices
-								.setFlashizServerURL(FlashizUrlBuilder.BANK_SDK_SERVER_PROD_URL);*/
+						FlashizServices
+								.setFlashizServerURL(FlashizUrlBuilder.BANK_SDK_SERVER_PROD_URL);
 						startBankSDK((BankSDKCallBackListener) getContext(),
 								R.id.activity_sample_rl, null);
-						/*
+						
 						 * Intent intent = new Intent(QRPin.this, QRPin.class);
 						 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						 * intent.putExtra("SCREEN", "HOME");
 						 * startActivity(intent);
-						 */
+						 
 					} else {
 						userApiKey = "NONE";
 						String massage = null;
@@ -512,9 +504,9 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 		};
 
 		final Thread checkUpdate = new Thread() {
-			/**
+			*//**
 			 * Service call in thread in and getting response as xml in string.
-			 */
+			 *//*
 			public void run() {
 
 				try {
@@ -543,16 +535,16 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 
 	@Override
 	public void onBackPressed() {
-		/*
+		
 		 * getSupportActionBar().hide();
 		 * SDKLinkFragmentActivity.resetActionBar(); openMainMenu();
-		 */
+		 
 		finish();
 	}
 
-	/*******************************************************************************
+	*//*******************************************************************************
 	 * Flashiz Bill Payment Inquiry
-	 *******************************************************************************/
+	 *******************************************************************************//*
 
 	// BillPay inquiry
 	private void billPayInquiry(String invoiceID, String pin, String amount,
@@ -609,7 +601,7 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 
 			public void handleMessage(Message msg) {
 				if (responseXml != null) {
-					/** Parse the response. */
+					*//** Parse the response. *//*
 					XMLParser obj = new XMLParser();
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
@@ -654,14 +646,14 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 									new DialogInterface.OnClickListener() {
 										public void onClick(
 												DialogInterface arg0, int arg1) {
-											/*
+											
 											 * Intent intent = new Intent(
 											 * QRPayment.this,
 											 * HomeScreen.class);
 											 * intent.setFlags
 											 * (Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											 * startActivity(intent);
-											 */
+											 
 											// closeSDK();
 											Intent intent = new Intent(
 													QRPayment.this,
@@ -784,11 +776,11 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 										if (new java.util.Date().getTime()
 												- startTimeInMillis >= Constants.MFA_CONNECTION_TIMEOUT) {
 
-											/*
+											
 											 * handler2.removeCallbacks(runnable)
 											 * ; handler2.postDelayed(runnable,
 											 * 1000);
-											 */
+											 
 											break;
 										}
 									}
@@ -824,10 +816,10 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 									billPayConfirmation();
 								} else {
 
-									/*
+									
 									 * handler2.removeCallbacks(runnable);
 									 * handler2.postDelayed(runnable, 30000);
-									 */
+									 
 								}
 							}
 						} else {
@@ -882,13 +874,13 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 
 	}
 
-	/*******************************************************************************
+	*//*******************************************************************************
 	 * Flashiz Bill Payment Confirmation
-	 *******************************************************************************/
+	 *******************************************************************************//*
 
 	private void billPayConfirmation() {
 
-		/** Set Parameters for Service calling . */
+		*//** Set Parameters for Service calling . *//*
 		valueContainer = new ValueContainer();
 		valueContainer.setContext(QRPayment.this);
 		valueContainer.setServiceName(Constants.SERVICE_BILLPAYMENT);
@@ -1011,3 +1003,4 @@ public class QRPayment extends SDKLinkFragmentActivity implements
 	}
 
 }
+*/

@@ -3,7 +3,7 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blue_bg2"
+    android:background="@drawable/bg_simobi"
     tools:context=".Home" >
 
     <include

@@ -1,16 +1,14 @@
 package com.mfino.bsim.services;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
+import java.net.URL;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+import javax.net.ssl.HttpsURLConnection;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,10 +25,10 @@ public class JSONParser {
 
 	}
 
-	public JSONObject getJSONFromUrl(String url) {
+	public JSONObject getJSONFromUrl(String strURL) {
 
 		// Making HTTP request
-		try {
+		/*try {
 			// defaultHttpClient
 			DefaultHttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
@@ -45,7 +43,30 @@ public class JSONParser {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		
+		HttpURLConnection conn;
+        try{
+			URL url = new URL(strURL);
+	        if(strURL.startsWith("https")){
+	            conn = (HttpsURLConnection) url.openConnection();
+	        }else{
+	            conn = (HttpURLConnection) url.openConnection();
+	        }
+	        conn.setReadTimeout(30000);
+	        conn.setConnectTimeout(30000);
+	        conn.setRequestMethod("POST");
+	        conn.setDoInput(true);
+	        conn.setRequestProperty("Accept", "application/json");
+	        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+	        System.out.println("\nSending POST request to URL : " + url);
+	        
+	        is = conn.getInputStream();
+		} catch (SocketTimeoutException ste) {
+			ste.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(

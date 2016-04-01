@@ -2,9 +2,7 @@
     android:id="@+id/activity_sample_rl"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#4EA9C6"
-    tools:context=".SampleActivity" >
+    android:layout_height="match_parent" >
 
     <Button
         android:id="@+id/activity_sample_btn_play_with_flashiz"

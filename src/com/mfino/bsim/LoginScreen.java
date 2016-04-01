@@ -21,15 +21,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.dimo.PayByQR.PayByQRSDK;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.db.DBHelper;
+import com.mfino.bsim.flashiz.QRPayment2;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 import com.mfino.handset.security.CryptoService;
-import com.mobey.fragment.abs.SDKLinkFragmentActivity;
 
 /** @author pramod */
 @SuppressLint("NewApi")
@@ -101,7 +102,7 @@ public class LoginScreen extends Activity {
 			@Override
 			public void onClick(View arg0) {			
 
-					SDKLinkFragmentActivity.resetUserSession(); 
+					//SDKLinkFragmentActivity.resetUserSession(); 
 				
 				
 				boolean networkCheck=ConfigurationUtil.isConnectingToInternet(context);
@@ -429,10 +430,19 @@ public class LoginScreen extends Activity {
 								               rs.close();
 								            }
 								
-										
-										Intent intent = new Intent(LoginScreen.this,HomeScreen.class);
-										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-										startActivity(intent);
+						            	if(getIntent().hasExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID)){
+						            		Intent intent = new Intent(LoginScreen.this, QRPayment2.class);
+						    				intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_IN_APP);
+						  					intent.putExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID, getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID));
+						  		            intent.putExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK, getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK));
+						    				startActivity(intent);
+						    				setResult(RESULT_OK);
+						    				finish();
+						  				}else{
+											Intent intent = new Intent(LoginScreen.this,HomeScreen.class);
+											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+											startActivity(intent);
+						  				}
 										
 										/*if ("-1".equals(responseContainer.getAppUpdateURL())) {
 											
@@ -547,9 +557,20 @@ public class LoginScreen extends Activity {
 								.putString("userApiKey",
 										responseContainer.getUserApiKey())
 								.commit();
-						Intent intent = new Intent(LoginScreen.this,HomeScreen.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);
+						
+						if(getIntent().hasExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID)){
+		            		Intent intent = new Intent(LoginScreen.this, QRPayment2.class);
+		    				intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_IN_APP);
+		  					intent.putExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID, getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID));
+		  		            intent.putExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK, getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK));
+		    				startActivity(intent);
+		    				setResult(RESULT_OK);
+		    				finish();
+		  				}else{
+							Intent intent = new Intent(LoginScreen.this,HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+		  				}
 						// UserAPI Key
 						//userApiKey = settings.getString("userApiKey", "NONE");
 						Log.e("userApiKey----111111-----", userApiKey);

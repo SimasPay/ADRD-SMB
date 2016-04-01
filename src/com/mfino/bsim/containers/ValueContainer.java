@@ -74,9 +74,33 @@ public class ValueContainer implements Serializable {
 		public String demonCode;
 		public String netPrice;
 		public String loyalityName;
-		
-		
-		
+		public String redeemAmount;
+		public String redeemPoints;
+		public String tipAmount;
+
+		public String getRedeemAmount() {
+			return redeemAmount;
+		}
+
+		public void setRedeemAmount(String redeemAmount) {
+			this.redeemAmount = redeemAmount;
+		}
+
+		public String getRedeemPoints() {
+			return redeemPoints;
+		}
+
+		public void setRedeemPoints(String redeemPoints) {
+			this.redeemPoints = redeemPoints;
+		}
+
+		public String getTipAmount() {
+			return tipAmount;
+		}
+
+		public void setTipAmount(String tipAmount) {
+			this.tipAmount = tipAmount;
+		}
 
 		public String getLoyalityName() {
 			return loyalityName;

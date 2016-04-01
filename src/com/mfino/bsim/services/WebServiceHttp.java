@@ -606,7 +606,13 @@ public class WebServiceHttp extends Activity {
 					+ Constants.PARAMETER_DISCOUNTED_AMOUNT + "="
 					+ edContainer.getDiscountAmount()+ "&"
 					+ Constants.PARAMETER_DISCOUNTED_TYPE + "="
-					+ edContainer.getDiscountType();
+					+ edContainer.getDiscountType()+ "&"
+					+ Constants.PARAMETER_REDEEMED_AMOUNT + "="
+					+ edContainer.getRedeemAmount()+ "&"
+					+ Constants.PARAMETER_REDEEMED_POINT + "="
+					+ edContainer.getRedeemPoints()+ "&"
+					+ Constants.PARAMETER_TIP_AMOUNT + "="
+					+ edContainer.getTipAmount();
 			
 		} else if (Constants.TRANSACTION_QR_BILLPAYMENT.equals(edContainer
 				.getTransactionName())) {
@@ -646,7 +652,13 @@ public class WebServiceHttp extends Activity {
 					+ Constants.PARAMETER_DISCOUNTED_AMOUNT + "="
 					+ edContainer.getDiscountAmount()+ "&"
 					+ Constants.PARAMETER_DISCOUNTED_TYPE + "="
-					+ edContainer.getDiscountType();
+					+ edContainer.getDiscountType()+ "&"
+					+ Constants.PARAMETER_REDEEMED_AMOUNT + "="
+					+ edContainer.getRedeemAmount()+ "&"
+					+ Constants.PARAMETER_REDEEMED_POINT + "="
+					+ edContainer.getRedeemPoints()+ "&"
+					+ Constants.PARAMETER_TIP_AMOUNT + "="
+					+ edContainer.getTipAmount();
 			try {
 				if (edContainer.getMfaMode().equalsIgnoreCase("OTP")) {
 					requestUrl += "&"+Constants.PARAMETER_MFA_OTP + "="

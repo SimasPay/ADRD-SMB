@@ -167,8 +167,6 @@ public class QRPin1 extends Activity {
 					returnIntent.putExtra("PIN", pinValue.getText().toString());
 					setResult(2, returnIntent);
 					finish();
-					 
-
 				}
 
 			}

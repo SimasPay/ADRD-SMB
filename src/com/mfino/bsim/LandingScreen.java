@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.flashiz.QRPayment2;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
@@ -53,6 +54,7 @@ public class LandingScreen extends Activity {
         encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES",	Context.MODE_WORLD_READABLE);
         selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
         System.out.println("Testing>>"+selectedLanguage);
+        
      /*   
         RelativeLayout login=(RelativeLayout)findViewById(R.id.login);
         RelativeLayout active=(RelativeLayout)findViewById(R.id.active);
@@ -86,13 +88,16 @@ public class LandingScreen extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				Intent intent=new Intent(LandingScreen.this,LoginScreen.class);
+				Intent intent=new Intent(LandingScreen.this, LoginScreen.class);
+				if(getIntent().hasExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID)){
+					intent.putExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID, getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID));
+		            intent.putExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK, getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK));
+				}
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
+				startActivityForResult(intent, 1);
 			}
 		});
-eform.setOnClickListener(new OnClickListener() {
+        eform.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
@@ -113,9 +118,10 @@ eform.setOnClickListener(new OnClickListener() {
 						// TODO Auto-generated method stub
 						Intent intent = new Intent(LandingScreen.this,ActivationHome.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);;
+						startActivity(intent);
 					}
 				});
+		
 		contact.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -165,6 +171,16 @@ eform.setOnClickListener(new OnClickListener() {
 			}
 		});
 	}
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	if(requestCode == 1){
+    		if(resultCode == RESULT_OK){
+    			finish();
+    		}
+    	}
+    }
     
     //Get Public Key
     public  void getPublick(){

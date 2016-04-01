@@ -4,7 +4,7 @@
     android:id="@+id/activity_sample_rl"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/blue_bg2"
+    android:background="@drawable/bg_simobi"
     android:orientation="vertical" >
 
     <include

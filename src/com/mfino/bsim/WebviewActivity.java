@@ -34,7 +34,7 @@ public class WebviewActivity extends Activity {
 		mProgress = ProgressDialog.show(WebviewActivity.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
 
 		webView.setBackgroundColor(0);
-		webView.setBackgroundResource(R.drawable.blue_bg2);
+		webView.setBackgroundResource(R.drawable.bg_simobi);
 		webView.setWebViewClient(new WebViewClient() {
 			// load url public
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
