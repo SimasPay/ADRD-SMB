@@ -1,5 +1,10 @@
 package com.dimo.PayByQR.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,11 +12,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -19,8 +23,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dimo.PayByQR.PayByQRException;
@@ -29,20 +37,16 @@ import com.dimo.PayByQR.PayByQRSDK;
 import com.dimo.PayByQR.PayByQRSDKListener;
 import com.dimo.PayByQR.QrStore.constans.QrStoreDefine;
 import com.dimo.PayByQR.QrStore.model.CartData;
-import com.dimo.PayByQR.QrStore.model.Merchant;
+import com.dimo.PayByQR.QrStore.model.GoodsData;
 import com.dimo.PayByQR.QrStore.utility.QRStoreDBUtil;
-import com.dimo.PayByQR.QrStore.utility.UtilDb;
-import com.dimo.PayByQR.QrStore.view.StoreDetailActivity;
 import com.dimo.PayByQR.QrStore.view.StoreMenuActivity;
 import com.dimo.PayByQR.QrStore.view.StoreMenuMerchant;
 import com.dimo.PayByQR.R;
 import com.dimo.PayByQR.UserAPIKeyListener;
 import com.dimo.PayByQR.data.Constant;
-import com.dimo.PayByQR.model.InvoiceStatusResponse;
 import com.dimo.PayByQR.model.LoginResponse;
 import com.dimo.PayByQR.utils.DIMOService;
 import com.dimo.PayByQR.utils.DIMOUtils;
-import com.dimo.PayByQR.view.DIMOButton;
 import com.dimo.PayByQR.view.DIMOTextView;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -51,7 +55,6 @@ import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.CompoundBarcodeView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -61,12 +64,12 @@ public class ScanQRActivity extends AppCompatActivity {
     private CompoundBarcodeView barcodeView;
     private CaptureManager captureManager;
     private LinearLayout btnFlash;
-    private ImageView btnClose, imgFlash;
+    private ImageView btnClose, imgFlash, imgSuccessAddToCart, imgSuccessAddToCartAnimate;
     private TextView txtFlash;
     private boolean flashOn = false;
     private boolean isUserKeyProcess = false, isLoginProcess = false;
     private Thread checkLoginStateThread;
-    private ProgressDialog waitDialog;
+    private ProgressDialog waitDialog, qrstoreDialog;
 
     private final String invoiceTagStartFlashiz = "flashiz.com";
     private final String invoiceTagStartDimo = "dimo.co.id";
@@ -74,8 +77,9 @@ public class ScanQRActivity extends AppCompatActivity {
     private final String invoiceTagPayment2 = "/en/infos";
     private final String invoiceTagOffline = "/offline";
 
-    private DIMOTextView btMerchant;
-    private LinearLayout btnStore;
+    private DIMOTextView txtCartQty, txtCartQtyAnimate;
+    private RelativeLayout btnStore;
+    private LinearLayout footerServiceBy, layoutAnimate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +102,14 @@ public class ScanQRActivity extends AppCompatActivity {
         txtFlash = (TextView) findViewById(R.id.activity_scanqr_txt_flash);
         btnClose = (ImageView) findViewById(R.id.activity_scanqr_btn_close);
 
-        btMerchant = (DIMOTextView) findViewById(R.id.item_merchant_qty);
-        btnStore = (LinearLayout) findViewById(R.id.activity_scanqr_btn_store);
+        txtCartQty = (DIMOTextView) findViewById(R.id.item_merchant_qty);
+        txtCartQtyAnimate = (DIMOTextView) findViewById(R.id.item_merchant_qty_animate);
+        btnStore = (RelativeLayout) findViewById(R.id.activity_scanqr_btn_store);
+        footerServiceBy = (LinearLayout) findViewById(R.id.activity_scanqr_serviceby);
+        imgSuccessAddToCart = (ImageView) findViewById(R.id.activity_scanqr_img_success_addtocart);
+        imgSuccessAddToCartAnimate = (ImageView) findViewById(R.id.activity_scanqr_img_success_addtocart_animate);
+        layoutAnimate = (LinearLayout) findViewById(R.id.activity_scanqr_store_animation_layout);
+        layoutAnimate.setVisibility(View.GONE);
 
         barcodeView.getViewFinder().setVisibility(View.GONE);
         barcodeView.getStatusView().setVisibility(View.GONE);
@@ -126,6 +136,11 @@ public class ScanQRActivity extends AppCompatActivity {
         waitDialog = new ProgressDialog(ScanQRActivity.this);
         waitDialog.setMessage(getString(R.string.progressdialog_message_login_waiting));
         waitDialog.setCancelable(false);
+
+        qrstoreDialog = new ProgressDialog(ScanQRActivity.this);
+        qrstoreDialog.setMessage(getString(R.string.progressdialog_message_get_store_item_detail));
+        qrstoreDialog.setCancelable(false);
+
         checkUserAPIKey();
         if(checkLoginStateThread!=null) {
             ((LoginWaitingThread) checkLoginStateThread).stopWaiting();
@@ -142,28 +157,36 @@ public class ScanQRActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // TODO: 3/15/16 Change to getAllCart() for showing total item in Cart instead of total Merchant in Cart
-                final ArrayList<CartData> cartDatas = QRStoreDBUtil.getAllMerchantCarts(ScanQRActivity.this, false);
+                final ArrayList<CartData> cartMerchantDatas = QRStoreDBUtil.getAllMerchantCarts(ScanQRActivity.this, false);
+                final ArrayList<GoodsData> cartDatas = QRStoreDBUtil.getAllCarts(ScanQRActivity.this);
 
-                if (cartDatas.size() == 0)
+                int totalCartSize = 0;
+                for(int i=0;i<cartDatas.size();i++){
+                    totalCartSize += cartDatas.get(i).qtyInCart;
+                }
+
+                if (totalCartSize == 0) {
                     btnStore.setVisibility(View.GONE);
-                else {
+                    footerServiceBy.setVisibility(View.VISIBLE);
+                } else {
                     btnStore.setVisibility(View.VISIBLE);
-                    btMerchant.setText(String.valueOf(cartDatas.size()));
+                    footerServiceBy.setVisibility(View.GONE);
                     btnStore.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(cartDatas.size() > 1){
+                            if(cartMerchantDatas.size() > 1){
                                 goToMerchant();
                             }else{
                                 Intent intent = new Intent(ScanQRActivity.this, StoreMenuActivity.class);
-                                intent.putExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTID, cartDatas.get(0).merchantCode);
-                                intent.putExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTHEAD, cartDatas.get(0).merchantName);
+                                intent.putExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTID, cartMerchantDatas.get(0).merchantCode);
+                                intent.putExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTHEAD, cartMerchantDatas.get(0).merchantName);
                                 startActivityForResult(intent, 0);
                             }
                         }
                     });
                 }
+                txtCartQty.setText(String.valueOf(totalCartSize));
+                txtCartQtyAnimate.setText(String.valueOf(totalCartSize));
             }
         });
     }
@@ -416,23 +439,33 @@ public class ScanQRActivity extends AppCompatActivity {
                         if(null != waitDialog) waitDialog.dismiss();
                         run = false;
                         checkLoginStateThread = null;
-                        Intent intent;
                         if(null != invoiceId) {
-                            if (isOfflineQR)
-                                intent = new Intent(ScanQRActivity.this, OfflineQRActivity.class);
-                            else if(isQRStore)
-                                intent = new Intent(ScanQRActivity.this, StoreDetailActivity.class);
-                            else
-                                intent = new Intent(ScanQRActivity.this, InvoiceDetailActivity.class);
-                            intent.putExtra(Constant.INTENT_EXTRA_INVOICE_ID, invoiceId);
-                            startActivityForResult(intent, 0);
+                            if(isQRStore){
+                                //intent = new Intent(ScanQRActivity.this, StoreDetailActivity.class);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new GetGoodsDetail(invoiceId).execute();
+                                    }
+                                });
+                            }else{
+                                Intent intent;
+                                if (isOfflineQR)
+                                    intent = new Intent(ScanQRActivity.this, OfflineQRActivity.class);
+                                else
+                                    intent = new Intent(ScanQRActivity.this, InvoiceDetailActivity.class);
+
+                                intent.putExtra(Constant.INTENT_EXTRA_INVOICE_ID, invoiceId);
+                                startActivityForResult(intent, 0);
+                                overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);
+                            }
                         }else{
-                            intent = new Intent(ScanQRActivity.this, FailedActivity.class);
+                            Intent intent = new Intent(ScanQRActivity.this, FailedActivity.class);
                             intent.putExtra(Constant.INTENT_EXTRA_ERROR_HEADER, getString(R.string.error_invalid_qr_title));
                             intent.putExtra(Constant.INTENT_EXTRA_ERROR_DETAIL, getString(R.string.error_invalid_qr_detail_notFound));
                             startActivityForResult(intent, Constant.REQUEST_CODE_ERROR_INVALID_QR);
+                            overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);
                         }
-                        overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);
                     }else if(PayByQRProperties.getLoginState() == PayByQRProperties.LoginState.NOT_AUTHENTICATE) {
                         if(null != waitDialog) waitDialog.dismiss();
                         run = false;
@@ -514,6 +547,211 @@ public class ScanQRActivity extends AppCompatActivity {
             intentFailed.putExtra(Constant.INTENT_EXTRA_ERROR_DETAIL, getString(R.string.error_authentication));
             intentFailed.putExtra(Constant.INTENT_EXTRA_REQUEST_CODE, Constant.REQUEST_CODE_ERROR_AUTHENTICATION);
             startActivityForResult(intentFailed, Constant.REQUEST_CODE_ERROR_AUTHENTICATION);
+        }
+    }
+
+    private class GetGoodsDetail extends AsyncTask<Void, Void, String> {
+        String URL;
+        GoodsData goodsData;
+
+        public GetGoodsDetail(String URL){
+            this.URL = URL;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            qrstoreDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return DIMOService.getCartDetail(URL);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(null != qrstoreDialog) qrstoreDialog.dismiss();
+            try {
+                goodsData = DIMOService.parseJSONGoodsDetail(ScanQRActivity.this, s);
+
+                GoodsData goodsInCart = QRStoreDBUtil.getGoodsFromCart(ScanQRActivity.this, goodsData.id, goodsData.merchantCode);
+                if(null != goodsInCart){
+                    goodsData.qtyInCart = goodsInCart.qtyInCart;
+                    goodsData.merchantURL = getMerchantURL(URL);
+                }else{
+                    goodsData.qtyInCart = 0;
+                    goodsData.merchantURL = getMerchantURL(URL);
+                }
+                goodsData.printLogData();
+
+                //handle no stock
+                if(goodsData.stock <= 0){
+                    DIMOUtils.showAlertDialog(ScanQRActivity.this, null, getString(R.string.error_no_stock), getString(R.string.alertdialog_posBtn_ok),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    barcodeView.decodeSingle(barcodeCallback);
+                                }
+                            }, null, null);
+                } else {
+                    onItemQtyChange();
+                }
+            }catch (PayByQRException e){
+                if(PayByQRProperties.isUsingCustomDialog()){
+                    listener.callbackShowDialog(ScanQRActivity.this, e.getErrorCode(), e.getErrorMessage() + " " + e.getErrorDetail());
+                }else {
+                    if (e.getErrorCode() == Constant.ERROR_CODE_CONNECTION) {
+                        goToNoConnectionScreen();
+                    } else if (e.getErrorCode() == Constant.ERROR_CODE_INVALID_QR) {
+                        goToFailedScreen(getString(R.string.error_invalid_qr_title), e.getErrorMessage(), Constant.REQUEST_CODE_ERROR_INVALID_QR);
+                    } else if (e.getErrorCode() == Constant.ERROR_CODE_INVALID_GOODS) {
+                        DIMOUtils.showAlertDialog(ScanQRActivity.this, null, getString(R.string.error_item_not_valid),
+                                getString(R.string.alertdialog_posBtn_ok), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        onBackPressed();
+                                    }
+                                }, null, null);
+                    } else {
+                        goToFailedScreen(getString(R.string.error_connection_header), e.getErrorMessage() + " " + e.getErrorDetail(), Constant.REQUEST_CODE_ERROR_UNKNOWN);
+                    }
+                }
+            }
+        }
+
+        private void goToFailedScreen(String title, String errorDetail, int requestCode){
+            Intent intentFailed = new Intent(ScanQRActivity.this, FailedActivity.class);
+            intentFailed.putExtra(Constant.INTENT_EXTRA_ERROR_HEADER, title);
+            intentFailed.putExtra(Constant.INTENT_EXTRA_ERROR_DETAIL, errorDetail);
+            startActivityForResult(intentFailed, requestCode);
+            overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);
+        }
+
+        private void goToNoConnectionScreen(){
+            Intent intentFailed = new Intent(ScanQRActivity.this, NoConnectionActivity.class);
+            startActivityForResult(intentFailed, Constant.REQUEST_CODE_ERROR_CONNECTION);
+            overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);
+        }
+
+        private String getMerchantURL(String goodsURL){
+            return goodsURL.substring(0, goodsURL.indexOf("qrstore")) + "qrstore/api/v2/";
+        }
+
+        public void onItemQtyChange() {
+            int maxQtyToAdd;
+            if(goodsData.maxQuantity == 0){
+                maxQtyToAdd = goodsData.stock;
+                if (goodsData.qtyInCart < maxQtyToAdd) {
+                    goodsData.qtyInCart++;
+                } else {
+                    String errorMsg = getString(R.string.error_max_stock, goodsData.stock);
+                    if(goodsData.qtyInCart > 0)
+                        errorMsg = errorMsg + getString(R.string.error_max_goods_in_cart, goodsData.qtyInCart);
+
+                    DIMOUtils.showAlertDialog(ScanQRActivity.this, null, errorMsg, getString(R.string.alertdialog_posBtn_ok),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    barcodeView.decodeSingle(barcodeCallback);
+                                }
+                            }, null, null);
+                }
+            }else {
+                maxQtyToAdd = Math.min(goodsData.stock, goodsData.maxQuantity);
+                if (goodsData.qtyInCart < maxQtyToAdd) {
+                    goodsData.qtyInCart++;
+                } else {
+                    String errorMsg = "";
+                    if(goodsData.stock < goodsData.maxQuantity){
+                        errorMsg = getString(R.string.error_max_stock, goodsData.stock);
+                    }else{
+                        errorMsg = getString(R.string.error_max_qty, goodsData.maxQuantity);
+                    }
+
+                    if(goodsData.qtyInCart > 0)
+                        errorMsg = errorMsg + getString(R.string.error_max_goods_in_cart, goodsData.qtyInCart);
+
+                    DIMOUtils.showAlertDialog(ScanQRActivity.this, null, errorMsg, getString(R.string.alertdialog_posBtn_ok),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    barcodeView.decodeSingle(barcodeCallback);
+                                }
+                            }, null, null);
+                }
+            }
+
+            QRStoreDBUtil.addGoodsToCart(ScanQRActivity.this, goodsData);
+            animateAddToCart();
+        }
+
+        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        public void animateAddToCart(){
+            btnStore.setVisibility(View.VISIBLE);
+            layoutAnimate.setVisibility(View.VISIBLE);
+
+            Animation zoomAnim = AnimationUtils.loadAnimation(ScanQRActivity.this, R.anim.success_add_to_cart);
+            zoomAnim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    final Rect startBounds = new Rect();
+                    final Rect finalBounds = new Rect();
+
+                    imgSuccessAddToCart.getGlobalVisibleRect(startBounds);
+                    txtCartQtyAnimate.getGlobalVisibleRect(finalBounds);
+
+                    int moveXto = -((startBounds.left + (startBounds.width()/2)) - (finalBounds.left + (finalBounds.width()/2)));
+                    int moveYto = -((startBounds.top + (startBounds.height()/2)) - (finalBounds.top + (finalBounds.height()/2)));
+
+                    if(PayByQRProperties.isDebugMode()){
+                        Log.d("RHIO", "moveXTo: "+moveXto);
+                        Log.d("RHIO", "moveYTo: "+moveYto);
+                    }
+
+                    AnimatorSet set = new AnimatorSet();
+                    set.play(ObjectAnimator.ofFloat(imgSuccessAddToCartAnimate, View.TRANSLATION_X, 0, moveXto))
+                       .with(ObjectAnimator.ofFloat(imgSuccessAddToCartAnimate, View.TRANSLATION_Y, 0, moveYto))
+                       .with(ObjectAnimator.ofFloat(imgSuccessAddToCartAnimate, View.SCALE_X, 1f, 0.15f))
+                       .with(ObjectAnimator.ofFloat(imgSuccessAddToCartAnimate, View.SCALE_Y, 1f, 0.15f));
+                    set.setDuration(800);
+                    set.setInterpolator(new AccelerateDecelerateInterpolator());
+                    set.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            imgSuccessAddToCart.setVisibility(View.GONE);
+                            imgSuccessAddToCartAnimate.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            imgSuccessAddToCart.setVisibility(View.GONE);
+                            imgSuccessAddToCartAnimate.setVisibility(View.GONE);
+                            layoutAnimate.setVisibility(View.GONE);
+                            barcodeView.decodeSingle(barcodeCallback);
+                            checkMerchant();
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                        }
+                    });
+                    set.start();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
+            imgSuccessAddToCart.setVisibility(View.VISIBLE);
+            imgSuccessAddToCart.clearAnimation();
+            imgSuccessAddToCart.startAnimation(zoomAnim);
         }
     }
 }

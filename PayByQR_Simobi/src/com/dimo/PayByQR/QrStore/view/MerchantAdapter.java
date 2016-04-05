@@ -72,7 +72,12 @@ public class MerchantAdapter extends BaseAdapter {
         imgLoader.DisplayImage(cartData.merchantImage, R.drawable.loyalty_list_no_image, imageView);
 
         teMercahntName.setText(cartData.merchantName);
-        teMercahntSum.setText(String.valueOf(cartData.carts.size()));
+
+        int totalCartSize = 0;
+        for(int i=0;i<cartData.carts.size();i++){
+            totalCartSize += cartData.carts.get(i).qtyInCart;
+        }
+        teMercahntSum.setText(context.getString(R.string.tx_store_item_per_merchant, String.valueOf(totalCartSize)));
 
         return vi;
     }

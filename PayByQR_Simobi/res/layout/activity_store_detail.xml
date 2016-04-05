@@ -10,12 +10,140 @@
 
     <include layout="@layout/header_bar" />
 
-    <LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/background_rect_border_rounded_light">
+                <ImageView
+                    android:id="@+id/imagecart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:src="@drawable/loyalty_list_no_image"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"/>
+                <LinearLayout
+                    android:id="@+id/qrstore_detail_discount_block"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:background="@drawable/background_circle_discount_loyalty_list"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_discount"
+                        android:layout_marginBottom="2dp"
+                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textSize="10dp"
+                        dimo:font="@string/font_helvetica"/>
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:id="@+id/qrstore_detail_discount_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25%"
+                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textSize="18dp"
+                        dimo:font="@string/font_helvetica_medium"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/store_name_goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:gravity="left"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:lineSpacingExtra="4dp"
+                android:text="iPod Shuffle Blue 16GB"
+                android:textColor="@color/store_cart_item_name"
+                android:textSize="16dp"
+                dimo:font="@string/font_helvetica_light" />
+
+            <RelativeLayout
+                android:id="@+id/qrstore_detail_disc_price_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+                <com.dimo.PayByQR.view.DIMOTextView
+                    android:id="@+id/qrstore_detail_disc_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="Rp 3,000,000"
+                    android:textColor="@color/store_cart_item_name"
+                    android:textSize="14dp"
+                    dimo:font="@string/font_helvetica" />
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignLeft="@id/qrstore_detail_disc_price"
+                    android:layout_alignRight="@id/qrstore_detail_disc_price"
+                    android:background="@color/store_cart_item_name"/>
+            </RelativeLayout>
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/qrstore_detail_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="Rp 2,700,000"
+                android:textColor="@color/store_cart_item_name"
+                android:textSize="18dp"
+                dimo:font="@string/font_helvetica_medium" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="14dp"
+                android:background="#e6e6e6"/>
+
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Deskripsi"
+                android:textColor="@color/store_cart_item_name"
+                android:textSize="14dp"
+                dimo:font="@string/font_helvetica" />
+
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/qrstore_detail_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(Description Here)"
+                android:textColor="@color/store_cart_item_name"
+                android:textSize="14dp"
+                dimo:font="@string/font_helvetica_light" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="10"
         android:background="@color/theme_bg_light_gray"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
         <RelativeLayout
             android:id="@+id/activity_invoiceDetail_line1"
             android:layout_width="match_parent"
@@ -24,7 +152,7 @@
             android:elevation="6dp"
             android:background="@android:color/white" >
             <ImageView
-                android:id="@+id/imagecart"
+                android:id="@+id/imagecart2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/loyalty_list_no_image"
@@ -44,13 +172,13 @@
                     android:gravity="right"
                     android:orientation="vertical">
                     <RelativeLayout
-                        android:id="@+id/qrstore_detail_disc_price_block"
+                        android:id="@+id/qrstore_detail_disc_price_block2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:visibility="visible">
                         <com.dimo.PayByQR.view.DIMOTextView
-                            android:id="@+id/qrstore_detail_disc_price"
+                            android:id="@+id/qrstore_detail_disc_price2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="4dp"
@@ -62,13 +190,13 @@
                         <com.dimo.PayByQR.view.DiagonalLineView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@id/qrstore_detail_disc_price"
-                            android:layout_alignBottom="@id/qrstore_detail_disc_price"
-                            android:layout_alignRight="@id/qrstore_detail_disc_price"
-                            android:layout_alignTop="@id/qrstore_detail_disc_price"/>
+                            android:layout_alignLeft="@id/qrstore_detail_disc_price2"
+                            android:layout_alignBottom="@id/qrstore_detail_disc_price2"
+                            android:layout_alignRight="@id/qrstore_detail_disc_price2"
+                            android:layout_alignTop="@id/qrstore_detail_disc_price2"/>
                     </RelativeLayout>
                     <com.dimo.PayByQR.view.DIMOTextView
-                        android:id="@+id/qrstore_detail_price"
+                        android:id="@+id/qrstore_detail_price2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -79,7 +207,7 @@
                 </LinearLayout>
 
                 <com.dimo.PayByQR.view.DIMOTextView
-                    android:id="@+id/store_name_goods"
+                    android:id="@+id/store_name_goods2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -148,7 +276,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <com.dimo.PayByQR.view.DIMOButton
-                    android:id="@+id/activity_storeDetail_btn_addtocart"
+                    android:id="@+id/activity_storeDetail_btn_addtocart2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -161,5 +289,5 @@
                     dimo:font="@string/font_helvetica"/>
             </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 </LinearLayout>

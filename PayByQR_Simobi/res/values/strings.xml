@@ -15,6 +15,7 @@
     <string name="default_pin">0000</string>
     <string name="font_helvetica">font/HelveticaNeue.ttf</string>
     <string name="font_helvetica_light">font/HelveticaNeue-Light.ttf</string>
+    <string name="font_helvetica_medium">font/HelveticaNeue-Medium.ttf</string>
     <string name="font_montserrat">font/Montserrat-Regular.ttf</string>
     <string name="font_montserrat_bold">font/Montserrat-Bold.ttf</string>
     <string name="font_montserrat_thin">font/Montserrat-Thin.ttf</string>
@@ -61,7 +62,7 @@
     <string name="text_payment_timeout">TERJADI GANGGUAN</string>
     <string name="text_not_authenticate">PEMBAYARAN GAGAL</string>
     <string name="text_not_authenticate_splash">ERROR</string>
-    <string name="text_discount">DISCOUNT</string>
+    <string name="text_discount">diskon</string>
     <string name="text_discount_OFF">OFF</string>
     <string name="text_detail_voucher_anda">Voucher Anda saat ini</string>
     <string name="text_detail_voucher_gunakan">Gunakan sekarang?</string>
@@ -121,26 +122,37 @@
     <string name="bt_store_start_shop">MULAI BELANJA</string>
     <string name="tx_qr_store_bt">Keranjang Belanja</string>
 
+    <string name="text_header_title_cart">Keranjang Belanja</string>
+    <string name="text_header_title_checkout_1">Data Pemesan</string>
+    <string name="text_header_title_checkout_2">Metode Pengiriman</string>
+    <string name="text_header_title_checkout_3">Konfirmasi</string>
+    <string name="text_header_subtitle_checkout">Langkah %1$s</string>
 
     <string name="text_store_normal">nama barang</string>
     <string name="text_store_plus">+</string>
     <string name="text_store_minus">-</string>
     <string name="text_store_dec">1</string>
-    <string name="tx_store_pre_total">TOTAL</string>
+    <string name="tx_store_pre_total">Total Belanja</string>
     <string name="tx_store_pre_totalprice">Rp. 1200</string>
     <string name="tx_store_header">QR STORE</string>
-    <string name="tx_store_keranjang_bel">KERANJANG BELANJA</string>
+    <string name="tx_store_keranjang_bel">Keranjang Belanja</string>
     <string name="tx_store_total_bel">TOTAL BELANJA</string>
-    <string name="tx_store_total_ship">BIAYA KIRIM</string>
-    <string name="tx_store_total_bayar">TOTAL BAYAR</string>
+    <string name="tx_store_total_ship">Biaya Kirim</string>
+    <string name="tx_store_total_bayar">Total Bayar</string>
+    <string name="tx_store_total_harga_barang">Total Harga Barang</string>
     <string name="tx_store_total_pickup">PENGAMBILAN</string>
     <string name="tx_store_total_nama">NAMA</string>
     <string name="tx_store_total_email">E-MAIL</string>
     <string name="tx_store_total_phone">TELEPON</string>
     <string name="tx_store_total_address">ALAMAT</string>
     <string name="tx_store_action_reset">Reset</string>
+    <string name="tx_store_action_edit">Edit</string>
+    <string name="tx_store_action_done">Done</string>
     <string name="tx_store_empty_1">Keranjang belanja Anda masih kosong.\nSilakan scan QR barang\nuntuk mulai berbelanja</string>
     <string name="tx_store_merchant">MERCHANT</string>
+    <string name="tx_store_per_item">per barang</string>
+    <string name="tx_store_item_per_merchant">%1$s barang</string>
+    <string name="tx_store_confirm_pickup_method">Metode pengiriman: %1$s</string>
 
     <string name="tx_store_number_min">7</string>
     <string name="tx_store_number_max">16</string>
@@ -153,16 +165,18 @@
     <string name="tx_store_pick_selesai">SELESAI</string>
     <string name="tx_store_pick_batal">BATAL</string>
 
-    <string name="tx_store_checout_name_hint">MASUKKAN NAMA</string>
-    <string name="tx_store_checout_email_hint">MASUKKAN E-MAIL</string>
-    <string name="tx_store_checout_telepon_hint">MASUKKAN TELEPON</string>
-    <string name="tx_store_checout_alamat_hint">MASUKKAN ALAMAT</string>
+    <string name="tx_store_checout_name_hint">Nama</string>
+    <string name="tx_store_checout_email_hint">E-mail</string>
+    <string name="tx_store_checout_telepon_hint">Nomor Telepon</string>
+    <string name="tx_store_checout_alamat_hint">Isi alamat Anda</string>
+    <string name="tx_store_checout_shipping_fee_hint">Biaya pengiriman:</string>
     <string name="tx_store_checout_name_empty">Nama tidak boleh kosong. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_email_empty">E-mail tidak boleh kosong. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_telepon_empty">Nomor Telepon tidak boleh kosong. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_alamat_empty">Alamat pengiriman tidak boleh kosong. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_name_error">Nama tidak boleh kurang dari 3 karakter. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_telepon_error">Nomor telepon tidak boleh kurang dari 7 karakter. Mohon periksa kembali data Anda</string>
+    <string name="tx_store_checout_email_error">Format e-mail salah. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_alamat_error">Alamat pengiriman tidak boleh kurang dari 8 karakter. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_toko_error">Toko harus dipilih. Mohon periksa kembali data Anda</string>
     <string name="tx_store_checout_kota_error">Kota harus dipilih. Mohon periksa kembali data Anda</string>
@@ -190,7 +204,8 @@
     <string name="transition_name_loyalty_list_title">loyalty_title</string>
     <string name="transition_name_loyalty_list_desc">loyalty_desc</string>
 
-    <string name="pilih_toko">PILIH TOKO</string>
+    <string name="pilih_toko">Pilih Toko</string>
+    <string name="pilih_kota">Pilih Kota</string>
 
     <string-array name="pickup_method_entries">
         <item>ALAMAT</item>

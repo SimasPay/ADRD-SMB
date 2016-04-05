@@ -10,6 +10,7 @@ import com.dimo.PayByQR.QrStore.constans.QrStoreDefine;
 import com.dimo.PayByQR.QrStore.model.AddressStore;
 import com.dimo.PayByQR.QrStore.model.Cart;
 import com.dimo.PayByQR.QrStore.model.GoodsData;
+import com.dimo.PayByQR.QrStore.model.PickupMethodData;
 import com.dimo.PayByQR.QrStore.model.RespondJson;
 import com.dimo.PayByQR.R;
 import com.dimo.PayByQR.data.Constant;
@@ -498,6 +499,14 @@ public class DIMOService {
         return response;
     }
 
+    public static String getPickupMethod(String URL, String merchantCode){
+        if(PayByQRProperties.isDebugMode()) Log.d(TAG, "getCartDetail "+ URL + " " + merchantCode);
+        String response = getResponse(URL+"pickupMethod/"+merchantCode, null, METHOD_GET, true);
+        if(PayByQRProperties.isDebugMode()) System.out.println("\ngetPickupMethod response: " + response);
+
+        return response;
+    }
+
     public static String  getQrGeneric(String URL, String param, int isCheckout){
         String  response = null;
         String url = URL;
@@ -544,43 +553,32 @@ public class DIMOService {
             e.printStackTrace();
             throw new PayByQRException(Constant.ERROR_CODE_UNKNOWN_ERROR, ctx.getString(R.string.error_JSON_parser), "");
         }
+    }
 
-        /*if(PayByQRProperties.isDebugMode())
-            Log.d(TAG, "parseQrAddress " + content);
-        ArrayList<AddressStore> addresslist=new ArrayList<AddressStore>();
-
+    public static ArrayList<PickupMethodData> parseJSONPickupMethod(Context ctx, String response) throws PayByQRException {
         try {
-
-            if (null != content) {
-                JSONObject object = new JSONObject(content);
+            if(null != response) {
+                JSONObject object = new JSONObject(response);
                 if (object.has("result") && object.getString("result").equals("success")) {
-                    JSONArray data = object.getJSONArray("stores");
-                    {
-
-                        for(int i=0 ; i< data.length() ; i++){
-                            AddressStore addr= new AddressStore();
-                            JSONObject objaddr = new JSONObject(data.get(i).toString());
-                            addr.setId(objaddr.getString("id"));
-                            addr.setAddress(objaddr.getString("address"));
-                            addr.setName(objaddr.getString("name"));
-                            addresslist.add(addr);
-                        }
+                    JSONArray method = object.getJSONArray("method");
+                    Gson gson = new Gson();
+                    ArrayList<PickupMethodData> pickupMethodDatas = new ArrayList<>();
+                    for(int i=0;i<method.length();i++) {
+                        PickupMethodData pickupMethodData = gson.fromJson(method.get(i).toString(), PickupMethodData.class);
+                        pickupMethodDatas.add(pickupMethodData);
                     }
-
-
-                    return addresslist;
-                }else{
-                    return null;
+                    return pickupMethodDatas;
+                } else {
+                    throw new PayByQRException(object.optInt("errorCode", 0), object.optString("errorMessage", ctx.getString(R.string.error_unknown)),
+                            object.optString("errorDetail", ""));
                 }
-
+            }else{
+                throw new PayByQRException(Constant.ERROR_CODE_CONNECTION, ctx.getString(R.string.error_connection_message), ctx.getString(R.string.error_connection_detail));
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
-            throw new PayByQRException(Constant.ERROR_CODE_JSON_EXCEPTION, ctx.getString(R.string.error_JSON_parser), "");
+            throw new PayByQRException(Constant.ERROR_CODE_UNKNOWN_ERROR, ctx.getString(R.string.error_JSON_parser), "");
         }
-
-        return null;*/
     }
 
     public static String parseQrPayment(Context ctx, String response)throws PayByQRException {
@@ -595,28 +593,6 @@ public class DIMOService {
             e.printStackTrace();
             throw new PayByQRException(Constant.ERROR_CODE_UNKNOWN_ERROR, ctx.getString(R.string.error_JSON_parser), "");
         }
-
-        /*RespondJson rj=new RespondJson();
-        try {
-            if (null != content) {
-                JSONObject object = new JSONObject(content);
-
-                if (object.has("result")) {
-                    rj.setResult(object.getString("result"));
-                    if (object.has("message"))
-                        rj.setDescription(object.getString("message"));
-
-                }
-
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            throw new PayByQRException(Constant.ERROR_CODE_JSON_EXCEPTION, ctx.getString(R.string.error_JSON_parser), "");
-        }
-
-        return rj;*/
     }
 
     public static String parseQrCheckout(Context ctx, String response)throws PayByQRException {
@@ -641,30 +617,6 @@ public class DIMOService {
             e.printStackTrace();
             throw new PayByQRException(Constant.ERROR_CODE_UNKNOWN_ERROR, ctx.getString(R.string.error_JSON_parser), "");
         }
-
-        /*RespondJson rj=new RespondJson();
-        try {
-
-            if (null != content) {
-                JSONObject object = new JSONObject(content);
-
-                if (object.has("result")) {
-                    rj.setResult(object.getString("result"));
-                    if (object.has("invoiceId"))
-                        rj.setDescription(object.getString("invoiceId"));
-                    if (object.has("message"))
-                        rj.setDescription(object.getString("message"));
-                    if (object.has("error"))
-                        rj.setDescription(object.getString("error"));
-
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            throw new PayByQRException(Constant.ERROR_CODE_JSON_EXCEPTION, ctx.getString(R.string.error_JSON_parser), "");
-        }
-
-        return rj;*/
     }
 
     public  static int parseQrShippingFee(Context ctx, String response)throws PayByQRException {
@@ -685,46 +637,6 @@ public class DIMOService {
             e.printStackTrace();
             throw new PayByQRException(Constant.ERROR_CODE_UNKNOWN_ERROR, ctx.getString(R.string.error_JSON_parser), "");
         }
-
-        /*if(PayByQRProperties.isDebugMode())
-            Log.d(TAG, "parseQrShipping " + content);
-
-        RespondJson rj=new RespondJson();
-        try {
-
-        if (null != content) {
-            JSONObject object = new JSONObject(content);
-            {
-
-                if (object.has("result")) {
-
-                    rj.setResult(object.getString("result"));
-                    if (object.has("message"))
-                        rj.setDescription(object.getString("message"));
-
-                    JSONObject detail = new JSONObject (object.getJSONObject("contents").toString());
-
-                    if (detail.has("shippingFee"))
-                        rj.setDescription(String.valueOf( detail.getInt("shippingFee")));
-
-                 if (rj.getResult().equals(QrStoreDefine.RESPOND_STORE_JSON_KO))
-                 {
-                     throw new PayByQRException(Constant.ERROR_CODE_JSON_SHIPPING, ctx.getString(R.string.error_JSON_parser), ctx.getString(R.string.error_connection_detail));
-
-                 }
-                }
-            }
-        }
-        else {
-            throw new PayByQRException(Constant.ERROR_CODE_CONNECTION, ctx.getString(R.string.error_connection_message), ctx.getString(R.string.error_connection_detail));
-        }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            throw new PayByQRException(Constant.ERROR_CODE_JSON_EXCEPTION, ctx.getString(R.string.error_JSON_parser), "");
-        }
-
-        return rj;*/
     }
 
     public static GoodsData parseJSONGoodsDetail(Context ctx, String response) throws PayByQRException{

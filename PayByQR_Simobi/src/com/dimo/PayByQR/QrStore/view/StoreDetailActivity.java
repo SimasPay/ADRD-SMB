@@ -7,13 +7,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,11 +25,9 @@ import com.dimo.PayByQR.PayByQRProperties;
 import com.dimo.PayByQR.PayByQRSDK;
 import com.dimo.PayByQR.PayByQRSDKListener;
 import com.dimo.PayByQR.QrStore.constans.QrStoreDefine;
-import com.dimo.PayByQR.QrStore.model.Cart;
 import com.dimo.PayByQR.QrStore.model.GoodsData;
 import com.dimo.PayByQR.QrStore.utility.ImageLoader;
 import com.dimo.PayByQR.QrStore.utility.QRStoreDBUtil;
-import com.dimo.PayByQR.QrStore.utility.UtilDb;
 import com.dimo.PayByQR.R;
 
 import com.dimo.PayByQR.activity.FailedActivity;
@@ -40,16 +41,14 @@ import com.dimo.PayByQR.view.DIMOButton;
  * Created by dimo on 11/25/15.
  */
 public class StoreDetailActivity extends AppCompatActivity {
-    private PayByQRSDKListener listener;
     private ImageView btnBack, imageCart;
-    private TextView txtTitle, txtNamaBarang, txtDiscountAmount, txtPaidAmount, txtQuantity;
-    private DIMOButton btnAddtoCart;
-    private ImageButton btn_minus, btn_plus;
+    private TextView txtTitle, txtNamaBarang, txtOriginalAmount, txtPaidAmount, txtDiscountAmount, txtDescription;  //, txtQuantity
+    //private DIMOButton btnAddtoCart;
+    //private ImageButton btn_minus, btn_plus;
     private RelativeLayout discountAmountBlock;
-    //private Cart cart;
-    private String QRStoreURL;
-    //private int maxStock=0;
-    private int qtyToAdd = 0, maxQtyToAdd = 0;
+    private LinearLayout discountBlock;
+    //private String QRStoreURL;
+    //private int qtyToAdd = 0, maxQtyToAdd = 0;
     private ImageLoader imgLoader;
     private GoodsData goodsData;
 
@@ -57,25 +56,27 @@ public class StoreDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_detail);
-        QRStoreURL = getIntent().getStringExtra(Constant.INTENT_EXTRA_INVOICE_ID);
-        listener = PayByQRSDK.getListener();
+        //QRStoreURL = getIntent().getStringExtra(Constant.INTENT_EXTRA_INVOICE_ID);
 
         btnBack = (ImageView) findViewById(R.id.header_bar_action_back);
         txtTitle = (TextView) findViewById(R.id.header_bar_title);
-        btnAddtoCart = (DIMOButton) findViewById(R.id.activity_storeDetail_btn_addtocart);
+        //btnAddtoCart = (DIMOButton) findViewById(R.id.activity_storeDetail_btn_addtocart);
         imageCart = (ImageView) findViewById(R.id.imagecart);
-        btn_minus = (ImageButton) findViewById(R.id.activity_storeDetail_btn_minus);
-        btn_plus = (ImageButton) findViewById(R.id.activity_storeDetail_btn_plus);
-        txtQuantity = (TextView) findViewById(R.id.qrstore_detail_quantity_item);
+        //btn_minus = (ImageButton) findViewById(R.id.activity_storeDetail_btn_minus);
+        //btn_plus = (ImageButton) findViewById(R.id.activity_storeDetail_btn_plus);
+        //txtQuantity = (TextView) findViewById(R.id.qrstore_detail_quantity_item);
         txtNamaBarang = (TextView) findViewById(R.id.store_name_goods);
         discountAmountBlock = (RelativeLayout) findViewById(R.id.qrstore_detail_disc_price_block);
-        txtDiscountAmount = (TextView) findViewById(R.id.qrstore_detail_disc_price);
+        txtOriginalAmount = (TextView) findViewById(R.id.qrstore_detail_disc_price);
         txtPaidAmount = (TextView) findViewById(R.id.qrstore_detail_price);
+        discountBlock = (LinearLayout) findViewById(R.id.qrstore_detail_discount_block);
+        txtDiscountAmount = (TextView) findViewById(R.id.qrstore_detail_discount_amount);
+        txtDescription = (TextView) findViewById(R.id.qrstore_detail_description);
 
         imgLoader = new ImageLoader(getApplicationContext());
         imgLoader.setIsScale(false);
 
-        btn_plus.setOnClickListener(new View.OnClickListener() {
+        /*btn_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onItemQtyChange(true, false);
@@ -86,7 +87,7 @@ public class StoreDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onItemQtyChange(false, false);
             }
-        });
+        });*/
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +96,7 @@ public class StoreDetailActivity extends AppCompatActivity {
             }
         });
 
-        btnAddtoCart.setOnClickListener(new View.OnClickListener() {
+        /*btnAddtoCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goodsData.qtyInCart += qtyToAdd;
@@ -106,21 +107,29 @@ public class StoreDetailActivity extends AppCompatActivity {
                 intent.putExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTHEAD, goodsData.merchantName);
                 startActivityForResult(intent, 0);
             }
-        });
+        });*/
 
-        new GetGoodsDetail(QRStoreURL).execute();
+
+        //if(getIntent().hasExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTID) && getIntent().hasExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_GOODSID)){
+            goodsData = QRStoreDBUtil.getGoodsFromCart(this, getIntent().getStringExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_GOODSID),
+                    getIntent().getStringExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTID));
+            goodsData.printLogData();
+            loadView();
+        /*}else {
+            new GetGoodsDetail(QRStoreURL).execute();
+        }*/
     }
 
-    public void onItemQtyChange(boolean isAdd, final boolean isFromScan) {
+    /*public void onItemQtyChange(boolean isAdd, final boolean isFromScan) {
         if (isAdd) {
-            /*1. stock = 0; maxQuantity = any (0-n)
+            *//*1. stock = 0; maxQuantity = any (0-n)
             -> Maaf, stok barang habis
             2. stock = m; maxQuantity = n; stock < maxQuantity
             eg: stock = 5; maxQuantity = 10
             -> Stok yang tersedia untuk barang ini adalah 5
             3. stock = m; maxQuantity = n; stock > maxQuantity
             eg: stock = 10; maxQuantity = 7
-            -> Jumlah maksimal yang bisa Anda beli untuk barang ini adalah 7*/
+            -> Jumlah maksimal yang bisa Anda beli untuk barang ini adalah 7*//*
 
             if(goodsData.maxQuantity == 0){
                 maxQtyToAdd = goodsData.stock - goodsData.qtyInCart;
@@ -171,9 +180,9 @@ public class StoreDetailActivity extends AppCompatActivity {
         }
 
         txtQuantity.setText(String.valueOf(qtyToAdd));
-        txtDiscountAmount.setText(getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString((int) (qtyToAdd * goodsData.price))));
+        txtOriginalAmount.setText(getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString((int) (qtyToAdd * goodsData.price))));
         txtPaidAmount.setText(getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString(qtyToAdd * (int) (goodsData.price - goodsData.discountAmount))));
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -237,11 +246,33 @@ public class StoreDetailActivity extends AppCompatActivity {
     }
 
     private void loadView() {
-        txtTitle.setText(goodsData.merchantName);
+        txtTitle.setText("Detil Barang");
         txtNamaBarang.setText(goodsData.goodsName);
-        txtDiscountAmount.setText(getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(""+(int) goodsData.price));
-        txtPaidAmount.setText(getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString((int)goodsData.price - (int)goodsData.discountAmount)));
+        txtOriginalAmount.setText(getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(""+(int) goodsData.price));
+        txtPaidAmount.setText(getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString((int) goodsData.price - (int)goodsData.discountAmount)));
+        txtDescription.setText(goodsData.description);
 
+        float disc = ((float)goodsData.discountAmount/(float)goodsData.price) * 100;
+        if(disc > 0) {
+            txtDiscountAmount.setText((int) disc + "%");
+            discountBlock.setVisibility(View.VISIBLE);
+        }else{
+            discountBlock.setVisibility(View.GONE);
+        }
+
+        imageCart.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    imageCart.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }else {
+                    imageCart.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+
+                ViewGroup.LayoutParams layout = imageCart.getLayoutParams();
+                layout.height = layout.width;
+                imageCart.setLayoutParams(layout);
+            }
+        });
         imgLoader.DisplayImage(goodsData.image_url, R.drawable.loyalty_list_no_image, imageCart);
 
         if(goodsData.discountAmount > 0) {
@@ -250,7 +281,7 @@ public class StoreDetailActivity extends AppCompatActivity {
             discountAmountBlock.setVisibility(View.GONE);
 
         //handle no stock
-        if(goodsData.stock <= 0){
+        /*if(goodsData.stock <= 0){
             DIMOUtils.showAlertDialog(StoreDetailActivity.this, null, getString(R.string.error_no_stock), getString(R.string.alertdialog_posBtn_ok),
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -261,7 +292,7 @@ public class StoreDetailActivity extends AppCompatActivity {
                     }, null, null);
         } else {
             onItemQtyChange(true, true);
-        }
+        }*/
     }
 
     private class GetGoodsDetail extends AsyncTask<Void, Void, String> {
@@ -342,7 +373,7 @@ public class StoreDetailActivity extends AppCompatActivity {
         }
 
         private String getMerchantURL(String goodsURL){
-            return goodsURL.substring(0, goodsURL.indexOf("item/"));
+            return goodsURL.substring(0, goodsURL.indexOf("qrstore")) + "qrstore/api/v2/";
         }
     }
 }

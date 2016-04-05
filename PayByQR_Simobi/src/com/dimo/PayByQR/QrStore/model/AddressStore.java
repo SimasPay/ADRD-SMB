@@ -4,9 +4,9 @@ package com.dimo.PayByQR.QrStore.model;
  * Created by san on 1/14/16.
  */
 public class AddressStore {
-    private String id;
-    private String name;
-    private String address;
+    public String id;
+    public String name;
+    public String address;
 
     public String getId() {
         return id;

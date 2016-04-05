@@ -5,43 +5,53 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:paddingLeft="4dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="8dp"
     android:paddingRight="8dp">
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="4dp"
-
-        android:clickable="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_remove_circle"
-        android:scaleType="fitXY"/>
 
     <RelativeLayout
         android:id="@+id/item_cart_image_block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/imageButton">
+        android:layout_marginRight="4dp"
+        android:animateLayoutChanges="true">
+
+        <!--<LinearLayout
+            android:id="@+id/imageButton_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/item_cart_image"
+            android:layout_alignBottom="@+id/item_cart_image"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="8dp"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:clickable="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_clear"
+                android:scaleType="fitXY"
+                android:visibility="visible"/>
+        </LinearLayout>-->
 
         <ImageView
             android:id="@+id/item_cart_image"
-            android:layout_width="@dimen/image_size_loyalty_list_image"
-            android:layout_height="@dimen/image_size_loyalty_list_image"
+            android:layout_width="@dimen/image_size_qrstore_cart_item"
+            android:layout_height="@dimen/image_size_qrstore_cart_item"
             android:layout_marginTop="@dimen/margin_loyalty_list_image_top"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="8dp"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
+            android:clickable="true"
             android:background="@drawable/background_loyalty_list_image"/>
 
         <LinearLayout
             android:id="@+id/item_cart_discount_block"
-            android:layout_width="@dimen/image_size_loyalty_list_discount"
-            android:layout_height="@dimen/image_size_loyalty_list_discount"
+            android:layout_width="@dimen/image_size_qrstore_cart_item_discount"
+            android:layout_height="@dimen/image_size_qrstore_cart_item_discount"
             android:layout_alignTop="@id/item_cart_image"
             android:layout_alignRight="@id/item_cart_image"
             android:layout_marginTop="@dimen/margin_loyalty_list_discount_top_right"
@@ -55,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_discount"
                 android:textColor="@color/theme_text_over_basic_bg"
-                android:textSize="@dimen/text_size_loyalty_list_discount"
+                android:textSize="8dp"
                 dimo:font="@string/font_helvetica"/>
             <com.dimo.PayByQR.view.DIMOTextView
                 android:id="@+id/item_cart_discount_amount"
@@ -63,78 +73,143 @@
                 android:layout_height="wrap_content"
                 android:text="25%"
                 android:textColor="@color/theme_text_over_basic_bg"
-                android:textSize="@dimen/text_size_loyalty_list_title"
+                android:textSize="14dp"
                 dimo:font="@string/font_helvetica"/>
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/item_cart_info_bottom"
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:clickable="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_clear"
+        android:scaleType="fitXY"
+        android:visibility="visible"/>
+
+    <com.dimo.PayByQR.view.DIMOTextView
+        android:id="@+id/item_cart_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/margin_loyalty_list_image_top"
         android:layout_toRightOf="@id/item_cart_image_block"
-        android:layout_alignBottom="@id/item_cart_image_block"
-        android:paddingBottom="2dp">
+        android:layout_toLeftOf="@id/imageButton"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:lineSpacingExtra="4dp"
+        android:text="Cimory Yoghurt Enak Sekali Isinya Cuma 250 liter saja loh keren deh"
+        android:textColor="@color/store_cart_item_name"
+        android:textSize="14dp"
+        dimo:font="@string/font_helvetica"/>
+
+    <LinearLayout
+        android:id="@+id/item_cart_info_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_cart_image_block"
+        android:layout_alignBottom="@id/item_cart_image_block">
+        <ImageView
+            android:id="@+id/item_cart_qty_btn_minus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="6dp"
+            android:clickable="true"
+            android:src="@drawable/ic_remove"
+            android:background="@drawable/ripple_rect_border_rounded"/>
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/item_cart_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:singleLine="true"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@color/store_cart_item_name"
+            android:textSize="16dp"
+            dimo:font="@string/font_helvetica_medium"/>
+        <ImageView
+            android:id="@+id/item_cart_qty_btn_plus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="6dp"
+            android:clickable="true"
+            android:src="@drawable/ic_add"
+            android:background="@drawable/ripple_rect_border_rounded"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_cart_info_layout"
+        android:layout_alignLeft="@id/item_cart_info_layout"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="8dp">
         <com.dimo.PayByQR.view.DIMOTextView
             android:id="@+id/item_cart_paidAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/item_cart_amount_layout"
             android:singleLine="true"
             android:gravity="right|bottom"
-            android:text="Rp 105,000"
-            android:textColor="@color/theme_black"
-            android:textSize="@dimen/text_size_18"
-            dimo:font="@string/font_helvetica"/>
-        <com.dimo.PayByQR.view.DIMOTextView
-            android:id="@+id/item_cart_originalAmount"
-            android:layout_width="match_parent"
+            android:text="Rp 100,000,000"
+            android:textColor="@color/store_cart_item_name"
+            android:textSize="14dp"
+            dimo:font="@string/font_helvetica_medium"/>
+        <LinearLayout
+            android:id="@+id/item_cart_amount_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/item_cart_paidAmount"
             android:paddingRight="2dp"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:text="3 x Rp 35,000"
-            android:textColor="@color/loyalty_list_title"
-            android:textSize="@dimen/text_size_16"
-            dimo:font="@string/font_helvetica_light"/>
+            android:orientation="vertical">
+            <RelativeLayout
+                android:id="@+id/item_cart_originalAmount_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+                <com.dimo.PayByQR.view.DIMOTextView
+                    android:id="@+id/item_cart_originalAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="Rp 100,000,000"
+                    android:textColor="@color/store_cart_item_qty_btn"
+                    android:textSize="12dp"
+                    dimo:font="@string/font_helvetica"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_alignLeft="@id/item_cart_originalAmount"
+                    android:layout_alignRight="@id/item_cart_originalAmount"
+                    android:background="@color/store_cart_item_qty_btn"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/item_cart_discountedAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="Rp 100,000,000 per item"
+                android:textColor="@color/store_cart_item_qty_btn"
+                android:textSize="12dp"
+                dimo:font="@string/font_helvetica"/>
+        </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/margin_loyalty_list_image_top"
-        android:layout_toRightOf="@id/item_cart_image_block">
-        <com.dimo.PayByQR.view.DIMOTextView
-            android:id="@+id/item_cart_qty"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/image_size_voucher_used_height"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:singleLine="true"
-            android:background="@drawable/background_item_cart_qty"
-            android:gravity="center"
-            android:text="3"
-            android:textColor="@color/theme_text_over_basic_bg"
-            android:textSize="@dimen/text_size_18"
-            dimo:font="@string/font_helvetica"/>
-        <com.dimo.PayByQR.view.DIMOTextView
-            android:id="@+id/item_cart_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/item_cart_qty"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:lineSpacingExtra="4dp"
-            android:text="Cimory Yoghurt"
-            android:textColor="@color/theme_black"
-            android:textSize="@dimen/text_size_18"
-            dimo:font="@string/font_helvetica"/>
-    </RelativeLayout>
 </RelativeLayout>

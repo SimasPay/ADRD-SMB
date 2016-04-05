@@ -35,6 +35,7 @@ import com.dimo.PayByQR.R;
 import com.dimo.PayByQR.data.Constant;
 import com.dimo.PayByQR.model.InvoiceModel;
 import com.dimo.PayByQR.model.LoyaltyProgramModel;
+import com.dimo.PayByQR.utils.CheckPaymentStatusTask;
 import com.dimo.PayByQR.utils.CheckPaymentThread;
 import com.dimo.PayByQR.utils.DIMOUtils;
 import com.dimo.PayByQR.view.DIMOButton;
@@ -223,9 +224,11 @@ public class TipActivity extends AppCompatActivity {
                 closeSDK(false, true, code, desc);
             }else{
                 if(code == Constant.STATUS_CODE_PAYMENT_SUCCESS){
-                    Intent intentSuccess = new Intent(TipActivity.this, PaymentSuccessActivity.class);
+                    /*Intent intentSuccess = new Intent(TipActivity.this, PaymentSuccessActivity.class);
                     startActivityForResult(intentSuccess, 0);
-                    overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);
+                    overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);*/
+
+                    new CheckPaymentStatusTask(TipActivity.this, invoiceModel.invoiceID).execute();
                 }else{
                     goToFailedScreen(getString(R.string.text_payment_failed), desc, Constant.REQUEST_CODE_ERROR_PAYMENT_FAILED);
                 }

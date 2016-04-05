@@ -22,13 +22,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:paddingTop="48dp"
             android:orientation="vertical">
             <com.dimo.PayByQR.view.DIMOTextView
                 android:id="@+id/store_empt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="16dp"
+                android:elevation="4dp"
                 android:paddingTop="24dp"
                 android:paddingBottom="24dp"
                 android:paddingLeft="16dp"
@@ -37,7 +39,7 @@
                 android:lineSpacingMultiplier="1.5"
                 android:gravity="center"
                 android:text="@string/tx_store_empty_1"
-                android:textSize="@dimen/text_size_16"
+                android:textSize="16dp"
                 android:textColor="@color/no_connection_button_close"
                 android:drawablePadding="4dp"
                 android:background="@drawable/background_rect_gray"
@@ -47,19 +49,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:paddingTop="36dp"
-            android:paddingBottom="36dp"
             android:gravity="center"
             android:orientation="vertical">
             <com.dimo.PayByQR.view.DIMOButton
                 android:id="@+id/activity_store_mulai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="24dp"
                 android:paddingLeft="48dp"
                 android:paddingRight="48dp"
                 android:text="@string/bt_store_start_shop"
                 android:textColor="@color/theme_text_over_basic_bg"
-                dimo:bgColor="@color/no_connection_button_close"
+                dimo:bgColor="@color/theme_colorPrimary"
                 dimo:buttonSize="normal"
                 dimo:font="@string/font_helvetica"/>
         </LinearLayout>
@@ -68,6 +69,7 @@
         android:id="@+id/activity_store_menu_layout_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@android:color/white"
         android:visibility="visible">
         <LinearLayout
@@ -75,84 +77,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:elevation="4dp"
+            android:background="@color/store_cart_footer_bg"
+            android:elevation="6dp"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@android:color/white">
+                android:layout_height="wrap_content"
+                android:padding="16dp">
                 <com.dimo.PayByQR.view.DIMOTextView
                     android:id="@+id/activity_store_menu_total_paid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:gravity="right"
                     android:text="Rp 2,770,000"
-                    android:textColor="@color/theme_black"
-                    android:textSize="@dimen/text_size_20"
-                    dimo:font="@string/font_helvetica"/>
+                    android:textColor="@color/store_cart_item_name"
+                    android:textSize="16dp"
+                    dimo:font="@string/font_helvetica_medium"/>
                 <com.dimo.PayByQR.view.DIMOTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/activity_store_menu_total_paid"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="8dp"
                     android:gravity="left"
                     android:text="@string/tx_store_pre_total"
-                    android:textColor="@color/theme_black"
-                    android:textSize="@dimen/text_size_20"
+                    android:textColor="@color/store_cart_item_name"
+                    android:textSize="16dp"
                     dimo:font="@string/font_helvetica"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentTop="true"
-                    android:background="@color/store_line_checkout"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/store_line_checkout"/>
             </RelativeLayout>
-            <LinearLayout
+            <com.dimo.PayByQR.view.DIMOButton
+                android:id="@+id/activity_store_menu_btn_checkout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="24dp"
-                android:paddingBottom="24dp"
-                android:gravity="center"
-                android:background="@color/theme_bg_light_gray"
-                android:orientation="vertical">
-                <com.dimo.PayByQR.view.DIMOButton
-                    android:id="@+id/activity_store_menu_btn_checkout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                    android:layout_marginTop="0dp"
-                    android:text="@string/bt_store_checkout"
-                    android:textColor="@color/theme_text_over_basic_bg"
-                    android:drawablePadding="4dp"
-                    dimo:bgColor="@color/theme_colorPrimary"
-                    dimo:buttonSize="normal"
-                    dimo:font="@string/font_helvetica"/>
-                <com.dimo.PayByQR.view.DIMOButton
-                    android:id="@+id/activity_store_menu_btn_add_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="36dp"
-                    android:paddingRight="36dp"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/bt_store_add_more"
-                    android:textColor="@color/theme_text_over_basic_bg"
-                    android:drawablePadding="4dp"
-                    dimo:bgColor="@color/no_connection_button_close"
-                    dimo:buttonSize="normal"
-                    dimo:font="@string/font_helvetica"/>
-            </LinearLayout>
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/bt_store_checkout"
+                android:textColor="@color/theme_text_over_basic_bg"
+                android:drawablePadding="4dp"
+                dimo:bgColor="@color/theme_colorPrimary"
+                dimo:buttonSize="normal"
+                dimo:font="@string/font_helvetica"/>
         </LinearLayout>
         <ListView
             android:id="@+id/listview"
@@ -160,7 +128,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:clickable="true"
             android:layout_above="@id/activity_store_menu_footer"
             android:dividerHeight="1dp"
             android:divider="@color/store_line_checkout"/>

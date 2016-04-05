@@ -93,7 +93,7 @@ public class QrStoreUtil {
                                        String zipCode, String city,
                                        String PhoneNum, String MerchantCode,
                                        String transId, long totalAmount,
-                                       String pickupMethod, String pickupStoreId) {
+                                       String pickupMethodID, String pickupContentID) {
         try {
             JSONObject ji = new JSONObject();
             ji.put("merchantCode", MerchantCode);
@@ -112,13 +112,6 @@ public class QrStoreUtil {
             je.put("phoneNum",PhoneNum);
             ji.put("customerDetail",je);
 
-            if (pickupMethod != null) {
-                JSONObject pickup = new JSONObject();
-                pickup.put("method", pickupMethod);
-                pickup.put("storeId", pickupStoreId);
-                ji.put("pickup",pickup);
-            }
-
             JSONArray ja = new JSONArray();
             for (int i = 0; i < cartList.size(); i++) {
                 GoodsData goodsData = cartList.get(i);
@@ -128,6 +121,18 @@ public class QrStoreUtil {
                 ja.put(jo);
             }
             ji.put("items", ja);
+
+            // OLD
+            /*if (pickupMethod != null) {
+                JSONObject pickup = new JSONObject();
+                pickup.put("method", pickupMethod);
+                pickup.put("storeId", pickupStoreId);
+                ji.put("pickup",pickup);
+            }*/
+            JSONObject jsonPickup = new JSONObject();
+            jsonPickup.put("methodId", pickupMethodID);
+            jsonPickup.put("id", pickupContentID);
+            ji.put("pickup", jsonPickup);
 
             return ji.toString();
         } catch (JSONException e) {

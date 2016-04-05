@@ -10,6 +10,7 @@ public class QrStoreDefine {
     public static final String INTENT_EXTRA_QRSTORE_CART_KONFIRMASI_CHECKOUT = "com.dimo.PayByQR.intent.extra.checkout";
     public static final String INTENT_EXTRA_QRSTORE_CART_MERCHANTID = "com.dimo.PayByQR.intent.extra.merchantid";
     public static final String INTENT_EXTRA_QRSTORE_CART_TRANSID = "com.dimo.PayByQR.intent.extra.transid";
+    public static final String INTENT_EXTRA_QRSTORE_CART_GOODSID = "com.dimo.PayByQR.intent.extra.goodsID";
 
     public static final String INTENT_EXTRA_QRSTORE_CART_MERCHANTHEAD = "com.dimo.PayByQR.intent.extra.merchantHeader";
     public static final String INTENT_EXTRA_QRSTORE_CART_KONFIRMASI = "com.dimo.PayByQR.intent.extra.konfirmasi";
@@ -18,6 +19,10 @@ public class QrStoreDefine {
     public static final String LAZIES_PADD="!~!";
 
     public static final String SHARED_PREF_TRANS_ID = "com.dimo.PayByQR.shared.pref.transID";
+    public static final String SHARED_PREF_CUST_NAME = "com.dimo.PayByQR.shared.pref.customerName";
+    public static final String SHARED_PREF_CUST_PHONE = "com.dimo.PayByQR.shared.pref.customerPhone";
+    public static final String SHARED_PREF_CUST_EMAIL = "com.dimo.PayByQR.shared.pref.customerEmail";
+    public static final String SHARED_PREF_CUST_ADDR = "com.dimo.PayByQR.shared.pref.customerAddr";
 
     public static final int MAXIMUM_CHAR_ONLINE=30;
 

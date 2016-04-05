@@ -1,6 +1,7 @@
 package com.dimo.PayByQR.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -29,12 +30,14 @@ import com.dimo.PayByQR.PayByQRException;
 import com.dimo.PayByQR.PayByQRProperties;
 import com.dimo.PayByQR.PayByQRSDK;
 import com.dimo.PayByQR.PayByQRSDKListener;
+import com.dimo.PayByQR.QrStore.constans.QrStoreDefine;
 import com.dimo.PayByQR.R;
 import com.dimo.PayByQR.data.Constant;
 import com.dimo.PayByQR.model.InvoiceDetailResponse;
 import com.dimo.PayByQR.model.InvoiceModel;
 import com.dimo.PayByQR.model.InvoiceStatusResponse;
 import com.dimo.PayByQR.model.LoyaltyProgramModel;
+import com.dimo.PayByQR.utils.CheckPaymentStatusTask;
 import com.dimo.PayByQR.utils.CheckPaymentThread;
 import com.dimo.PayByQR.utils.DIMOService;
 import com.dimo.PayByQR.utils.DIMOUtils;
@@ -212,9 +215,11 @@ public class InvoiceDetailActivity extends AppCompatActivity {
                 closeSDK(false, true, code, desc);
             }else{
                 if(code == Constant.STATUS_CODE_PAYMENT_SUCCESS){
-                    Intent intentSuccess = new Intent(InvoiceDetailActivity.this, PaymentSuccessActivity.class);
+                    /*Intent intentSuccess = new Intent(InvoiceDetailActivity.this, PaymentSuccessActivity.class);
                     startActivityForResult(intentSuccess, 0);
-                    overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);
+                    overridePendingTransition(R.anim.in_from_bottom, R.anim.fade_out);*/
+
+                    new CheckPaymentStatusTask(InvoiceDetailActivity.this, invoiceID).execute();
                 }else{
                     goToFailedScreen(getString(R.string.text_payment_failed), desc, Constant.REQUEST_CODE_ERROR_PAYMENT_FAILED);
                 }
@@ -687,8 +692,10 @@ public class InvoiceDetailActivity extends AppCompatActivity {
             i.setData(Uri.parse(URLScheme));
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
             startActivity(i);
-        }catch (ActivityNotFoundException notFoundException){
+        } catch (ActivityNotFoundException notFoundException){
             notFoundException.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

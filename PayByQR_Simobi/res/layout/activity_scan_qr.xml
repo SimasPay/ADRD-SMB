@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:dimo="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_scanqr_root"
@@ -10,202 +10,365 @@
     android:fitsSystemWindows="true"
     tools:context="com.dimo.PayByQR.activity.ScanQRActivity">
 
-    <RelativeLayout
+    <com.journeyapps.barcodescanner.CompoundBarcodeView
+        android:id="@+id/activity_scanqr_barcodeView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7.25">
+        android:layout_height="match_parent" />
 
-        <com.journeyapps.barcodescanner.CompoundBarcodeView
-            android:id="@+id/activity_scanqr_barcodeView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <!--<View
-            android:id="@+id/activity_scanqr_systemBar"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
 
         <RelativeLayout
-            android:id="@+id/activity_scanqr_layout_action"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:background="@color/theme_bg_scanQR_frame">
-            <ImageView
-                android:id="@+id/activity_scanqr_btn_close"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignParentRight="true"
-                android:padding="10dp"
-                android:background="@drawable/background_circle_gray_transparent"
-                android:src="@drawable/ico_x"
-                android:scaleType="fitXY"/>
+            android:layout_height="0dp"
+            android:layout_weight="7.25">
 
-            <LinearLayout
-                android:id="@+id/activity_scanqr_btn_flash"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@id/activity_scanqr_btn_close"
-                android:layout_marginRight="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="12dp"
-                android:gravity="center_vertical"
-                android:clickable="true"
-                android:background="@drawable/background_btn_flash_gray"
-                android:animateLayoutChanges="true">
-                <ImageView
-                    android:id="@+id/activity_scanqr_img_flash"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_gravity="center_vertical"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ico_flash"
-                    android:scaleType="fitCenter"/>
-                <com.dimo.PayByQR.view.DIMOTextView
-                    android:id="@+id/activity_scanqr_txt_flash"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/button_flash_off"
-                    android:textColor="@color/theme_text_over_basic_bg"
-                    android:textSize="16sp"
-                    dimo:font="@string/font_montserrat"/>
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/activity_scanqr_layout_action"
-            android:weightSum="10">
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:background="@color/theme_bg_scanQR_frame"/>
+            <!--<View
+                android:id="@+id/activity_scanqr_systemBar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>-->
 
             <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7">
-                <!--<View
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/activity_scanqr_frame"
-                    android:layout_alignBottom="@id/activity_scanqr_frame"
-                    android:layout_alignLeft="@id/activity_scanqr_frame"
-                    android:layout_alignRight="@id/activity_scanqr_frame"
-                    android:background="@drawable/background_scanqr_frame"/>-->
-                <ImageView
-                    android:id="@+id/activity_scanqr_frame"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/middle_qrscan"
-                    android:background="@drawable/background_scanqr_frame"
-                    android:adjustViewBounds="true"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/activity_scanqr_frame"
-                    android:layout_alignParentTop="true"
-                    android:background="@color/theme_bg_scanQR_frame"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_below="@id/activity_scanqr_frame"
-                    android:background="@color/theme_bg_scanQR_frame"/>
-            </RelativeLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:background="@color/theme_bg_scanQR_frame"/>
-        </LinearLayout>
-        
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/activity_scanqr_footer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.75"
-        android:elevation="6dp">
-        <LinearLayout
-            android:id="@+id/activity_scanqr_serviceby"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:weightSum="1">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:src="@drawable/servicebydimo"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/activity_scanqr_serviceby"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.dimo.PayByQR.view.DIMOTextView
+                android:id="@+id/activity_scanqr_layout_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/text_scanqr_tutorial"
-                android:textColor="@color/theme_text_over_basic_bg"
-                android:textSize="@dimen/text_size_20"
-                dimo:font="@string/font_helvetica"
-                android:id="@+id/act_text_Please_scan"/>
+                android:layout_alignParentTop="true"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:background="@color/theme_bg_scanQR_frame">
+                <ImageView
+                    android:id="@+id/activity_scanqr_btn_close"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:padding="10dp"
+                    android:background="@drawable/background_circle_gray_transparent"
+                    android:src="@drawable/ico_x"
+                    android:scaleType="fitXY"/>
+
+                <LinearLayout
+                    android:id="@+id/activity_scanqr_btn_flash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_toLeftOf="@id/activity_scanqr_btn_close"
+                    android:layout_marginRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="12dp"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:background="@drawable/background_btn_flash_gray"
+                    android:animateLayoutChanges="true">
+                    <ImageView
+                        android:id="@+id/activity_scanqr_img_flash"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_gravity="center_vertical"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ico_flash"
+                        android:scaleType="fitCenter"/>
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:id="@+id/activity_scanqr_txt_flash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/button_flash_off"
+                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textSize="16dp"
+                        dimo:font="@string/font_montserrat"/>
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/activity_scanqr_layout_action"
+                android:weightSum="10">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:background="@color/theme_bg_scanQR_frame"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7">
+                    <!--<View
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/activity_scanqr_frame"
+                        android:layout_alignBottom="@id/activity_scanqr_frame"
+                        android:layout_alignLeft="@id/activity_scanqr_frame"
+                        android:layout_alignRight="@id/activity_scanqr_frame"
+                        android:background="@drawable/background_scanqr_frame"/>-->
+                    <ImageView
+                        android:id="@+id/activity_scanqr_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/middle_qrscan"
+                        android:background="@drawable/background_scanqr_frame"
+                        android:adjustViewBounds="true"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@id/activity_scanqr_frame"
+                        android:layout_alignParentTop="true"
+                        android:background="@color/theme_bg_scanQR_frame"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_below="@id/activity_scanqr_frame"
+                        android:background="@color/theme_bg_scanQR_frame"/>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:background="@color/theme_bg_scanQR_frame"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_scanqr_footer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.75"
+            android:animateLayoutChanges="true"
+            android:background="@color/theme_bg_scanQR_frame">
+
+            <RelativeLayout
                 android:id="@+id/activity_scanqr_btn_store"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_small_height"
-                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="6dp"
                 android:clickable="true"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:background="@drawable/background_cart_qty"
-                android:gravity="center"
-                android:visibility="visible">
+                android:background="@drawable/ripple_btn_qrstore"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/item_merchant_cart_logo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_cart"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"/>
+
+                <com.dimo.PayByQR.view.DIMOTextView
+                    android:id="@+id/item_merchant_qty"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="4dp"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:textSize="12dp"
+                    android:background="@drawable/background_circle_discount_loyalty_list"
+                    dimo:font="@string/font_helvetica"/>
+
                 <com.dimo.PayByQR.view.DIMOTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="56dp"
                     android:layout_marginRight="8dp"
+                    android:layout_centerVertical="true"
                     android:singleLine="true"
                     android:gravity="center"
                     android:text="@string/tx_qr_store_bt"
-                    android:textColor="@color/theme_text_over_basic_bg"
-                    android:textSize="@dimen/text_size_18"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp"
                     dimo:font="@string/font_helvetica"/>
-                <com.dimo.PayByQR.view.DIMOTextView
-                    android:id="@+id/item_merchant_qty"
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_chevron_right_store"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/activity_scanqr_btn_store">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/bg_simobi"
+                    android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                    android:id="@+id/activity_scanqr_serviceby"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:weightSum="1"
+                    android:visibility="visible">
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.4"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/servicebydimo"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/activity_scanqr_serviceby"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/text_scanqr_tutorial"
+                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textSize="18dp"
+                        dimo:font="@string/font_helvetica"
+                        android:id="@+id/act_text_Please_scan"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_scanqr_store_animation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#99000000"
+        android:weightSum="10"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7.25"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/activity_scanqr_layout_action">
+                <ImageView
+                    android:id="@+id/activity_scanqr_img_success_addtocart"
+                    android:layout_width="112dp"
+                    android:layout_height="112dp"
+                    android:layout_centerInParent="true"
+                    android:padding="28dp"
+                    android:elevation="6dp"
+                    android:src="@drawable/ic_success_add_to_cart"
+                    android:visibility="visible"
+                    android:background="@drawable/background_circle_discount"/>
+                <ImageView
+                    android:id="@+id/activity_scanqr_img_success_addtocart_animate"
+                    android:layout_width="112dp"
+                    android:layout_height="112dp"
+                    android:layout_centerInParent="true"
+                    android:padding="28dp"
+                    android:elevation="6dp"
+                    android:src="@drawable/ic_success_add_to_cart"
+                    android:visibility="visible"
+                    android:background="@drawable/background_circle_discount"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.75"
+            android:animateLayoutChanges="true">
+
+            <RelativeLayout
+                android:id="@+id/activity_scanqr_btn_store_animate"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:elevation="6dp"
+                android:background="@drawable/ripple_btn_qrstore"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/item_merchant_cart_logo_animate"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:src="@drawable/ic_cart"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"/>
+
+                <com.dimo.PayByQR.view.DIMOTextView
+                    android:id="@+id/item_merchant_qty_animate"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="4dp"
                     android:singleLine="true"
                     android:gravity="center"
-                    android:text="99"
-                    android:textColor="@color/theme_colorPrimary"
-                    android:textSize="@dimen/text_size_18"
-                    android:background="@drawable/background_circle_discount"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:textSize="12dp"
+                    android:background="@drawable/background_circle_discount_loyalty_list"
                     dimo:font="@string/font_helvetica"/>
-            </LinearLayout>
 
-        </LinearLayout>
-    </RelativeLayout>
+                <com.dimo.PayByQR.view.DIMOTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_centerVertical="true"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:text="@string/tx_qr_store_bt"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp"
+                    dimo:font="@string/font_helvetica"/>
 
-</LinearLayout>
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_chevron_right_store"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.os.Handler;
 
@@ -30,23 +31,20 @@ import com.dimo.PayByQR.PayByQRSDKListener;
 import com.dimo.PayByQR.QrStore.constans.QrStoreDefine;
 import com.dimo.PayByQR.QrStore.model.CartData;
 import com.dimo.PayByQR.QrStore.model.GoodsData;
-import com.dimo.PayByQR.QrStore.model.RespondJson;
 import com.dimo.PayByQR.QrStore.utility.QRStoreDBUtil;
 import com.dimo.PayByQR.QrStore.utility.QrStoreUtil;
-import com.dimo.PayByQR.QrStore.utility.UtilDb;
 import com.dimo.PayByQR.R;
 import com.dimo.PayByQR.activity.FailedActivity;
 import com.dimo.PayByQR.activity.NoConnectionActivity;
 import com.dimo.PayByQR.activity.PaymentSuccessActivity;
 import com.dimo.PayByQR.data.Constant;
 import com.dimo.PayByQR.model.InvoiceModel;
+import com.dimo.PayByQR.utils.CheckPaymentStatusTask;
 import com.dimo.PayByQR.utils.CheckPaymentThread;
 import com.dimo.PayByQR.utils.DIMOService;
 import com.dimo.PayByQR.utils.DIMOUtils;
 import com.dimo.PayByQR.view.DIMOButton;
 import com.dimo.PayByQR.view.DIMOTextView;
-
-import java.util.HashMap;
 
 /**
  * Created by dimo on 1/11/16.
@@ -58,69 +56,67 @@ public class StoreKonfirmasiActivity  extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private CartData cartData;
 
-    // Data
-    //List cartList;
-    LinearLayout listBasketContainer;
+    private LinearLayout listBasketContainer;
+    private DIMOButton btnKonfirmasi;
+    private ImageView btnBack;
+    private TextView txtTitle, txtSubtitle, txtShippingFee, txtTotalBayar, txtPickupMethod, txtName,
+            txtEmail, txtPhone, txtAddress, txtAddress2, txtTotalAmount;
+    private ProgressBar loader;
+    private RelativeLayout layoutShippingFee;
 
-    // amounts
     int shippingFee = 0;
     int paidAmount = 0;
-
-    DIMOButton btkonfimrasi;
-    ImageView btnBack;
-    TextView txtTitle;
-    private ProgressBar loader;
     private boolean isPaymentProcessRun = false;
-    // global var
-    String MerchantCode, MerchantName;
-    String strCheckout;
-    HashMap<String, String> storeNameToId;
-    DIMOTextView teShippingfee, teTotalBayar, tePickupMethode, teName, teEmail, teTelepon, teCity , teAddress, teStrCity;
+    String MerchantCode, MerchantName, strCheckout;
+    String[] arFromCheckout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_store_konfirmasi);
+        setContentView(R.layout.activity_store_checkout_3);
 
         listener = PayByQRSDK.getListener();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         MerchantCode = getIntent().getStringExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTID);
         MerchantName = getIntent().getStringExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTHEAD);
         strCheckout = getIntent().getStringExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_KONFIRMASI);
-        storeNameToId = (HashMap<String, String>)getIntent().getSerializableExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_STORES);
 
-        btkonfimrasi = (DIMOButton) findViewById(R.id.activity_store_btn_konfirmasi);
-        loader = (ProgressBar) findViewById(R.id.activity_store_confirm_loader);
         txtTitle = (TextView) findViewById(R.id.header_bar_title);
+        txtSubtitle = (TextView) findViewById(R.id.header_bar_subtitle);
         btnBack = (ImageView) findViewById(R.id.header_bar_action_back);
-        txtTitle.setText(MerchantName);
+
+        txtTitle.setText(getString(R.string.text_header_title_checkout_3));
+        txtSubtitle.setText(getString(R.string.text_header_subtitle_checkout, "3"));
+        txtSubtitle.setVisibility(View.VISIBLE);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                finish();
             }
         });
 
+        txtName = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_name);
+        txtEmail = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_email);
+        txtPhone = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_phone);
+        txtPickupMethod = (DIMOTextView) findViewById(R.id.activity_store_confirm_pickup_method);
+        txtAddress = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_addr);
+        txtAddress2 = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_addr2);
         listBasketContainer = (LinearLayout) findViewById(R.id.activity_store_cart_list);
-        teShippingfee = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_fee);
-        teTotalBayar = (DIMOTextView) findViewById(R.id.activity_store_confirm_total_paid);
-        tePickupMethode = (DIMOTextView) findViewById(R.id.activity_store_confirm_pickup_method);
-        teName = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_name);
-        teEmail = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_email);
-        teTelepon = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_phone);
-        teCity = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_city);
-        teAddress = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_addr);
-        teStrCity = (DIMOTextView) findViewById(R.id.act_store_konfirmasi_city_str);
+        txtTotalAmount = (DIMOTextView) findViewById(R.id.activity_store_confirm_total_amount);
+        txtShippingFee = (DIMOTextView) findViewById(R.id.activity_store_confirm_shipping_fee);
+        layoutShippingFee = (RelativeLayout) findViewById(R.id.activity_store_confirm_shipping_fee_line);
+        txtTotalBayar = (DIMOTextView) findViewById(R.id.activity_store_confirm_total_paid);
+        btnKonfirmasi = (DIMOButton) findViewById(R.id.activity_store_btn_konfirmasi);
+        loader = (ProgressBar) findViewById(R.id.activity_store_confirm_loader);
 
         loader.setVisibility(View.GONE);
-        btkonfimrasi.setOnClickListener(new View.OnClickListener() {
+        btnKonfirmasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reqCheckout();
             }
         });
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initActivity();
 
@@ -142,38 +138,43 @@ public class StoreKonfirmasiActivity  extends AppCompatActivity {
 
             GoodsData goodsData = cartData.carts.get(i);
 
-            txQuantity.setText(String.valueOf(goodsData.qtyInCart));
             txName.setText(goodsData.goodsName);
+            txQuantity.setText(String.valueOf(goodsData.qtyInCart) + " x " + getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString((int)(goodsData.price-goodsData.discountAmount))));
             txTotal.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString((int)(goodsData.price-goodsData.discountAmount) * goodsData.qtyInCart)));
 
             listBasketContainer.addView(vi);
         }
 
-        String[] arFromCheckout = strCheckout.split(QrStoreDefine.LAZIES_PADD);
+        arFromCheckout = strCheckout.split(QrStoreDefine.LAZIES_PADD);
         for (int i=0;i<arFromCheckout.length;i++) {
             if (PayByQRProperties.isDebugMode())
                 Log.d("init Konfirm", ""+i+"==>"+arFromCheckout[i] );
         }
 
-        teName.setText(arFromCheckout[2]);
-        teEmail.setText(arFromCheckout[3]);
-        teTelepon.setText(arFromCheckout[4]);
-        tePickupMethode.setText(arFromCheckout[1]);
+        txtName.setText(arFromCheckout[1]);
+        txtEmail.setText(arFromCheckout[2]);
+        txtPhone.setText(arFromCheckout[3]);
+        txtPickupMethod.setText(getString(R.string.tx_store_confirm_pickup_method, arFromCheckout[6]));
 
-        if( tePickupMethode.getText().toString().contains("TOKO")) {
-            teStrCity.setText(getString(R.string.tx_store_pick_store));
-            teCity.setText(arFromCheckout[7]);
-            teAddress.setText(arFromCheckout[8]);
+        if(arFromCheckout[5].equals(StoreCheckout.PICKUP_METHODE_STORE)) {
+            txtAddress.setText(arFromCheckout[8]);
+            txtAddress2.setText(arFromCheckout[4]);
         } else {
-            teStrCity.setText(getString(R.string.tx_store_pick_city));
-            teCity.setText(arFromCheckout[5]);
-            teAddress.setText(arFromCheckout[6]);
+            txtAddress.setText(arFromCheckout[4]);
+            txtAddress2.setText(arFromCheckout[8]);
         }
 
         shippingFee = Integer.parseInt(arFromCheckout[0]);
         paidAmount = cartData.totalAmount + shippingFee;
-        teShippingfee.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(shippingFee)));
-        teTotalBayar.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(paidAmount)));
+
+        if(shippingFee == 0)
+            layoutShippingFee.setVisibility(View.GONE);
+        else
+            layoutShippingFee.setVisibility(View.VISIBLE);
+
+        txtTotalAmount.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(cartData.totalAmount)));
+        txtShippingFee.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(shippingFee)));
+        txtTotalBayar.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(paidAmount)));
     }
 
     private InvoiceModel loadInvoiceModel(String invoiceId) {
@@ -200,20 +201,14 @@ public class StoreKonfirmasiActivity  extends AppCompatActivity {
     }
 
     private void reqCheckout() {
-        String srtCity, pickupMethod, pickupStoreId;
-        if (tePickupMethode.getText().toString().contains("ALAMAT")) {
-            srtCity = teCity.getText().toString();
-            pickupMethod = "ALAMAT";
-            pickupStoreId = "";
-        } else {
-            srtCity = "";
-            pickupMethod = "TOKO";
-            pickupStoreId = storeNameToId.get(teCity.getText().toString());
+        String srtCity = "";
+        if(arFromCheckout[5].equals(StoreCheckout.PICKUP_METHODE_ADDR)) {
+            srtCity = arFromCheckout[8];
         }
 
-        String strJson = QrStoreUtil.getStringJson(cartData.carts, teName.getText().toString(), teEmail.getText().toString(),
-                teAddress.getText().toString(), "", srtCity, teTelepon.getText().toString(), MerchantCode,
-                sharedPreferences.getString(QrStoreDefine.SHARED_PREF_TRANS_ID, ""), paidAmount, pickupMethod, pickupStoreId);
+        String strJson = QrStoreUtil.getStringJson(cartData.carts, txtName.getText().toString(), txtEmail.getText().toString(),
+                txtAddress.getText().toString(), "", srtCity, txtPhone.getText().toString(), MerchantCode,
+                sharedPreferences.getString(QrStoreDefine.SHARED_PREF_TRANS_ID, ""), paidAmount, arFromCheckout[5], arFromCheckout[7]);
         new GetStoreCheckout(cartData.merchantURL, strJson).execute();
     }
 
@@ -265,9 +260,9 @@ public class StoreKonfirmasiActivity  extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent intent = new Intent();
-                                        intent.putExtra(Constant.INTENT_EXTRA_QRSTORE_CUST_NAME, teName.getText().toString());
-                                        intent.putExtra(Constant.INTENT_EXTRA_QRSTORE_CUST_EMAIL, teEmail.getText().toString());
-                                        intent.putExtra(Constant.INTENT_EXTRA_QRSTORE_CUST_PHONE, teTelepon.getText().toString());
+                                        /*intent.putExtra(Constant.INTENT_EXTRA_QRSTORE_CUST_NAME, txtName.getText().toString());
+                                        intent.putExtra(Constant.INTENT_EXTRA_QRSTORE_CUST_EMAIL, txtEmail.getText().toString());
+                                        intent.putExtra(Constant.INTENT_EXTRA_QRSTORE_CUST_PHONE, txtPhone.getText().toString());*/
                                         setResult(Constant.ACTIVITY_RESULT_QRSTORE_CHECKOUT_ERROR, intent);
                                         finish();
                                     }
@@ -336,6 +331,7 @@ public class StoreKonfirmasiActivity  extends AppCompatActivity {
     BroadcastReceiver notifyTrxBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            QRStoreDBUtil.removeAllCartsByMerchant(StoreKonfirmasiActivity.this, cartData.merchantCode);
             int code = intent.getIntExtra(Constant.INTENT_EXTRA_NOTIFY_CODE, 0);
             String desc = intent.getStringExtra(Constant.INTENT_EXTRA_NOTIFY_DESC);
             if(PayByQRProperties.isUsingCustomDialog()){
@@ -345,8 +341,10 @@ public class StoreKonfirmasiActivity  extends AppCompatActivity {
             }else{
                 if(code == Constant.STATUS_CODE_PAYMENT_SUCCESS){
                     reqPaymentPass("OK");
-                    Intent intentSuccess = new Intent(StoreKonfirmasiActivity.this, PaymentSuccessActivity.class);
-                    startActivityForResult(intentSuccess, 0);
+                    /*Intent intentSuccess = new Intent(StoreKonfirmasiActivity.this, PaymentSuccessActivity.class);
+                    startActivityForResult(intentSuccess, 0);*/
+
+                    new CheckPaymentStatusTask(StoreKonfirmasiActivity.this, invoiceModel.invoiceID).execute();
                 }else{
                     reqPaymentPass("NOK");
                     goToFailedScreen(getString(R.string.text_payment_failed), desc, Constant.REQUEST_CODE_ERROR_PAYMENT_FAILED);
@@ -413,7 +411,7 @@ public class StoreKonfirmasiActivity  extends AppCompatActivity {
 
     private void doPayment(){
         isPaymentProcessRun = true;
-        btkonfimrasi.setVisibility(View.INVISIBLE);
+        btnKonfirmasi.setVisibility(View.INVISIBLE);
         loader.setVisibility(View.VISIBLE);
         if (PayByQRProperties.isPolling()) {
             checkPaymentThread = new CheckPaymentThread(this, invoiceModel.invoiceID, endInvoicePayed);

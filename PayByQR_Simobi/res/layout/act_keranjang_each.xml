@@ -1,50 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dimo="http://schemas.android.com/apk/res-auto"
-
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:weightSum="10"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
-    <RelativeLayout
-        android:id="@+id/activity_store_confirm_shipping_addr_line2"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp">
-        <com.dimo.PayByQR.view.DIMOTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingRight="4dp"
-            android:text="Rp. 2.700.000"
-            android:textColor="@color/store_text_checkout"
-            android:textSize="@dimen/text_size_16"
-            dimo:font="@string/font_helvetica"
-            android:id="@+id/act_item_total" />
-        <com.dimo.PayByQR.view.DIMOTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="1"
-            android:id="@+id/act_item_quantity"
-            android:textColor="@color/store_text_checkout"
-            android:textSize="@dimen/text_size_16"
-            android:layout_marginBottom="10dp"
-            dimo:font="@string/font_helvetica"/>
+        android:layout_weight="6.75"
+        android:orientation="vertical">
         <com.dimo.PayByQR.view.DIMOTextView
             android:id="@+id/act_goods_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/act_item_quantity"
-            android:layout_toLeftOf="@id/act_item_total"
-            android:gravity="left"
-            android:paddingLeft="4dp"
-            android:lineSpacingExtra="1dp"
+            android:paddingBottom="2dp"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="iPod Shuffle Blue dan bukan merah 16Gb"
-            android:textColor="@color/store_text_checkout"
-            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/store_cart_item_name"
+            android:textSize="16dp"
             dimo:font="@string/font_helvetica"/>
-    </RelativeLayout>
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/act_item_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 x Rp 100,000"
+            android:textColor="@color/store_cart_item_qty_btn"
+            android:textSize="14dp"
+            dimo:font="@string/font_helvetica"/>
+    </LinearLayout>
+    <com.dimo.PayByQR.view.DIMOTextView
+        android:id="@+id/act_item_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3.25"
+        android:gravity="right"
+        android:text="Rp 2.700.000"
+        android:textColor="@color/store_cart_item_name"
+        android:textSize="16dp"
+        dimo:font="@string/font_helvetica"/>
 </LinearLayout>

@@ -43,7 +43,7 @@ public class StoreMenuMerchant extends AppCompatActivity {
 
         txtTitle = (TextView) findViewById(R.id.header_bar_title);
         btnBack = (ImageView) findViewById(R.id.header_bar_action_back);
-        txtTitle.setText(getResources().getText(R.string.tx_store_keranjang_bel));
+        txtTitle.setText(getResources().getText(R.string.text_header_title_cart));
         actListMerchant = (ListView)findViewById(R.id.act_store_listview_mercant);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +52,6 @@ public class StoreMenuMerchant extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        setFillTheBasket();
     }
 
     private void setFillTheBasket() {
@@ -72,6 +70,12 @@ public class StoreMenuMerchant extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setFillTheBasket();
     }
 
     @Override

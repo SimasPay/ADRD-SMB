@@ -1,6 +1,7 @@
 package com.dimo.PayByQR.QrStore.view;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -26,6 +28,7 @@ import com.dimo.PayByQR.PayByQRProperties;
 import com.dimo.PayByQR.QrStore.constans.QrStoreDefine;
 import com.dimo.PayByQR.QrStore.model.AddressStore;
 import com.dimo.PayByQR.QrStore.model.CartData;
+import com.dimo.PayByQR.QrStore.model.PickupMethodData;
 import com.dimo.PayByQR.QrStore.model.RespondJson;
 import com.dimo.PayByQR.QrStore.utility.QRStoreDBUtil;
 import com.dimo.PayByQR.QrStore.utility.QrStoreUtil;
@@ -51,9 +54,10 @@ import  static com.dimo.PayByQR.QrStore.constans.QrStoreDefine.*;
  */
 public class StoreCheckout extends AppCompatActivity {
     private DIMOButton btnlanjut;
-    private String MerchantCode, MerchantName;
+    private String MerchantCode, MerchantName, pickupContentID, pickupContentName;
     private CartData cartData;
     private ArrayList<AddressStore> storeList;
+    private ArrayList<PickupMethodData> pickupMethodList;
     private HashMap<String,String> storeNameToId;
     private TextView txtTitle;
     private SharedPreferences sharedPreferences;
@@ -69,6 +73,9 @@ public class StoreCheckout extends AppCompatActivity {
 
     ImageView btnBack;
     private String[] arrayPickupMethod, arrayCity;
+
+    public static final String PICKUP_METHODE_STORE = "1";
+    public static final String PICKUP_METHODE_ADDR = "2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,87 +141,31 @@ public class StoreCheckout extends AppCompatActivity {
         cartData = QRStoreDBUtil.getCartsByMerchant(this, MerchantCode);
         cartData.printLogData();
 
-        teNama.setText("");
-        teEmail.setText("");
-        teTelepon.setText("");
-        teAlamat.setText("");
+        teNama.setText(sharedPreferences.getString(QrStoreDefine.SHARED_PREF_CUST_NAME, ""));
+        teEmail.setText(sharedPreferences.getString(QrStoreDefine.SHARED_PREF_CUST_EMAIL, ""));
+        teTelepon.setText(sharedPreferences.getString(QrStoreDefine.SHARED_PREF_CUST_PHONE, ""));
+        teAlamat.setText(sharedPreferences.getString(QrStoreDefine.SHARED_PREF_CUST_ADDR, ""));
         txtAddressToko.setText("");
         shippingFee = 0;
         paidAmount = cartData.totalAmount + shippingFee;
-
-        ArrayAdapter<String> pickupMethodAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, arrayPickupMethod);
-        pickupMethodAdapter.setDropDownViewResource(R.layout.item_spinner);
-        spinnerPickupMethod.setAdapter(pickupMethodAdapter);
-        spinnerPickupMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //pos 0 -> ALAMAT ; pos 1 -> TOKO
-                if (position == 0) {
-                    relativeLayoutStore.setVisibility(View.GONE);
-                    relativeLayoutCity.setVisibility(View.VISIBLE);
-                    relativeLayoutAddress.setVisibility(View.VISIBLE);
-                    txtAddressToko.setVisibility(View.GONE);
-                    teAlamat.setText("");
-                    txtAddressToko.setText("");
-                    spinnerCity.setSelection(0);
-                } else {
-                    relativeLayoutStore.setVisibility(View.VISIBLE);
-                    relativeLayoutCity.setVisibility(View.GONE);
-                    relativeLayoutAddress.setVisibility(View.GONE);
-                    txtAddressToko.setVisibility(View.GONE);
-                    teAlamat.setText("");
-                    txtAddressToko.setText("");
-                    shippingFee = 0;
-                    paidAmount = cartData.totalAmount + shippingFee;
-                    upDateTotalAfterShipping();
-                    if (null != arStoreList && arStoreList.length > 0)
-                        spinnerStore.setSelection(0);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, arrayCity);
-        citiesAdapter.setDropDownViewResource(R.layout.item_spinner);
-        spinnerCity.setAdapter(citiesAdapter);
-        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0){
-                    shippingFee = 0;
-                    paidAmount = cartData.totalAmount + shippingFee;
-                    upDateTotalAfterShipping();
-                }else {
-                    getShippingFee();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        //spinnerPickupMethod.setSelection(1);    //default: TOKO
-        //spinnerCity.setSelection(0);
 
         txTotalBelanja.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(cartData.totalAmount)));
         txShippingFee.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(shippingFee)));
         txTotalBayar.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(paidAmount)));
 
-        new GetStoreAddress(cartData.merchantURL+"address/"+cartData.merchantCode).execute();
+        new GetPickupMethodTask(cartData.merchantURL, cartData.merchantCode).execute();
     }
 
     private String generateStringKonfirm() {
-        String buff= shippingFee + LAZIES_PADD+
-                arrayPickupMethod[spinnerPickupMethod.getSelectedItemPosition()]+ LAZIES_PADD+
+        String buff = shippingFee + LAZIES_PADD+
                 teNama.getText().toString()+LAZIES_PADD+
                 teEmail.getText().toString()+LAZIES_PADD+
                 teTelepon.getText().toString()+LAZIES_PADD+
-                arrayCity[spinnerCity.getSelectedItemPosition()]+LAZIES_PADD+
                 teAlamat.getText().toString() +LAZIES_PADD+
-                arStoreList[spinnerStore.getSelectedItemPosition()]+LAZIES_PADD+
-                arStoreListDetail[spinnerStore.getSelectedItemPosition()]+LAZIES_PADD;
+                pickupMethodList.get(spinnerPickupMethod.getSelectedItemPosition()).id+LAZIES_PADD+
+                pickupMethodList.get(spinnerPickupMethod.getSelectedItemPosition()).name+LAZIES_PADD+
+                pickupContentID+LAZIES_PADD+
+                pickupContentName;
 
         return buff;
     }
@@ -229,8 +180,6 @@ public class StoreCheckout extends AppCompatActivity {
     }
 
     private void submitForm() {
-        String pickupMethode = arrayPickupMethod[spinnerPickupMethod.getSelectedItemPosition()];
-
         if(teNama.getText().length() == 0) {
             teNama.setError(getString(R.string.tx_store_checout_name_empty));
             requestFocus(teNama);
@@ -240,25 +189,35 @@ public class StoreCheckout extends AppCompatActivity {
         }else if(teEmail.getText().length() == 0) {
             teEmail.setError(getString(R.string.tx_store_checout_email_empty));
             requestFocus(teEmail);
+        }else if (!Patterns.EMAIL_ADDRESS.matcher(teEmail.getText()).matches()) {
+            teEmail.setError(getString(R.string.tx_store_checout_email_error));
+            requestFocus(teEmail);
         }else if(teTelepon.getText().length() == 0) {
             teTelepon.setError(getString(R.string.tx_store_checout_telepon_empty));
             requestFocus(teTelepon);
         }else if (teTelepon.getText().length() < 7) {
             teTelepon.setError(getString(R.string.tx_store_checout_telepon_error));
             requestFocus(teTelepon);
-        }else if (spinnerPickupMethod.getSelectedItemPosition() == 0 && spinnerCity.getSelectedItemPosition() == 0){
+        }else if (pickupMethodList.get(spinnerPickupMethod.getSelectedItemPosition()).id.equals(PICKUP_METHODE_ADDR) && spinnerCity.getSelectedItemPosition() == 0){
             DIMOUtils.showAlertDialog(this, null, getString(R.string.tx_store_checout_kota_error), getString(R.string.alertdialog_posBtn_ok), null, null, null);
-        }else if (spinnerPickupMethod.getSelectedItemPosition() == 1 && spinnerStore.getSelectedItemPosition() == 0){
+        }else if (pickupMethodList.get(spinnerPickupMethod.getSelectedItemPosition()).id.equals(PICKUP_METHODE_STORE) && spinnerStore.getSelectedItemPosition() == 0){
             DIMOUtils.showAlertDialog(this, null, getString(R.string.tx_store_checout_toko_error), getString(R.string.alertdialog_posBtn_ok), null, null, null);
         }else if(teAlamat.getText().length() == 0) {
             teAlamat.setError(getString(R.string.tx_store_checout_alamat_empty));
             requestFocus(teAlamat);
-        }else if (teAlamat.getText().length() < 8 && pickupMethode.contains("ALAMAT")) {
+        }else if (teAlamat.getText().length() < 8 && pickupMethodList.get(spinnerPickupMethod.getSelectedItemPosition()).id.equals(PICKUP_METHODE_ADDR)) {
             teAlamat.setError(getString(R.string.tx_store_checout_alamat_error));
             requestFocus(teAlamat);
         }else if(paidAmount < PayByQRProperties.getMinimumTransaction()) {
             DIMOUtils.showAlertDialog(this, null, getString(R.string.error_minimum_trx, DIMOUtils.formatAmount(Integer.toString(PayByQRProperties.getMinimumTransaction()))), getString(R.string.alertdialog_posBtn_ok), null, null, null);
         }else {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(QrStoreDefine.SHARED_PREF_CUST_NAME, teNama.getText().toString());
+            editor.putString(QrStoreDefine.SHARED_PREF_CUST_EMAIL, teEmail.getText().toString());
+            editor.putString(QrStoreDefine.SHARED_PREF_CUST_PHONE, teTelepon.getText().toString());
+            if(relativeLayoutAddress.getVisibility() == View.VISIBLE)
+                editor.putString(QrStoreDefine.SHARED_PREF_CUST_ADDR, teAlamat.getText().toString());
+            editor.apply();
             gotoConfirm();
         }
     }
@@ -271,8 +230,8 @@ public class StoreCheckout extends AppCompatActivity {
 
     private void getShippingFee() {
         String strJson = QrStoreUtil.getStringJson(cartData.carts, teNama.getText().toString(), "", "", "",
-                arrayCity[spinnerCity.getSelectedItemPosition()],teTelepon.getText().toString(), MerchantCode,
-                sharedPreferences.getString(QrStoreDefine.SHARED_PREF_TRANS_ID, ""), paidAmount, null, null);
+                pickupMethodList.get(spinnerPickupMethod.getSelectedItemPosition()).id, teTelepon.getText().toString(), MerchantCode,
+                sharedPreferences.getString(QrStoreDefine.SHARED_PREF_TRANS_ID, ""), paidAmount, "", "");
         if(PayByQRProperties.isDebugMode()) Log.d("strJson shippingFee", strJson);
 
         new GetStoreShipping(cartData.merchantURL, strJson).execute();
@@ -281,6 +240,121 @@ public class StoreCheckout extends AppCompatActivity {
     private void upDateTotalAfterShipping() {
         txShippingFee.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(shippingFee)));
         txTotalBayar.setText(getString(R.string.text_detail_currency)+" "+DIMOUtils.formatAmount(Integer.toString(paidAmount)));
+    }
+
+    private void initPickupMethod(){
+        arrayPickupMethod = new String[pickupMethodList.size()];
+        for(int i=0;i<pickupMethodList.size();i++){
+            arrayPickupMethod[i] = pickupMethodList.get(i).name;
+        }
+        ArrayAdapter<String> pickupMethodAdapter = new ArrayAdapter<>(this, R.layout.item_spinner, arrayPickupMethod);
+        pickupMethodAdapter.setDropDownViewResource(R.layout.item_spinner);
+        spinnerPickupMethod.setAdapter(pickupMethodAdapter);
+        spinnerPickupMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //id 1 -> TOKO ; id 2 -> ALAMAT
+                if (pickupMethodList.get(position).id.equals(PICKUP_METHODE_STORE)) {
+                    relativeLayoutStore.setVisibility(View.VISIBLE);
+                    relativeLayoutCity.setVisibility(View.GONE);
+                    relativeLayoutAddress.setVisibility(View.GONE);
+                    txtAddressToko.setVisibility(View.GONE);
+                    teAlamat.setText("");
+                    txtAddressToko.setText("");
+                    shippingFee = 0;
+                    paidAmount = cartData.totalAmount + shippingFee;
+                    upDateTotalAfterShipping();
+                    if (null != arStoreList && arStoreList.length > 0)
+                        spinnerStore.setSelection(0);
+                } else {
+                    relativeLayoutStore.setVisibility(View.GONE);
+                    relativeLayoutCity.setVisibility(View.VISIBLE);
+                    relativeLayoutAddress.setVisibility(View.VISIBLE);
+                    txtAddressToko.setVisibility(View.GONE);
+                    teAlamat.setText(sharedPreferences.getString(QrStoreDefine.SHARED_PREF_CUST_ADDR, ""));
+                    txtAddressToko.setText("");
+                    spinnerCity.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+
+        for(int i=0;i<pickupMethodList.size();i++){
+            PickupMethodData pickupMethodData = pickupMethodList.get(i);
+            if(pickupMethodData.id.equals("1")){
+                //init Spinner Store (TOKO)
+                final AddressStore[] spinnerStoreData = pickupMethodData.object;
+                arStoreList = new String[spinnerStoreData.length + 1];
+                arStoreListDetail = new String[spinnerStoreData.length + 1];
+
+                arStoreList[0] = getString(R.string.pilih_toko);
+                arStoreListDetail[0] = " ";
+
+                storeNameToId = new HashMap<>();
+                for (int j = 0; j < spinnerStoreData.length; j++) {
+                    storeNameToId.put(spinnerStoreData[j].name, spinnerStoreData[j].id);
+                    arStoreList[j + 1] = spinnerStoreData[j].name;
+                    arStoreListDetail[j + 1] = spinnerStoreData[j].address;
+                }
+
+                StoreSpinnerAdapter storeAdapter = new StoreSpinnerAdapter(StoreCheckout.this, R.layout.item_store_spinner, arStoreList, arStoreListDetail);
+                spinnerStore.setAdapter(storeAdapter);
+                spinnerStore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (position == 0) {
+                                    txtAddressToko.setVisibility(View.GONE);
+                                } else {
+                                    txtAddressToko.setVisibility(View.GONE);
+                                    teAlamat.setText(arStoreListDetail[position]);
+                                    txtAddressToko.setText(arStoreListDetail[position]);
+                                    pickupContentID = spinnerStoreData[position-1].id;
+                                    pickupContentName = spinnerStoreData[position-1].name;
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {}
+                });
+            }else if(pickupMethodData.id.equals("2")){
+                //init Spinner City (ALAMAT)
+                final AddressStore[] spinnerCitiesData = pickupMethodData.object;
+                arrayCity = new String[spinnerCitiesData.length + 1];
+                arrayCity[0] = getString(R.string.pilih_kota);
+                for(int j=0;j<spinnerCitiesData.length;j++){
+                    arrayCity[j + 1] = spinnerCitiesData[j].name;
+                }
+
+                ArrayAdapter<String> citiesAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, arrayCity);
+                citiesAdapter.setDropDownViewResource(R.layout.item_spinner);
+                spinnerCity.setAdapter(citiesAdapter);
+                spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if(position == 0){
+                            shippingFee = 0;
+                            paidAmount = cartData.totalAmount + shippingFee;
+                            upDateTotalAfterShipping();
+                        }else {
+                            getShippingFee();
+                            pickupContentID = spinnerCitiesData[position-1].id;
+                            pickupContentName = spinnerCitiesData[position-1].name;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {}
+                });
+            }
+        }
     }
 
     private class GetStoreShipping extends AsyncTask<Void, Void, String> {
@@ -407,6 +481,66 @@ public class StoreCheckout extends AppCompatActivity {
                     } else {
                         //goToFailedScreen(getString(R.string.error_connection_header), e.getErrorMessage() + " " + e.getErrorDetail(), Constant.REQUEST_CODE_ERROR_UNKNOWN);
                         DIMOUtils.showAlertDialog(StoreCheckout.this, null, e.getErrorMessage(), getString(R.string.alertdialog_posBtn_ok), null, null, null);
+                    }
+                }
+            }
+        }
+    }
+
+    private class GetPickupMethodTask extends AsyncTask<Void, Void, String> {
+        String serverURL, merchantCode;
+        ProgressDialog progressDialog;
+
+        public GetPickupMethodTask (String serverURL, String merchantCode) {
+            this.serverURL = serverURL;
+            this.merchantCode = merchantCode;
+
+            progressDialog = new ProgressDialog(StoreCheckout.this);
+            progressDialog.setMessage(getString(R.string.progressdialog_message_login_waiting));
+            progressDialog.setCancelable(false);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return DIMOService.getPickupMethod(serverURL, merchantCode);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(null != progressDialog) progressDialog.dismiss();
+            try {
+                pickupMethodList = DIMOService.parseJSONPickupMethod(StoreCheckout.this, s);
+                if (pickupMethodList != null && pickupMethodList.size() > 0) {
+                    initPickupMethod();
+                } else {
+                    DIMOUtils.showAlertDialog(StoreCheckout.this, null, getString(R.string.error_unknown), getString(R.string.alertdialog_posBtn_ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    }, null, null);
+                }
+            }catch (PayByQRException e){
+                if(PayByQRProperties.isUsingCustomDialog()){
+                    closeSDK(false, true, e.getErrorCode(), e.getErrorMessage() + " " + e.getErrorDetail());
+                }else {
+                    if (e.getErrorCode() == Constant.ERROR_CODE_CONNECTION) {
+                        goToNoConnectionScreen();
+                    } else {
+                        DIMOUtils.showAlertDialog(StoreCheckout.this, null, e.getErrorMessage(), getString(R.string.alertdialog_posBtn_ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }, null, null);
                     }
                 }
             }

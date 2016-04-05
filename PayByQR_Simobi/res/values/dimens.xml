@@ -32,6 +32,8 @@
     <dimen name="image_size_icon_clear">24dp</dimen>
     <dimen name="image_size_loyalty_list_image">80dp</dimen>
     <dimen name="image_size_loyalty_list_discount">45dp</dimen>
+    <dimen name="image_size_qrstore_cart_item">64dp</dimen>
+    <dimen name="image_size_qrstore_cart_item_discount">36dp</dimen>
 
     <dimen name="button_min_width">88dp</dimen>
     <dimen name="button_small_height">32dp</dimen>

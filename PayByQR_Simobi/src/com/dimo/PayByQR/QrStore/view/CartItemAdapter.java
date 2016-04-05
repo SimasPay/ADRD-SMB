@@ -3,6 +3,7 @@ package com.dimo.PayByQR.QrStore.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,8 @@ public class CartItemAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ImageLoader imgLoader;
     private Handler onItemDeleted;
+    private int maxQtyToAdd;
+    private boolean isInEditMode = false;
 
     public CartItemAdapter(Context ctx, ArrayList<GoodsData> cartlist, Handler onItemDeleted) {
         this.cartArraylist = cartlist;
@@ -82,27 +86,39 @@ public class CartItemAdapter extends BaseAdapter {
         TextView txtDiscAmount = (TextView) vi.findViewById(R.id.item_cart_discount_amount);
         LinearLayout discountBlock = (LinearLayout) vi.findViewById(R.id.item_cart_discount_block);
         TextView txtItemName = (TextView) vi.findViewById(R.id.item_cart_name);
-        TextView txtItemQty = (TextView) vi.findViewById(R.id.item_cart_qty);
-        TextView txtPaidAmount = (TextView) vi.findViewById(R.id.item_cart_paidAmount);
+        final TextView txtItemQty = (TextView) vi.findViewById(R.id.item_cart_qty);
+        final TextView txtPaidAmount = (TextView) vi.findViewById(R.id.item_cart_paidAmount);
         TextView txtOriginalAmount = (TextView) vi.findViewById(R.id.item_cart_originalAmount);
+        TextView txtDiscountedAmount = (TextView) vi.findViewById(R.id.item_cart_discountedAmount);
+        ImageView btnPlus = (ImageView) vi.findViewById(R.id.item_cart_qty_btn_plus);
+        ImageView btnMinus = (ImageView) vi.findViewById(R.id.item_cart_qty_btn_minus);
+        RelativeLayout originalAmountBlock = (RelativeLayout) vi.findViewById(R.id.item_cart_originalAmount_layout);
 
         final GoodsData goodsData = cartArraylist.get(position);
         Float amtDisc = new Float(goodsData.discountAmount);
         float disc = (amtDisc/(float)goodsData.price) * 100;
 
         if(disc > 0) {
-            discountBlock.setVisibility(View.VISIBLE);
             txtDiscAmount.setText((int) disc + "%");
+            discountBlock.setVisibility(View.VISIBLE);
+            originalAmountBlock.setVisibility(View.VISIBLE);
+            txtOriginalAmount.setVisibility(View.VISIBLE);
         }else{
             discountBlock.setVisibility(View.GONE);
+            originalAmountBlock.setVisibility(View.GONE);
+            txtOriginalAmount.setVisibility(View.GONE);
         }
 
         txtItemName.setText(goodsData.goodsName);
         txtPaidAmount.setText(ctx.getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString(goodsData.qtyInCart * (int) (goodsData.price-goodsData.discountAmount))));
-        txtOriginalAmount.setText(goodsData.qtyInCart+" x "+ctx.getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString((int) (goodsData.price-goodsData.discountAmount))));
+        txtOriginalAmount.setText(ctx.getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString((int) (goodsData.price))));
+        txtDiscountedAmount.setText(ctx.getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString((int) (goodsData.price-goodsData.discountAmount))) + " " + ctx.getText(R.string.tx_store_per_item));
         txtItemQty.setText("" + goodsData.qtyInCart);
 
         imgLoader.DisplayImage(goodsData.image_url, R.drawable.loyalty_list_no_image, imageView);
+
+        if(isInEditMode) aButton.setVisibility(View.VISIBLE);
+        else aButton.setVisibility(View.GONE);
 
         aButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -128,11 +144,104 @@ public class CartItemAdapter extends BaseAdapter {
                 }
         });
 
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemQtyChange(goodsData, true, txtItemQty, txtPaidAmount);
+            }
+        });
+        btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemQtyChange(goodsData, false, txtItemQty, txtPaidAmount);
+            }
+        });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, StoreDetailActivity.class);
+                intent.putExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_MERCHANTID, goodsData.merchantCode);
+                intent.putExtra(QrStoreDefine.INTENT_EXTRA_QRSTORE_CART_GOODSID, goodsData.id);
+                ctx.startActivity(intent);
+            }
+        });
+
         return vi;
     }
 
     public void setCartArrayList(ArrayList<GoodsData> cartArrayList){
         this.cartArraylist = cartArrayList;
         notifyDataSetChanged();
+    }
+
+    public void onItemQtyChange(GoodsData goodsData, boolean isAdd, TextView txtQuantity, TextView txtPaidAmount) {
+        if (isAdd) {
+            /*1. stock = 0; maxQuantity = any (0-n)
+            -> Maaf, stok barang habis
+            2. stock = m; maxQuantity = n; stock < maxQuantity
+            eg: stock = 5; maxQuantity = 10
+            -> Stok yang tersedia untuk barang ini adalah 5
+            3. stock = m; maxQuantity = n; stock > maxQuantity
+            eg: stock = 10; maxQuantity = 7
+            -> Jumlah maksimal yang bisa Anda beli untuk barang ini adalah 7*/
+
+            if(goodsData.maxQuantity == 0){
+                maxQtyToAdd = goodsData.stock;
+                if (goodsData.qtyInCart < maxQtyToAdd) {
+                    goodsData.qtyInCart++;
+                } else {
+                    String errorMsg = ctx.getString(R.string.error_max_stock, goodsData.stock);
+                    if(goodsData.qtyInCart > 0)
+                        errorMsg = errorMsg + ctx.getString(R.string.error_max_goods_in_cart, goodsData.qtyInCart);
+
+                    DIMOUtils.showAlertDialog(ctx, null, errorMsg, ctx.getString(R.string.alertdialog_posBtn_ok),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }, null, null);
+                }
+            }else {
+                maxQtyToAdd = Math.min(goodsData.stock, goodsData.maxQuantity);
+                if (goodsData.qtyInCart < maxQtyToAdd) {
+                    goodsData.qtyInCart++;
+                } else {
+                    String errorMsg = "";
+                    if(goodsData.stock < goodsData.maxQuantity){
+                        errorMsg = ctx.getString(R.string.error_max_stock, goodsData.stock);
+                    }else{
+                        errorMsg = ctx.getString(R.string.error_max_qty, goodsData.maxQuantity);
+                    }
+
+                    DIMOUtils.showAlertDialog(ctx, null, errorMsg, ctx.getString(R.string.alertdialog_posBtn_ok),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }, null, null);
+                }
+            }
+        } else {
+            if (goodsData.qtyInCart > 1)
+                goodsData.qtyInCart--;
+        }
+
+        QRStoreDBUtil.addGoodsToCart(ctx, goodsData);
+
+        txtQuantity.setText(String.valueOf(goodsData.qtyInCart));
+        txtPaidAmount.setText(ctx.getString(R.string.text_detail_currency) + " " + DIMOUtils.formatAmount(Integer.toString(goodsData.qtyInCart * (int) (goodsData.price-goodsData.discountAmount))));
+        Message message = onItemDeleted.obtainMessage(Constant.MESSAGE_END_ERROR);
+        onItemDeleted.sendMessage(message);
+    }
+
+    public void setEditMode(boolean isInEditMode){
+        this.isInEditMode = isInEditMode;
+        notifyDataSetChanged();
+    }
+
+    public boolean isInEditMode(){
+        return isInEditMode;
     }
 }

@@ -15,15 +15,32 @@
         android:clickable="true"
         android:background="?attr/selectableItemBackgroundBorderless"/>
 
-    <com.dimo.PayByQR.view.DIMOTextView
-        android:id="@+id/header_bar_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textColor="@color/theme_text_over_basic_bg"
-        android:textSize="@dimen/text_size_22"
-        android:text=""
-        dimo:font="@string/font_helvetica"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/header_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/theme_text_over_basic_bg"
+            android:textSize="22dp"
+            android:text="Main Title Here"
+            dimo:font="@string/font_helvetica"/>
+
+        <com.dimo.PayByQR.view.DIMOTextView
+            android:id="@+id/header_bar_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/theme_text_over_basic_bg"
+            android:textSize="14dp"
+            android:text="Subtitle Here"
+            android:visibility="gone"
+            dimo:font="@string/font_helvetica_light"/>
+    </LinearLayout>
 
     <com.dimo.PayByQR.view.DIMOTextView
         android:id="@+id/header_bar_action_done"
@@ -37,7 +54,7 @@
         android:clickable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:textColor="@color/theme_text_over_basic_bg"
-        android:textSize="16sp"
+        android:textSize="14dp"
         android:text="@string/button_action_done"
         dimo:font="@string/font_helvetica"
         android:visibility="gone"/>

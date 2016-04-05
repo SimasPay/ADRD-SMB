@@ -326,7 +326,7 @@
                 android:visibility="gone"/>
             <LinearLayout
                 android:id="@+id/activity_invoiceDetail_btn_block"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
@@ -350,7 +350,6 @@
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:text="@string/button_tip"
                     android:textColor="@color/theme_text_over_basic_bg"
                     dimo:bgColor="@color/theme_btn_tip"
@@ -361,6 +360,8 @@
                     android:id="@+id/activity_invoiceDetail_btn_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:paddingLeft="36dp"
                     android:paddingRight="36dp"
                     android:text="@string/button_pay"
