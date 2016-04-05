@@ -458,6 +458,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"/>
         <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreCheckout1"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreCheckout2"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name="com.dimo.PayByQR.QrStore.view.StoreKonfirmasiActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"/>
