@@ -258,9 +258,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
     @Override
     public boolean callbackTransactionStatus(int code, String description) {
         Log.e("Simobi", "callbackTransactionStatus " + code + " " + description);
-        if(code==0){
+        /*if(code==0){
         	payByQRSDK.closeSDK();
-        }
+        }*/
         return false;
     }
 
