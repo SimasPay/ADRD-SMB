@@ -18,7 +18,7 @@
     <string name="eng_purchase">  Purchase </string>
     <string name="eng_myaccont"> Account </string>
     <string name="eng_Flashiz"> Pay by QR </string>
-    <string name="eng_promo"> Promo </string>
+    <string name="eng_promo"> Promo\nPay by QR </string>
     <string name="eng_resend_otp"> Resend otp </string>
     <string name="eng_tosmartfren"> To Smartfren </string>
     <string name="eng_toBankSinarmas">BankSinarmas </string>
@@ -90,8 +90,8 @@
     <string name="bahasa_payment"> Pembayaran </string>
     <string name="bahasa_purchase"> Pembelian </string>
     <string name="bahasa_myaccont"> Rekening </string>
-    <string name="bahasa_Flashiz"> Bayar Pakai QR </string>
-    <string name="bahasa_promo"> Promo </string>
+    <string name="bahasa_Flashiz"> Bayar pakai QR </string>
+    <string name="bahasa_promo"> Promo\nBayar pakai QR </string>
     <string name="bahasa_resend_otp"> Kirim Ulang OTP </string>
     <string name="bahasa_tosmartfren"> Nomor Smartfren </string>
     <string name="bahasa_toBankSinarmas">BankSinarmas </string>

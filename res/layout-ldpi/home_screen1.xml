@@ -88,8 +88,8 @@
 	
 	                <ImageView
 	                    android:id="@+id/imageView1"
-	                    android:layout_width="70dp"
-	                    android:layout_height="70dp"
+	                    android:layout_width="60dp"
+	                    android:layout_height="60dp"
 	                    android:src="@drawable/fund_transfer" />
 	
 	                <TextView
@@ -98,6 +98,8 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
+	                    android:textSize="12dp"
 	                    android:text="Transfer" />
 	            </LinearLayout>
 	
@@ -110,8 +112,8 @@
 	
 	                <ImageView
 	                    android:id="@+id/imageView3"
-	                    android:layout_width="70dp"
-	                    android:layout_height="70dp"
+	                    android:layout_width="60dp"
+	                    android:layout_height="60dp"
 	                    android:src="@drawable/buy_button" />
 	
 	                <TextView
@@ -120,6 +122,8 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
+	                    android:textSize="12dp"
 	                    android:text="Purchase" />
 	            </LinearLayout>
 	        </LinearLayout>
@@ -138,8 +142,8 @@
 	
 	                <ImageView
 	                    android:id="@+id/qrPayment"
-	                    android:layout_width="70dp"
-	                    android:layout_height="70dp"
+	                    android:layout_width="60dp"
+	                    android:layout_height="60dp"
 	                    android:layout_gravity="center_horizontal"
 	                    android:src="@drawable/qr_payment" />
 	
@@ -149,6 +153,8 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
+	                    android:textSize="12dp"
 	                    android:text="QR Payment" />
 	            </LinearLayout>
 	
@@ -161,8 +167,8 @@
 	
 	                <ImageView
 	                    android:id="@+id/imageViewPromo"
-	                    android:layout_width="70dp"
-	                    android:layout_height="70dp"
+	                    android:layout_width="60dp"
+	                    android:layout_height="60dp"
 	                    android:src="@drawable/promo_button" />
 	
 	                <TextView
@@ -171,6 +177,9 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
+	                    android:textSize="12dp"
+	                    android:gravity="center"
 	                    android:text="Promo" />
 	            </LinearLayout>
 	        </LinearLayout>
@@ -189,8 +198,8 @@
 	
 	                <ImageView
 	                    android:id="@+id/imageView2"
-	                    android:layout_width="70dp"
-	                    android:layout_height="70dp"
+	                    android:layout_width="60dp"
+	                    android:layout_height="60dp"
 	                    android:layout_gravity="center_horizontal"
 	                    android:src="@drawable/bil_button" />
 	
@@ -200,6 +209,8 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
+	                    android:textSize="12dp"
 	                    android:text="Payment" />
 	            </LinearLayout>
 	
@@ -212,8 +223,8 @@
 	
 	                <ImageView
 	                    android:id="@+id/imageView4"
-	                    android:layout_width="70dp"
-	                    android:layout_height="70dp"
+	                    android:layout_width="60dp"
+	                    android:layout_height="60dp"
 	                    android:src="@drawable/accounts_button" />
 	
 	                <TextView
@@ -222,6 +233,8 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
+	                    android:textSize="12dp"
 	                    android:text="Account" />
 	            </LinearLayout>
 	        </LinearLayout>

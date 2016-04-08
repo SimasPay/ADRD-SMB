@@ -97,6 +97,7 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
 	                    android:text="Transfer" />
 	            </LinearLayout>
 	
@@ -119,6 +120,7 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
 	                    android:text="Purchase" />
 	            </LinearLayout>
 	        </LinearLayout>
@@ -148,7 +150,8 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
-	                    android:text="QR Payment" />
+	                    android:layout_marginTop="4dp"
+	                    android:text="Bayar pakai QR" />
 	            </LinearLayout>
 	
 	            <LinearLayout
@@ -170,7 +173,9 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
-	                    android:text="Promo" />
+	                    android:layout_marginTop="4dp"
+	                    android:gravity="center"
+	                    android:text="Promo\nBayar pakai QR" />
 	            </LinearLayout>
 	        </LinearLayout>
 	        <LinearLayout
@@ -199,6 +204,7 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
 	                    android:text="Payment" />
 	            </LinearLayout>
 	
@@ -221,6 +227,7 @@
 	                    android:layout_width="wrap_content"
 	                    android:layout_height="wrap_content"
 	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="4dp"
 	                    android:text="Account" />
 	            </LinearLayout>
 	        </LinearLayout>

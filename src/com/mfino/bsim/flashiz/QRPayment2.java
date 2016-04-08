@@ -44,7 +44,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
     private PayByQRSDK payByQRSDK;
     private int module;
     private String userApiKey, PayInAppInvoiceID, PayInAppURLCallback;
-    private String otp, parentTxnId, txnId, SctlI = "";
+    private String otp="", parentTxnId, txnId, SctlI = "";
 	private ValueContainer valueContainer;
 	private String responseXml;
 	private int msgCode;
@@ -56,7 +56,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 	private AlertDialog.Builder alertbox;
 	//private ProgressDialog dialog;
 	//ProgressDialog dialogCon;
-	String otpValue, sctl;
+	String otpValue="", sctl;
 	String mfaMode;
 
     private String DIMO_PREF = "com.mfino.bsim.paybyqr.Preference";
@@ -75,7 +75,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
         payByQRSDK.setIsUsingCustomDialog(false);
         payByQRSDK.setIsPolling(false);
-        payByQRSDK.setMinimumTransaction(1000);
+		payByQRSDK.setMinimumTransaction(500);
 
         languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", Context.MODE_WORLD_READABLE);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
@@ -257,7 +257,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 
     @Override
     public boolean callbackTransactionStatus(int code, String description) {
-        Log.d("Simobi", "callbackTransactionStatus " + code + " " + description);
+        Log.e("Simobi", "callbackTransactionStatus " + code + " " + description);
+        /*if(code==0){
+        	payByQRSDK.closeSDK();
+        }*/
         return false;
     }
 
@@ -511,7 +514,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 									}
 									c.close();
 
-									if (!(otpValue == null)) {
+									if (!(otpValue.equals(""))) {
 
 										break;
 									} else {
@@ -534,7 +537,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 
 								}
 
-								if (otpValue == null) {
+								if (otpValue.equals("")) {
 									// dialog.dismiss();
 									System.out.println("Testing>>OTP>>null");
 
@@ -556,7 +559,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 								// handler2.postDelayed(runnable, 20000);
 
 							} catch (Exception e) {
-								if (!(otpValue == null)) {
+								if (!(otpValue.equals(""))) {
 									billPayConfirmation();
 								} else {
 									 /** handler2.removeCallbacks(runnable);
@@ -564,7 +567,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 								}
 							}
 						} else {
-							if (otp == null) {
+							if (otp.equals("")) {
 
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									// dialog.dismiss();
@@ -683,7 +686,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 
 			public void handleMessage(Message msg) {
 
+				Log.e("===confirmation Response====", "=-======"+responseXml);
 				if (responseXml != null) {
+					otp="";
+					otpValue="";
 					XMLParser obj = new XMLParser();
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
