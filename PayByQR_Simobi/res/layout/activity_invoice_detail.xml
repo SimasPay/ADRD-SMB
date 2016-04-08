@@ -8,27 +8,41 @@
     android:fitsSystemWindows="true"
     tools:context="com.dimo.PayByQR.activity.InvoiceDetailActivity">
 
-    <include layout="@layout/header_bar" />
+    <!--<include layout="@layout/header_bar"
+        android:elevation="6dp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="10"
         android:orientation="vertical">
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
             android:id="@+id/activity_invoiceDetail_line1"
-            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="4.5"
+            dimo:contentInsetStart="0dp"
             android:elevation="6dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin" >
-            <RelativeLayout
+            android:animateLayoutChanges="true" >
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:animateLayoutChanges="true">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include layout="@layout/header_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_alignParentTop="true" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:animateLayoutChanges="true">
 
                 <RelativeLayout
                     android:id="@+id/activity_invoiceDetail_originalAmount_layout"
@@ -148,14 +162,16 @@
                     android:textSize="@dimen/text_size_20"
                     dimo:font="@string/font_montserrat"/>
 
-            </RelativeLayout>
-        </RelativeLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
 
         <LinearLayout
             android:id="@+id/activity_invoiceDetail_line2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_weight="2.75"
             android:layout_below="@id/activity_invoiceDetail_line1"
             android:gravity="center"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -313,7 +329,7 @@
             android:id="@+id/activity_invoiceDetail_line3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_weight="2.75"
             android:layout_below="@id/activity_invoiceDetail_line2"
             android:background="@color/theme_bg_light_gray"
             android:animateLayoutChanges="true">

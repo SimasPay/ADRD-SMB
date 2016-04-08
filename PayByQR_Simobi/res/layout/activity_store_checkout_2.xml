@@ -7,32 +7,42 @@
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true">
 
-    <include layout="@layout/header_bar" />
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:orientation="horizontal">
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginRight="0.5dp"
-            android:background="@color/store_checkout_step_progress"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="0.5dp"
-            android:layout_marginRight="0.5dp"
-            android:background="@color/store_checkout_step_progress"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="0.5dp"
-            android:background="@color/store_checkout_step_progress_disable"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        dimo:contentInsetStart="0dp" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/header_bar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="0.5dp"
+                    android:background="@color/store_checkout_step_progress"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="0.5dp"
+                    android:layout_marginRight="0.5dp"
+                    android:background="@color/store_checkout_step_progress"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="0.5dp"
+                    android:background="@color/store_checkout_step_progress_disable"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -130,6 +140,17 @@
                     android:animateLayoutChanges="true"
                     android:orientation="vertical"
                     android:visibility="gone">
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginBottom="6dp"
+                        android:textColor="@color/store_cart_item_name"
+                        android:textSize="14dp"
+                        android:text="@string/tx_store_total_address"
+                        android:visibility="visible"
+                        dimo:font="@string/font_helvetica"/>
                     <com.dimo.PayByQR.view.DIMOEditText
                         android:id="@+id/activity_store_confirm_shipping_addr"
                         android:layout_width="match_parent"
@@ -140,7 +161,7 @@
                         android:paddingTop="17dp"
                         android:paddingBottom="17dp"
                         android:minHeight="48dp"
-                        android:background="@drawable/background_store_edittext_state"
+                        android:background="@drawable/background_store_edittext"
                         android:gravity="left"
                         android:lineSpacingExtra="4dp"
                         android:hint="@string/tx_store_checout_alamat_hint"
@@ -150,9 +171,9 @@
                         android:textSize="14dp"
                         dimo:font="@string/font_helvetica"/>
                     <LinearLayout
+                        android:id="@+id/checkout_pickup_method_address_choose_city_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/activity_store_confirm_shipping_addr"
                         android:layout_marginBottom="12dp"
                         android:animateLayoutChanges="true"
                         android:background="@drawable/background_store_edittext"

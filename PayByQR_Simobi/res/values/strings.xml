@@ -141,10 +141,10 @@
     <string name="tx_store_total_bayar">Total Bayar</string>
     <string name="tx_store_total_harga_barang">Total Harga Barang</string>
     <string name="tx_store_total_pickup">PENGAMBILAN</string>
-    <string name="tx_store_total_nama">NAMA</string>
-    <string name="tx_store_total_email">E-MAIL</string>
-    <string name="tx_store_total_phone">TELEPON</string>
-    <string name="tx_store_total_address">ALAMAT</string>
+    <string name="tx_store_total_nama">Nama</string>
+    <string name="tx_store_total_email">E-mail</string>
+    <string name="tx_store_total_phone">Nomor Telepon</string>
+    <string name="tx_store_total_address">Alamat</string>
     <string name="tx_store_action_reset">Reset</string>
     <string name="tx_store_action_edit">Edit</string>
     <string name="tx_store_action_done">Done</string>
@@ -165,9 +165,9 @@
     <string name="tx_store_pick_selesai">SELESAI</string>
     <string name="tx_store_pick_batal">BATAL</string>
 
-    <string name="tx_store_checout_name_hint">Nama</string>
-    <string name="tx_store_checout_email_hint">E-mail</string>
-    <string name="tx_store_checout_telepon_hint">Nomor Telepon</string>
+    <string name="tx_store_checout_name_hint">Isi nama Anda</string>
+    <string name="tx_store_checout_email_hint">Isi e-mail Anda</string>
+    <string name="tx_store_checout_telepon_hint">Isi nomor telepon Anda</string>
     <string name="tx_store_checout_alamat_hint">Isi alamat Anda</string>
     <string name="tx_store_checout_shipping_fee_hint">Biaya pengiriman:</string>
     <string name="tx_store_checout_name_empty">Nama tidak boleh kosong. Mohon periksa kembali data Anda</string>

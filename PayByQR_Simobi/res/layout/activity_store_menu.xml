@@ -9,7 +9,13 @@
     android:fitsSystemWindows="true"
     tools:context="com.dimo.PayByQR.QrStore.view.StoreMenuActivity">
 
-    <include layout="@layout/header_bar" />
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        dimo:contentInsetStart="0dp">
+        <include layout="@layout/header_bar" />
+    </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:id="@+id/activity_store_menu_layout_empty_cart"
@@ -65,6 +71,7 @@
                 dimo:font="@string/font_helvetica"/>
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/activity_store_menu_layout_cart"
         android:layout_width="match_parent"

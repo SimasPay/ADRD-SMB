@@ -8,7 +8,13 @@
     android:fitsSystemWindows="true"
     tools:context="com.dimo.PayByQR.QrStore.view.StoreDetailActivity">
 
-    <include layout="@layout/header_bar" />
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        dimo:contentInsetStart="0dp" >
+        <include layout="@layout/header_bar" />
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
