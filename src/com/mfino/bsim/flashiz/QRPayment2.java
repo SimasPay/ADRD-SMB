@@ -72,7 +72,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         setContentView(R.layout.activity_sample);
 
         payByQRSDK = new PayByQRSDK(this, this);
-        payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
+        payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
         payByQRSDK.setIsUsingCustomDialog(false);
         payByQRSDK.setIsPolling(false);
 		payByQRSDK.setMinimumTransaction(500);
@@ -258,9 +258,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
     @Override
     public boolean callbackTransactionStatus(int code, String description) {
         Log.e("Simobi", "callbackTransactionStatus " + code + " " + description);
-        /*if(code==0){
+        if(code==0){
         	payByQRSDK.closeSDK();
-        }*/
+        }
         return false;
     }
 
