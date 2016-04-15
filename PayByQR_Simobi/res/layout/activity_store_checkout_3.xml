@@ -104,7 +104,7 @@
                     android:text="@string/bt_store_konfirmasi"
                     android:textColor="@color/theme_text_over_basic_bg"
                     dimo:bgColor="@color/theme_colorPrimary"
-                    dimo:buttonSize="normal"
+                    dimo:dimoButtonSize="normal"
                     dimo:font="@string/font_helvetica"
                     android:visibility="visible"/>
             </RelativeLayout>
@@ -138,7 +138,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
-                        android:text="Rhio Sianturi"
+                        android:text="(Name)"
                         android:textColor="@color/store_cart_item_name"
                         android:textSize="14dp"
                         dimo:font="@string/font_helvetica"/>
@@ -147,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
-                        android:text="08119854511"
+                        android:text="(Phone)"
                         android:textColor="@color/store_cart_item_name"
                         android:textSize="14dp"
                         dimo:font="@string/font_helvetica"/>
@@ -156,7 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:text="rhiosianturi@gmail.com"
+                        android:text="(E-mail)"
                         android:textColor="@color/store_cart_item_name"
                         android:textSize="14dp"
                         dimo:font="@string/font_helvetica"/>
@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
                         android:lineSpacingExtra="2dp"
-                        android:text="Jl. Timor No. 6, Menteng"
+                        android:text="(address 1)"
                         android:textColor="@color/store_cart_item_name"
                         android:textSize="14dp"
                         dimo:font="@string/font_helvetica"/>
@@ -183,7 +183,7 @@
                         android:id="@+id/activity_store_confirm_shipping_addr2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jakarta"
+                        android:text="(address 2)"
                         android:textColor="@color/store_cart_item_name"
                         android:textSize="14dp"
                         dimo:font="@string/font_helvetica"/>
@@ -224,7 +224,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:text="Rp 700,000"
+                            android:text="Rp 0"
                             android:textColor="@color/store_cart_item_name"
                             android:textSize="16dp"
                             dimo:font="@string/font_helvetica"/>
@@ -255,7 +255,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:text="Rp 20,000"
+                            android:text="Rp 0"
                             android:textColor="@color/store_cart_item_name"
                             android:textSize="16dp"
                             dimo:font="@string/font_helvetica"/>

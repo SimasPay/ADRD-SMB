@@ -64,7 +64,7 @@
                 android:text="@string/button_retry"
                 android:textColor="@color/no_connection_button_close"
                 dimo:bgColor="@color/no_connection_button_retry"
-                dimo:buttonSize="big"
+                dimo:dimoButtonSize="big"
                 dimo:font="@string/font_montserrat"/>
             <com.dimo.PayByQR.view.DIMOButton
                 android:id="@+id/activity_noConnection_btn_exit"
@@ -76,7 +76,7 @@
                 android:text="@string/button_exit"
                 android:textColor="@color/no_connection_button_retry"
                 dimo:bgColor="@color/no_connection_button_close"
-                dimo:buttonSize="big"
+                dimo:dimoButtonSize="big"
                 dimo:font="@string/font_montserrat"/>
         </LinearLayout>
     </RelativeLayout>

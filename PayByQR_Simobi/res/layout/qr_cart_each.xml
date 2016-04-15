@@ -71,7 +71,7 @@
                 android:id="@+id/item_cart_discount_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="25%"
+                android:text="0%"
                 android:textColor="@color/theme_text_over_basic_bg"
                 android:textSize="14dp"
                 dimo:font="@string/font_helvetica"/>
@@ -100,7 +100,7 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:lineSpacingExtra="4dp"
-        android:text="Cimory Yoghurt Enak Sekali Isinya Cuma 250 liter saja loh keren deh"
+        android:text="(Goods Name)"
         android:textColor="@color/store_cart_item_name"
         android:textSize="14dp"
         dimo:font="@string/font_helvetica"/>
@@ -128,7 +128,7 @@
             android:paddingRight="36dp"
             android:singleLine="true"
             android:gravity="center"
-            android:text="3"
+            android:text="1"
             android:textColor="@color/store_cart_item_name"
             android:textSize="16dp"
             dimo:font="@string/font_helvetica_medium"/>
@@ -157,7 +157,7 @@
             android:layout_alignBottom="@+id/item_cart_amount_layout"
             android:singleLine="true"
             android:gravity="right|bottom"
-            android:text="Rp 100,000,000"
+            android:text="Rp 0"
             android:textColor="@color/store_cart_item_name"
             android:textSize="14dp"
             dimo:font="@string/font_helvetica_medium"/>
@@ -183,7 +183,7 @@
                     android:paddingRight="2dp"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:text="Rp 100,000,000"
+                    android:text="Rp 0"
                     android:textColor="@color/store_cart_item_qty_btn"
                     android:textSize="12dp"
                     dimo:font="@string/font_helvetica"/>
@@ -205,7 +205,7 @@
                 android:paddingRight="2dp"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:text="Rp 100,000,000 per item"
+                android:text="Rp 0 per barang"
                 android:textColor="@color/store_cart_item_qty_btn"
                 android:textSize="12dp"
                 dimo:font="@string/font_helvetica"/>

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/theme_text_over_basic_bg"
             android:textSize="22dp"
-            android:text="Main Title Here"
+            android:text="(Title)"
             dimo:font="@string/font_helvetica"/>
 
         <com.dimo.PayByQR.view.DIMOTextView

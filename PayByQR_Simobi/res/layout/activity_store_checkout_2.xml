@@ -58,7 +58,7 @@
             android:text="@string/bt_store_lanjut"
             android:textColor="@color/theme_text_over_basic_bg"
             dimo:bgColor="@color/theme_colorPrimary"
-            dimo:buttonSize="normal"
+            dimo:dimoButtonSize="normal"
             dimo:font="@string/font_helvetica" />
 
         <RelativeLayout

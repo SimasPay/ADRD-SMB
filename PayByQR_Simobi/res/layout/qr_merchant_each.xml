@@ -42,7 +42,7 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:lineSpacingExtra="4dp"
-            android:text="Merchant Name"
+            android:text="(Merchant Name)"
             android:textColor="@color/store_cart_item_name"
             android:textSize="16dp"
             dimo:font="@string/font_helvetica"/>
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:singleLine="true"
-                android:text="3 barang"
+                android:text="0 barang"
                 android:textColor="@color/store_cart_item_qty_btn"
                 android:textSize="14dp"
                 dimo:font="@string/font_helvetica"/>

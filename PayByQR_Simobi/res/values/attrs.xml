@@ -5,7 +5,7 @@
 
     <declare-styleable name="com.dimo.view.DIMOButton">
         <attr name="bgColor" format="color"/>
-        <attr name="buttonSize" format="enum">
+        <attr name="dimoButtonSize" format="enum">
             <enum name="normal" value="0"/>
             <enum name="small" value="1"/>
             <enum name="big" value="2"/>

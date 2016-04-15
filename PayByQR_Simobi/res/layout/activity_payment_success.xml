@@ -102,7 +102,7 @@
                         android:singleLine="true"
                         android:text="0 poin"
                         android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textColor="@color/progress_bar_progress"
                         dimo:font="@string/font_helvetica"/>
 
                     <RelativeLayout
@@ -121,7 +121,7 @@
                             android:layout_marginRight="1dp"
                             android:indeterminate="false"
                             android:max="100"
-                            android:progress="50"
+                            android:progress="0"
                             android:progressDrawable="@drawable/background_progress_bar"/>
                         <View
                             android:id="@+id/activity_success_fidelitiz_progress_line"
@@ -140,7 +140,7 @@
                         android:gravity="center"
                         android:text="0 poin"
                         android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textColor="@color/progress_bar_progress"
                         dimo:font="@string/font_helvetica"/>
                     <com.dimo.PayByQR.view.DIMOTextView
                         android:id="@+id/activity_success_fidelitiz_point_max"
@@ -151,7 +151,7 @@
                         android:gravity="center"
                         android:text="0 poin"
                         android:textSize="@dimen/text_size_14"
-                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textColor="@color/progress_bar_progress"
                         dimo:font="@string/font_helvetica"/>
                 </RelativeLayout>
                 <com.dimo.PayByQR.view.DIMOTextView
@@ -190,13 +190,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_voucher"
                             android:textSize="@dimen/text_size_14"
-                            android:textColor="@color/theme_text_over_basic_bg"
+                            android:textColor="@color/progress_bar_progress"
                             dimo:font="@string/font_montserrat"/>
                         <View
                             android:layout_width="100dp"
                             android:layout_height="1dp"
                             android:layout_margin="4dp"
-                            android:background="@color/theme_text_over_basic_bg" />
+                            android:background="@color/progress_bar_progress" />
                         <com.dimo.PayByQR.view.DIMOTextView
                             android:id="@+id/activity_success_voucher_amount"
                             android:layout_width="wrap_content"
@@ -204,7 +204,7 @@
                             android:text=""
                             android:textSize="@dimen/text_size_18"
                             android:textStyle="bold"
-                            android:textColor="@color/theme_text_over_basic_bg"
+                            android:textColor="@color/progress_bar_progress"
                             dimo:font="@string/font_montserrat_bold"/>
                     </LinearLayout>
                     <com.dimo.PayByQR.view.DIMOTextView
@@ -219,7 +219,7 @@
                         android:background="@drawable/background_voucher_used_success"
                         android:text="x0"
                         android:textSize="@dimen/text_size_16"
-                        android:textColor="@color/theme_text_over_basic_bg"
+                        android:textColor="@color/success_txt_voucher_generated"
                         dimo:font="@string/font_montserrat"
                         android:visibility="visible"/>
                 </RelativeLayout>
@@ -236,7 +236,7 @@
                     android:text="@string/button_cek_loyalty"
                     android:textColor="@color/theme_text_over_basic_bg"
                     dimo:bgColor="@color/store_detail_info_background"
-                    dimo:buttonSize="small"
+                    dimo:dimoButtonSize="small"
                     dimo:font="@string/font_montserrat"/>
             </LinearLayout>
 
@@ -250,7 +250,7 @@
                 android:text="@string/alertdialog_posBtn_ok"
                 android:textColor="@color/theme_text_over_basic_bg"
                 dimo:bgColor="@color/theme_colorPrimary"
-                dimo:buttonSize="big"
+                dimo:dimoButtonSize="big"
                 dimo:font="@string/font_montserrat"/>
         </LinearLayout>
 

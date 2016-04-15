@@ -45,7 +45,7 @@
             android:text="@string/alertdialog_posBtn_ok"
             android:textColor="@color/theme_text_over_basic_bg"
             dimo:bgColor="@color/theme_colorPrimary"
-            dimo:buttonSize="big"
+            dimo:dimoButtonSize="big"
             dimo:font="@string/font_montserrat"/>
 
         <com.dimo.PayByQR.view.DIMOTextView

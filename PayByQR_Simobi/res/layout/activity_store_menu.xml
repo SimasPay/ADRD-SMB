@@ -67,7 +67,7 @@
                 android:text="@string/bt_store_start_shop"
                 android:textColor="@color/theme_text_over_basic_bg"
                 dimo:bgColor="@color/theme_colorPrimary"
-                dimo:buttonSize="normal"
+                dimo:dimoButtonSize="normal"
                 dimo:font="@string/font_helvetica"/>
         </LinearLayout>
     </RelativeLayout>
@@ -98,7 +98,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="right"
-                    android:text="Rp 2,770,000"
+                    android:text="Rp 0"
                     android:textColor="@color/store_cart_item_name"
                     android:textSize="16dp"
                     dimo:font="@string/font_helvetica_medium"/>
@@ -126,7 +126,7 @@
                 android:textColor="@color/theme_text_over_basic_bg"
                 android:drawablePadding="4dp"
                 dimo:bgColor="@color/theme_colorPrimary"
-                dimo:buttonSize="normal"
+                dimo:dimoButtonSize="normal"
                 dimo:font="@string/font_helvetica"/>
         </LinearLayout>
         <ListView
