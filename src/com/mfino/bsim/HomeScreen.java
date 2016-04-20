@@ -7,14 +7,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.media.audiofx.BassBoost.Settings;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,21 +20,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dimo.PayByQR.PayByQRSDK;
+import com.dimo.PayByQR.PayByQRSDKListener;
+import com.dimo.PayByQR.UserAPIKeyListener;
+import com.dimo.PayByQR.model.InvoiceModel;
 import com.mfino.bsim.account.AccountSelection;
 import com.mfino.bsim.billpayment.PaymentHome;
-import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.db.DBHelper;
-import com.mfino.bsim.flashiz.MyCustomEULA;
 import com.mfino.bsim.flashiz.QRPayment2;
 import com.mfino.bsim.purchase.PurchaseHome;
-import com.mfino.bsim.services.Constants;
-import com.mfino.bsim.services.WebServiceHttp;
-import com.mfino.bsim.services.XMLParser;
 import com.mfino.bsim.transfer.TransferSelection;
 
 /** @author pramod */
-public class HomeScreen extends Activity {
+public class HomeScreen extends Activity  {
 	/** Called when the activity is first created. */
 	private Button logoutButton;
 	private ImageView image1, image2, image3, image4, qrPayment, promo;
@@ -54,14 +49,14 @@ public class HomeScreen extends Activity {
 	String userApiKey;
 	int msgcode;
 	private AlertDialog.Builder alertbox;
+	PayByQRSDK payByQRSDK;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.home_screen1);
 		alertbox = new AlertDialog.Builder(this);
-
+		
 		mydb = new DBHelper(this);
 
 		settings = getSharedPreferences("LOGIN_PREFERECES",
@@ -119,9 +114,9 @@ public class HomeScreen extends Activity {
 				intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
 				startActivity(intent);
 
-				/*Log.e("agree_clicked", "");
+				Log.e("agree_clicked", "");
 
-				Cursor rs = mydb.getFlashizData();
+				/*Cursor rs = mydb.getFlashizData();
 				Log.e("countttt", rs.getCount() + "");
 				if (rs.getCount() != 0) {
 
@@ -132,15 +127,17 @@ public class HomeScreen extends Activity {
 						Log.e("session_value", session_value + "--------------");
 						if (session_value.equalsIgnoreCase("false")) {
 							//SDKLinkFragmentActivity.setUserEulaState(false);
-							Intent intent = new Intent(HomeScreen.this, QRPayment2.class);
+							   payByQRSDK.setEULAState(false);
+							Intent intent1 = new Intent(HomeScreen.this, QRPayment2.class);
 							intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
-							startActivity(intent);
+							startActivity(intent1);
 							// getUserAPIKey();
 						} else {
 							//SDKLinkFragmentActivity.setUserEulaState(true);
-							Intent intent = new Intent(HomeScreen.this, QRPayment2.class);
+							   payByQRSDK.setEULAState(true);
+							Intent intent2 = new Intent(HomeScreen.this, QRPayment2.class);
 							intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
-							startActivity(intent);
+							startActivity(intent2);
 						}
 					}
 				} else {
@@ -212,4 +209,7 @@ public class HomeScreen extends Activity {
 		});
 	}
 
+	
+	
+	
 }

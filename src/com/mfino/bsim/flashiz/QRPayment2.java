@@ -13,6 +13,7 @@ import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.db.DBHelper;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
@@ -75,7 +76,33 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
         payByQRSDK.setIsUsingCustomDialog(false);
         payByQRSDK.setIsPolling(false);
+        DBHelper mydb=new DBHelper(this);
+        Cursor rs = mydb.getFlashizData();
+		Log.e("countttt", rs.getCount() + "");
+		if (rs.getCount() != 0) {
+
+			while (rs.moveToNext()) {
+				
+				String session_value = rs.getString(rs
+						.getColumnIndex("session_value"));
+				
+				if (session_value.equalsIgnoreCase("false")) {
+					 payByQRSDK.setEULAState(false);
+				} else {
+					 payByQRSDK.setEULAState(true);
+				}
+			}
+		} else {
+			Log.e("Nodata_founddd", "*******************");
+
+			// Log.e("cursor-----count_****************",
+			// rs2.getCount()+"");
+		}
+        
+       
 		payByQRSDK.setMinimumTransaction(500);
+		
+		Log.e("eula_state_qr2", payByQRSDK.getEULAState()+"");
 
         languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", Context.MODE_WORLD_READABLE);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
@@ -136,7 +163,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
  						msgCode = 0;
  					}
 
- 					String userApiKey;
+ 					//String userApiKey;
  					if (msgCode == 2103) {
  						userApiKey = responseContainer.getUserApiKey();
  						SharedPreferences prefs = getSharedPreferences(DIMO_PREF, Context.MODE_PRIVATE);
