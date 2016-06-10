@@ -1,5 +1,6 @@
 package com.mfino.bsim.account;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -7,11 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -172,7 +176,16 @@ public class ChangePin extends Activity{
 					alertbox.show();
 				} else {
 
+					 int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+				     if (currentapiVersion > android.os.Build.VERSION_CODES.LOLLIPOP) {
+				         if ((checkCallingOrSelfPermission(android.Manifest.permission.READ_SMS)
+				                 != PackageManager.PERMISSION_GRANTED) && checkCallingOrSelfPermission(Manifest.permission.RECEIVE_SMS)
+				                 != PackageManager.PERMISSION_GRANTED) {
 
+				             requestPermissions(new String[]{Manifest.permission.READ_SMS, android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS},
+				                     109);
+				         } 
+				     }
 
 					/** Set Service Parameters for Change PIN */
 
@@ -421,4 +434,19 @@ public class ChangePin extends Activity{
 			return true;
 		}
 	}
+	
+	@Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 109) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            	Log.e("if_permission","*********");
+              
+            } else {
+            	Log.e("elseeeee_permission","*********");
+
+            }
+        }
+    }
+	
 }

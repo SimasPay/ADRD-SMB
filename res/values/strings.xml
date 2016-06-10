@@ -109,10 +109,12 @@
     <string name="bahasa_credit_AC_No "> Nomor Rekening Tujuan </string>
     <string name="bahasa_destnation_mdn ">  Nomor Handphone Tujuan </string>
     <string name="bahasa_customerName "> Nama Pemilik Rekening </string>
+     <string name="bahasa_customerName_new "> Nama </string>
     <string name="bahasa_destinationBank "> Bank Tujuan </string>
     <string name="bahasa_destinationNumber "> Nomor Tujuan </string>
     <string name="bahasa_amount "> Jumlah </string>
     <string name="bahasa_mobileNumber"> Nomor Handphone </string>
+      <string name="bahasa_mobileNumber_new">  Nomor HP </string>
     <string name="bahasa_otp"> OTP </string>
     <string name="bahasa_paymentCategory"> Kategori Pembayaran </string>
     <string name="bahasa_paymentType"> Jenis Pembayaran </string>

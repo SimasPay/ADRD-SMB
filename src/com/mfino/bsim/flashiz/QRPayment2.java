@@ -73,7 +73,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         setContentView(R.layout.activity_sample);
 
         payByQRSDK = new PayByQRSDK(this, this);
-        payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+        payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
         payByQRSDK.setIsUsingCustomDialog(false);
         payByQRSDK.setIsPolling(false);
         DBHelper mydb=new DBHelper(this);
