@@ -25,8 +25,8 @@ public class AppConfigFile {
 	
 	//UAT
 	/*public static String webAPIUrlFiles="http://dev.simobi.banksinarmas.com/webapi/dynamic";
-	public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";
-	*/
+	public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";*/
+	
 	
 	
 	

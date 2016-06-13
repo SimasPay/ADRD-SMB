@@ -5,14 +5,17 @@ import java.net.URLEncoder;
 
 import com.dimo.PayByQR.PayByQRProperties;
 import com.dimo.PayByQR.PayByQRSDK;
+import com.dimo.PayByQR.PayByQRSDK.SDKLocale;
 import com.dimo.PayByQR.PayByQRSDK.ServerURL;
 import com.dimo.PayByQR.PayByQRSDKListener;
 import com.dimo.PayByQR.UserAPIKeyListener;
 import com.dimo.PayByQR.model.InvoiceModel;
+import com.dimo.PayByQR.model.LoyaltyModel;
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.db.DBHelper;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
@@ -72,10 +75,36 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         setContentView(R.layout.activity_sample);
 
         payByQRSDK = new PayByQRSDK(this, this);
-        payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+        payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
         payByQRSDK.setIsUsingCustomDialog(false);
         payByQRSDK.setIsPolling(false);
+        DBHelper mydb=new DBHelper(this);
+        Cursor rs = mydb.getFlashizData();
+		Log.e("countttt", rs.getCount() + "");
+		if (rs.getCount() != 0) {
+
+			while (rs.moveToNext()) {
+				
+				String session_value = rs.getString(rs
+						.getColumnIndex("session_value"));
+				
+				if (session_value.equalsIgnoreCase("false")) {
+					 payByQRSDK.setEULAState(false);
+				} else {
+					 payByQRSDK.setEULAState(true);
+				}
+			}
+		} else {
+			Log.e("Nodata_founddd", "*******************");
+
+			// Log.e("cursor-----count_****************",
+			// rs2.getCount()+"");
+		}
+        
+       
 		payByQRSDK.setMinimumTransaction(500);
+		
+		Log.e("eula_state_qr2", payByQRSDK.getEULAState()+"");
 
         languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", Context.MODE_WORLD_READABLE);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
@@ -83,7 +112,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         settings = getSharedPreferences("LOGIN_PREFERECES", Context.MODE_PRIVATE);
         userApiKey = settings.getString("userApiKey", "NONE");
 		Log.e("userApiKey---2222222------", userApiKey);
-        
+
+		if (selectedLanguage.equalsIgnoreCase("ENG")) payByQRSDK.setSDKLocale(SDKLocale.ENGLISH);
+		else  payByQRSDK.setSDKLocale(SDKLocale.INDONESIAN);
+		
         module = getIntent().getIntExtra(INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
         if (module == PayByQRSDK.MODULE_IN_APP) {
             PayInAppInvoiceID = getIntent().getStringExtra(INTENT_EXTRA_INVOICE_ID);
@@ -136,7 +168,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
  						msgCode = 0;
  					}
 
- 					String userApiKey;
+ 					//String userApiKey;
  					if (msgCode == 2103) {
  						userApiKey = responseContainer.getUserApiKey();
  						SharedPreferences prefs = getSharedPreferences(DIMO_PREF, Context.MODE_PRIVATE);
@@ -265,7 +297,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
     }
 
     @Override
-    public void callbackShowDialog(Context context, final int code, String description) {
+    public void callbackShowDialog(Context context, final int code, String description, LoyaltyModel loyaltyModel) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Custom Dialog");
         builder.setMessage(description);
@@ -394,7 +426,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 									});
 							alertbox.show();*/
 							
-							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg());
+							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg(), true);
 
 						} else if (msgCode == 29) {
 							// dialog.dismiss();
@@ -426,10 +458,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 									});
 							alertbox.show();*/
 							
-							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg());
+							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg(), true);
 						} else {
 							//displayDialog(responseContainer.getMsg());
-							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg());
+							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg(), true);
 						}
 
 					} else {
@@ -544,11 +576,11 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 									if (selectedLanguage.equalsIgnoreCase("ENG")) {
 										// dialog.dismiss();
 										//displayDialog(getResources().getString(R.string.eng_transactionFail));
-										payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.eng_transactionFail));
+										payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.eng_transactionFail), true);
 									} else {
 										//dialog.dismiss();
 										//displayDialog(getResources().getString(R.string.bahasa_transactionFail));
-										payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_transactionFail));
+										payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_transactionFail), true);
 									}
 								} else {
 									//dialog.dismiss();
@@ -572,11 +604,11 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									// dialog.dismiss();
 									// displayDialog(getResources().getString(R.string.eng_transactionFail));
-									payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.eng_transactionFail));
+									payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.eng_transactionFail), true);
 								} else {
 									// dialog.dismiss();
 									// displayDialog(getResources().getString(R.string.bahasa_transactionFail));
-									payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_transactionFail));
+									payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_transactionFail), true);
 								}
 							}
 
@@ -590,7 +622,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 					}
 
 				} else {
-					payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_serverNotRespond));
+					payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_serverNotRespond), true);
 					/*dialog.dismiss();
 					displayDialog(getResources().getString(R.string.bahasa_serverNotRespond));*/
 				}
@@ -706,18 +738,18 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
 					if (!((Integer.parseInt(responseContainer.getMsgCode()) == 2111) || (Integer
 							.parseInt(responseContainer.getMsgCode()) == 715))) {
 						//displayDialog(responseContainer.getMsg());
-						payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg());
+						payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, responseContainer.getMsg(), true);
 					} else {
 						// Hand over control to Flashiz
 						//dialogCon.dismiss();
-                        payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.STATUS_CODE_PAYMENT_SUCCESS, getString(com.dimo.PayByQR.R.string.text_payment_success));
+                        payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.STATUS_CODE_PAYMENT_SUCCESS, getString(com.dimo.PayByQR.R.string.text_payment_success), true);
 					}
 
 				} else {
 					/*dialogCon.dismiss();
 					displayDialog(getResources().getString(
 							R.string.bahasa_serverNotRespond));*/
-					payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_serverNotRespond));
+					payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED, getResources().getString(R.string.bahasa_serverNotRespond), true);
 				}
 
 			}

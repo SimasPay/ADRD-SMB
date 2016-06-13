@@ -276,7 +276,7 @@ public class WebServiceHttp extends Activity {
 				 * requestUrl + "&" + Constants.PARAMETER_SUB_FIRSTNAME + "=" +
 				 * edContainer.getFirstName() + "&" +
 				 * Constants.PARAMETER_SUB_LASTNAME + "=" +
-				 * edContainer.getLastName(); }
+				 * edContainer.getLastName(); }TRANSACTION_Uangku_INQUIRY
 				 */
 			}
 
@@ -307,6 +307,127 @@ public class WebServiceHttp extends Activity {
 					e.printStackTrace();
 				}
 			} else {
+				// System.out.println("tranferrrr2222222");
+				requestUrl += "&" + Constants.PARAMETER_TRANSFER_ID + "="
+						+ edContainer.getTransferId() + "&"
+						+ Constants.PARAMETER_DEST_MDN + "="
+						+ edContainer.getDestinationMdn() + "&"
+						+ Constants.PARAMETER_CONFIRMED + "="
+						+ edContainer.getConfirmed() + "&"
+						+ Constants.PARAMETER_PARENTTXN_ID + "="
+						+ edContainer.getParentTxnId() + "&"
+						+ Constants.PARAMETER_DEST_POCKET_CODE + "="
+						+ edContainer.getDestinationPocketCode() + "&"
+						+ Constants.PARAMETER_SRC_POCKET_CODE + "="
+						+ edContainer.getSourcePocketCode();
+				try {
+					if (edContainer.getMfaMode().equalsIgnoreCase("OTP")) {
+						requestUrl += "&"+Constants.PARAMETER_MFA_OTP + "="
+								+ edContainer.getOTP().trim();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}	
+		
+		//transferID=195319&sourceMDN=6281295927618&confirmed=true&parentTxnID=2110821&
+		//institutionID=simobi&channelID=7&service=Bank&mfaOtp=xxxx&authenticationKey=
+			//	&sourcePocketCode=2&txnName=TransferToUangku
+		
+		
+		 else if (Constants.TRANSACTION_Uangku_CONFIRM.equals(edContainer
+					.getTransactionName())) {
+				if (edContainer.getTransferType().equals("toUnagku")) {
+					// System.out.println("tranferrrr111111111");
+
+					requestUrl += "&" + Constants.PARAMETER_TRANSFER_ID + "="
+							+ edContainer.getTransferId() + "&"
+							
+							+ Constants.PARAMETER_CONFIRMED + "="
+							+ edContainer.getConfirmed() + "&"
+							+ Constants.PARAMETER_PARENTTXN_ID + "="
+							+ edContainer.getParentTxnId() + "&"
+							//+ "institutionID=simobi&"
+							+"channelID=7&"
+						+"&authenticationKey=&"
+						+"bankID=&"
+							
+							+ Constants.PARAMETER_SRC_POCKET_CODE + "="
+							+ edContainer.getSourcePocketCode();
+					try {
+						if (edContainer.getMfaMode().equalsIgnoreCase("OTP")) {
+							requestUrl +="&"+Constants.PARAMETER_MFA_OTP + "="
+									+ edContainer.getOTP().trim();
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					// System.out.println("tranferrrr2222222");
+					requestUrl += "&" + Constants.PARAMETER_TRANSFER_ID + "="
+							+ edContainer.getTransferId() + "&"
+							+ Constants.PARAMETER_DEST_MDN + "="
+							+ edContainer.getDestinationMdn() + "&"
+							+ Constants.PARAMETER_CONFIRMED + "="
+							+ edContainer.getConfirmed() + "&"
+							+ Constants.PARAMETER_PARENTTXN_ID + "="
+							+ edContainer.getParentTxnId() + "&"
+							+ Constants.PARAMETER_DEST_POCKET_CODE + "="
+							+ edContainer.getDestinationPocketCode() + "&"
+							+ Constants.PARAMETER_SRC_POCKET_CODE + "="
+							+ edContainer.getSourcePocketCode();
+					try {
+						if (edContainer.getMfaMode().equalsIgnoreCase("OTP")) {
+							requestUrl += "&"+Constants.PARAMETER_MFA_OTP + "="
+									+ edContainer.getOTP().trim();
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}	
+			
+		
+		
+		
+		else if (Constants.TRANSACTION_Uangku_INQUIRY.equals(edContainer
+				.getTransactionName())) {
+			Log.e("url:::::::::", edContainer.getTransferType());
+
+			if (edContainer.getTransferType().equals("toUnagku")) {
+				// System.out.println("tranferrrr111111111");
+				Log.e("Transfer_to_uangku", "testing");
+
+				requestUrl += "&" + Constants.PARAMETER_AMOUNT + "="
+						+ edContainer.getAmount() + "&"
+						+ Constants.PARAMETER_DEST_ACCOUNT_NO + "="
+						+ edContainer.getDestinationBankAccount() + "&"						
+						//+ "institutionID=simobi&"
+						+"&authenticationKey=&"
+						+"bankID=&"
+						+ Constants.PARAMETER_SRC_POCKET_CODE + "="
+						+ edContainer.getSourcePocketCode();
+				try {
+					if (edContainer.getMfaMode().equalsIgnoreCase("OTP")) {
+						requestUrl +="&"+Constants.PARAMETER_MFA_OTP + "="
+								+ edContainer.getOTP().trim();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Log.e("test_url>>>>>>>>>>>>",requestUrl);
+				System.out.println("Testing>>>url@@@@@@@@@@@@@@@"+requestUrl);
+
+			} else {
+				Log.e("elseeeeeeee","callinggggggggggg");
+
 				// System.out.println("tranferrrr2222222");
 				requestUrl += "&" + Constants.PARAMETER_TRANSFER_ID + "="
 						+ edContainer.getTransferId() + "&"
@@ -823,12 +944,16 @@ public class WebServiceHttp extends Activity {
 					// contents = line;
 					contents = sb.toString();
 					System.out.println("-----------Check for content--------------------------------"+contents);
+					Log.e("contents______________", contents+"");
+
 					rd.close();
 					resultInputStream.close();
 
 				
 			}
 			System.out.println("------------ resp  --------------------------------"+ rc);
+			
+			Log.e("response))))))))))))))))", rc+"");
 
 		}catch (SocketTimeoutException e) {
 	        System.out.println("Time out " );

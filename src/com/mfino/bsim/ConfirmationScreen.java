@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,13 +60,19 @@ public class ConfirmationScreen extends Activity{
 		aditionalInfo = (TextView)findViewById(R.id.aditional_info);
 		System.out.println("Testing>>AditionalINfo"+bundle.getString("ADITIONAL_INFO"));
 		tvDetails.setText(bundle.getString("MSG")); 
+		Log.e("conf_screen_masg_uangku********", bundle.getString("MSG"));
 		
+
 		try {
 			if(bundle.getString("ADITIONAL_INFO").length()<=0||bundle.getString("ADITIONAL_INFO").equalsIgnoreCase("null")){
 				
 				aditionalInfo.setVisibility(View.GONE);
+				Log.e("conf_screen_masg_uangku********", "iffffffffffffff");
+
 				
 			}else{
+				Log.e("conf_screen_masg_uangku********", "elseeeeeeeeeeeeeee");
+
 				aditionalInfo.setVisibility(View.VISIBLE);
 				String adInfo = bundle.getString("ADITIONAL_INFO");
 				StringBuilder sb = new StringBuilder();

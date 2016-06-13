@@ -61,6 +61,10 @@ public class Constants {
     public static final String TRANSACTION_SUBSCRIBERREGISTRATION = "SubscriberRegistration";
     public static final String TRANSACTION_CASHIN = "CashIn";
     public static final String TRANSACTION_INTERBANK_TRANSFER_INQUIRY = "InterBankTransferInquiry";
+    public static final String TRANSACTION_Uangku_INQUIRY = "TransferToUangkuInquiry";
+    public static final String TRANSACTION_Uangku_CONFIRM = "TransferToUangku";
+
+
     public static final String TRANSACTION_INTERBANK_TRANSFER = "InterBankTransfer";
     //webapi specific transactions
     public static final String TRANSACTION_LOGIN = "Login";

@@ -1,6 +1,7 @@
 package com.mfino.bsim;
 import java.util.ArrayList;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.audiofx.BassBoost.Settings;
@@ -15,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -126,6 +129,16 @@ public class ActivationDisclosure extends Activity {
 				String exponent=encrptionKeys.getString("EXPONENT", "NONE");
 				String confirmPin=CryptoService.encryptWithPublicKey(module, exponent, bundle.getString("CONFIRM_PIN").getBytes());
 				newPin=CryptoService.encryptWithPublicKey(module, exponent, bundle.getString("PIN").getBytes());
+				 int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+			     if (currentapiVersion > android.os.Build.VERSION_CODES.LOLLIPOP) {
+			         if ((checkCallingOrSelfPermission(android.Manifest.permission.READ_SMS)
+			                 != PackageManager.PERMISSION_GRANTED) && checkCallingOrSelfPermission(Manifest.permission.RECEIVE_SMS)
+			                 != PackageManager.PERMISSION_GRANTED) {
+
+			             requestPermissions(new String[]{Manifest.permission.READ_SMS, android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.SEND_SMS},
+			                     109);
+			         } 
+			     }
 		        
 				if(bundle.getString("ACTIVATION_TYPE").equals("Activation")){
 					
@@ -410,5 +423,19 @@ public class ActivationDisclosure extends Activity {
 			}
 		});
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 109) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            	Log.e("if_permission","*********");
+              
+            } else {
+            	Log.e("elseeeee_permission","*********");
+
+            }
+        }
+    }
+
 }
 

@@ -17,12 +17,11 @@ import android.widget.TextView;
 
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.R;
-import com.mfino.bsim.account.AccountSelection;
 
 public class TransferSelection extends Activity {
     /** Called when the activity is first created. */
 	ListView listView;
-	private ImageView mimage1,mimage2,mimage3;
+	private ImageView mimage1,mimage2,mimage3,mimage4;
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String,Object>>();
 	SharedPreferences languageSettings;
     @Override
@@ -56,6 +55,8 @@ public class TransferSelection extends Activity {
         //mimage1 = (ImageView)findViewById(R.id.imageView1);
         mimage2 = (ImageView)findViewById(R.id.imageView2);
         mimage3 = (ImageView)findViewById(R.id.imageView3);
+        mimage4 = (ImageView)findViewById(R.id.imageView4);
+
         TextView bankSinarmas=(TextView)findViewById(R.id.textView1);
         TextView otherBanks=(TextView)findViewById(R.id.textView2);
         
@@ -96,6 +97,14 @@ public class TransferSelection extends Activity {
         mimage3.setOnClickListener(new View.OnClickListener() {
            	public void onClick(View arg0) {
            	Intent intent = new Intent(TransferSelection.this, OtherBankList.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+           	}
+           });
+        
+        mimage4.setOnClickListener(new View.OnClickListener() {
+           	public void onClick(View arg0) {
+           	Intent intent = new Intent(TransferSelection.this, TransferToUangku.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
            	}
