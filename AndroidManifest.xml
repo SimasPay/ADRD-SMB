@@ -417,94 +417,167 @@
         <activity
             android:name="com$dimo$PayByQR$activity$SplashActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$ScanQRActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$InvoiceDetailActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$PaymentSuccessActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$FailedActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$NoConnectionActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$TipActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$LoyaltyActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$LoyaltyDetailActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$activity$OfflineQRActivity"
             android:screenOrientation="portrait"
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
-            android:windowSoftInputMode="stateVisible" />
+            android:windowSoftInputMode="stateVisible"
+            android:configChanges="layoutDirection|locale" />
         <activity
             android:name="com$dimo$PayByQR$QrStore$view$StoreMenuActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$QrStore$view$StoreDetailActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$QrStore$view$StoreCheckout"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$QrStore$view$StoreCheckout1"
             android:screenOrientation="portrait"
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="layoutDirection|locale" />
         <activity
             android:name="com$dimo$PayByQR$QrStore$view$StoreCheckout2"
             android:screenOrientation="portrait"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="layoutDirection|locale" />
         <activity
             android:name="com$dimo$PayByQR$QrStore$view$StoreKonfirmasiActivity"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <activity
             android:name="com$dimo$PayByQR$QrStore$view$StoreMenuMerchant"
             android:screenOrientation="portrait"
+<<<<<<< HEAD
             android:configChanges="layoutDirection|locale"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
         <!-- <activity
             android:name="com.dimo.PayByQR.QrStore.view.StoreSuccess"
             android:screenOrientation="portrait"
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />-->
+=======
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:configChanges="layoutDirection|locale" />
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
         <!-- End of Pay By QR SDK Manifest -->
 
     </application>

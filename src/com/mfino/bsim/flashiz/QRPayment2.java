@@ -75,7 +75,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         setContentView(R.layout.activity_sample);
 
         payByQRSDK = new PayByQRSDK(this, this);
-        payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+        payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
         payByQRSDK.setIsUsingCustomDialog(false);
         payByQRSDK.setIsPolling(false);
         DBHelper mydb=new DBHelper(this);
@@ -112,7 +112,11 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
         settings = getSharedPreferences("LOGIN_PREFERECES", Context.MODE_PRIVATE);
         userApiKey = settings.getString("userApiKey", "NONE");
 		Log.e("userApiKey---2222222------", userApiKey);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
 		if (selectedLanguage.equalsIgnoreCase("ENG")) payByQRSDK.setSDKLocale(SDKLocale.ENGLISH);
 		else  payByQRSDK.setSDKLocale(SDKLocale.INDONESIAN);
 		
@@ -298,6 +302,27 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener{
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    public void callbackShowDialog(Context context, final int code, String description, LoyaltyModel loyaltyModel) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Custom Dialog");
+        builder.setMessage(description);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if(code == com.dimo.PayByQR.data.Constant.ERROR_CODE_AUTHENTICATION)
+                    payByQRSDK.closeSDK();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+>>>>>>> c27489062df6371d180a3ff039d9dc73fb2d6b61
     public void callbackSDKClosed() {
         Log.d("Simobi", "callbackSDKClosed");
         finish();
