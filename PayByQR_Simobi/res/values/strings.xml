@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pay By QR</string>
+    <string name="sdk_name">Pay By QR</string>
 
     <!-- SERVER URL -->
     <string name="server_live">https://my.flashiz.co.id</string>
@@ -23,7 +23,7 @@
 
     <!-- STRING RESOURCE -->
     <string name="alertdialog_message_permission_denied">Pay by QR membutuhkan akses %1$s untuk melakukan transaksi.</string>
-    <string name="alertdialog_title_error">Info</string>
+    <string name="alertdialog_title_info">Info</string>
     <string name="alertdialog_posBtn_close">Tutup</string>
     <string name="alertdialog_negBtn_retry">Coba lagi</string>
     <string name="alertdialog_posBtn_ok">OK</string>
@@ -81,7 +81,7 @@
     <string name="text_poin">%1$s poin</string>
     <string name="text_voucher_balance">%1$sVoucher %2$s</string>
     <string name="text_search">Search</string>
-    <string name="text_loyalty_list_desc">Dapatkan %1$s poin untuk setiap pembelanjaan %2$s\nKumpulkan %3$s poin dan dapatkan Voucher %4$s</string>
+    <string name="text_loyalty_list_desc">Dapatkan %1$s poin untuk setiap pembelanjaan%2$s\nKumpulkan %3$s poin dan dapatkan Voucher %4$s</string>
     <string name="text_loyalty_detail_point_to_go">lagi untuk mendapatkan</string>
     <string name="text_loyalty_detail_total_voucher">Total Voucher Anda saat ini adalah:</string>
     <string name="text_loyalty_detail_syarat">SYARAT DAN KETENTUAN</string>
@@ -89,10 +89,24 @@
     <string name="text_loyalty_detail_info_expired_type_point">Program loyalti berlaku dari:</string>
     <string name="text_loyalty_detail_info_minimum">Minimum pembelian:</string>
     <string name="text_loyalty_detail_info_maximum">Maksimum diskon:</string>
+    <string name="text_loyalty_detail_info_max_redeem">Maksimum redeem:</string>
     <string name="text_loyalty_detail_info_membership">Lokasi:</string>
     <string name="text_loyalty_detail_info_empty">( Tidak ada %1$s )</string>
     <string name="text_loyalty_detail_info_empty_location">( Data lokasi tidak tersedia )</string>
     <string name="text_transaction_canceled_by_user">Anda yakin ingin membatalkan transaksi ?</string>
+    <string name="text_info_max_redeem_daily">Batas pemakaian diskon Anda hari ini telah habis ( maksimal %1$sx )</string>
+    <string name="text_info_max_redeem_event">Batas pemakaian diskon Anda dalam event ini telah habis ( maksimal %1$sx )</string>
+    <string name="text_info_min_trx_for_disc">Silakan bertransaksi minimal Rp %1$s untuk mendapatkan diskon %2$s%%</string>
+    <string name="text_masa_berlaku">masa berlaku</string>
+    <string name="text_min_pembelian">minimum pembelian</string>
+    <string name="text_max_diskon">maksimum diskon</string>
+    <string name="text_max_redeem">maksimum redeem</string>
+    <string name="text_per_day">per hari</string>
+    <string name="text_per_event">per event</string>
+    <string name="text_cart_item_deleted">%1$s telah di hapus dari keranjang belanja</string>
+    <string name="text_camera">Kamera</string>
+    <string name="text_storage">Penyimpanan</string>
+    <string name="text_camera_storage">Kamera dan Penyimpanan</string>
 
     <string name="error_SDK_no_listener">Gagal memulai SDK: Listener tidak ditemukan.</string>
     <string name="error_invalid_qr_title">QR TIDAK VALID</string>
@@ -127,6 +141,7 @@
     <string name="text_header_title_checkout_2">Metode Pengiriman</string>
     <string name="text_header_title_checkout_3">Konfirmasi</string>
     <string name="text_header_subtitle_checkout">Langkah %1$s</string>
+    <string name="text_header_title_goods_detail">Detil Barang</string>
 
     <string name="text_store_normal">nama barang</string>
     <string name="text_store_plus">+</string>
@@ -153,6 +168,7 @@
     <string name="tx_store_per_item">per barang</string>
     <string name="tx_store_item_per_merchant">%1$s barang</string>
     <string name="tx_store_confirm_pickup_method">Metode pengiriman: %1$s</string>
+    <string name="tx_store_item_detail_description">Deskripsi</string>
 
     <string name="tx_store_number_min">7</string>
     <string name="tx_store_number_max">16</string>

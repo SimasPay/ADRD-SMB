@@ -331,6 +331,29 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="@string/text_loyalty_detail_info_max_redeem"
+                        android:textSize="@dimen/text_size_16"
+                        android:textColor="@color/loyalty_detail_discount_info"
+                        dimo:font="@string/font_helvetica_light"/>
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:id="@+id/activity_loyalty_detail_point_info_max_redeem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="@dimen/text_size_16"
+                        android:textColor="@color/loyalty_detail_discount_info_title"
+                        dimo:font="@string/font_helvetica"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/activity_loyalty_detail_point_info_membership_root"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -461,6 +484,29 @@
                         dimo:font="@string/font_helvetica_light"/>
                     <com.dimo.PayByQR.view.DIMOTextView
                         android:id="@+id/activity_loyalty_detail_discount_info_max_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="16sp"
+                        android:textColor="@color/loyalty_detail_discount_info_title"
+                        dimo:font="@string/font_helvetica"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="@string/text_loyalty_detail_info_max_redeem"
+                        android:textSize="16sp"
+                        android:textColor="@color/loyalty_detail_discount_info"
+                        dimo:font="@string/font_helvetica_light"/>
+                    <com.dimo.PayByQR.view.DIMOTextView
+                        android:id="@+id/activity_loyalty_detail_discount_info_max_redeem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""

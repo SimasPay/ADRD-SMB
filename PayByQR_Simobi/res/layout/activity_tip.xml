@@ -247,7 +247,7 @@
                 android:visibility="gone"/>
             <com.dimo.PayByQR.view.DIMOButton
                 android:id="@+id/activity_tip_btn_pay"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:paddingLeft="36dp"

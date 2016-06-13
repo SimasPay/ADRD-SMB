@@ -67,39 +67,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <!--<LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_margin="12dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:animateLayoutChanges="true"
-                    android:background="@drawable/background_store_edittext_state">
-                    <com.dimo.PayByQR.view.DIMOTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:textColor="@color/store_cart_item_name"
-                        android:textSize="14dp"
-                        android:text="@string/tx_store_checout_name_hint"
-                        android:visibility="gone"
-                        dimo:font="@string/font_helvetica_medium"/>
-                    <com.dimo.PayByQR.view.DIMOEditText
-                        android:id="@+id/activity_store_confirm_shipping_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:singleLine="true"
-                        android:inputType="textPersonName"
-                        android:text=""
-                        android:hint="@string/tx_store_checout_name_hint"
-                        android:textColorHint="@color/store_cart_item_qty_btn"
-                        android:textColor="@color/store_cart_item_name"
-                        android:textSize="14dp"
-                        dimo:font="@string/font_helvetica"/>
-                </LinearLayout>-->
                 <com.dimo.PayByQR.view.DIMOTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

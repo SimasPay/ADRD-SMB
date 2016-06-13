@@ -40,14 +40,6 @@
                 android:textSize="16sp"
                 android:textColor="@color/loyalty_detail_discount_info_title"
                 dimo:font="@string/font_helvetica"/>
-            <!--<com.dimo.PayByQR.view.DIMOTextView
-                android:id="@+id/item_loyalty_detail_location_addr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Grand Indonesia Shopping Town Lt. LG, Jakarta Pusat, DKI Jakarta"
-                android:textSize="14sp"
-                android:textColor="@color/loyalty_detail_discount_info_title"
-                dimo:font="@string/font_helvetica"/>-->
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

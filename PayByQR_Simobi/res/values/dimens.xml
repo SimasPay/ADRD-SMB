@@ -84,7 +84,8 @@
     <dimen name="WheelPadding">8dp</dimen>
     <dimen name="WheelTextSize">20sp</dimen>
 
-
-
+    <dimen name="callout_bubble_line">2dp</dimen>
+    <dimen name="callout_bubble_corner">8dp</dimen>
+    <dimen name="callout_bubble_triangle_width">16dp</dimen>
 
 </resources>

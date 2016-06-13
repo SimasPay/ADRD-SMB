@@ -10,13 +10,13 @@
 
     <include layout="@layout/header_bar" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:paddingTop="56dp">
-
+        android:paddingTop="56dp"
+        android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,5 +56,20 @@
                 android:layout_alignBottom="@id/activity_offlineQR_amount_edit"
                 android:visibility="visible"/>
         </RelativeLayout>
-    </RelativeLayout>
+
+        <com.dimo.PayByQR.view.DIMOButton
+            android:id="@+id/activity_offlineQR_btn_lanjut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:text="@string/bt_store_lanjut"
+            android:textColor="@color/theme_colorPrimary"
+            dimo:bgColor="@color/theme_btn_OK"
+            dimo:dimoButtonSize="normal"
+            dimo:font="@string/font_montserrat"/>
+    </LinearLayout>
 </LinearLayout>
