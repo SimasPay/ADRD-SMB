@@ -352,8 +352,12 @@ public class PaymentHome extends Activity {
 				@Override
 				public void onItemSelected(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
-					// TODO Auto-generated method stub
-					selectedProvider = providersList.get(arg2);
+					// TODO Auto-generated method stub 
+					Log.e("sizeee",providersList.size()+"-----"+arg2);
+					Log.e("testtttttttt", productNameList.toString());
+					Log.e("providersList", providersList.toString());
+					//providersList
+					selectedProvider = productNameList.get(arg2);
 					/*if (selectedProvider.equalsIgnoreCase("Select")) {
 						
 					
@@ -427,9 +431,11 @@ public class PaymentHome extends Activity {
 			}
 			System.out.println("Verion" + version);
 			JSONParser jParser = new JSONParser();
-			url = WebServiceHttp.webAPIUrlFiles+ "?category=category.payments&channelID=7&service=Payment&txnName=GetThirdPartyData&version="+ version;
+			url = WebServiceHttp.webAPIUrlFiles+ "?category=category.payments&channelID=7&service=Payment&txnName=GetThirdPartyData&version="+ 1;
 			JSONObject json = jParser.getJSONFromUrl(url);
 			System.out.println("JSON OBJect" + json);
+			Log.e("jsonobject_________",json+"");
+			Log.e("URL_________",url+"");
 			System.out.println("URL>>>" + url);
 			
 			try {
@@ -501,6 +507,8 @@ public class PaymentHome extends Activity {
 					listOfProviders.add(providerName);
 				}
 				System.out.println("Test>>>>>categories>>"+productCategory);
+				Log.e("productCategory--------------", productCategory);
+				Log.e("listOfProviders--------------", listOfProviders+"");
 				providersMapArray.put(productCategory, listOfProviders);
 			}
 
