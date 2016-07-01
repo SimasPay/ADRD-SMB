@@ -78,7 +78,7 @@ public class BillPaymentConfirm extends Activity {
 		btn_confirm = (Button) findViewById(R.id.confirmButton);
 		btn_cancel = (Button) findViewById(R.id.cancelButton);
 		//LinearLayout ccPaymentLayout=(LinearLayout)findViewById(R.id.isCreditCardLayout);
-		alertbox = new AlertDialog.Builder(this);
+		alertbox = new AlertDialog.Builder(BillPaymentConfirm.this, R.style.MyAlertDialogStyle);
    /*     if (bundle.getBoolean("IS_CCPAYMENT")) {
 			ccPaymentLayout.setVisibility(View.VISIBLE);
 			RadioButton check=(RadioButton)findViewById(R.id.radioButton1);
@@ -94,7 +94,7 @@ public class BillPaymentConfirm extends Activity {
 		tvConfirmInfo.setText(bundle.getString("MSG"));
 		
 		//Language Option..
-			languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+			languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",0);
 			selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 			
 			if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -176,10 +176,10 @@ public class BillPaymentConfirm extends Activity {
 				final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, BillPaymentConfirm.this);
 				
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
-					dialog = ProgressDialog.show(BillPaymentConfirm.this, "  Banksinarmas               ",getResources().getString(R.string.eng_loading), true);
+					dialog = ProgressDialog.show(BillPaymentConfirm.this, "  Bank Sinarmas               ",getResources().getString(R.string.eng_loading), true);
 
 				} else {
-					dialog = ProgressDialog.show(BillPaymentConfirm.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+					dialog = ProgressDialog.show(BillPaymentConfirm.this, "  Bank Sinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
 				}
 				
 				final Handler handler = new Handler() {
@@ -222,7 +222,6 @@ public class BillPaymentConfirm extends Activity {
 								});
 								alertbox.show();
 							} else {
-
 								Intent intent = new Intent(BillPaymentConfirm.this,ConfirmationScreen.class);
 								intent.putExtra("MSG",responseContainer.getMsg());
 								intent.putExtra("ADITIONAL_INFO",responseContainer.getAditionalInfo());

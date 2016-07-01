@@ -166,9 +166,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:inputType="numberPassword" 
                  android:maxLength="6"
-                android:password="true"
                 style="@style/text_box_style"
                  >
             </EditText>
@@ -181,6 +180,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Submit"
                 style="@style/font_button"
+                android:textAllCaps="false"
                 android:background="@drawable/button_empty" >
             </Button>
         </LinearLayout>

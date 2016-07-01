@@ -49,6 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:textAllCaps="false"
                         android:background="@drawable/button_empty"
                         android:text="Ok" >
                     </Button>
@@ -59,6 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
+                        android:textAllCaps="false"
                         android:background="@drawable/logout_btn_hover"
                         android:visibility="gone" >
                     </Button>

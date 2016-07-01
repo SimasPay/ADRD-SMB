@@ -1,5 +1,7 @@
 package com.mfino.bsim.receivers;
 
+import java.util.Locale;
+
 import com.mfino.bsim.account.ChangePin;
 import com.mfino.bsim.billpayment.PaymentDetails;
 import com.mfino.bsim.flashiz.QRPayment2;
@@ -48,7 +50,10 @@ public class IncomingSMS extends BroadcastReceiver {
 					String message = messages[i].getMessageBody();
 					try {
 						//if (message.contains("Kode Simobi Anda") && message.contains(sctl)) {
-						if (message.contains("Kode Simobi Anda ") || message.contains("Your Simobi Code is ")) {
+						if (message.contains("Kode Simobi Anda ") || message.contains("Your Simobi Code is ")
+								|| message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ") 
+								|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
+							settings.edit().putBoolean("isAutoSubmit", true).commit();
 							if (fragName.equals("ToBankSinarmas")) {
 								Log.d(LOG_TAG, "SMS diterima utk OTP BankSinarmas");
 								ToBankSinarmas Sms = new ToBankSinarmas();

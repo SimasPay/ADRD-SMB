@@ -3,6 +3,7 @@ package com.mfino.bsim.billpayment;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -39,6 +40,7 @@ import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.flashiz.QRPayment2;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
@@ -89,6 +91,7 @@ public class PaymentDetails extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "PaymentDetails").commit();
+		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "Payment : PaymentDetails");
 
 		back.setOnClickListener(new OnClickListener() {
@@ -168,7 +171,7 @@ public class PaymentDetails extends AppCompatActivity {
 
 		}
 
-		alertbox = new AlertDialog.Builder(this);
+		alertbox = new AlertDialog.Builder(PaymentDetails.this);
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 
@@ -276,16 +279,15 @@ public class PaymentDetails extends AppCompatActivity {
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, PaymentDetails.this);
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						dialog = ProgressDialog.show(PaymentDetails.this, "  Banksinarmas               ",
+						dialog = ProgressDialog.show(PaymentDetails.this, "  Bank Sinarmas               ",
 								getResources().getString(R.string.eng_loading), true);
 
 					} else {
-						dialog = ProgressDialog.show(PaymentDetails.this, "  Banksinarmas               ",
+						dialog = ProgressDialog.show(PaymentDetails.this, "  Bank Sinarmas               ",
 								getResources().getString(R.string.bahasa_loading), true);
 					}
 
 					final Handler handler = new Handler() {
-
 						public void handleMessage(Message msg) {
 							if (responseXml != null) {
 								/** Parse the response. */
@@ -711,15 +713,15 @@ public class PaymentDetails extends AppCompatActivity {
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")) {
+			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")) {
+			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
 				Log.d(LOG_TAG, "konten sms : english");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
@@ -738,7 +740,9 @@ public class PaymentDetails extends AppCompatActivity {
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		} else {
@@ -746,7 +750,9 @@ public class PaymentDetails extends AppCompatActivity {
 			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		}
@@ -760,7 +766,7 @@ public class PaymentDetails extends AppCompatActivity {
 	public void showOTPRequiredDialog(final String pinValue, final String mfaMode, final String encryptedAmount,
 			final String msgValue, final String aditionalInfo, final String EncryptedParentTxnId,
 			final String EncryptedTransferId) {
-		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
@@ -897,7 +903,8 @@ public class PaymentDetails extends AppCompatActivity {
 		            ((AlertDialog) b).getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 		        }
-		        if((edt.getText().length()>3) && (auto_submit == true)){
+		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
 		        	if (bundle.getBoolean("IS_CCPAYMENT")) {
 						Intent intent = new Intent(PaymentDetails.this, BillPaymentCCBillInquiry.class);
 						Log.d(LOG_TAG, "pinValue : " + pinValue);

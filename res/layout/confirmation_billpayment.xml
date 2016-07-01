@@ -46,6 +46,7 @@
             android:layout_gravity="center_horizontal"
             android:text="Ok"
             style="@style/font_button"
+            android:textAllCaps="false"
             android:background="@drawable/button_empty" >
         </Button>
 
@@ -55,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:textAllCaps="false"
             android:background="@drawable/logout_btn_hover" >
         </Button>
     </LinearLayout>

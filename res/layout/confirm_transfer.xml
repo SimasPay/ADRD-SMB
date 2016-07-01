@@ -146,6 +146,7 @@
                     android:layout_marginTop="20dp"
                     android:text="Confirm"
                     style="@style/font_button"
+                    android:textAllCaps="false"
                     android:background="@drawable/button_empty" >
                 </Button>
 
@@ -157,6 +158,7 @@
                     android:layout_marginTop="20dp"
                     android:text="Cancel"
                     style="@style/font_button"
+                    android:textAllCaps="false"
                     android:background="@drawable/button_empty" >
                 </Button>
             </LinearLayout>

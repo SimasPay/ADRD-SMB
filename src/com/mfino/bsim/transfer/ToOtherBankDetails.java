@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.R;
@@ -59,7 +60,6 @@ public class ToOtherBankDetails extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private boolean auto_submit = false;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -77,6 +77,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "ToOtherBankDetails").commit();
+		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "Transfer : ToOtherBankDetails");
 
 		back.setOnClickListener(new OnClickListener() {
@@ -104,7 +105,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		btn_ok = (Button) findViewById(R.id.btn_EnterPin_Ok);
 		TextView destAcountTxt = (TextView) findViewById(R.id.fundTransfer_otherBank_destAc);
 		TextView amountTxt = (TextView) findViewById(R.id.fundTransfer_otherBank_amount);
-		alertbox = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		alertbox = new AlertDialog.Builder(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
 		bundle = getIntent().getExtras();
 
 		//dear rand team, next time if you want to call bundle, please init it first and check before calling it if its null or not
@@ -531,21 +532,20 @@ public class ToOtherBankDetails extends AppCompatActivity {
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")) {
+			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")) {
+			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
 				Log.d(LOG_TAG, "konten sms : english");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
 			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
-			auto_submit = true;
 		} catch (Exception e) {
 
 		}
@@ -558,7 +558,9 @@ public class ToOtherBankDetails extends AppCompatActivity {
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		} else {
@@ -566,7 +568,9 @@ public class ToOtherBankDetails extends AppCompatActivity {
 			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		}
@@ -580,7 +584,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN, final String accountNumber,
 			final String message, final String destBank, final String amount, final String AMT, final String mfaMode,
 			final String EncryptedParentTxnId, final String EncryptedTransferId) {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
@@ -682,7 +686,8 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		            ((AlertDialog) b).getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 		        }
-		        if((edt.getText().length()>3) && auto_submit == true){
+		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
 		        	Intent intent = new Intent(ToOtherBankDetails.this, ConfirmAddReceiver.class);
 					intent.putExtra("SRCPOCKETCODE", "2");
 					intent.putExtra("PIN", PIN);

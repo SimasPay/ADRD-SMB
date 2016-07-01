@@ -161,8 +161,8 @@
     <string name="bahasa_appTimeout">Mohon menunggu, \n transaksi Anda sedang dalam proses. Periksa riwayat transaksi untuk mengetahui status transaksi Anda. </string>
     <string name="bahasa_noInternet">Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
     <string name="bahasa_otprequired_title">Verifikasi OTP</string>
-    <string name="bahasa_otprequired_desc_1">Mohon menunggu selagi kami \nmelakukan verifikasi OTP \nsecara otomatis ke nomor \n</string>
-    <string name="bahasa_otprequired_desc_2">atau masukkan kode secara manual \njika verifikasi otomatis gagal</string>
+    <string name="bahasa_otprequired_desc_1">Mohon menunggu selagi kami \nmelakukan verifikasi kode \nsecara otomatis ke nomor \n</string>
+    <string name="bahasa_otprequired_desc_2">atau silakan masukkan kode secara manual \njika verifikasi otomatis gagal</string>
     
     
     <string name="login_content">

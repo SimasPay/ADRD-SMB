@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/header"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         layout="@layout/header" />
 
@@ -96,21 +96,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:maxLength="6"
-                    android:password="true" >
+                    android:inputType="numberPassword" 
+                    android:maxLength="6" >
                 </EditText>
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_EnterPin_Ok"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:textSize="13sp"
                 android:text="Submit"
                 style="@style/font_button"
+                android:textAllCaps="false"
                 android:background="@drawable/button_empty" >
             </Button>
         </LinearLayout>

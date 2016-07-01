@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import com.dimo.PayByQR.PayByQRProperties;
 import com.dimo.PayByQR.PayByQRSDK;
@@ -18,6 +19,7 @@ import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.db.DBHelper;
+import com.mfino.bsim.purchase.PurchaseDetails;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
@@ -72,7 +74,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private boolean auto_submit = false;
 	private Context context;
 	private String DIMO_PREF = "com.mfino.bsim.paybyqr.Preference";
 	private String DIMO_PREF_USERKEY = "com.mfino.bsim.paybyqr.UserKey";
@@ -89,6 +90,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "QRPayment2").commit();
+		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "PayByQR : QRPayment2");
 		context = this;
 		payByQRSDK = new PayByQRSDK(this, this);
@@ -872,21 +874,20 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")) {
+			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")) {
+			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is")) {
 				Log.d(LOG_TAG, "konten sms : english");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
-			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
+			Log.d(LOG_TAG, "OPT code :" + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
-			auto_submit = true;
 		} catch (Exception e) {
 
 		}
@@ -899,7 +900,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		} else {
@@ -907,7 +910,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		}
@@ -1010,8 +1015,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					// Something into edit text. Enable the button.
 					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 				}
-				Log.d(LOG_TAG, "auto submit : " + auto_submit);
-				if ((edt.getText().length() > 3) && (auto_submit == true)) {
+				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
 					billPayConfirmation();
 				}
 

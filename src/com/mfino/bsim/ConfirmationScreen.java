@@ -22,6 +22,8 @@ public class ConfirmationScreen extends Activity{
 	//private String msg;
 	private TextView tvDetails,aditionalInfo;
 	SharedPreferences languageSettings;
+	String selectedLanguage;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -54,12 +56,25 @@ public class ConfirmationScreen extends Activity{
 			}
 		});*/
 		
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
+		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		
 		bundle = getIntent().getExtras();
+		
 		tvDetails = (TextView)findViewById(R.id.tv_transactionDetails);
 		aditionalInfo = (TextView)findViewById(R.id.aditional_info);
 		System.out.println("Testing>>AditionalINfo"+bundle.getString("ADITIONAL_INFO"));
-		tvDetails.setText(bundle.getString("MSG")); 
+		
+		if(bundle.getString("MSG").equals("ERROR: Invalid Data")){
+			if (selectedLanguage.equalsIgnoreCase("ENG")) {
+				tvDetails.setText("You have entered incorrect code. Please try again and ensure that you  enter the correct code.");
+			} else {
+				tvDetails.setText("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+			}
+		}else{
+			tvDetails.setText(bundle.getString("MSG")); 
+		}
+		
 		Log.e("conf_screen_masg_uangku********", bundle.getString("MSG"));
 		
 
@@ -94,7 +109,7 @@ public class ConfirmationScreen extends Activity{
 		btn_logout = (Button)findViewById(R.id.btn_DetailsHistory_Logout);
 		*/
 		 //Language Option..
-  		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+  		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",0);
   		String selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
   		
   		if (selectedLanguage.equalsIgnoreCase("ENG")) {

@@ -95,7 +95,7 @@ public class BuyConfirm extends Activity {
 		}
 
 		tvConfirmMsg = (TextView) findViewById(R.id.tv_Confirm_info);
-		alertbox = new AlertDialog.Builder(this);
+		alertbox = new AlertDialog.Builder(BuyConfirm.this, R.style.MyAlertDialogStyle);
 		tvConfirmMsg.setText(bundle.getString("MSG"));
 
 		try {

@@ -520,10 +520,6 @@
             android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
         -->
         <!-- End of Pay By QR SDK Manifest -->
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="0958f167a1daf9bc5a5fd439e69b65377b18fb4c" />
     </application>
 
 </manifest>

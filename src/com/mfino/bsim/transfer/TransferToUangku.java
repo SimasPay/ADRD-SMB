@@ -2,6 +2,7 @@ package com.mfino.bsim.transfer;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.R;
@@ -14,6 +15,7 @@ import com.mfino.bsim.services.XMLParser;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -73,6 +75,7 @@ public class TransferToUangku extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "TransferToUangku").commit();
+		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "Transfer : TransferToUangku");
 
 		back.setOnClickListener(new OnClickListener() {
@@ -100,7 +103,7 @@ public class TransferToUangku extends AppCompatActivity {
 		btn_ok = (Button) findViewById(R.id.btn_EnterPin_Ok);
 		TextView destAcountTxt = (TextView) findViewById(R.id.fundTransfer_otherBank_destAc);
 		TextView amountTxt = (TextView) findViewById(R.id.fundTransfer_otherBank_amount);
-		alertbox = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		alertbox = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
 
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
@@ -520,15 +523,15 @@ public class TransferToUangku extends AppCompatActivity {
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")) {
+			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")) {
+			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is")){
 				Log.d(LOG_TAG, "konten sms : english");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
@@ -541,31 +544,38 @@ public class TransferToUangku extends AppCompatActivity {
 	}
 
 	public void errorOTP() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
+		AlertDialog.Builder builderError = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			builder.setTitle("OTP Verification Failed");
-			builder.setMessage("Please enter the code within specified time limit.").setCancelable(false)
+			builderError.setTitle("OTP Verification Failed");
+			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 			});
 		} else {
-			builder.setTitle("Verifikasi OTP Gagal");
-			builder.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
+			builderError.setTitle("Verifikasi OTP Gagal");
+			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 			});
 		}
-		builder.show();
+		AlertDialog alertError = builderError.create();
+		if (!((Activity) context).isFinishing()) {
+			alertError.show();
+		}
 	}
 
 	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN, final String accountNumber,
 			final String message, final String destBank, final String amount, final String AMT, final String mfaMode,
 			final String EncryptedParentTxnId, final String EncryptedTransferId) {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
@@ -677,7 +687,8 @@ public class TransferToUangku extends AppCompatActivity {
 		            ((AlertDialog) b).getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 		        }
-		        if((edt.getText().length()>3) && (auto_submit == true)){
+		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
 		        	Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
 					intent.putExtra("SRCPOCKETCODE", "2");
 					intent.putExtra("PIN", PIN);

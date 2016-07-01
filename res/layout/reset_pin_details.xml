@@ -43,9 +43,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:imeOptions="actionNext"
-                android:inputType="number"
-                android:maxLength="8"
-                android:password="true" />
+                android:inputType="numberPassword" 
+                android:maxLength="8" />
 
             <TextView
                 android:id="@+id/textView_newPin"
@@ -65,9 +64,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:imeOptions="actionNext"
-                android:inputType="number"
-                android:maxLength="6"
-                android:password="true" />
+                android:inputType="numberPassword" 
+                android:maxLength="6" />
 
             <TextView
                 android:id="@+id/textView_confirmNewPin"

@@ -401,11 +401,11 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 													.getSharedPreferences("LOGIN_PREFERECES", 0);
 											String fragName = settings.getString("ActivityName", "");
 											if (fragName.equals("ToBankSinarmas")) {
-												Intent intent = new Intent(getBaseContext(), ToBankSinarmas.class);
+												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
 											} else if (fragName.equals("ToOtherBankDetails")) {
-												Intent intent = new Intent(getBaseContext(), ToOtherBankDetails.class);
+												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
 											} else {
@@ -420,7 +420,6 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 								alertbox.show();
 
 							} else {
-
 								System.out.println("hieeeeeeeee" + responseContainer.getMsg());
 								Intent intent = new Intent(ConfirmAddReceiver.this, ConfirmationScreen.class);
 								intent.putExtra("MSG", responseContainer.getMsg());

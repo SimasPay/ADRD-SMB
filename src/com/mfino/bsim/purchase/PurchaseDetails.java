@@ -3,6 +3,7 @@ package com.mfino.bsim.purchase;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -78,7 +79,6 @@ public class PurchaseDetails extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private boolean auto_submit = false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -96,6 +96,7 @@ public class PurchaseDetails extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES",	0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "PurchaseDetails").commit();
+		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "Purchase : PurchaseDetails");
 
 		back.setOnClickListener(new OnClickListener() {
@@ -267,7 +268,7 @@ public class PurchaseDetails extends AppCompatActivity {
 
 		}
 
-		alertbox = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		alertbox = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 
@@ -743,13 +744,13 @@ public class PurchaseDetails extends AppCompatActivity {
 	public void recivedSms(String message){
 		try{
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")){
+			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")){
 				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message.substring(message.substring(0,message.indexOf("(")).lastIndexOf(" "), message.indexOf("("));
+				otpValue = message.substring(message.substring(0,message.indexOf("(")).lastIndexOf(" "), message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			}else if(message.contains("Your Simobi Code is ")){
+			}else if(message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")){
 				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message.substring(message.substring(0,message.indexOf("(")).lastIndexOf(" "), message.indexOf("("));
+				otpValue = message.substring(message.substring(0,message.indexOf("(")).lastIndexOf(" "), message.indexOf("(")).trim();
 				sctl = message.substring(
 						message.indexOf("(ref no: ")
 								+ new String("(ref no: ").length(),
@@ -757,7 +758,6 @@ public class PurchaseDetails extends AppCompatActivity {
 			}
 			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
-			auto_submit = true;
 		} catch (Exception e){
 				
 		}
@@ -770,7 +770,9 @@ public class PurchaseDetails extends AppCompatActivity {
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		} else {
@@ -778,7 +780,9 @@ public class PurchaseDetails extends AppCompatActivity {
 			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		}
@@ -793,7 +797,7 @@ public class PurchaseDetails extends AppCompatActivity {
 	public void showOTPRequiredDialog(final String pinValue, final String denomValue, final String mfaMode,
 			final String MDNValue, final String msgValue, final String aditionalInfo,
 			final String EncryptedParentTxnId, final String EncryptedTransferId) {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);		
@@ -926,7 +930,8 @@ public class PurchaseDetails extends AppCompatActivity {
 		            ((AlertDialog) b).getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 		        }
-		        if((edt.getText().length()>3) && (auto_submit == true)){
+		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
 		        	if (bundle.getString("SELECTED_CATEGORY")
 							.equalsIgnoreCase("Mobile Phone")) {
 						System.out.println("Testing>>>airtime");

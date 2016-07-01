@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import com.mfino.bsim.ConfirmationScreen;
 import com.mfino.bsim.HomeScreen;
@@ -61,7 +62,6 @@ public class ChangePin extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private boolean auto_submit = false;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -80,6 +80,7 @@ public class ChangePin extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "ChangePin").commit();
+		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "Account : ChangePin");
 
 		back.setOnClickListener(new OnClickListener() {
@@ -221,7 +222,7 @@ public class ChangePin extends AppCompatActivity {
 
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ChangePin.this);
 
-					final ProgressDialog dialog = ProgressDialog.show(ChangePin.this, "  Banksinarmas               ",
+					final ProgressDialog dialog = ProgressDialog.show(ChangePin.this, "  Bank Sinarmas               ",
 							"Loading....   ", true);
 
 					final Handler handler = new Handler() {
@@ -494,21 +495,20 @@ public class ChangePin extends AppCompatActivity {
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")) {
+			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")) {
+			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
 				Log.d(LOG_TAG, "konten sms : english");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("("));
+						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
 			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
-			auto_submit = true;
 		} catch (Exception e) {
 
 		}
@@ -521,7 +521,9 @@ public class ChangePin extends AppCompatActivity {
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		} else {
@@ -529,7 +531,9 @@ public class ChangePin extends AppCompatActivity {
 			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							// do things
+							Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
 					});
 		}
@@ -542,7 +546,7 @@ public class ChangePin extends AppCompatActivity {
 
 	public void showOTPRequiredDialog(final String message, final String mfaMode, final String sctl,
 			final String oldPin, final String newPin) {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
@@ -560,16 +564,6 @@ public class ChangePin extends AppCompatActivity {
 		new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				// timer.setText(millisUntilFinished/60000 +":"+
-				// (millisUntilFinished/1000));
-				/**
-				 * timer.setText(String.format(Locale.getDefault(),
-				 * "%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished),
-				 * TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-				 * TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished))));
-				 **/
 				NumberFormat f = new DecimalFormat("00");
 				timer.setText(
 						f.format(millisUntilFinished / 60000) + ":" + f.format(millisUntilFinished % 60000 / 1000));
@@ -646,7 +640,8 @@ public class ChangePin extends AppCompatActivity {
 		            ((AlertDialog) b).getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 		        }
-		        if((edt.getText().length()>3) && (auto_submit == true)){
+		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
 		        	Intent intent = new Intent(ChangePin.this, ChangePinConfirm.class);
 					intent.putExtra("MSG", message);
 					intent.putExtra("OTP", edt.getText().toString());
