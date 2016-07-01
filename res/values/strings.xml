@@ -79,7 +79,11 @@
     <string name="eng_chooseLanguage"> Choose your language </string>
     <string name="eng_otherAmount"> Please input payment amount </string>
     <string name="eng_appTimeout"> Please wait while your transaction is being processed. Please check your transaction history to see this transaction status.</string>
-	<string name="eng_noInterent">Dear Customer,\n currently you are not connected to Bank Sinarmas server. Please try again later. </string>
+    <string name="eng_noInterent">Dear Customer,\n currently you are not connected to Bank Sinarmas server. Please try again later. </string>
+    <string name="eng_otprequired_title">OTP Verification</string>
+    <string name="eng_otprequired_desc_1">Please wait while we are doing automatic code verification to the number : </string>
+    <string name="eng_otprequired_desc_2"> or please enter the code manually if automatic verification is failed.</string>
+
     <!-- bahasa -->
 
     <string name="bahasa_login"> Login </string>
@@ -101,7 +105,7 @@
     <string name="bahasa_confirm"> Konfirmasi </string>
     <string name="bahasa_newPin"> mPIN Baru </string>
     <string name="bahasa_confimPin"> Konfirmasi mPIN </string>
-    <string name="bahasa_checkBalance"> Saldo </string>      <!-- Info -->
+    <string name="bahasa_checkBalance"> Saldo </string> <!-- Info -->
     <string name="bahasa_history"> Transaksi </string>
     <string name="bahasa_paymentDetails">  Detil Pembayran</string>
     <string name="bahasa_transferDetails"> Detil Transfer </string>
@@ -109,12 +113,12 @@
     <string name="bahasa_credit_AC_No "> Nomor Rekening Tujuan </string>
     <string name="bahasa_destnation_mdn ">  Nomor Handphone Tujuan </string>
     <string name="bahasa_customerName "> Nama Pemilik Rekening </string>
-     <string name="bahasa_customerName_new "> Nama </string>
+    <string name="bahasa_customerName_new "> Nama </string>
     <string name="bahasa_destinationBank "> Bank Tujuan </string>
     <string name="bahasa_destinationNumber "> Nomor Tujuan </string>
     <string name="bahasa_amount "> Jumlah </string>
     <string name="bahasa_mobileNumber"> Nomor Handphone </string>
-      <string name="bahasa_mobileNumber_new">  Nomor HP </string>
+    <string name="bahasa_mobileNumber_new">  Nomor HP </string>
     <string name="bahasa_otp"> OTP </string>
     <string name="bahasa_paymentCategory"> Kategori Pembayaran </string>
     <string name="bahasa_paymentType"> Jenis Pembayaran </string>
@@ -154,9 +158,13 @@
     <string name="bahasa_languageSelection"> Bahasa </string>
     <string name="bahasa_chooseLanguage"> Pilih Bahasa </string>
     <string name="bahasa_otherAmount"> Masukkan jumlah pembayaran </string>
-     <string name="bahasa_appTimeout">Mohon menunggu, \n transaksi Anda sedang dalam proses. Periksa riwayat transaksi untuk mengetahui status transaksi Anda. </string>
-     <string name="bahasa_noInternet">Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
-     
+    <string name="bahasa_appTimeout">Mohon menunggu, \n transaksi Anda sedang dalam proses. Periksa riwayat transaksi untuk mengetahui status transaksi Anda. </string>
+    <string name="bahasa_noInternet">Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
+    <string name="bahasa_otprequired_title">Verifikasi OTP</string>
+    <string name="bahasa_otprequired_desc_1">Mohon menunggu selagi kami \nmelakukan verifikasi OTP \nsecara otomatis ke nomor \n</string>
+    <string name="bahasa_otprequired_desc_2">atau masukkan kode secara manual \njika verifikasi otomatis gagal</string>
+    
+    
     <string name="login_content">
 <![CDATA[
 		<html>
@@ -306,11 +314,8 @@
 		</html>
 		]]>
     </string>
-    
-    
-    
-       <string name="flashiz_tc">
-	<![CDATA[
+    <string name="flashiz_tc">
+<![CDATA[
 				<html>
 				 <head></head>
 				 <body style="text-align:justify;color:white;font-size:15px;">
@@ -327,5 +332,7 @@
 				</html>
 				]]>
     </string>
+    <string name="_6_digit_kode_otp">4 digit kode OTP</string>
+    <string name="_00_00">00:00</string>
 
 </resources>

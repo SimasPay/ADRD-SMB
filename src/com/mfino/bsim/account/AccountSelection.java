@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -75,8 +76,8 @@ public class AccountSelection extends Activity{
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
 		screeTitle.setText("ACCOUNT");
-		Button back = (Button) headerContainer.findViewById(R.id.back);
-		Button home = (Button) headerContainer.findViewById(R.id.home_button);
+		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
+		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
 		back.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -441,8 +442,8 @@ public class AccountSelection extends Activity{
 		// Header code...
 				View headerContainer = findViewById(R.id.header);
 				TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
-				Button back = (Button) headerContainer.findViewById(R.id.back);
-				Button home = (Button) headerContainer.findViewById(R.id.home_button);
+				ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
+				ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
 				back.setOnClickListener(new OnClickListener() {
 
 					@Override

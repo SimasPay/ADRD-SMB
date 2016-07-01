@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mfino.bsim.HomeScreen;
@@ -93,8 +94,8 @@ public class QRPin1 extends Activity {
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer
 				.findViewById(R.id.screenTitle);
-		Button back=(Button)findViewById(R.id.back);
-		Button home=(Button)findViewById(R.id.home_button);
+		ImageButton back=(ImageButton)findViewById(R.id.back);
+		ImageButton home=(ImageButton)findViewById(R.id.home_button);
 		
 		back.setOnClickListener(new OnClickListener() {
 

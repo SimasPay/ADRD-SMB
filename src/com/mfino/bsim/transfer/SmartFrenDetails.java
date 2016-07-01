@@ -1,6 +1,7 @@
 package com.mfino.bsim.transfer;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mfino.bsim.HomeScreen;
@@ -62,8 +64,8 @@ public class SmartFrenDetails extends Activity{
 		//Header code...
 		 View headerContainer = findViewById(R.id.header); 
 	     TextView screeTitle=(TextView)headerContainer.findViewById(R.id.screenTitle);
-	     Button back=(Button)headerContainer.findViewById(R.id.back);
-	     Button home=(Button)headerContainer.findViewById(R.id.home_button);
+	     ImageButton back=(ImageButton)headerContainer.findViewById(R.id.back);
+	     ImageButton home=(ImageButton)headerContainer.findViewById(R.id.home_button);
 	     back.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -112,6 +114,7 @@ public class SmartFrenDetails extends Activity{
 		
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 			
+			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View arg0) {
 				
@@ -447,7 +450,8 @@ public class SmartFrenDetails extends Activity{
 				return true;
 			}
 	 }
-	 @Override
+	 @SuppressLint("NewApi")
+	@Override
 	    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 	        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	        if (requestCode == 109) {

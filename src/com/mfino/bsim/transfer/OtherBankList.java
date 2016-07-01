@@ -27,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -68,18 +69,16 @@ public class OtherBankList extends Activity {
 		context=this;
 		
 		myFile = new File(this.getFilesDir() + "/","banklist.txt");
-		bankListVersion = getSharedPreferences("LOGIN_PREFERECES",Context.MODE_WORLD_READABLE);
+		bankListVersion = getSharedPreferences("LOGIN_PREFERECES", 0);
 		
 		//Header code...
 		 View headerContainer = findViewById(R.id.header); 
 	     TextView screeTitle=(TextView)headerContainer.findViewById(R.id.screenTitle);
-	     Button back=(Button)headerContainer.findViewById(R.id.back);
-	     Button home=(Button)headerContainer.findViewById(R.id.home_button);
+	     ImageButton back=(ImageButton)headerContainer.findViewById(R.id.back);
+	     ImageButton home=(ImageButton)headerContainer.findViewById(R.id.home_button);
 	     back.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
-				
 				finish();
 			}
 		});

@@ -7,16 +7,16 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="65dp"
+        android:layout_height="50dp"
         android:background="@drawable/top_bar"
-        
+        android:gravity="center_vertical"
         >
 
         <ImageView
             android:id="@+id/top_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/sina_logo" />
+            android:background="@drawable/top_logo" />
     </RelativeLayout>
 
 </RelativeLayout>

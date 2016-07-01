@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 /** @author pramod */
 
@@ -49,7 +50,7 @@ public class ActivationHome extends Activity {
       //Header code...
 		// View headerContainer = findViewById(R.id.header); 
 	     TextView screeTitle=(TextView)findViewById(R.id.screenTitle);
-	     Button back=(Button)findViewById(R.id.back);
+	     ImageButton back=(ImageButton)findViewById(R.id.back);
 	     back.setOnClickListener(new OnClickListener() {
 			
 			@Override

@@ -2,6 +2,7 @@ package com.mfino.bsim;
 import java.util.ArrayList;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
@@ -67,7 +69,7 @@ public class ActivationDisclosure extends Activity {
         
       //Header code...
 	     TextView screeTitle=(TextView)findViewById(R.id.screenTitle);
-	     Button back=(Button)findViewById(R.id.back);
+	     ImageButton back=(ImageButton)findViewById(R.id.back);
 	     TextView disclosure=(TextView)findViewById(R.id.terms_conditions);
 	     
 	     back.setOnClickListener(new OnClickListener() {
@@ -118,6 +120,7 @@ public class ActivationDisclosure extends Activity {
 		});
         agreeButton.setOnClickListener(new View.OnClickListener() {
 			
+			@SuppressLint("NewApi")
 			@Override
 			public void onClick(View arg0) {
 				
@@ -423,7 +426,8 @@ public class ActivationDisclosure extends Activity {
 			}
 		});
     }
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 109) {

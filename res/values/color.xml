@@ -10,7 +10,8 @@
     <color name="HEADER">#383838</color>
     <color name="MAROON">#800000</color>
     <color name="BLUE">#000066</color>
-
+    <color name="label_grey">#949899</color>
+    
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>

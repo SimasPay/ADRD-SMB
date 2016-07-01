@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/header"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/header" />
 
@@ -104,10 +104,11 @@
 
             <Button
                 android:id="@+id/btn_EnterPin_Ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
+                android:textSize="13sp"
                 android:text="Submit"
                 style="@style/font_button"
                 android:background="@drawable/button_empty" >

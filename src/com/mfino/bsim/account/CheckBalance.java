@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.mfino.bsim.ActivationDetails;
@@ -55,8 +56,8 @@ public class CheckBalance extends Activity {
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
-		Button back = (Button) headerContainer.findViewById(R.id.back);
-		Button home = (Button) headerContainer.findViewById(R.id.home_button);
+		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
+		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
 		
 		back.setOnClickListener(new OnClickListener() {
 

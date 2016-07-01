@@ -177,10 +177,10 @@ public class LoginScreen extends Activity {
 						final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, LoginScreen.this);
 
 						if (selectedLanguage.equalsIgnoreCase("ENG")) {
-							dialog = ProgressDialog.show(LoginScreen.this, "  Banksinarmas               ",getResources().getString(R.string.eng_loading), true);
+							dialog = ProgressDialog.show(LoginScreen.this, "  Bank Sinarmas               ",getResources().getString(R.string.eng_loading), true);
 
 						} else {
-							dialog = ProgressDialog.show(LoginScreen.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+							dialog = ProgressDialog.show(LoginScreen.this, "  Bank Sinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
 						}
 						
 						dialog.setCancelable(true);

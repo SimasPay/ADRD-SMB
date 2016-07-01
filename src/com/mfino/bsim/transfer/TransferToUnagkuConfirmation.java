@@ -317,10 +317,10 @@ public class TransferToUnagkuConfirmation extends Activity {
 				final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, TransferToUnagkuConfirmation.this);
 
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
-					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Banksinarmas               ",getResources().getString(R.string.eng_loading), true);
+					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Bank Sinarmas               ",getResources().getString(R.string.eng_loading), true);
 
 				} else {
-					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Bank Sinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
 				}
 				
 				final Handler handler = new Handler() {
@@ -350,7 +350,11 @@ public class TransferToUnagkuConfirmation extends Activity {
 										alertbox.setMessage(getResources().getString(R.string.bahasa_appTimeout));
 									}
 								} else {
-									alertbox.setMessage(responseContainer.getMsg());
+									if (selectedLanguage.equalsIgnoreCase("ENG")) {
+										alertbox.setMessage("You have entered incorrect code. Please try again and ensure that you enter the correct code.");
+									} else {
+										alertbox.setMessage("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+									}
 								}
 
 								alertbox.setNeutralButton("OK",	new DialogInterface.OnClickListener() {
@@ -361,7 +365,6 @@ public class TransferToUnagkuConfirmation extends Activity {
 													intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 													startActivity(intent);
 												} else {
-
 													Intent intent = new Intent(getBaseContext(),HomeScreen.class);
 													intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 													startActivity(intent);
