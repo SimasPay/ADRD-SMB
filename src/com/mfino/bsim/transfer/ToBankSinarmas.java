@@ -60,7 +60,6 @@ public class ToBankSinarmas extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private boolean auto_submit = false;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -203,12 +202,25 @@ public class ToBankSinarmas extends AppCompatActivity {
 
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ToBankSinarmas.this);
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						dialog = ProgressDialog.show(ToBankSinarmas.this, "  Banksinarmas               ",
+						dialog = new ProgressDialog(ToBankSinarmas.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.eng_loading));
+						dialog.show();
+						/**
+						dialog = ProgressDialog.show(ToBankSinarmas.this, "  Bank Sinarmas               ",
 								getResources().getString(R.string.eng_loading), true);
-
+								**/
 					} else {
-						dialog = ProgressDialog.show(ToBankSinarmas.this, "  Banksinarmas               ",
+						dialog = new ProgressDialog(ToBankSinarmas.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+						dialog.show();
+						/**
+						dialog = ProgressDialog.show(ToBankSinarmas.this, "  Bank Sinarmas               ",
 								getResources().getString(R.string.bahasa_loading), true);
+								**/
 					}
 					final Handler handler = new Handler() {
 
@@ -544,7 +556,6 @@ public class ToBankSinarmas extends AppCompatActivity {
 			}
 			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
-			auto_submit = true;
 		} catch (Exception e) {
 
 		}
@@ -552,6 +563,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 
 	public void errorOTP() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ToBankSinarmas.this, R.style.MyAlertDialogStyle);
+		builder.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			builder.setTitle("OTP Verification Failed");
 			builder.setMessage("Please enter the code within specified time limit.").setCancelable(false)
@@ -586,6 +598,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ToBankSinarmas.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
+		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
 
@@ -601,16 +614,6 @@ public class ToBankSinarmas extends AppCompatActivity {
 		new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				// timer.setText(millisUntilFinished/60000 +":"+
-				// (millisUntilFinished/1000));
-				/**
-				 * timer.setText(String.format(Locale.getDefault(),
-				 * "%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished),
-				 * TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-				 * TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished))));
-				 **/
 				NumberFormat f = new DecimalFormat("00");
 				timer.setText(
 						f.format(millisUntilFinished / 60000) + ":" + f.format(millisUntilFinished % 60000 / 1000));
@@ -618,7 +621,6 @@ public class ToBankSinarmas extends AppCompatActivity {
 
 			@Override
 			public void onFinish() {
-				// info.setVisibility(View.GONE);
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -630,7 +632,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		} else {
@@ -639,7 +641,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		}

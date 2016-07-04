@@ -352,12 +352,26 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 				final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ConfirmAddReceiver.this);
 
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
+					dialog = new ProgressDialog(ConfirmAddReceiver.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.eng_loading));
+					dialog.show();
+					/**
 					dialog = ProgressDialog.show(ConfirmAddReceiver.this, "  Bank Sinarmas               ",
 							getResources().getString(R.string.eng_loading), true);
+							**/
 
 				} else {
+					dialog = new ProgressDialog(ConfirmAddReceiver.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+					dialog.show();
+					/**
 					dialog = ProgressDialog.show(ConfirmAddReceiver.this, "  Bank Sinarmas               ",
 							getResources().getString(R.string.bahasa_loading), true);
+							**/
 				}
 
 				final Handler handler = new Handler() {
@@ -382,11 +396,16 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 										alertbox.setMessage(getResources().getString(R.string.bahasa_appTimeout));
 									}
 								} else {
-									if (selectedLanguage.equalsIgnoreCase("ENG")) {
-										alertbox.setMessage("You have entered incorrect code. Please try again and ensure that you enter the correct code.");
-									} else {
-										alertbox.setMessage("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+									if(msgCode == 2000){
+										if (selectedLanguage.equalsIgnoreCase("ENG")) {
+											alertbox.setMessage("You have entered incorrect code. Please try again and ensure that you enter the correct code.");
+										} else {
+											alertbox.setMessage("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+										}
+									}else{
+										alertbox.setMessage(responseContainer.getMsg());
 									}
+									
 								}
 
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {

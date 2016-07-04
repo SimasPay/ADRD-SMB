@@ -1,9 +1,9 @@
 package com.mfino.bsim.transfer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +20,6 @@ import com.mfino.bsim.ConfirmationScreen;
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
-import com.mfino.bsim.account.AccountSelection;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.services.Constants;
@@ -242,6 +240,7 @@ public class TransferToUnagkuConfirmation extends Activity {
 
 		btn_confirm.setOnClickListener(new View.OnClickListener() {
 
+			@SuppressLint("HandlerLeak")
 			@Override
 			public void onClick(View arg0) {
 
@@ -296,12 +295,25 @@ public class TransferToUnagkuConfirmation extends Activity {
 						TransferToUnagkuConfirmation.this);
 
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
+					/**
 					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Bank Sinarmas               ",
 							getResources().getString(R.string.eng_loading), true);
-
+							**/
+					dialog = new ProgressDialog(TransferToUnagkuConfirmation.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.eng_loading));
+					dialog.show();
 				} else {
+					dialog = new ProgressDialog(TransferToUnagkuConfirmation.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+					dialog.show();
+					/**
 					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Bank Sinarmas               ",
 							getResources().getString(R.string.bahasa_loading), true);
+							**/
 				}
 
 				final Handler handler = new Handler() {
@@ -331,13 +343,18 @@ public class TransferToUnagkuConfirmation extends Activity {
 										alertbox.setMessage(getResources().getString(R.string.bahasa_appTimeout));
 									}
 								} else {
-									if (selectedLanguage.equalsIgnoreCase("ENG")) {
-										alertbox.setMessage(
-												"You have entered incorrect code. Please try again and ensure that you enter the correct code.");
-									} else {
-										alertbox.setMessage(
-												"Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+									if(msgCode == 2000){
+										if (selectedLanguage.equalsIgnoreCase("ENG")) {
+											alertbox.setMessage(
+													"You have entered incorrect code. Please try again and ensure that you enter the correct code.");
+										} else {
+											alertbox.setMessage(
+													"Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+										}
+									}else{
+										alertbox.setMessage(responseContainer.getMsg());
 									}
+									
 								}
 
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {

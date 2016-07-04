@@ -8,7 +8,11 @@
     <string name="source_packet_code">2</string>
 
     <!-- English -->
-
+    <string name="login">Login</string>
+	<string name="test"></string>
+	<string name="welcome">Welcome,</string>
+	<string name="mpin">mPIN</string>
+	<string name="nophone">Mobile Phone Number </string>
     <string name="eng_login"> Login </string>
     <string name="eng_activation"> Activation </string>
     <string name="eng_activationDisclosure"> Terms and conditions</string>
@@ -80,10 +84,11 @@
     <string name="eng_otherAmount"> Please input payment amount </string>
     <string name="eng_appTimeout"> Please wait while your transaction is being processed. Please check your transaction history to see this transaction status.</string>
     <string name="eng_noInterent">Dear Customer,\n currently you are not connected to Bank Sinarmas server. Please try again later. </string>
-    <string name="eng_otprequired_title">OTP Verification</string>
+    <string name="eng_otprequired_title">Code Verification</string>
     <string name="eng_otprequired_desc_1">Please wait while we are doing automatic code verification to the number : </string>
     <string name="eng_otprequired_desc_2"> or please enter the code manually if automatic verification is failed.</string>
-
+	<string name="eng_welcome">Welcome, </string>
+    
     <!-- bahasa -->
 
     <string name="bahasa_login"> Login </string>
@@ -160,10 +165,10 @@
     <string name="bahasa_otherAmount"> Masukkan jumlah pembayaran </string>
     <string name="bahasa_appTimeout">Mohon menunggu, \n transaksi Anda sedang dalam proses. Periksa riwayat transaksi untuk mengetahui status transaksi Anda. </string>
     <string name="bahasa_noInternet">Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
-    <string name="bahasa_otprequired_title">Verifikasi OTP</string>
+    <string name="bahasa_otprequired_title">Verifikasi Kode</string>
     <string name="bahasa_otprequired_desc_1">Mohon menunggu selagi kami \nmelakukan verifikasi kode \nsecara otomatis ke nomor \n</string>
     <string name="bahasa_otprequired_desc_2">atau silakan masukkan kode secara manual \njika verifikasi otomatis gagal</string>
-    
+    <string name="bahasa_welcome">Selamat datang, </string>
     
     <string name="login_content">
 <![CDATA[

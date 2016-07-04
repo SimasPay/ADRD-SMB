@@ -140,8 +140,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-         >
+        android:layout_alignParentBottom="true" >
 
         <Button
             android:id="@+id/logoutButton"
@@ -152,11 +151,10 @@
             android:background="@drawable/logout_button" />
     </RelativeLayout>
 
-     <include
+    <include
         android:id="@+id/header"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         layout="@layout/header_no_back" />
-   
 
 </RelativeLayout>

@@ -43,6 +43,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
+import com.mfino.bsim.billpayment.PaymentDetails;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.services.ConfigurationUtil;
@@ -362,12 +363,26 @@ public class PurchaseDetails extends AppCompatActivity {
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, PurchaseDetails.this);
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
+						dialog = new ProgressDialog(PurchaseDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.eng_loading));
+						dialog.show();
+						/**
 						dialog = ProgressDialog.show(PurchaseDetails.this, "  Banksinarmas               ",
 								getResources().getString(R.string.eng_loading), true);
+								**/
 
 					} else {
+						dialog = new ProgressDialog(PurchaseDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+						dialog.show();
+						/**
 						dialog = ProgressDialog.show(PurchaseDetails.this, "  Banksinarmas               ",
 								getResources().getString(R.string.bahasa_loading), true);
+								**/
 					}
 					final Handler handler = new Handler() {
 
@@ -765,6 +780,7 @@ public class PurchaseDetails extends AppCompatActivity {
 	
 	public void errorOTP(){
 		AlertDialog.Builder builderError = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
+		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			builderError.setTitle("OTP Verification Failed");
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
@@ -800,6 +816,7 @@ public class PurchaseDetails extends AppCompatActivity {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
+		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);		
 		dialogBuilder.setView(dialogView);
 
@@ -838,7 +855,7 @@ public class PurchaseDetails extends AppCompatActivity {
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		} else {
@@ -847,7 +864,7 @@ public class PurchaseDetails extends AppCompatActivity {
 					+ getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		}

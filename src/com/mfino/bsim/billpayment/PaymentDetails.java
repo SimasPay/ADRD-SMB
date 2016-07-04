@@ -40,7 +40,6 @@ import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
-import com.mfino.bsim.flashiz.QRPayment2;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
@@ -73,7 +72,6 @@ public class PaymentDetails extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private boolean auto_submit = false;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -251,7 +249,6 @@ public class PaymentDetails extends AppCompatActivity {
 					}
 
 					if (bundle.getBoolean("IS_CCPAYMENT")) {
-
 						valueContainer = new ValueContainer();
 						valueContainer.setServiceName(Constants.SERVICE_BILLPAYMENT);
 						valueContainer.setTransactionName(Constants.TRANSACTION_BILL_INQUIRY);
@@ -262,7 +259,6 @@ public class PaymentDetails extends AppCompatActivity {
 						valueContainer.setPaymentMode(paymentMode);
 						valueContainer.setBillerCode(bundle.getString("PRODUCT_CODE"));
 						valueContainer.setBillNo(invoiceNumber);
-
 					} else {
 						valueContainer = new ValueContainer();
 						valueContainer.setServiceName(Constants.SERVICE_BILLPAYMENT);
@@ -279,12 +275,25 @@ public class PaymentDetails extends AppCompatActivity {
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, PaymentDetails.this);
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
+						dialog = new ProgressDialog(PaymentDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.eng_loading));
+						dialog.show();
+						/**
 						dialog = ProgressDialog.show(PaymentDetails.this, "  Bank Sinarmas               ",
 								getResources().getString(R.string.eng_loading), true);
-
+						**/
 					} else {
+						dialog = new ProgressDialog(PaymentDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+						dialog.show();
+						/**
 						dialog = ProgressDialog.show(PaymentDetails.this, "  Bank Sinarmas               ",
 								getResources().getString(R.string.bahasa_loading), true);
+								**/
 					}
 
 					final Handler handler = new Handler() {
@@ -727,7 +736,6 @@ public class PaymentDetails extends AppCompatActivity {
 			}
 			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
-			auto_submit = true;
 		} catch (Exception e) {
 
 		}
@@ -735,6 +743,7 @@ public class PaymentDetails extends AppCompatActivity {
 
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle);
+		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			builderError.setTitle("OTP Verification Failed");
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
@@ -769,6 +778,7 @@ public class PaymentDetails extends AppCompatActivity {
 		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
+		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
 
@@ -812,7 +822,7 @@ public class PaymentDetails extends AppCompatActivity {
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		} else {
@@ -821,7 +831,7 @@ public class PaymentDetails extends AppCompatActivity {
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		}

@@ -57,7 +57,6 @@ public class TransferToUangku extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private boolean auto_submit = false;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -202,12 +201,17 @@ public class TransferToUangku extends AppCompatActivity {
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, TransferToUangku.this);
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						dialog = ProgressDialog.show(TransferToUangku.this, "  Banksinarmas               ",
-								getResources().getString(R.string.eng_loading), true);
-
+						dialog = new ProgressDialog(TransferToUangku.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.eng_loading));
+						dialog.show();
 					} else {
-						dialog = ProgressDialog.show(TransferToUangku.this, "  Banksinarmas               ",
-								getResources().getString(R.string.bahasa_loading), true);
+						dialog = new ProgressDialog(TransferToUangku.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+						dialog.show();
 					}
 					final Handler handler = new Handler() {
 
@@ -535,9 +539,8 @@ public class TransferToUangku extends AppCompatActivity {
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
-			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
+			//Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
-			auto_submit = true;
 		} catch (Exception e) {
 
 		}
@@ -590,7 +593,7 @@ public class TransferToUangku extends AppCompatActivity {
 		// Timer
 		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
 		// 120 detik
-		new CountDownTimer(120000, 1000) {
+		final CountDownTimer countTimer = new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
 				// timer.setText(millisUntilFinished/60000 +":"+
@@ -614,7 +617,8 @@ public class TransferToUangku extends AppCompatActivity {
 				errorOTP();
 				timer.setText("00:00");
 			}
-		}.start();
+		};
+		countTimer.start();
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			dialogBuilder.setTitle(getResources().getString(R.string.eng_otprequired_title));
@@ -622,7 +626,8 @@ public class TransferToUangku extends AppCompatActivity {
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
+					countTimer.cancel();
 				}
 			});
 		} else {
@@ -631,7 +636,8 @@ public class TransferToUangku extends AppCompatActivity {
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
+					countTimer.cancel();
 				}
 			});
 		}

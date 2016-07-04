@@ -19,7 +19,6 @@ import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.db.DBHelper;
-import com.mfino.bsim.purchase.PurchaseDetails;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
@@ -410,7 +409,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 						Log.e("msg_code", msgCode + "--11--------");
 						if (msgCode == 631) {
 							Log.e("msg_code", msgCode + "--22--------");
-
 							/*
 							 * alertbox = new
 							 * AlertDialog.Builder(QRPayment2.this);
@@ -425,7 +423,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 							 * startActivity(intent); finish(); } });
 							 * alertbox.show();
 							 */
-
 							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
 									responseContainer.getMsg(), true);
 
@@ -455,11 +452,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 								 * startActivity(intent); openMainMenu();
 								 * finish(); } }); alertbox.show();
 								 */
-
 							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
 									responseContainer.getMsg(), true);
 						} else {
-							// displayDialog(responseContainer.getMsg());
 							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
 									responseContainer.getMsg(), true);
 						}
@@ -577,8 +572,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 											getResources().getString(R.string.bahasa_transactionFail), true);
 								}
 							}
-
-							// dialog.dismiss();
 							otp = otpValue;
 							parentTxnId = responseContainer.getEncryptedParentTxnId();
 							txnId = responseContainer.getEncryptedTransferId();
@@ -620,7 +613,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 	@SuppressLint("HandlerLeak")
 	private void billPayConfirmation() {
-
 		/** Set Parameters for Service calling . */
 		valueContainer = new ValueContainer();
 		valueContainer.setContext(QRPayment2.this);
@@ -675,11 +667,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		}
 
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, QRPayment2.this);
-		/*
-		 * dialogCon = ProgressDialog.show(QRPayment2.this,
-		 * "   Banksinarmas                 ",
-		 * getResources().getString(R.string.bahasa_loading), true);
-		 */
 
 		final Handler handler = new Handler() {
 
@@ -695,7 +682,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 						responseContainer = obj.parse(responseXml);
 						msgCode = Integer.parseInt(responseContainer.getMsgCode());
 					} catch (Exception e) {
-
 						e.printStackTrace();
 						msgCode = 0;
 					}
@@ -768,7 +754,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 			languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 			selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
-
 			settings = getSharedPreferences("LOGIN_PREFERECES", Context.MODE_PRIVATE);
 
 			// Header code...
@@ -873,20 +858,20 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 	public void recivedSms(String message) {
 		try {
-			Log.d(LOG_TAG, "isi SMS : " + message);
+			//Log.d(LOG_TAG, "isi SMS : " + message);
 			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
-				Log.d(LOG_TAG, "konten sms : indonesia");
+				//Log.d(LOG_TAG, "konten sms : indonesia");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
 						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
 			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is")) {
-				Log.d(LOG_TAG, "konten sms : english");
+				//Log.d(LOG_TAG, "konten sms : english");
 				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
 						message.indexOf("(")).trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
-			Log.d(LOG_TAG, "OPT code :" + otpValue + ", sctl : " + sctl);
+			//Log.d(LOG_TAG, "OPT code :" + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
 		} catch (Exception e) {
 
@@ -895,6 +880,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(QRPayment2.this, R.style.MyAlertDialogStyle);
+		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			builderError.setTitle("OTP Verification Failed");
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
@@ -926,13 +912,12 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PayByQRProperties.getSDKContext(), R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
+		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
 
 		// EditText OTP
 		edt = (EditText) dialogView.findViewById(R.id.otp_value);
-		edt.setText(otpValue);
-		Log.d(LOG_TAG, "otpValue : " + otpValue);
 
 		// Timer
 		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
@@ -940,16 +925,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				// timer.setText(millisUntilFinished/60000 +":"+
-				// (millisUntilFinished/1000));
-				/**
-				 * timer.setText(String.format(Locale.getDefault(),
-				 * "%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished),
-				 * TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-				 * TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished))));
-				 **/
 				NumberFormat f = new DecimalFormat("00");
 				timer.setText(
 						f.format(millisUntilFinished / 60000) + ":" + f.format(millisUntilFinished % 60000 / 1000));
@@ -957,7 +932,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 			@Override
 			public void onFinish() {
-				// info.setVisibility(View.GONE);
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -969,7 +943,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
 				}
 			});
 		} else {
@@ -978,7 +954,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					finish();
+					Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
 				}
 			});
 		}
@@ -987,7 +965,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
 				} else {
-					Log.d(LOG_TAG, "otpValue : " + otpValue);
+					Log.d(LOG_TAG, "otpValue via onclick OK : " + otpValue);
 					billPayConfirmation();
 				}
 			}
@@ -1007,18 +985,18 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// Check if edittext is empty
+				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if (TextUtils.isEmpty(s)) {
-					// Disable ok button
 					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
-					// Something into edit text. Enable the button.
-					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					if((edt.getText().length()>3) && (isAutoSubmit == true)){
+			        	((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+						billPayConfirmation();
+					}else{
+						((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					}
 				}
-				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
-		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
-					billPayConfirmation();
-				}
+		        
 
 			}
 		});

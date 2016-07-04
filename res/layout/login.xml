@@ -22,10 +22,10 @@
 		android:text="eaZyMoneyUser "></TextView> </LinearLayout>
     -->
 
-     <include
+    <include
         android:id="@+id/header"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         layout="@layout/header_no_back" />
     <!--
      <RelativeLayout
@@ -84,32 +84,31 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-         >
+        android:layout_centerInParent="true" >
 
         <RelativeLayout
             android:id="@+id/welcome_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-             >
+            android:layout_marginStart="20dp" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/lbl_welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Welcome,"
+                android:text="@string/welcome"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/welcome_layout"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
             android:background="@layout/rounded"
-            android:layout_below="@+id/welcome_layout"
             android:padding="10dp" >
 
             <TextView
@@ -118,17 +117,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="20dp"
-                android:padding="10dp"
-                android:text="LOGIN"
-                android:textColor="#777"
-                android:textSize="20dp"
+                android:layout_marginStart="20dp"
+                android:text="@string/login"
+                android:textColor="#fff"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="20dp"
+                android:layout_below="@+id/loginText"
+                android:layout_margin="10dp"
                 android:orientation="vertical" >
 
                 <!--
@@ -144,7 +144,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical" >
 
                     <TextView
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="5dp"
-                        android:text="Mobile Phone Number " />
+                        android:text="@string/nophone" />
 
                     <EditText
                         android:id="@+id/ed_Login_MobNo"
@@ -162,6 +162,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:ems="10"
                         android:imeOptions="actionNext"
                         android:inputType="number"
@@ -184,7 +185,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="5dp"
-                        android:text="mPIN" />
+                        android:text="@string/mpin" />
 
                     <EditText
                         android:id="@+id/ed_Login_Pin"
@@ -192,11 +193,11 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:ems="10"
                         android:imeOptions="actionDone"
-                        android:inputType="number"
-                        android:maxLength="6"
-                        android:password="true" />
+                        android:inputType="numberPassword"
+                        android:maxLength="6" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -216,12 +217,13 @@
 
                     <Button
                         android:id="@+id/btn_Login"
+                        style="@style/font_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:text="Login"
-                        style="@style/font_button"
-                        android:background="@drawable/button_empty" >
+                        android:layout_marginStart="15dp"
+                        android:background="@drawable/button_empty"
+                        android:text="@string/login" >
                     </Button>
                 </LinearLayout>
 

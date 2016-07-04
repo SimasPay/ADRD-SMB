@@ -209,12 +209,25 @@ public class ToOtherBankDetails extends AppCompatActivity {
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ToOtherBankDetails.this);
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
+						dialog = new ProgressDialog(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.eng_loading));
+						dialog.show();
+						/**
 						dialog = ProgressDialog.show(ToOtherBankDetails.this, "  Banksinarmas               ",
 								getResources().getString(R.string.eng_loading), true);
-
+						**/
 					} else {
+						/**
 						dialog = ProgressDialog.show(ToOtherBankDetails.this, "  Banksinarmas               ",
 								getResources().getString(R.string.bahasa_loading), true);
+								**/
+						dialog = new ProgressDialog(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+						dialog.show();
 					}
 					final Handler handler = new Handler() {
 

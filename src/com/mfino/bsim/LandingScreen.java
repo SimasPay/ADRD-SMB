@@ -9,6 +9,7 @@ import com.mfino.bsim.flashiz.QRPayment2;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -190,14 +191,19 @@ public class LandingScreen extends Activity {
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, LandingScreen.this);
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			dialog = ProgressDialog.show(LandingScreen.this, "  Bank Sinarmas               ",
-					getResources().getString(R.string.eng_loading), true);
-
+			dialog = new ProgressDialog(LandingScreen.this, R.style.MyAlertDialogStyle);
+			dialog.setTitle("Bank Sinarmas");
+			dialog.setCancelable(false);
+			dialog.setMessage(getResources().getString(R.string.eng_loading));
+			dialog.show();
 		} else {
-			dialog = ProgressDialog.show(LandingScreen.this, "  Bank Sinarmas               ",
-					getResources().getString(R.string.bahasa_loading), true);
+			dialog = new ProgressDialog(LandingScreen.this, R.style.MyAlertDialogStyle);
+			dialog.setTitle("Bank Sinarmas");
+			dialog.setCancelable(false);
+			dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+			dialog.show();
 		}
-		alertbox = new AlertDialog.Builder(LandingScreen.this);
+		alertbox = new AlertDialog.Builder(LandingScreen.this, R.style.MyAlertDialogStyle);
 		final Handler handler = new Handler() {
 
 			public void handleMessage(Message msg) {

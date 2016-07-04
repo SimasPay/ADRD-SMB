@@ -136,7 +136,7 @@ public class ChangePin extends AppCompatActivity {
 
 		}
 
-		alertbox = new AlertDialog.Builder(ChangePin.this);
+		alertbox = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 
@@ -222,9 +222,12 @@ public class ChangePin extends AppCompatActivity {
 
 					final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ChangePin.this);
 
-					final ProgressDialog dialog = ProgressDialog.show(ChangePin.this, "  Bank Sinarmas               ",
-							"Loading....   ", true);
-
+					final ProgressDialog dialog = new ProgressDialog(ChangePin.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage("Loading....   ");
+					dialog.show();
+					
 					final Handler handler = new Handler() {
 
 						public void handleMessage(Message msg) {
@@ -251,8 +254,8 @@ public class ChangePin extends AppCompatActivity {
 										alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 									}
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface arg0, int arg1) {
-
+										public void onClick(DialogInterface dialog, int arg1) {
+											dialog.dismiss();
 										}
 									});
 									alertbox.show();
@@ -411,8 +414,8 @@ public class ChangePin extends AppCompatActivity {
 
 									alertbox.setMessage(responseContainer.getMsg());
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface arg0, int arg1) {
-
+										public void onClick(DialogInterface dialog, int arg1) {
+											dialog.dismiss();
 											finish();
 
 										}
@@ -429,8 +432,8 @@ public class ChangePin extends AppCompatActivity {
 									alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface arg0, int arg1) {
-
+									public void onClick(DialogInterface dialog, int arg1) {
+										dialog.dismiss();
 										finish();
 									}
 								});
@@ -516,6 +519,7 @@ public class ChangePin extends AppCompatActivity {
 
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
+		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			builderError.setTitle("OTP Verification Failed");
 			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
@@ -549,6 +553,7 @@ public class ChangePin extends AppCompatActivity {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
+		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
 
@@ -583,7 +588,7 @@ public class ChangePin extends AppCompatActivity {
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		} else {
@@ -592,7 +597,7 @@ public class ChangePin extends AppCompatActivity {
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// pass
+					dialog.dismiss();
 				}
 			});
 		}

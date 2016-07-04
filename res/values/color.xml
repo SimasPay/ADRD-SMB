@@ -11,6 +11,7 @@
     <color name="MAROON">#800000</color>
     <color name="BLUE">#000066</color>
     <color name="label_grey">#949899</color>
+    <color name="bg_splash">#FF48484A</color>
     
     <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">fill_parent</item>

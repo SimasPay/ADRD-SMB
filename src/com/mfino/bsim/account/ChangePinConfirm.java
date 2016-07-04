@@ -118,9 +118,12 @@ public class ChangePinConfirm extends Activity {
 				valueContainer.setOTP(bundle.getString("OTP"));
 				final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ChangePinConfirm.this);
 
-				final ProgressDialog dialog = ProgressDialog.show(ChangePinConfirm.this,
-						"  Bank Sinarmas               ", "Loading....   ", true);
-
+				final ProgressDialog dialog = new ProgressDialog(ChangePinConfirm.this, R.style.MyAlertDialogStyle);
+				dialog.setCancelable(false);
+				dialog.setTitle("Bank Sinarmas");
+				dialog.setMessage("Loading....   ");
+				dialog.show();
+				
 				final Handler handler = new Handler() {
 
 					public void handleMessage(Message msg) {
@@ -164,17 +167,20 @@ public class ChangePinConfirm extends Activity {
 								intent.putExtra("SCREEN", "ChangePin");
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
-
 							} else {
-								if (selectedLanguage.equalsIgnoreCase("ENG")) {
-									alertbox.setMessage("You have entered incorrect code. Please try again and ensure that you enter the correct code.");
-								} else {
-									alertbox.setMessage("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+								if(responseContainer.getMsgCode().equals("2000")){
+									if (selectedLanguage.equalsIgnoreCase("ENG")) {
+										alertbox.setMessage("You have entered incorrect code. Please try again and ensure that you enter the correct code.");
+									} else {
+										alertbox.setMessage("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+									}
+								}else{
+									alertbox.setMessage(responseContainer.getMsg());
 								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface arg0, int arg1) {
+									public void onClick(DialogInterface dialog, int arg1) {
+										dialog.dismiss();
 										finish();
-
 									}
 								});
 								alertbox.show();
