@@ -702,8 +702,21 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					if (!((Integer.parseInt(responseContainer.getMsgCode()) == 2111)
 							|| (Integer.parseInt(responseContainer.getMsgCode()) == 715))) {
 						// displayDialog(responseContainer.getMsg());
-						payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-								responseContainer.getMsg(), true);
+						if(msgCode == 2000){
+							if(responseContainer.getMsg().equals("ERROR: Invalid Data")){
+								if (selectedLanguage.equalsIgnoreCase("ENG")) {
+									payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,getResources().getString(R.string.eng_incorrectotp), true);
+								} else {
+									payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,getResources().getString(R.string.bahasa_incorrectotp), true);
+								}
+							}else{
+								payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+										responseContainer.getMsg(), true);
+							}
+						}else{
+							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+									responseContainer.getMsg(), true);
+						}
 					} else {
 						// Hand over control to Flashiz
 						// dialogCon.dismiss();
@@ -883,7 +896,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
-			//Log.d(LOG_TAG, "OPT code :" + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
 		} catch (Exception e) {
 
@@ -891,7 +903,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 	}
 
 	public void errorOTP() {
-		AlertDialog.Builder builderError = new AlertDialog.Builder(QRPayment2.this, R.style.MyAlertDialogStyle);
+		AlertDialog.Builder builderError = new AlertDialog.Builder(PayByQRProperties.getSDKContext(), R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			builderError.setTitle(getResources().getString(R.string.eng_otpfailed));
