@@ -110,8 +110,7 @@ public class TransferToUangku extends AppCompatActivity {
 		// screeTitle.setText(bundle.getString("TAG_NAME"));
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			screeTitle.setText("My Money");
-
+			screeTitle.setText("Uangku");
 			// screeTitle.setText(getResources().getString(R.string.eng_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.eng_mobileNumber));
 			amountTxt.setText(getResources().getString(R.string.eng_amount));
@@ -119,7 +118,6 @@ public class TransferToUangku extends AppCompatActivity {
 
 		} else {
 			screeTitle.setText("Uangku");
-
 			// screeTitle.setText(getResources().getString(R.string.bahasa_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.bahasa_mobileNumber));
 			amountTxt.setText(getResources().getString(R.string.bahasa_amount));
@@ -548,21 +546,24 @@ public class TransferToUangku extends AppCompatActivity {
 
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
+		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			builderError.setTitle("OTP Verification Failed");
-			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
+			builderError.setTitle(getResources().getString(R.string.eng_otpfailed));
+			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
 			});
 		} else {
-			builderError.setTitle("Verifikasi OTP Gagal");
-			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
+			builderError.setTitle(getResources().getString(R.string.bahasa_otpfailed));
+			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -627,7 +628,9 @@ public class TransferToUangku extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
-					countTimer.cancel();
+					if(countTimer != null) {
+						countTimer.cancel();
+					}
 				}
 			});
 		} else {
@@ -637,7 +640,9 @@ public class TransferToUangku extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
-					countTimer.cancel();
+					if(countTimer != null) {
+						countTimer.cancel();
+					}
 				}
 			});
 		}

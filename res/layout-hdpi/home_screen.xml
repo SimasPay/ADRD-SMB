@@ -144,11 +144,11 @@
 
         <Button
             android:id="@+id/logoutButton"
-            android:layout_width="67dp"
-            android:layout_height="24dp"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/logout_button" />
+            android:background="@drawable/logout_btn" />
     </RelativeLayout>
 
     <include

@@ -87,7 +87,10 @@
     <string name="eng_otprequired_title">Code Verification</string>
     <string name="eng_otprequired_desc_1">Please wait while we are doing automatic code verification to the number : </string>
     <string name="eng_otprequired_desc_2"> or please enter the code manually if automatic verification is failed.</string>
+    <string name="eng_otpfailed">Code Verification Failed</string>
 	<string name="eng_welcome">Welcome, </string>
+    <string name="eng_desc_otpfailed">Please enter the code within specified time limit."</string>
+    <string name="eng_incorrectotp">You have entered incorrect code. Please try again and ensure that you  enter the correct code.</string>
     
     <!-- bahasa -->
 
@@ -169,7 +172,9 @@
     <string name="bahasa_otprequired_desc_1">Mohon menunggu selagi kami \nmelakukan verifikasi kode \nsecara otomatis ke nomor \n</string>
     <string name="bahasa_otprequired_desc_2">atau silakan masukkan kode secara manual \njika verifikasi otomatis gagal</string>
     <string name="bahasa_welcome">Selamat datang, </string>
-    
+    <string name="bahasa_otpfailed">Verifikasi Kode Gagal</string>
+    <string name="bahasa_desc_otpfailed">Silakan masukan kode sebelum batas waktu yang ditentukan</string>
+    <string name="bahasa_incorrectotp">Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.</string>
     <string name="login_content">
 <![CDATA[
 		<html>

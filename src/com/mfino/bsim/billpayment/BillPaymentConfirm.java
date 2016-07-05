@@ -1,9 +1,9 @@
 package com.mfino.bsim.billpayment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,10 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.mfino.bsim.ConfirmationScreen;
@@ -144,6 +140,7 @@ public class BillPaymentConfirm extends Activity {
 		}
 		btn_confirm.setOnClickListener(new View.OnClickListener() {
 
+			@SuppressLint("HandlerLeak")
 			@Override
 			public void onClick(View arg0) {
 
@@ -176,10 +173,17 @@ public class BillPaymentConfirm extends Activity {
 				final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, BillPaymentConfirm.this);
 				
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
-					dialog = ProgressDialog.show(BillPaymentConfirm.this, "  Bank Sinarmas               ",getResources().getString(R.string.eng_loading), true);
-
+					dialog = new ProgressDialog(BillPaymentConfirm.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.eng_loading));
+					dialog.show();
 				} else {
-					dialog = ProgressDialog.show(BillPaymentConfirm.this, "  Bank Sinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+					dialog = new ProgressDialog(BillPaymentConfirm.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+					dialog.show();
 				}
 				
 				final Handler handler = new Handler() {

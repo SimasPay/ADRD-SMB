@@ -782,20 +782,22 @@ public class PurchaseDetails extends AppCompatActivity {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			builderError.setTitle("OTP Verification Failed");
-			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
+			builderError.setTitle(getResources().getString(R.string.eng_otpfailed));
+			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
 					});
 		} else {
-			builderError.setTitle("Verifikasi OTP Gagal");
-			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
+			builderError.setTitle(getResources().getString(R.string.bahasa_otpfailed));
+			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -829,7 +831,7 @@ public class PurchaseDetails extends AppCompatActivity {
 		//Timer
 		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
 		//120 detik
-		new CountDownTimer(120000, 1000) {
+		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 		    @Override
 		    public void onTick(long millisUntilFinished) {
 		    	//timer.setText(millisUntilFinished/60000 +":"+ (millisUntilFinished/1000));
@@ -847,7 +849,8 @@ public class PurchaseDetails extends AppCompatActivity {
 		    	errorOTP();
 		    	timer.setText("00:00");
 		    }
-		}.start();
+		};
+		myTimer.start();
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			dialogBuilder.setTitle(getResources().getString(R.string.eng_otprequired_title));
@@ -856,6 +859,9 @@ public class PurchaseDetails extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
+					if(myTimer != null) {
+						myTimer.cancel();
+					}
 				}
 			});
 		} else {
@@ -865,6 +871,9 @@ public class PurchaseDetails extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
+					if(myTimer != null) {
+						myTimer.cancel();
+					}
 				}
 			});
 		}

@@ -565,20 +565,22 @@ public class ToBankSinarmas extends AppCompatActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ToBankSinarmas.this, R.style.MyAlertDialogStyle);
 		builder.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			builder.setTitle("OTP Verification Failed");
-			builder.setMessage("Please enter the code within specified time limit.").setCancelable(false)
+			builder.setTitle(getResources().getString(R.string.eng_otpfailed));
+			builder.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
 					});
 		} else {
-			builder.setTitle("Verifikasi OTP Gagal");
-			builder.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
+			builder.setTitle(getResources().getString(R.string.bahasa_otpfailed));
+			builder.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -611,7 +613,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 		// Timer
 		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
 		// 120detik
-		new CountDownTimer(120000, 1000) {
+		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
 				NumberFormat f = new DecimalFormat("00");
@@ -624,7 +626,8 @@ public class ToBankSinarmas extends AppCompatActivity {
 				errorOTP();
 				timer.setText("00:00");
 			}
-		}.start();
+		};
+		myTimer.start();
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			dialogBuilder.setTitle(getResources().getString(R.string.eng_otprequired_title));
@@ -633,6 +636,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
+					if(myTimer != null) {
+						myTimer.cancel();
+					}
 				}
 			});
 		} else {
@@ -642,6 +648,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
+					if(myTimer != null) {
+						myTimer.cancel();
+					}
 				}
 			});
 		}

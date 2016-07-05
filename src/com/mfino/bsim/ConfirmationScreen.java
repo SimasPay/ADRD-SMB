@@ -1,23 +1,19 @@
 package com.mfino.bsim;
 
-import com.mfino.bsim.account.AccountSelection;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class ConfirmationScreen extends Activity{
 	
 	
-	private Button btn_home,btn_logout;
+	private Button btn_home;
 	private Bundle bundle;
 	//private String msg;
 	private TextView tvDetails,aditionalInfo;
@@ -67,9 +63,9 @@ public class ConfirmationScreen extends Activity{
 		
 		if(bundle.getString("MSG").equals("ERROR: Invalid Data")){
 			if (selectedLanguage.equalsIgnoreCase("ENG")) {
-				tvDetails.setText("You have entered incorrect code. Please try again and ensure that you  enter the correct code.");
+				tvDetails.setText(getResources().getString(R.string.eng_incorrectotp));
 			} else {
-				tvDetails.setText("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+				tvDetails.setText(getResources().getString(R.string.bahasa_incorrectotp));
 			}
 		}else{
 			tvDetails.setText(bundle.getString("MSG")); 

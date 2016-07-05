@@ -425,7 +425,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 							 */
 							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
 									responseContainer.getMsg(), true);
-
 						} else if (msgCode == 29) {
 							// dialog.dismiss();
 							Log.e("msg_code", msgCode + "--33--------");
@@ -455,8 +454,21 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
 									responseContainer.getMsg(), true);
 						} else {
-							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-									responseContainer.getMsg(), true);
+							if(msgCode == 2000){
+								if(responseContainer.getMsg().equals("ERROR: Invalid Data")){
+									if (selectedLanguage.equalsIgnoreCase("ENG")) {
+										payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,getResources().getString(R.string.eng_incorrectotp), true);
+									} else {
+										payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,getResources().getString(R.string.bahasa_incorrectotp), true);
+									}
+								}else{
+									payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+											responseContainer.getMsg(), true);
+								}
+							}else{
+								payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+										responseContainer.getMsg(), true);
+							}
 						}
 
 					} else {
@@ -882,20 +894,22 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		AlertDialog.Builder builderError = new AlertDialog.Builder(QRPayment2.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			builderError.setTitle("OTP Verification Failed");
-			builderError.setMessage("Please enter the code within specified time limit.").setCancelable(false)
+			builderError.setTitle(getResources().getString(R.string.eng_otpfailed));
+			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
 					});
 		} else {
-			builderError.setTitle("Verifikasi OTP Gagal");
-			builderError.setMessage("Silakan masukan kode OTP sebelum batas waktu yang ditentukan").setCancelable(false)
+			builderError.setTitle(getResources().getString(R.string.bahasa_otpfailed));
+			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
 							Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -922,7 +936,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		// Timer
 		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
 		// 120 detik
-		new CountDownTimer(120000, 1000) {
+		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
 				NumberFormat f = new DecimalFormat("00");
@@ -935,7 +949,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 				errorOTP();
 				timer.setText("00:00");
 			}
-		}.start();
+		};
+		myTimer.start();
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			dialogBuilder.setTitle(getResources().getString(R.string.eng_otprequired_title));
@@ -943,6 +958,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					if(myTimer!=null){
+						myTimer.cancel();
+					}
+					dialog.dismiss();
 					Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
@@ -954,6 +973,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					if(myTimer!=null){
+						myTimer.cancel();
+					}
+					dialog.dismiss();
 					Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);

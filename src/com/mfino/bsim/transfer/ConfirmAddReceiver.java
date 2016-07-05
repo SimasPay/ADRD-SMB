@@ -398,9 +398,9 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 								} else {
 									if(msgCode == 2000){
 										if (selectedLanguage.equalsIgnoreCase("ENG")) {
-											alertbox.setMessage("You have entered incorrect code. Please try again and ensure that you enter the correct code.");
+											alertbox.setMessage(getResources().getString(R.string.eng_incorrectotp));
 										} else {
-											alertbox.setMessage("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+											alertbox.setMessage(getResources().getString(R.string.bahasa_incorrectotp));
 										}
 									}else{
 										alertbox.setMessage(responseContainer.getMsg());

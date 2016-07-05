@@ -1,9 +1,9 @@
 package com.mfino.bsim.purchase;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,15 +11,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.mfino.bsim.ConfirmationScreen;
 import com.mfino.bsim.HomeScreen;
-import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
-import com.mfino.bsim.account.AccountSelection;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.services.Constants;
@@ -38,6 +35,7 @@ public class BuyConfirm extends Activity {
 	SharedPreferences languageSettings;
 	String selectedLanguage;
 	ProgressDialog dialog;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,50 +43,45 @@ public class BuyConfirm extends Activity {
 		setContentView(R.layout.confirm);
 
 		// Header code...
-	/*	View headerContainer = findViewById(R.id.header);
-		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
-		Button back = (Button) headerContainer.findViewById(R.id.back);
-		Button home = (Button) headerContainer.findViewById(R.id.home_button);
-		aditionalInfo = (TextView) findViewById(R.id.aditional_info);
-		
-		back.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				
-				finish();
-			}
-		});
-		back.setVisibility(View.GONE);
-		
-		home.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				
-				Intent intent=new Intent(BuyConfirm.this,HomeScreen.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-			}
-		});*/
+		/*
+		 * View headerContainer = findViewById(R.id.header); TextView screeTitle
+		 * = (TextView) headerContainer.findViewById(R.id.screenTitle); Button
+		 * back = (Button) headerContainer.findViewById(R.id.back); Button home
+		 * = (Button) headerContainer.findViewById(R.id.home_button);
+		 * aditionalInfo = (TextView) findViewById(R.id.aditional_info);
+		 * 
+		 * back.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View arg0) {
+		 * 
+		 * finish(); } }); back.setVisibility(View.GONE);
+		 * 
+		 * home.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) {
+		 * 
+		 * Intent intent=new Intent(BuyConfirm.this,HomeScreen.class);
+		 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		 * startActivity(intent); } });
+		 */
 
 		aditionalInfo = (TextView) findViewById(R.id.aditional_info);
 		bundle = getIntent().getExtras();
 
 		btn_confirm = (Button) findViewById(R.id.confirmButton);
 		btn_cancel = (Button) findViewById(R.id.cancelButton);
-		
-		//Language Option..
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+
+		// Language Option..
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
-		
+
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			
+
 			btn_confirm.setText(getResources().getString(R.string.eng_confirm));
 			btn_cancel.setText(getResources().getString(R.string.eng_cancel));
 
 		} else {
-			
+
 			btn_confirm.setText(getResources().getString(R.string.bahasa_confirm));
 			btn_cancel.setText(getResources().getString(R.string.bahasa_cancel));
 
@@ -99,7 +92,8 @@ public class BuyConfirm extends Activity {
 		tvConfirmMsg.setText(bundle.getString("MSG"));
 
 		try {
-			if (bundle.getString("ADDITIONAL_INFO").length() <= 0|| bundle.getString("ADDITIONAL_INFO").equalsIgnoreCase("null")) {
+			if (bundle.getString("ADDITIONAL_INFO").length() <= 0
+					|| bundle.getString("ADDITIONAL_INFO").equalsIgnoreCase("null")) {
 
 				aditionalInfo.setVisibility(View.GONE);
 
@@ -121,13 +115,14 @@ public class BuyConfirm extends Activity {
 		}
 		btn_confirm.setOnClickListener(new View.OnClickListener() {
 
+			@SuppressLint("HandlerLeak")
 			@Override
 			public void onClick(View arg0) {
 				/** Set Parameters for Service call . */
 				valueContainer = new ValueContainer();
 
-				if (bundle.getString("SELECTED_CATEGORY").equalsIgnoreCase(	"Mobile Phone")) {
-					
+				if (bundle.getString("SELECTED_CATEGORY").equalsIgnoreCase("Mobile Phone")) {
+
 					System.out.println("Testing>>>airtime>>BuyCon");
 					valueContainer.setServiceName(Constants.SERVICE_BUY);
 					valueContainer.setTransactionName(Constants.TRANSACTION_AIRTIME_PURCHASE);
@@ -140,11 +135,11 @@ public class BuyConfirm extends Activity {
 					valueContainer.setTransferId(bundle.getString("TFNID"));
 					valueContainer.setConfirmed("true");
 					valueContainer.setCompanyId(bundle.getString("COMPID"));
-					
+
 				} else {
-					
-					System.out.println("Testing>TransID>>"+ bundle.getString("TFNID"));
-					System.out.println("Testing>PTransID>>"+ bundle.getString("PTFNID"));
+
+					System.out.println("Testing>TransID>>" + bundle.getString("TFNID"));
+					System.out.println("Testing>PTransID>>" + bundle.getString("PTFNID"));
 					valueContainer = new ValueContainer();
 					valueContainer.setServiceName(Constants.SERVICE_BILLPAYMENT);
 					valueContainer.setTransactionName(Constants.TRANSACTION_BILLPAYMENT);
@@ -159,9 +154,9 @@ public class BuyConfirm extends Activity {
 					valueContainer.setTransferId(bundle.getString("TFNID"));
 
 				}
-				
+
 				try {
-					
+
 					if (bundle.getString("MFA_MODE").equalsIgnoreCase("OTP")) {
 						valueContainer.setOTP(bundle.getString("OTP"));
 						valueContainer.setMfaMode(bundle.getString("MFA_MODE"));
@@ -170,15 +165,20 @@ public class BuyConfirm extends Activity {
 
 				}
 
-
 				final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, BuyConfirm.this);
 
-
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
-					dialog = ProgressDialog.show(BuyConfirm.this, "  Banksinarmas               ",getResources().getString(R.string.eng_loading), true);
-
+					dialog = new ProgressDialog(BuyConfirm.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.eng_loading));
+					dialog.show();
 				} else {
-					dialog = ProgressDialog.show(BuyConfirm.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+					dialog = new ProgressDialog(BuyConfirm.this, R.style.MyAlertDialogStyle);
+					dialog.setCancelable(false);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+					dialog.show();
 				}
 				final Handler handler = new Handler() {
 
@@ -189,7 +189,7 @@ public class BuyConfirm extends Activity {
 							XMLParser obj = new XMLParser();
 							EncryptedResponseDataContainer responseContainer = null;
 							try {
-								System.out.println("Testing>>>>BuyCon>>xml"+ responseXml);
+								System.out.println("Testing>>>>BuyCon>>xml" + responseXml);
 								responseContainer = obj.parse(responseXml);
 							} catch (Exception e) {
 
@@ -201,7 +201,7 @@ public class BuyConfirm extends Activity {
 							} catch (Exception e) {
 								msgCode = 0;
 							}
-							System.out.println("message1 :"	+ responseContainer.getMsgCode());
+							System.out.println("message1 :" + responseContainer.getMsgCode());
 
 							if (responseContainer.getMsg() == null) {
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -211,9 +211,9 @@ public class BuyConfirm extends Activity {
 								}
 							} else {
 
-								Intent intent = new Intent(BuyConfirm.this,	ConfirmationScreen.class);
-								intent.putExtra("MSG",responseContainer.getMsg());
-								intent.putExtra("ADITIONAL_INFO",responseContainer.getAditionalInfo());
+								Intent intent = new Intent(BuyConfirm.this, ConfirmationScreen.class);
+								intent.putExtra("MSG", responseContainer.getMsg());
+								intent.putExtra("ADITIONAL_INFO", responseContainer.getAditionalInfo());
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
 
@@ -226,12 +226,11 @@ public class BuyConfirm extends Activity {
 							} else {
 								alertbox.setMessage(getResources().getString(R.string.bahasa_appTimeout));
 							}
-							alertbox.setNeutralButton("OK",	new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface arg0, int arg1) {
+							alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface arg0, int arg1) {
 
-
-										}
-									});
+								}
+							});
 							alertbox.show();
 						}
 
