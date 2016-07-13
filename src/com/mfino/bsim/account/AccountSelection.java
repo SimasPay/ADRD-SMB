@@ -62,13 +62,13 @@ public class AccountSelection extends Activity{
 	        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
 		setContentView(R.layout.common_listitem_account);
 		context=this;
-		alertbox = new AlertDialog.Builder(this);
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",	Context.MODE_WORLD_READABLE);
+		alertbox = new AlertDialog.Builder(AccountSelection.this, R.style.MyAlertDialogStyle);
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",	0);
         //languageSettings.edit().clear();
         selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
         
         //Pin
-        settings = getSharedPreferences("LOGIN_PREFERECES",	Context.MODE_WORLD_READABLE);
+        settings = getSharedPreferences("LOGIN_PREFERECES",	0);
 		String mobileNumber = settings.getString("mobile", "");
 		pin = settings.getString("pin", "");
         

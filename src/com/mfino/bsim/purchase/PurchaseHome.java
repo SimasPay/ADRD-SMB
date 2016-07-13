@@ -93,7 +93,7 @@ public class PurchaseHome extends Activity {
 		// = new File("/sdcard/purchase.txt");
 		purchaseVersion = getSharedPreferences("PURCHASE_VERSION", 0);
 
-		alertbox = new AlertDialog.Builder(PurchaseHome.this);
+		alertbox = new AlertDialog.Builder(PurchaseHome.this, R.style.MyAlertDialogStyle);
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);

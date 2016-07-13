@@ -100,7 +100,7 @@ public class History extends Activity {
 
 		}
 		
-		alertbox = new AlertDialog.Builder(this);
+		alertbox = new AlertDialog.Builder(History.this, R.style.MyAlertDialogStyle);
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 

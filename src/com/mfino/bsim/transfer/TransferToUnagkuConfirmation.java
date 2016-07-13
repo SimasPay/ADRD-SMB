@@ -87,7 +87,7 @@ public class TransferToUnagkuConfirmation extends Activity {
 		 */
 
 		final String confirmMsg = bundle.getString("MSG");
-		alertbox = new AlertDialog.Builder(TransferToUnagkuConfirmation.this);
+		alertbox = new AlertDialog.Builder(TransferToUnagkuConfirmation.this, R.style.MyAlertDialogStyle);
 		btn_confirm = (Button) findViewById(R.id.confirmButton);
 		btn_cancel = (Button) findViewById(R.id.cancelButton);
 		LinearLayout custNameLayout = (LinearLayout) findViewById(R.id.nameLayout);

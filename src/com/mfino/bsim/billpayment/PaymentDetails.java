@@ -169,7 +169,7 @@ public class PaymentDetails extends AppCompatActivity {
 
 		}
 
-		alertbox = new AlertDialog.Builder(PaymentDetails.this);
+		alertbox = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle);
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 
@@ -671,7 +671,7 @@ public class PaymentDetails extends AppCompatActivity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		alertbox = new AlertDialog.Builder(PaymentDetails.this);
+		alertbox = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle);
 		alertbox.setMessage(msg);
 		alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {

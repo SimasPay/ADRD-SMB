@@ -55,7 +55,7 @@ public class BillPaymentCCBillInquiry extends Activity {
 		setContentView(R.layout.bill_inquiry);
 
 		//Language Option..
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 				
 		// Header code...
@@ -91,7 +91,7 @@ public class BillPaymentCCBillInquiry extends Activity {
 		btn_cancel = (Button) findViewById(R.id.cancelButton);
 		LinearLayout ccPaymentLayout=(LinearLayout)findViewById(R.id.isCreditCardLayout);
 		final TextView otherAmountText=(TextView)findViewById(R.id.tv_otherAmount);
-		alertbox = new AlertDialog.Builder(this);
+		alertbox = new AlertDialog.Builder(BillPaymentCCBillInquiry.this, R.style.MyAlertDialogStyle);
 		amount=bundle.getString("AMOUNT");
         if (bundle.getBoolean("IS_CCPAYMENT")) {
         	
@@ -537,7 +537,7 @@ public class BillPaymentCCBillInquiry extends Activity {
 	// Dialog Displaying
 
 			public  void displayDialog(String msg) {
-				alertbox = new AlertDialog.Builder(BillPaymentCCBillInquiry.this);
+				alertbox = new AlertDialog.Builder(BillPaymentCCBillInquiry.this, R.style.MyAlertDialogStyle);
 				alertbox.setMessage(msg);
 				alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface arg0, int arg1) {

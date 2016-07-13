@@ -103,7 +103,7 @@ public class PaymentHome extends Activity {
 		myFile = new File(this.getFilesDir() + "/", "payment.txt");
 		paymentVersion = getSharedPreferences("PAYMENT_VERSION", 0);
 
-		alertbox = new AlertDialog.Builder(PaymentHome.this);
+		alertbox = new AlertDialog.Builder(PaymentHome.this, R.style.MyAlertDialogStyle);
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);

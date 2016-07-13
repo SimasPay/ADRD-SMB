@@ -72,7 +72,7 @@ public class ChangePinConfirm extends Activity {
 		btn_cancel = (Button) findViewById(R.id.cancelButton);
 
 		tvConfirmMsg = (TextView) findViewById(R.id.tv_Confirm_info);
-		alertbox = new AlertDialog.Builder(ChangePinConfirm.this);
+		alertbox = new AlertDialog.Builder(ChangePinConfirm.this, R.style.MyAlertDialogStyle);
 		tvConfirmMsg.setText(bundle.getString("MSG"));
 		aditionalInfo.setVisibility(View.GONE);
 

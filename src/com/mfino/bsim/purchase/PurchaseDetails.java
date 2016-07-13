@@ -705,7 +705,7 @@ public class PurchaseDetails extends AppCompatActivity {
 
 		// }
 
-		alertbox = new AlertDialog.Builder(PurchaseDetails.this);
+		alertbox = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 		alertbox.setMessage(msg);
 		alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
