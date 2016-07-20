@@ -74,13 +74,13 @@ public class ActivationDetails extends Activity {
         //mobileNumber.setText(bundle.getString("MDN"));
         okButton = (Button)findViewById(R.id.okButton);
         resentOTP= (Button)findViewById(R.id.resendOTP);    
-        alertbox = new AlertDialog.Builder(this);
+        alertbox = new AlertDialog.Builder(ActivationDetails.this, R.style.MyAlertDialogStyle);
         //resentOTP.setTextColor(Color.parseColor("#3C3ABC"));
 		TextView textViewinNewPin=(TextView)findViewById(R.id.textView_newPin);
 		TextView textVieConfirmPin=(TextView)findViewById(R.id.textView_confirmNewPin);
 		//textVieConfirmPin.setTypeface(Typeface.SANS_SERIF);
 		//Language Option..
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -249,10 +249,17 @@ public class ActivationDetails extends Activity {
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ActivationDetails.this);
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			dialog = ProgressDialog.show(ActivationDetails.this, "  Banksinarmas               ",getResources().getString(R.string.eng_loading), true);
-
+			dialog = new ProgressDialog(ActivationDetails.this, R.style.MyAlertDialogStyle);
+			dialog.setTitle("Bank Sinarmas");
+			dialog.setCancelable(false);
+			dialog.setMessage(getResources().getString(R.string.eng_loading));
+			dialog.show();
 		} else {
-			dialog = ProgressDialog.show(ActivationDetails.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+			dialog = new ProgressDialog(ActivationDetails.this, R.style.MyAlertDialogStyle);
+			dialog.setTitle("Bank Sinarmas");
+			dialog.setCancelable(false);
+			dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+			dialog.show();
 		}
 		
 		final Handler handler = new Handler() {

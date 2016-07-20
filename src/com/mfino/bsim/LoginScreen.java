@@ -220,7 +220,6 @@ public class LoginScreen extends Activity {
 									}
 
 									if (!(msgCode == 630)) {
-
 										if (responseContainer.getMsg() == null) {
 											if (selectedLanguage.equalsIgnoreCase("ENG")) {
 												alertbox.setMessage(
@@ -238,7 +237,6 @@ public class LoginScreen extends Activity {
 											}
 										});
 										alertbox.show();
-
 									} else {
 										settings.edit().putString("mobile", loginId.getText().toString()).commit();
 										settings.edit().putString("pin", loginPin.getText().toString()).commit();
@@ -402,7 +400,6 @@ public class LoginScreen extends Activity {
 											mydb.insertfalshiz("false", "");
 											// mydb.insertMdn(loginId.getText().toString());
 											// mydb.insertfalshiz("false","");
-
 											// mydb.insertfalshiz("false",
 											// loginId.getText().toString());
 
@@ -424,10 +421,8 @@ public class LoginScreen extends Activity {
 													if (array.contains(mobileNumber)) {
 														Log.e("check_mdn_name",
 																mobileNumber + array.toString() + "iffffff_iff");
-
 													} else {
 														Log.e("check_mdn_name", mobileNumber + "elseeeeeee_eeeee");
-
 														// SDKLinkFragmentActivity.resetUserSession();
 														Log.e("check_mdn_name", mobileNumber + "else_outtttttt_tttttt");
 														// mydb.insertMdn(loginId.getText().toString());
@@ -479,11 +474,8 @@ public class LoginScreen extends Activity {
 										 * FLAG_ACTIVITY_CLEAR_TOP);
 										 * startActivity(intent); }
 										 */
-
 									}
-
 									loginPin.setText("");
-
 								} else {
 
 									dialog.dismiss();
@@ -503,12 +495,9 @@ public class LoginScreen extends Activity {
 						};
 
 						final Thread checkUpdate = new Thread() {
-
 							public void run() {
-
 								try {
-									responseXml = webServiceHttp.getResponseSSLCertificatation(); // Service
-																									// call
+									responseXml = webServiceHttp.getResponseSSLCertificatation(); // Service																// call
 								} catch (Exception e) {
 									responseXml = null;
 								}

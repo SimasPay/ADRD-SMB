@@ -6,6 +6,7 @@
     <string name="app_version">3</string>
     <string name="send_otp"><u>Click here to resend OTP</u></string>
     <string name="source_packet_code">2</string>
+    <string name="bsim">BSIM</string>
 
     <!-- English -->
     <string name="login">Login</string>
@@ -342,7 +343,7 @@
 				</html>
 				]]>
     </string>
-    <string name="_6_digit_kode_otp">4 digit kode OTP</string>
+    <string name="_6_digit_kode_otp">4 digit kode Simobi</string>
     <string name="_00_00">00:00</string>
 
 </resources>

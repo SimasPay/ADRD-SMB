@@ -44,8 +44,8 @@ public class WebServiceHttp extends Activity {
 	
 	
 	//Prduction
-	/*public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
-	public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";*/
+	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
+	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
 	
 	//Devserver
 	/*public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
@@ -55,7 +55,7 @@ public class WebServiceHttp extends Activity {
 	public static String webAPIUrlFiles="http://175.101.5.70:8080/webapi/dynamic";
 	public static String webAPIUrl ="https://175.101.5.70:8443/webapi/sdynamic";
 
-/*	//india
+	/*	//india
 		public static String webAPIUrlFiles;
 		public static String webAPIUrl;*/
 	
@@ -396,7 +396,7 @@ public class WebServiceHttp extends Activity {
 		
 		else if (Constants.TRANSACTION_Uangku_INQUIRY.equals(edContainer
 				.getTransactionName())) {
-			Log.e("url:::::::::", edContainer.getTransferType());
+			//Log.e("url:::::::::", edContainer.getTransferType());
 
 			if (edContainer.getTransferType().equals("toUnagku")) {
 				// System.out.println("tranferrrr111111111");
@@ -420,11 +420,11 @@ public class WebServiceHttp extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Log.e("test_url>>>>>>>>>>>>",requestUrl);
-				System.out.println("Testing>>>url@@@@@@@@@@@@@@@"+requestUrl);
+				//Log.e("test_url>>>>>>>>>>>>",requestUrl);
+				//System.out.println("Testing>>>url@@@@@@@@@@@@@@@"+requestUrl);
 
 			} else {
-				Log.e("elseeeeeeee","callinggggggggggg");
+				//Log.e("elseeeeeeee","callinggggggggggg");
 
 				// System.out.println("tranferrrr2222222");
 				requestUrl += "&" + Constants.PARAMETER_TRANSFER_ID + "="
@@ -788,8 +788,8 @@ public class WebServiceHttp extends Activity {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("URL: " + requestUrl);
-		System.out.println("URL: " );
+		//System.out.println("URL: " + requestUrl);
+		//System.out.println("URL: " );
 
 		return requestUrl;
 	}

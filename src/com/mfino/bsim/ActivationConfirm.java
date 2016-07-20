@@ -84,12 +84,12 @@ public class ActivationConfirm extends Activity {
 		btn_cancel = (Button) findViewById(R.id.cancelButton);
 
 		tvConfirmMsg = (TextView) findViewById(R.id.tv_Confirm_info);
-		alertbox = new AlertDialog.Builder(this);
+		alertbox = new AlertDialog.Builder(ActivationConfirm.this, R.style.MyAlertDialogStyle);
 		tvConfirmMsg.setText(bundle.getString("MSG"));
 		aditionalInfo.setVisibility(View.GONE);
 		
 		//Language Option..
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -151,7 +151,7 @@ public class ActivationConfirm extends Activity {
 				
 				final WebServiceHttp webServiceHttp= new WebServiceHttp(valueContainer,ActivationConfirm.this);
 
-				final ProgressDialog dialog = ProgressDialog.show(ActivationConfirm.this,"  Banksinarmas               ","Loading....   ",true);
+				final ProgressDialog dialog = ProgressDialog.show(ActivationConfirm.this,"  Bank Sinarmas               ","Loading....   ",true);
 
 				final Handler handler = new Handler() {
 

@@ -2,6 +2,7 @@ package com.mfino.bsim.receivers;
 
 import java.util.Locale;
 
+import com.mfino.bsim.ActivationDisclosure;
 import com.mfino.bsim.account.ChangePin;
 import com.mfino.bsim.billpayment.PaymentDetails;
 import com.mfino.bsim.flashiz.QRPayment2;
@@ -81,6 +82,10 @@ public class IncomingSMS extends BroadcastReceiver {
 							}else if(fragName.equals("QRPayment2")){
 								Log.d(LOG_TAG, "SMS diterima utk OTP QRPayment2");
 								QRPayment2 Sms = new QRPayment2();
+								Sms.recivedSms(message);
+							}else if(fragName.equals("ActivationDisclosure")){
+								Log.d(LOG_TAG, "SMS diterima utk OTP ActivationDisclosure");
+								ActivationDisclosure Sms = new ActivationDisclosure();
 								Sms.recivedSms(message);
 							}
 						}

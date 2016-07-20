@@ -51,7 +51,7 @@ public class HomeScreen extends Activity {
 		setContentView(R.layout.home_screen1);
 		//alertbox = new AlertDialog.Builder(HomeScreen.this);
 
-		mydb = new DBHelper(this);
+		mydb = new DBHelper(HomeScreen.this);
 
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		//String mobileNumber = settings.getString("mobile", "");

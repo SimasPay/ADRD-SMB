@@ -47,7 +47,7 @@ public class ActivationConfirmation extends Activity {
         tvMsg.setText(bundle.getString("MSG"));
         
       //Language Option..
-  		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+  		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
   		String selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
   		loginButton.setText("Login");
   		/*if (selectedLanguage.equalsIgnoreCase("ENG")) {
