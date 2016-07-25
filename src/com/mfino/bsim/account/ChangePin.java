@@ -626,6 +626,8 @@ public class ChangePin extends AppCompatActivity {
 			}
 		});
 		final AlertDialog b = dialogBuilder.create();
+		b.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		b.show();
 		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE)
         .setEnabled(false);

@@ -37,6 +37,7 @@ public class ActivationHome extends Activity {
 	String selectedLanguage;
 	ProgressDialog dialog;
 	Context context;
+	SharedPreferences settings;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -122,17 +123,24 @@ public class ActivationHome extends Activity {
 		valueContainer = new ValueContainer();
 		valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 		valueContainer.setSourceMdn(mdn.getText().toString());
+		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
+		settings.edit().putString("mobile", mdn.getText().toString()).commit();
 		valueContainer.setTransactionName(Constants.TRANSACTION_REGISTRATION_MEDIUM);
 
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ActivationHome.this);
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			dialog = ProgressDialog.show(ActivationHome.this, "  Bank Sinarmas               ",
-					getResources().getString(R.string.eng_loading), true);
-
+			dialog = new ProgressDialog(ActivationHome.this, R.style.MyAlertDialogStyle);
+			dialog.setTitle("Bank Sinarmas");
+			dialog.setCancelable(false);
+			dialog.setMessage(getResources().getString(R.string.eng_loading));
+			dialog.show();
 		} else {
-			dialog = ProgressDialog.show(ActivationHome.this, "  Bank Sinarmas               ",
-					getResources().getString(R.string.bahasa_loading), true);
+			dialog = new ProgressDialog(ActivationHome.this, R.style.MyAlertDialogStyle);
+			dialog.setTitle("Bank Sinarmas");
+			dialog.setCancelable(false);
+			dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+			dialog.show();
 		}
 		final Handler handler = new Handler() {
 

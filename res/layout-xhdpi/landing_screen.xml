@@ -44,103 +44,25 @@
     -->
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" >
-
-            <LinearLayout
-                android:id="@+id/mlogin"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/mlogin1"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:src="@drawable/login_icon" />
-
-                <TextView
-                    android:id="@+id/textView1"
-                    style="@style/below_icon_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Login" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/active"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="75dp"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/active1"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:src="@drawable/activation_icon" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    style="@style/below_icon_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Activation" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp" >
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <LinearLayout
-                    android:id="@+id/eform"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:orientation="vertical" >
-
-                    <ImageView
-                        android:id="@+id/elogin1"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/login_icon" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        style="@style/below_icon_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="E-Form" />
-                </LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/secondLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp" >
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/termsandconditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="70dp"
+            android:layout_marginRight="70dp"
+            android:text="@string/toc"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="normal" />
 
         <RelativeLayout
             android:id="@+id/contact_us"
@@ -149,5 +71,70 @@
             android:background="@drawable/contactus" >
         </RelativeLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/slider"
+        android:layout_marginTop="10dp" >
+
+        <LinearLayout
+            android:id="@+id/mlogin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/mlogin1"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@drawable/login_icon" />
+
+            <TextView
+                android:id="@+id/textView1"
+                style="@style/below_icon_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Login" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/active"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/active1"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@drawable/activation_icon" />
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/below_icon_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Activation" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--  <ImageView
+        android:id="@+id/slider"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/banner_2"
+        android:contentDescription="@null" />-->
 
 </RelativeLayout>

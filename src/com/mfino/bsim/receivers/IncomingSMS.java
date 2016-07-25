@@ -23,7 +23,7 @@ import android.util.Log;
 
 public class IncomingSMS extends BroadcastReceiver {
 
-	public static final String LOG_TAG = "SIMOBI-TO-BankSinarmas";
+	public static final String LOG_TAG = "SIMOBI";
 	private SharedPreferences settings;
 	
 	@SuppressWarnings("deprecation")
@@ -49,6 +49,7 @@ public class IncomingSMS extends BroadcastReceiver {
 		            	messages[i] = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
 		            }
 					String message = messages[i].getMessageBody();
+					Log.d(LOG_TAG, "msg : " + message);
 					try {
 						//if (message.contains("Kode Simobi Anda") && message.contains(sctl)) {
 						if (message.contains("Kode Simobi Anda ") || message.contains("Your Simobi Code is ")

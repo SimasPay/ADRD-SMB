@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:padding="15dp"
             android:background="@layout/rounded"
@@ -65,15 +65,13 @@
                 android:id="@+id/activationKeyEditText"
                 style="@style/text_box_style"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:ems="10"
                 android:imeOptions="actionNext"
-                android:inputType="number"
                 android:maxLength="8"
-                android:password="true" >
-            </EditText>
+                android:inputType="numberPassword" />
 
            <!--  <TextView
                 android:id="@+id/resendOTP"
@@ -106,6 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="3dp"
+                android:paddingStart="3dp"
                 android:layout_marginTop="10dp"
                 android:text="Enter your new mPIN " >
             </TextView>
@@ -116,9 +115,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
-                android:inputType="number"
                 android:maxLength="6"
-                android:password="true" >
+                android:inputType="numberPassword" >
             </EditText>
 
             <TextView
@@ -136,9 +134,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="6"
-                android:password="true" >
+                android:inputType="numberPassword"
+                android:maxLength="6" >
             </EditText>
 
             <RelativeLayout

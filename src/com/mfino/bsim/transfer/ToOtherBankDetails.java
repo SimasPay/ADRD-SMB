@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -683,6 +684,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 			}
 		});
 		final AlertDialog b = dialogBuilder.create();
+		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		b.show();
 		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE)
         .setEnabled(false);

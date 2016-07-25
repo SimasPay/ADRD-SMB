@@ -6,7 +6,7 @@
     android:background="@android:color/transparent"
     android:padding="10dp" >
 
-    <android.support.v7.widget.AppCompatEditText
+    <EditText
         android:id="@+id/otp_value"
         android:layout_width="0dp"
         android:layout_marginLeft="10dp"

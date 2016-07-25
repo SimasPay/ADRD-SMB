@@ -20,6 +20,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +46,7 @@ import com.mfino.handset.security.CryptoService;
 
 /** @author pramod */
 
-public class ActivationDisclosure extends Activity {
+public class ActivationDisclosure extends AppCompatActivity {
 	/** Called when the activity is first created. */
 	private Button agreeButton, decline;
 	private ValueContainer valueContainer;
@@ -79,7 +81,7 @@ public class ActivationDisclosure extends Activity {
 		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "Activation : ActivationDisclosure");
 		context = this;
-		mydb = new DBHelper(ActivationDisclosure.this);
+		mydb = new DBHelper(this);
 
 		// Header code...
 		TextView screeTitle = (TextView) findViewById(R.id.screenTitle);
@@ -208,12 +210,17 @@ public class ActivationDisclosure extends Activity {
 				final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ActivationDisclosure.this);
 
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
-					dialog = ProgressDialog.show(ActivationDisclosure.this, "  Banksinarmas               ",
-							getResources().getString(R.string.eng_loading), true);
-
+					dialog = new ProgressDialog(ActivationDisclosure.this, R.style.MyAlertDialogStyle);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setCancelable(false);
+					dialog.setMessage(getResources().getString(R.string.eng_loading));
+					dialog.show();
 				} else {
-					dialog = ProgressDialog.show(ActivationDisclosure.this, "  Banksinarmas               ",
-							getResources().getString(R.string.bahasa_loading), true);
+					dialog = new ProgressDialog(ActivationDisclosure.this, R.style.MyAlertDialogStyle);
+					dialog.setTitle("Bank Sinarmas");
+					dialog.setCancelable(false);
+					dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+					dialog.show();
 				}
 
 				final Handler handler = new Handler() {
@@ -515,7 +522,7 @@ public class ActivationDisclosure extends Activity {
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
-			//Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
+			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
 		} catch (Exception e) {
 
@@ -531,7 +538,7 @@ public class ActivationDisclosure extends Activity {
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.dismiss();
-							Intent intent = new Intent(ActivationDisclosure.this, HomeScreen.class);
+							Intent intent = new Intent(ActivationDisclosure.this, LandingScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
@@ -542,7 +549,7 @@ public class ActivationDisclosure extends Activity {
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.dismiss();
-							Intent intent = new Intent(ActivationDisclosure.this, HomeScreen.class);
+							Intent intent = new Intent(ActivationDisclosure.this, LandingScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
@@ -562,12 +569,12 @@ public class ActivationDisclosure extends Activity {
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
+		dialogBuilder.setCancelable(false);
 
 		// EditText OTP
 		edt = (EditText) dialogView.findViewById(R.id.otp_value);
-		edt.setText(otpValue);
-		final String otpValue_new = edt.getText().toString();
-		Log.d(LOG_TAG, "otpValue_new : " + otpValue_new + ", otpValue : " + otpValue);
+		//edt.setText(otpValue);
+		Log.d(LOG_TAG, "otpValue : " + otpValue);
 
 		// Timer
 		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
@@ -666,6 +673,8 @@ public class ActivationDisclosure extends Activity {
 			}
 		});
 		final AlertDialog b = dialogBuilder.create();
+		b.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		b.show();
 		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {

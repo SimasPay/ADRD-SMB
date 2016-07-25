@@ -7,6 +7,7 @@
     <string name="send_otp"><u>Click here to resend OTP</u></string>
     <string name="source_packet_code">2</string>
     <string name="bsim">BSIM</string>
+    <string name="toc">Terms &amp; Conditions</string>
 
     <!-- English -->
     <string name="login">Login</string>

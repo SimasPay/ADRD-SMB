@@ -240,7 +240,6 @@ public class ActivationDetails extends Activity {
 		
 		
 		/** Set Parameters for Activation Service. */
-
 		valueContainer = new ValueContainer();
 		valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 		valueContainer.setSourceMdn(bundle.getString("MDN"));

@@ -10,6 +10,7 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,9 +18,14 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,11 +47,25 @@ public class LandingScreen extends Activity {
 	public String responseXml = null;
 	ProgressDialog dialog;
 	int flag;
+	private static final String[] requiredPermissions = new String[]{
+            Manifest.permission.RECEIVE_SMS,
+            Manifest.permission.READ_SMS
+            /* ETC.. */
+    };
 
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.landing_screen);
+		
+		//Check Permission
+		if (Build.VERSION.SDK_INT > 22 && !hasPermissions(requiredPermissions)) {
+            requestPermissions(new String[] {Manifest.permission.READ_SMS}, 1);
+            Log.d("Simobi", "permission requested");
+        }else{
+        	Log.d("Simobi", "permission granted");
+        }
 
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES", 0);
@@ -66,7 +86,10 @@ public class LandingScreen extends Activity {
 
 		RelativeLayout contact = (RelativeLayout) findViewById(R.id.contact_us);
 		TextView activationText = (TextView) findViewById(R.id.textView2);
-
+		TextView toc = (TextView) findViewById(R.id.termsandconditions);
+		
+		toc.setVisibility(View.GONE);
+		
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			System.out.println("Testing1>>" + selectedLanguage);
 			activationText.setText(getResources().getString(R.string.eng_activation));
@@ -79,7 +102,16 @@ public class LandingScreen extends Activity {
 		// Get public key
 		if (getPublic == true)
 			getPublick();
-
+		
+		toc.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(LandingScreen.this, TermsAndConditions.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivityForResult(intent, 1);
+			}
+		});
+		
 		mlogin.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -277,6 +309,14 @@ public class LandingScreen extends Activity {
 			}
 		};
 		checkUpdate.start();
-
 	}
+	
+	@SuppressLint("NewApi")
+	public boolean hasPermissions(@NonNull String... permissions) {
+        for (String permission : permissions)
+            if (PackageManager.PERMISSION_GRANTED != checkSelfPermission(permission))
+                return false;
+        return true;
+    }
+
 }

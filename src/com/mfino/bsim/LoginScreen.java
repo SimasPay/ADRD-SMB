@@ -69,7 +69,6 @@ public class LoginScreen extends Activity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		//String password = settings.getString("pin", "");
-
 		encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES", 0);
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");

@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -930,6 +931,7 @@ public class PurchaseDetails extends AppCompatActivity {
 				}
 			});
 		final AlertDialog b = dialogBuilder.create();
+		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		b.show();
 		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE)
         .setEnabled(false);
