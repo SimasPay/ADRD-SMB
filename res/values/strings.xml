@@ -8,6 +8,7 @@
     <string name="source_packet_code">2</string>
     <string name="bsim">BSIM</string>
     <string name="toc">Terms &amp; Conditions</string>
+    <string name="contact_us">Contact Us</string>
 
     <!-- English -->
     <string name="login">Login</string>

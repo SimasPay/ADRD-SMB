@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -49,8 +48,8 @@ public class TermsAndConditions extends AppCompatActivity {
 				//super.onPageFinished(view, url);
 				progressbar.setVisibility(View.GONE);
 				myTextProgress.setVisibility(View.GONE);
-	            String javaScript = "javascript:document.getElementsByTagName('body')[0].removeAttribute('background');";
-	            mWebView.loadUrl(javaScript);  
+	            //String javaScript = "javascript:document.getElementsByTagName('body')[0].removeAttribute('background');";
+	            //mWebView.loadUrl(javaScript);  
 			}
 		});
 		mWebView.clearCache(true);
