@@ -2,8 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_corners"
-    android:padding="0dip" >
+    android:scaleType="fitCenter"
+  	android:adjustViewBounds="true"
+    android:background="@drawable/rounded_corners" >
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -18,11 +19,11 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:background="@drawable/rounded_corners"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/test"
         android:scaleType="centerCrop" />
 

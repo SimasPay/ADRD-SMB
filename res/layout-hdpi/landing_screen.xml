@@ -45,10 +45,10 @@
     <include
         android:id="@+id/imgslider"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="250dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:layout_below="@+id/header"
         layout="@layout/event_slider" />
 

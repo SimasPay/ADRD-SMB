@@ -3,12 +3,13 @@
 
     <string name="hello">Hello World, SplashScreen!</string>
     <string name="Simobi_app_name">Bank Sinarmas</string>
-    <string name="app_version">3</string>
+    <string name="app_version">4</string>
     <string name="send_otp"><u>Click here to resend OTP</u></string>
     <string name="source_packet_code">2</string>
     <string name="bsim">BSIM</string>
     <string name="toc">Terms &amp; Conditions</string>
     <string name="contact_us">Contact Us</string>
+    <string name="ok">OK</string>
 
     <!-- English -->
     <string name="login">Login</string>
@@ -94,7 +95,8 @@
 	<string name="eng_welcome">Welcome, </string>
     <string name="eng_desc_otpfailed">Please enter the code within specified time limit."</string>
     <string name="eng_incorrectotp">You have entered incorrect code. Please try again and ensure that you  enter the correct code.</string>
-    
+    <string name="eng_forcechangepin">Please update your Simobi Application before performing transaction</string>
+    <string name="eng_changepin">Please change your mPIN before performing transaction</string>
     <!-- bahasa -->
 
     <string name="bahasa_login"> Login </string>
@@ -178,6 +180,9 @@
     <string name="bahasa_otpfailed">Verifikasi Kode Gagal</string>
     <string name="bahasa_desc_otpfailed">Silakan masukan kode sebelum batas waktu yang ditentukan</string>
     <string name="bahasa_incorrectotp">Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.</string>
+    <string name="bahasa_forcechangepin">Silakan perbarui Aplikasi Simobi Anda sebelum melakukan transaksi</string>
+    <string name="bahasa_changepin">Mohon ubah mPIN Anda sebelum melakukan transaksi</string>
+    
     <string name="login_content">
 <![CDATA[
 		<html>

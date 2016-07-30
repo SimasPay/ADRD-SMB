@@ -167,6 +167,7 @@ public class ChangePinConfirm extends Activity {
 								intent.putExtra("SCREEN", "ChangePin");
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
+								settings.edit().putBoolean("alreadyChangePin", true).commit();
 							} else {
 								if(responseContainer.getMsgCode().equals("2000")){
 									if (selectedLanguage.equalsIgnoreCase("ENG")) {

@@ -21,6 +21,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,10 +66,10 @@ public class ChangePin extends AppCompatActivity {
 	
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.change_pin);
-		context = this;
+		context = ChangePin.this;
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
@@ -84,19 +85,51 @@ public class ChangePin extends AppCompatActivity {
 		Log.d(LOG_TAG, "Account : ChangePin");
 
 		back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
+				String required;
+				if (savedInstanceState == null) {
+				    Bundle extras = getIntent().getExtras();
+				    if(extras == null) {
+				    	required= null;
+				    } else {
+				    	required= extras.getString("REQUIRED");
+				    	if(required.equals("yes")){
+				    		forceChangePINDialog();
+				    	}else{
+				    		Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+				    	}
+				    }
+				}else{
+					required= (String) savedInstanceState.getSerializable("STRING_I_NEED");
+				}
 				finish();
 			}
 		});
 		home.setOnClickListener(new OnClickListener() {
-
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ChangePin.this, HomeScreen.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
+			public void onClick(View arg0) {
+				String required;
+				if (savedInstanceState == null) {
+				    Bundle extras = getIntent().getExtras();
+				    if(extras == null) {
+				    	required= null;
+				    } else {
+				    	required= extras.getString("REQUIRED");
+				    	if(required.equals("yes")){
+				    		forceChangePINDialog();
+				    	}else{
+				    		Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+				    	}
+				    }
+				}else{
+					required= (String) savedInstanceState.getSerializable("STRING_I_NEED");
+				}
+				finish();
 			}
 		});
 
@@ -517,6 +550,30 @@ public class ChangePin extends AppCompatActivity {
 		}
 	}
 
+	
+	public void forceChangePINDialog() {
+		AlertDialog.Builder builderError = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
+		builderError.setCancelable(false);
+		if (selectedLanguage.equalsIgnoreCase("ENG")) {
+			builderError.setTitle(getResources().getString(R.string.Simobi_app_name));
+			builderError.setMessage(getResources().getString(R.string.eng_forcechangepin));
+			
+		} else {
+			builderError.setTitle(getResources().getString(R.string.Simobi_app_name));
+			builderError.setMessage(getResources().getString(R.string.bahasa_forcechangepin));
+		}
+		builderError.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.dismiss();
+			}
+		});
+		AlertDialog alertError = builderError.create();
+		if(!((Activity) context).isFinishing())
+		{
+			alertError.show();
+		}
+	}
+	
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
@@ -551,7 +608,7 @@ public class ChangePin extends AppCompatActivity {
 	public void showOTPRequiredDialog(final String message, final String mfaMode, final String sctl,
 			final String oldPin, final String newPin) {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
-		LayoutInflater inflater = this.getLayoutInflater();
+		LayoutInflater inflater = ChangePin.this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
@@ -669,6 +726,20 @@ public class ChangePin extends AppCompatActivity {
 		
 		    }
 		});
+	}
+	
+	@Override
+	public void onBackPressed() {
+		forceChangePINDialog();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	     if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	 forceChangePINDialog();
+	     return true;
+	     }
+	     return super.onKeyDown(keyCode, event);    
 	}
 
 }

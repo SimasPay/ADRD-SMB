@@ -26,6 +26,7 @@ import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
+import com.mfino.bsim.transfer.ToBankSinarmas;
 
 public class History extends Activity {
 
@@ -83,7 +84,7 @@ public class History extends Activity {
 		btn_ok = (Button) findViewById(R.id.btn_EnterPin_Ok);
 		
 		//Language Option..
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -143,11 +144,17 @@ public class History extends Activity {
 
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						dialog = ProgressDialog.show(History.this, "  Banksinarmas               ",getResources().getString(R.string.eng_loading), true);
-
+						dialog = new ProgressDialog(History.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.eng_loading));
+						dialog.show();
 					} else {
-						dialog = ProgressDialog.show(History.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
-					}
+						dialog = new ProgressDialog(History.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+						dialog.show();}
 					
 					final Handler handler = new Handler() {
 

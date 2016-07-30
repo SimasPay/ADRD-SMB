@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dimo.PayByQR.PayByQRSDK;
+import com.mfino.bsim.account.ChangePin;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.db.DBHelper;
@@ -68,7 +69,7 @@ public class LoginScreen extends Activity {
 		context = this;
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
-		//String password = settings.getString("pin", "");
+		// String password = settings.getString("pin", "");
 		encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES", 0);
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
@@ -218,6 +219,7 @@ public class LoginScreen extends Activity {
 										msgCode = 0;
 									}
 
+									Log.d("Simobi", "get MsgCode : " + msgCode);
 									if (!(msgCode == 630)) {
 										if (responseContainer.getMsg() == null) {
 											if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -227,15 +229,39 @@ public class LoginScreen extends Activity {
 												alertbox.setMessage(
 														getResources().getString(R.string.bahasa_serverNotRespond));
 											}
+											alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int arg1) {
+													dialog.dismiss();
+												}
+											});
+											alertbox.show();
+										} else if (msgCode == 2177) {
+											if (selectedLanguage.equalsIgnoreCase("ENG")) {
+												alertbox.setMessage(getResources().getString(R.string.eng_changepin));
+											} else {
+												alertbox.setMessage(
+														getResources().getString(R.string.bahasa_changepin));
+											}
+											alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int arg1) {
+													dialog.dismiss();
+													Intent intent = new Intent(LoginScreen.this, ChangePin.class);
+													intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+													intent.putExtra("REQUIRED", "yes");
+													startActivity(intent);
+												}
+											});
+											alertbox.show();
 										} else {
 											alertbox.setMessage(responseContainer.getMsg());
+											alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int arg1) {
+													dialog.dismiss();
+												}
+											});
+											alertbox.show();
 										}
-										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface arg0, int arg1) {
 
-											}
-										});
-										alertbox.show();
 									} else {
 										settings.edit().putString("mobile", loginId.getText().toString()).commit();
 										settings.edit().putString("pin", loginPin.getText().toString()).commit();
@@ -496,7 +522,9 @@ public class LoginScreen extends Activity {
 						final Thread checkUpdate = new Thread() {
 							public void run() {
 								try {
-									responseXml = webServiceHttp.getResponseSSLCertificatation(); // Service																// call
+									responseXml = webServiceHttp.getResponseSSLCertificatation(); // Service
+																									// //
+																									// call
 								} catch (Exception e) {
 									responseXml = null;
 								}

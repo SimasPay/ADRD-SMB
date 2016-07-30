@@ -96,7 +96,6 @@ public class HomeScreen extends Activity {
 		}
 
 		qrPayment.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(HomeScreen.this, QRPayment2.class);
