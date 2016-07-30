@@ -97,6 +97,7 @@
     <string name="eng_incorrectotp">You have entered incorrect code. Please try again and ensure that you  enter the correct code.</string>
     <string name="eng_forcechangepin">Please update your Simobi Application before performing transaction</string>
     <string name="eng_changepin">Please change your mPIN before performing transaction</string>
+    <string name="eng_loginagain">Please login again</string>
     <!-- bahasa -->
 
     <string name="bahasa_login"> Login </string>
@@ -182,7 +183,7 @@
     <string name="bahasa_incorrectotp">Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.</string>
     <string name="bahasa_forcechangepin">Silakan perbarui Aplikasi Simobi Anda sebelum melakukan transaksi</string>
     <string name="bahasa_changepin">Mohon ubah mPIN Anda sebelum melakukan transaksi</string>
-    
+    <string name="bahasa_loginagain">Dimohon untuk login kembali</string>
     <string name="login_content">
 <![CDATA[
 		<html>
