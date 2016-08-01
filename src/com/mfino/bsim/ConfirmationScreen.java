@@ -1,9 +1,14 @@
 package com.mfino.bsim;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -66,7 +71,25 @@ public class ConfirmationScreen extends Activity {
 			} else {
 				tvDetails.setText(getResources().getString(R.string.bahasa_loginagain));
 			}
-		} else {
+		} else if(bundle.getString("MSG").contains("Your Simobi money balance as on ")){
+			String msg = "";
+			if (selectedLanguage.equalsIgnoreCase("ENG")) {
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+				Calendar cal = Calendar.getInstance();
+				String date = dateFormat.format(cal.getTime());
+				msg = "Date/Time : " + date + "\nAccount No. : " + bundle.getString("AccountNumber") + "\nBalance : " + bundle.getString("Amount") + " IDR";
+			}else{
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+				Calendar cal = Calendar.getInstance();
+				String date = dateFormat.format(cal.getTime());
+				msg = "Tanggal/Waktu : " + date + "\nNo. Rekening : " + bundle.getString("AccountNumber") + "\nSaldo : Rp" + bundle.getString("Amount");
+			}
+			if(msg.equals("")){
+				tvDetails.setText(msg);
+			}else{
+				tvDetails.setText(bundle.getString("MSG"));
+			}
+		}else {
 			tvDetails.setText(bundle.getString("MSG"));
 		}
 

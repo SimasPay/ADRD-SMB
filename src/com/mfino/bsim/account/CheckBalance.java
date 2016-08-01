@@ -192,6 +192,8 @@ public class CheckBalance extends Activity {
 
 									Intent intent = new Intent(CheckBalance.this,ConfirmationScreen.class);
 									intent.putExtra("MSG",responseContainer.getMsg());
+									intent.putExtra("AccountNumber", responseContainer.getAccountNumber());
+									intent.putExtra("Amount", responseContainer.getAmount());
 									intent.putExtra("ADITIONAL_INFO", "");
 									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 									startActivity(intent);
