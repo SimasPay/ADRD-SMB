@@ -91,7 +91,7 @@ public class LoginScreen extends Activity {
 		} else {
 			// loginButton.setBackgroundResource(R.drawable.login_button);
 			loginTxt.setText(getResources().getString(R.string.bahasa_login));
-			mdnTxt.setText(getResources().getString(R.string.bahasa_mobileNumber));
+			mdnTxt.setText(getResources().getString(R.string.bahasa_mobileNumber_new));
 			welcomeTxt.setText(getResources().getString(R.string.bahasa_welcome));
 		}
 

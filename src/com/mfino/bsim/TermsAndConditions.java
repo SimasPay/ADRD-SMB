@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,6 +33,14 @@ public class TermsAndConditions extends AppCompatActivity {
 		myTextProgress = (TextView) findViewById(R.id.myTextProgress);
 		TextView screenTitle = (TextView) findViewById(R.id.screenTitle);
 		screenTitle.setText("Terms & Conditions");
+		ImageButton back = (ImageButton) findViewById(R.id.back);
+		back.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				finish();
+				TermsAndConditions.this.finish();
+			}
+		});
 		
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");

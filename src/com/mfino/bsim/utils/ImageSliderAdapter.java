@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 
 import java.io.InputStream;
@@ -53,7 +54,7 @@ public class ImageSliderAdapter extends PagerAdapter {
 		final ProgressBar progressbar = (ProgressBar) imageLayout.findViewById(R.id.progressbar);
 
 		new DownloadImageTask(progressbar, imageView).execute(IMAGES.get(position));
-
+		imageView.setScaleType(ScaleType.FIT_XY);
 		view.addView(imageLayout, 0);
 
 		return imageLayout;
@@ -102,6 +103,7 @@ public class ImageSliderAdapter extends PagerAdapter {
 	    	    RoundedBitmapDrawableFactory.create(res, result);
 	    	dr.setCornerRadius(25.0f);
 	    	bmImage.setImageDrawable(dr);
+	    	bmImage.setScaleType(ScaleType.FIT_XY);
 
 	    	//bmImage.setImageDrawable(img);
 	        //bmImage.setImageBitmap(result);

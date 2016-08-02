@@ -54,6 +54,7 @@ public class ActivationHome extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				finish();
+				ActivationHome.this.finish();
 			}
 		});
 

@@ -18,11 +18,10 @@ public class ContactUs extends AppCompatActivity {
 		setContentView(R.layout.contact_us);
 		TextView screenTitle = (TextView) findViewById(R.id.screenTitle);
 		ImageButton back = (ImageButton) findViewById(R.id.back);
-
 		back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
+				finish();
 				ContactUs.this.finish();
 			}
 		});
