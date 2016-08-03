@@ -55,6 +55,7 @@ import com.mfino.bsim.services.XMLParser;
 public class AccountSelection extends Activity {
 	String amount = "";
 	String accountNumber = "";
+	String transactionTime = "";
 	private ImageView mimage1, mimage2;
 	private ImageView mimage3, language;
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
@@ -123,7 +124,7 @@ public class AccountSelection extends Activity {
 		TextView changePin = (TextView) findViewById(R.id.textView3);
 		TextView language_change = (TextView) findViewById(R.id.lang);
 
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", Context.MODE_WORLD_READABLE);
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -290,6 +291,10 @@ public class AccountSelection extends Activity {
 							String rootNode = doc.getDocumentElement().getNodeName();
 							NodeList bookslist = doc.getElementsByTagName(rootNode);
 							if (bookslist != null) {
+								if(contentsXML.contains("<transactionTime>")){
+									transactionTime = (String) ((Element) bookslist.item(0)).getElementsByTagName("transactionTime").item(0)
+											.getChildNodes().item(0).getNodeValue();
+								}
 								if(contentsXML.contains("<amount>")){
 									amount = (String) ((Element) bookslist.item(0)).getElementsByTagName("amount").item(0)
 											.getChildNodes().item(0).getNodeValue();
@@ -299,12 +304,13 @@ public class AccountSelection extends Activity {
 											.getElementsByTagName("accountNumber").item(0).getChildNodes().item(0)
 											.getNodeValue();
 								}
-								
+								System.out.println("transactionTime " + transactionTime);
 								System.out.println("amount " + amount);
 								System.out.println("accountNumber " + accountNumber);
 							} else {
 								amount = "";
 								accountNumber = "";
+								transactionTime = "";
 							}
 						} catch (ParserConfigurationException e) {
 							e.printStackTrace();
@@ -319,6 +325,7 @@ public class AccountSelection extends Activity {
 								+ responseContainer.getAccountNumber());
 						intent.putExtra("MSG", responseContainer.getMsg());
 						intent.putExtra("AccountNumber", accountNumber);
+						intent.putExtra("TransactionTime", transactionTime);
 						intent.putExtra("Amount", amount);
 						intent.putExtra("ADITIONAL_INFO", "");
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -2,7 +2,11 @@ package com.mfino.bsim;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -114,7 +118,7 @@ public class Confirmation_History extends Activity {
 	        a.setGravity(Gravity.LEFT);
 	        b.setGravity(Gravity.LEFT);
 	        c.setGravity(Gravity.CENTER_HORIZONTAL);
-	        d.setGravity(Gravity.CENTER_HORIZONTAL);
+	        d.setGravity(Gravity.RIGHT);
 	        e.setGravity(Gravity.RIGHT);
 	        a.setTypeface(null, Typeface.BOLD);
 	        b.setTypeface(null, Typeface.BOLD);
@@ -123,21 +127,51 @@ public class Confirmation_History extends Activity {
 	        e.setTypeface(null, Typeface.BOLD);
 	        a.setText("Date");
 	        b.setText("Trx Type");
-	        c.setText("Debit/Credit");
+	        c.setText("D/C  ");
 	        d.setText("");
 	        e.setText("Amount");
 	        rowheader.addView(a, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 	        rowheader.addView(b, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-	        rowheader.addView(c, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+	        rowheader.addView(c);
 	        rowheader.addView(d);
 	        rowheader.addView(e, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 	        table.addView(rowheader,new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+	        
+	        /**
+	        TableRow rowT = new TableRow(this);
+	        TextView f = new TextView(this);
+	        TextView g = new TextView(this);
+	        TextView h = new TextView(this);  
+	        TextView i = new TextView(this);
+	        TextView j = new TextView(this);
+	        f.setGravity(Gravity.LEFT);
+	        g.setGravity(Gravity.LEFT);
+	        h.setGravity(Gravity.CENTER_HORIZONTAL);
+	        i.setGravity(Gravity.RIGHT);
+	        j.setGravity(Gravity.RIGHT);
+	        f.setText("03/08/06");
+	        g.setText("Minjem Duit");
+	        h.setText("(C)  ");
+	        i.setText("IDR");
+	        j.setText("2.999.999.999");
+	        rowT.addView(f, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+	        rowT.addView(g, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+	        rowT.addView(h);
+	        rowT.addView(i);
+	        rowT.addView(j, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+	        table.addView(rowT,new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+	        **/
+	        
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				Node nNode = nList.item(temp);
 				System.out.println("\nCurrent Element :" + nNode.getNodeName());
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
-					System.out.println("Transaction Time : " + eElement.getElementsByTagName("transactionTime").item(0).getTextContent());
+					SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+					Date date1 = sm.parse(eElement.getElementsByTagName("transactionTime").item(0).getTextContent());
+					DateFormat outputFormatter1 = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+					String strDate = outputFormatter1.format(date1); // 
+					System.out.println("Transaction Time : " + strDate);
 					System.out.println("Transaction Type : " + eElement.getElementsByTagName("transactionType").item(0).getTextContent());
 					System.out.println("Amount : " + eElement.getElementsByTagName("amount").item(0).getTextContent());
 					String CurrentString = eElement.getElementsByTagName("transactionType").item(0).getTextContent();
@@ -150,17 +184,19 @@ public class Confirmation_History extends Activity {
 			        TextView v = new TextView(this);  
 			        TextView w = new TextView(this);
 			        TextView x = new TextView(this);
+			        t.setGravity(Gravity.LEFT);
+			        u.setGravity(Gravity.LEFT);
 			        v.setGravity(Gravity.CENTER_HORIZONTAL);
 			        w.setGravity(Gravity.RIGHT);
 			        x.setGravity(Gravity.RIGHT);
-			        t.setText("" + eElement.getElementsByTagName("transactionTime").item(0).getTextContent() + "");
+			        t.setText("" + strDate + "    ");
 			        u.setText("" + type + "");
 			        v.setText("" + initType + "  ");
-			        w.setText("     IDR");
+			        w.setText("IDR");
 			        x.setText("" + eElement.getElementsByTagName("amount").item(0).getTextContent() + "");
 			        row.addView(t, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 			        row.addView(u, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-			        row.addView(v, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+			        row.addView(v);
 			        row.addView(w);
 			        row.addView(x, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 			        table.addView(row,new TableLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
