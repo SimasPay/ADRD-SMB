@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,9 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.mfino.bsim.ActivationDetails;
 import com.mfino.bsim.ConfirmationScreen;
-import com.mfino.bsim.Confirmation_History;
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
@@ -28,7 +27,6 @@ import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
-import com.mfino.bsim.transfer.ToBankSinarmas;
 
 public class CheckBalance extends Activity {
 
@@ -189,7 +187,7 @@ public class CheckBalance extends Activity {
 									alertbox.show();
 
 								} else if (responseContainer.getMsgCode().equals(EMONEY_BALACE_MSGCODE)|| responseContainer.getMsgCode().equals(BANK_BALACE_MSGCODE)) {
-
+									Log.d("Simobi", " " + responseContainer.getAccountNumber());
 									Intent intent = new Intent(CheckBalance.this,ConfirmationScreen.class);
 									intent.putExtra("MSG",responseContainer.getMsg());
 									intent.putExtra("AccountNumber", responseContainer.getAccountNumber());

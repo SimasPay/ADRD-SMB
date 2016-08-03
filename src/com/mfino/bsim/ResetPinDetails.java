@@ -81,9 +81,9 @@ public class ResetPinDetails extends Activity {
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
-		encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES",	Context.MODE_WORLD_READABLE);
+		encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES",	0);
 		//Language Option..
-				languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+				languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 				selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 				
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -205,10 +205,10 @@ public class ResetPinDetails extends Activity {
 
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						dialog = ProgressDialog.show(ResetPinDetails.this, "  Banksinarmas               ",getResources().getString(R.string.eng_loading), true);
+						dialog = ProgressDialog.show(ResetPinDetails.this, "  Bank Sinarmas               ",getResources().getString(R.string.eng_loading), true);
 
 					} else {
-						dialog = ProgressDialog.show(ResetPinDetails.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+						dialog = ProgressDialog.show(ResetPinDetails.this, "  Bank Sinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
 					}
 					final Handler handler = new Handler() {
 

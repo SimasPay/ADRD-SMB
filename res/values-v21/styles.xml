@@ -4,11 +4,11 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-
+    
     <color name="redsinarmas">#D60404</color>
     <color name="white">#fff</color>
     <color name="black">#000</color>
-
+    
     <style name="AppBaseTheme" parent="Base.Theme.AppCompat">
         <item name="colorControlNormal">@color/redsinarmas</item>
         <item name="colorControlActivated">@color/redsinarmas</item>
@@ -63,16 +63,13 @@
         <item name="android:textColorHint">#000000</item>
     </style>
 
-    <style name="MyAlertDialogStyle" parent="@android:Theme.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowTitleStyle">@style/DialogWindowTitle_Holo</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:background">@android:color/transparent</item>
-    </style>
-
-    <style name="DialogWindowTitle_Holo">
-        <item name="android:maxLines">1</item>
-        <item name="android:scrollHorizontally">true</item>
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/redsinarmas</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:background">@color/black</item>
+        <item name="colorControlHighlight">#2E2A2A</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
@@ -81,12 +78,12 @@
         <item name="colorControlActivated">@color/redsinarmas</item>
         <item name="colorControlHighlight">@color/redsinarmas</item>
     </style>
-
+    
     <style name="SpinnerItem">
         <item name="android:textColor">@color/black</item>
         <item name="android:background">@drawable/background</item>
     </style>
-
+    
     <style name="SpinnerDropDownItem">
         <item name="android:textColor">@color/black</item>
         <item name="android:background">@drawable/background</item>

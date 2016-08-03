@@ -154,7 +154,8 @@ public class History extends Activity {
 						dialog.setTitle("Bank Sinarmas");
 						dialog.setCancelable(false);
 						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
-						dialog.show();}
+						dialog.show();
+					}
 					
 					final Handler handler = new Handler() {
 

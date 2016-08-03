@@ -65,14 +65,9 @@ public class ConfirmationScreen extends Activity {
 			} else {
 				tvDetails.setText(getResources().getString(R.string.bahasa_incorrectotp));
 			}
-		} else if (bundle.getString("MSG").trim().equals("Please login again")) {
-			if (selectedLanguage.equalsIgnoreCase("ENG")) {
-				tvDetails.setText(getResources().getString(R.string.eng_loginagain));
-			} else {
-				tvDetails.setText(getResources().getString(R.string.bahasa_loginagain));
-			}
-		} else if(bundle.getString("MSG").contains("Your Simobi money balance as on ")){
+		} else if(bundle.getString("MSG").contains("Your Bank Account Balance as on ")){
 			String msg = "";
+			Log.d("TES", "test");
 			if (selectedLanguage.equalsIgnoreCase("ENG")) {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
 				Calendar cal = Calendar.getInstance();
@@ -84,7 +79,7 @@ public class ConfirmationScreen extends Activity {
 				String date = dateFormat.format(cal.getTime());
 				msg = "Tanggal/Waktu : " + date + "\nNo. Rekening : " + bundle.getString("AccountNumber") + "\nSaldo : Rp" + bundle.getString("Amount");
 			}
-			if(msg.equals("")){
+			if(!bundle.getString("AccountNumber").equals("") && !bundle.getString("Amount").equals("")){
 				tvDetails.setText(msg);
 			}else{
 				tvDetails.setText(bundle.getString("MSG"));
@@ -152,10 +147,9 @@ public class ConfirmationScreen extends Activity {
 
 		}
 		btn_home.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
-				if(bundle.getString("MSG").trim().equals("Please login again")) {
+				if(bundle.getString("MSG").trim().equals("Please login again") || bundle.getString("MSG").trim().equals("ERROR: Not Registered. Hi! You are currently not registered as a Simobi user")) {
 					Intent intent = new Intent(ConfirmationScreen.this, LoginScreen.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
