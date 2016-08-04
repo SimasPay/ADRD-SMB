@@ -156,7 +156,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/logout_btn" />
+            android:background="@drawable/logout" />
     </RelativeLayout>
 
 </RelativeLayout>

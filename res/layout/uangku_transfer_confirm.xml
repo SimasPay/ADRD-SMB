@@ -22,9 +22,9 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:background="@layout/rounded"
-            android:layout_gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="10dp" >
 
@@ -87,8 +87,6 @@
                         android:text="Medium Text" />
                 </TableRow>
 
-                
-
                 <TableRow
                     android:id="@+id/amountLayout"
                     android:layout_width="match_parent"
@@ -119,27 +117,25 @@
                 android:orientation="horizontal" >
 
                 <Button
-                    android:id="@+id/confirmButton"
+                    android:id="@+id/cancelButton"
+                    style="@style/font_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
-                    android:text="Confirm"
-                    style="@style/font_button"
-                    android:textAllCaps="false"
-                    android:background="@drawable/button_empty" >
-                </Button>
+                    android:background="@drawable/button_empty"
+                    android:text="Cancel" />
 
                 <Button
-                    android:id="@+id/cancelButton"
+                    android:id="@+id/confirmButton"
+                    style="@style/font_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
-                    android:text="Cancel"
-                    style="@style/font_button"
-                    android:background="@drawable/button_empty" >
-                </Button>
+                    android:background="@drawable/button_empty"
+                    android:text="Confirm"
+                    android:textAllCaps="false" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

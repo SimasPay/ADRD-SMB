@@ -70,7 +70,6 @@ public class ChangePinConfirm extends Activity {
 
 		btn_confirm = (Button) findViewById(R.id.confirmButton);
 		btn_cancel = (Button) findViewById(R.id.cancelButton);
-
 		tvConfirmMsg = (TextView) findViewById(R.id.tv_Confirm_info);
 		alertbox = new AlertDialog.Builder(ChangePinConfirm.this, R.style.MyAlertDialogStyle);
 		tvConfirmMsg.setText(bundle.getString("MSG"));
@@ -111,7 +110,10 @@ public class ChangePinConfirm extends Activity {
 				valueContainer.setTransactionName(Constants.TRANSACTION_CHANGEPIN);
 				valueContainer.setMfaMode(bundle.getString("MFA_MODE"));
 				valueContainer.setSctl(bundle.getString("SCTL"));
-				valueContainer.setSourceMdn(Constants.SOURCE_MDN_NAME);
+				settings = getSharedPreferences("LOGIN_PREFERECES", 0);
+				String mobileNumber = settings.getString("mobile", "");
+				valueContainer.setSourceMdn(mobileNumber);
+				//valueContainer.setSourceMdn(Constants.SOURCE_MDN_NAME);
 				valueContainer.setSourcePin(bundle.getString("OPIN"));
 				valueContainer.setNewPin(bundle.getString("NPIN"));
 				valueContainer.setConfirmPin(bundle.getString("CONFIRM_NPIN"));

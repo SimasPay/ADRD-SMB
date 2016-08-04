@@ -12,14 +12,14 @@
         layout="@layout/header" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="50dp" >
 
             <!--
@@ -33,14 +33,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                  android:layout_marginRight="10dp"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:padding="5dp" >
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/bank_sinarmas" />
 
                 <TextView
@@ -49,19 +49,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="BankSinarmas" />
+                    android:text="Bank Sinarmas" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical" >
+                android:layout_marginLeft="25dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:padding="5dp" >
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/to_other_banks" />
 
                 <TextView
@@ -70,46 +72,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="OtherBank" />
+                    android:text="Other Bank" />
             </LinearLayout>
         </LinearLayout>
-         <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="5dp"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp" 
-                >
-
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:src="@drawable/uangku_transfer" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                   style="@style/below_icon_text"
-                    android:text="Uangku" />
-            </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="5dp" >
 
-            <!--
-                 <ImageView
-                android:id="@+id/imageView3"
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/test"
+                android:src="@drawable/uangku_transfer" />
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/below_icon_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/to_other_banks" />
-            -->
-
+                android:layout_gravity="center_horizontal"
+                android:text="Uangku" />
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

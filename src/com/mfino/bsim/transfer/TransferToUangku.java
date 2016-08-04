@@ -111,14 +111,14 @@ public class TransferToUangku extends AppCompatActivity {
 		// screeTitle.setText(bundle.getString("TAG_NAME"));
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			screeTitle.setText("Uangku");
+			screeTitle.setText("Transfer to Uangku");
 			// screeTitle.setText(getResources().getString(R.string.eng_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.eng_mobileNumber));
 			amountTxt.setText(getResources().getString(R.string.eng_amount));
 			btn_ok.setText(getResources().getString(R.string.eng_submit));
 
 		} else {
-			screeTitle.setText("Uangku");
+			screeTitle.setText("Transfer to Uangku");
 			// screeTitle.setText(getResources().getString(R.string.bahasa_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.bahasa_mobileNumber));
 			amountTxt.setText(getResources().getString(R.string.bahasa_amount));

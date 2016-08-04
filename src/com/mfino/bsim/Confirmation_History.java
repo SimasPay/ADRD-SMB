@@ -125,11 +125,21 @@ public class Confirmation_History extends Activity {
 	        c.setTypeface(null, Typeface.BOLD);
 	        d.setTypeface(null, Typeface.BOLD);
 	        e.setTypeface(null, Typeface.BOLD);
-	        a.setText("Date");
-	        b.setText("Trx Type");
-	        c.setText("D/C  ");
-	        d.setText("");
-	        e.setText("Amount");
+	        
+	        if (selectedLanguage.equalsIgnoreCase("ENG")) {
+	        	a.setText("Date");
+		        b.setText("Trx Type");
+		        c.setText("D/C  ");
+		        d.setText("");
+		        e.setText("Amount");
+	        }else{
+	        	a.setText("Tanggal");
+		        b.setText("Tipe Trx");
+		        c.setText("D/C  ");
+		        d.setText("");
+		        e.setText("Jumlah");
+	        }
+	        
 	        rowheader.addView(a, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 	        rowheader.addView(b, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 	        rowheader.addView(c);
@@ -192,7 +202,13 @@ public class Confirmation_History extends Activity {
 			        t.setText("" + strDate + "    ");
 			        u.setText("" + type + "");
 			        v.setText("" + initType + "  ");
-			        w.setText("IDR");
+			        
+			        if (selectedLanguage.equalsIgnoreCase("ENG")) {
+			        	w.setText("IDR");
+			        }else{
+			        	w.setText("Rp ");
+			        }
+			        
 			        x.setText("" + eElement.getElementsByTagName("amount").item(0).getTextContent() + "");
 			        row.addView(t, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
 			        row.addView(u, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));

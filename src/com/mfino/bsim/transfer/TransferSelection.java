@@ -61,7 +61,7 @@ public class TransferSelection extends Activity {
         TextView bankSinarmas=(TextView)findViewById(R.id.textView1);
         TextView otherBanks=(TextView)findViewById(R.id.textView2);
         
-    	languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+    	languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",0);
 		String selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {

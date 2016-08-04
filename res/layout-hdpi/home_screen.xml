@@ -148,7 +148,7 @@
             android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/logout_btn" />
+            android:background="@drawable/logout" />
     </RelativeLayout>
 
     <include

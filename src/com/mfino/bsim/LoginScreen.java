@@ -166,6 +166,7 @@ public class LoginScreen extends Activity {
 						valueContainer = new ValueContainer();
 						valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 						String mdn = loginId.getText().toString().trim();
+						settings.edit().putString("mobile", mdn).commit();
 						valueContainer.setSourceMdn(mdn);
 						// settings.edit().putString("SOURCE_MDN_PIN",loginId.getText().toString()).commit();
 						// Without RSA
@@ -245,8 +246,10 @@ public class LoginScreen extends Activity {
 											alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 												public void onClick(DialogInterface dialog, int arg1) {
 													dialog.dismiss();
+													
 													Intent intent = new Intent(LoginScreen.this, ChangePin.class);
 													intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+													intent.putExtra("mdn", settings.getString("mobile", ""));
 													intent.putExtra("REQUIRED", "yes");
 													startActivity(intent);
 												}

@@ -1,7 +1,5 @@
 package com.mfino.bsim;
 
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
 import java.util.List;
 import com.mfino.bsim.flashiz.QRPayment2;
 import android.app.Activity;
@@ -20,11 +18,9 @@ public class SplashScreen extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		Fabric.with(this, new Crashlytics());
         setContentView(R.layout.main);
            
         new Handler().postDelayed(new Runnable() {
-
 			@Override
 			public void run() {
 				Intent intent=new Intent(SplashScreen.this, LandingScreen.class);

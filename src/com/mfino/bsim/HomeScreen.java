@@ -75,8 +75,7 @@ public class HomeScreen extends Activity {
 		System.out.println("Testing>>language>>" + selectedLanguage);
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-
-			logoutButton.setBackgroundResource(R.drawable.logout_button);
+			logoutButton.setBackgroundResource(R.drawable.logout);
 			transfer.setText(getResources().getString(R.string.eng_fundTransfer));
 			purchase.setText(getResources().getString(R.string.eng_purchase));
 			payment.setText(getResources().getString(R.string.eng_payment));
@@ -86,7 +85,7 @@ public class HomeScreen extends Activity {
 
 		} else {
 			System.out.println("Testing>>Bahasa");
-			logoutButton.setBackgroundResource(R.drawable.logout_button);
+			logoutButton.setBackgroundResource(R.drawable.logout);
 			transfer.setText(getResources().getString(R.string.eng_fundTransfer));
 			purchase.setText(getResources().getString(R.string.bahasa_purchase));
 			payment.setText(getResources().getString(R.string.bahasa_payment));

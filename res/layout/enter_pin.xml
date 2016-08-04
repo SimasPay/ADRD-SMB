@@ -11,8 +11,8 @@
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        layout="@layout/header" 
-        android:visibility="visible"/>
+        layout="@layout/header"
+        android:visibility="visible" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -52,20 +52,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal" 
+                android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:layout_marginTop="20dp">
-
-                <Button
-                    android:id="@+id/btn_EnterPin_Ok"
-                    style="@style/font_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                 	android:textAllCaps="false"
-                    android:background="@drawable/button_empty"
-                    android:text="Ok" >
-                </Button>
+                android:orientation="horizontal" >
 
                 <Button
                     android:id="@+id/btn_EnterPin_cancel1"
@@ -74,15 +63,23 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/button_empty"
-                    android:textAllCaps="false"
-                    android:text="Cancel">
-                </Button>
+                    android:text="Cancel"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btn_EnterPin_Ok"
+                    style="@style/font_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_empty"
+                    android:text="Ok"
+                    android:textAllCaps="false" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
-<!--
+</LinearLayout><!--
     <FrameLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_gravity="bottom"
 		android:layout_marginBottom="10dp" android:visibility="invisible">
@@ -95,6 +92,4 @@
 			android:visibility="invisible"></Button>
 	</FrameLayout>
 -->
-
-
 

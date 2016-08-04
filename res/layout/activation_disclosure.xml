@@ -76,27 +76,26 @@
                 android:layout_marginBottom="10dp" >
 
                 <Button
-                    android:id="@+id/agreeButton"
-                    style="@style/font_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:background="@drawable/button_empty"
-                    android:text="Agree" >
-                </Button>
-
-                <Button
                     android:id="@+id/decline"
                     style="@style/font_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
-                    android:layout_toRightOf="@+id/agreeButton"
                     android:background="@drawable/button_empty"
-                    android:text="Cancel" >
-                </Button>
+                    android:text="Cancel" />
+
+                <Button
+                    android:id="@+id/agreeButton"
+                    style="@style/font_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@+id/decline"
+                    android:layout_toEndOf="@+id/decline"
+                    android:background="@drawable/button_empty"
+                    android:text="Agree" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

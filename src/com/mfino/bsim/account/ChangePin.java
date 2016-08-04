@@ -248,7 +248,9 @@ public class ChangePin extends AppCompatActivity {
 					valueContainer = new ValueContainer();
 					valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 					valueContainer.setTransactionName(Constants.TRANSACTION_CHANGEPIN);
-					valueContainer.setSourceMdn(Constants.SOURCE_MDN_NAME);
+					settings = getSharedPreferences("LOGIN_PREFERECES", 0);
+					mobileNumber = settings.getString("mobile", "");
+					valueContainer.setSourceMdn(mobileNumber);
 					valueContainer.setSourcePin(oldpinValue.getText().toString());
 					valueContainer.setNewPin(newpinValue.getText().toString());
 					valueContainer.setConfirmPin(newpinValue.getText().toString());
@@ -556,11 +558,10 @@ public class ChangePin extends AppCompatActivity {
 		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			builderError.setTitle(getResources().getString(R.string.Simobi_app_name));
-			builderError.setMessage(getResources().getString(R.string.eng_forcechangepin));
-			
+			builderError.setMessage(getResources().getString(R.string.eng_changepin));
 		} else {
 			builderError.setTitle(getResources().getString(R.string.Simobi_app_name));
-			builderError.setMessage(getResources().getString(R.string.bahasa_forcechangepin));
+			builderError.setMessage(getResources().getString(R.string.bahasa_changepin));
 		}
 		builderError.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {

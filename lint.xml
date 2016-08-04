@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="ContentDescription">
+        <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
+        <ignore path="res/layout/fundtransfer_home.xml" />
+        <ignore path="res/layout/home_screen1.xml" />
+    </issue>
+    <issue id="DisableBaselineAlignment">
+        <ignore path="res/layout-hdpi/home_screen1.xml" />
+        <ignore path="res/layout/home_screen1.xml" />
     </issue>
     <issue id="HardcodedText">
+        <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
+        <ignore path="res/layout-hdpi/home_screen1.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
+        <ignore path="res/layout/fundtransfer_home.xml" />
+        <ignore path="res/layout/home_screen1.xml" />
     </issue>
     <issue id="RtlHardcoded">
+        <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
+        <ignore path="res/layout/fundtransfer_home.xml" />
     </issue>
     <issue id="UseCompoundDrawables">
+        <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
+        <ignore path="res/layout-hdpi/home_screen1.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
+        <ignore path="res/layout/fundtransfer_home.xml" />
+        <ignore path="res/layout/home_screen1.xml" />
+    </issue>
+    <issue id="UselessParent">
+        <ignore path="res/layout-hdpi/home_screen1.xml" />
+        <ignore path="res/layout/home_screen1.xml" />
     </issue>
 </lint>
