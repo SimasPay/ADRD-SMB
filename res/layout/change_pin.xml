@@ -4,10 +4,11 @@
     android:layout_height="fill_parent"
     android:background="@drawable/bg_simobi"
     android:orientation="vertical" >
- <include
+    
+ 	<include
         android:id="@+id/header"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         layout="@layout/header" />
     
     <ScrollView

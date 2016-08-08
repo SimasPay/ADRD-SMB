@@ -38,6 +38,7 @@ import java.util.Locale;
 
 import com.mfino.bsim.ConfirmationScreen;
 import com.mfino.bsim.HomeScreen;
+import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
@@ -77,7 +78,8 @@ public class ChangePin extends AppCompatActivity {
 		screeTitle.setText("CHANGE PIN");
 		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
 		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
-
+		home.setVisibility(View.GONE);
+		
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "ChangePin").commit();
@@ -583,7 +585,7 @@ public class ChangePin extends AppCompatActivity {
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+							Intent intent = new Intent(ChangePin.this, LoginScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
@@ -593,7 +595,7 @@ public class ChangePin extends AppCompatActivity {
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+							Intent intent = new Intent(ChangePin.this, LoginScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
@@ -679,6 +681,11 @@ public class ChangePin extends AppCompatActivity {
 					intent.putExtra("OPIN", oldPin);
 					intent.putExtra("NPIN", newPin);
 					intent.putExtra("CONFIRM_NPIN", newPin);
+					Bundle extras = getIntent().getExtras();
+					String required= extras.getString("REQUIRED");
+					if(required.equals("yes")){
+						intent.putExtra("REQUIRED", "yes");
+					}
 					startActivity(intent);
 				}
 			}

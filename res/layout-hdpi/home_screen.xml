@@ -140,12 +140,13 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true"
+        android:background="#FF3A3A3B" >
 
         <Button
             android:id="@+id/logoutButton"
-            android:layout_width="75dp"
-            android:layout_height="35dp"
+            android:layout_width="70dp"
+            android:layout_height="27dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/logout" />

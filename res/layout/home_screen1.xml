@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
-        android:background="#CC3A3A3B"
+        android:background="#FF3A3A3B"
         android:padding="5dp" >
 
         <Button

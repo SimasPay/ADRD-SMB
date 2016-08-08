@@ -9,7 +9,7 @@
     <include
         android:id="@+id/header"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         layout="@layout/header" />
 
     <LinearLayout
@@ -32,13 +32,14 @@
                 style="@style/font_style_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:text="Product Category" />
 
             <Spinner
                 android:id="@+id/productCategory"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/drop_down_img" />
+                android:background="@drawable/spinner" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,13 +54,14 @@
                 style="@style/font_style_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:text="Provider" />
 
             <Spinner
                 android:id="@+id/provider"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/drop_down_img" />
+                android:background="@drawable/spinner" />
         </LinearLayout>
 
         <LinearLayout
@@ -74,13 +76,14 @@
                 style="@style/font_style_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:text="Product Type" />
 
             <Spinner
                 android:id="@+id/productType"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/drop_down_img" />
+                android:background="@drawable/spinner" />
         </LinearLayout>
 
         <Button
