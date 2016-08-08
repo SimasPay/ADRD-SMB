@@ -27,7 +27,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -256,7 +256,6 @@ public class LandingScreen extends AppCompatActivity {
 								+ responseContainer.getPublicKeyModulus());
 						encrptionKeys.edit().putString("MODULE", responseContainer.getPublicKeyModulus()).commit();
 						encrptionKeys.edit().putString("EXPONENT", responseContainer.getPublicKeyExponet()).commit();
-
 					}
 
 				} else {
