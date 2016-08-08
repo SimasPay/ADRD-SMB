@@ -130,7 +130,9 @@ public class CheckBalance extends Activity {
 					/** Set Parameters for service calling. */
 					valueContainer = new ValueContainer();
 					valueContainer.setServiceName(Constants.SERVICE_BANK);
-					valueContainer.setSourceMdn(Constants.SOURCE_MDN_NAME);
+					SharedPreferences settings = getSharedPreferences("LOGIN_PREFERECES", 0);
+					String mobileNumber = settings.getString("mobile", "");
+					valueContainer.setSourceMdn(mobileNumber);
 					valueContainer.setSourcePin(pinValue.getText().toString());
 					valueContainer.setTransactionName(Constants.TRANSACTION_CHECKBALANCE);
 					valueContainer.setSourcePocketCode(getResources().getString(R.string.source_packet_code));

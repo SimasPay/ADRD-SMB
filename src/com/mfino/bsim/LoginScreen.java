@@ -167,6 +167,7 @@ public class LoginScreen extends Activity {
 						valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 						String mdn = loginId.getText().toString().trim();
 						settings.edit().putString("mobile", mdn).commit();
+						Constants.SOURCE_MDN_NAME = loginId.getText().toString().trim();
 						valueContainer.setSourceMdn(mdn);
 						// settings.edit().putString("SOURCE_MDN_PIN",loginId.getText().toString()).commit();
 						// Without RSA
@@ -246,9 +247,9 @@ public class LoginScreen extends Activity {
 											alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 												public void onClick(DialogInterface dialog, int arg1) {
 													dialog.dismiss();
-													
 													Intent intent = new Intent(LoginScreen.this, ChangePin.class);
 													intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+													Constants.SOURCE_MDN_NAME = loginId.getText().toString().trim();
 													intent.putExtra("mdn", settings.getString("mobile", ""));
 													intent.putExtra("REQUIRED", "yes");
 													startActivity(intent);
@@ -273,6 +274,7 @@ public class LoginScreen extends Activity {
 												"Testing>>>mobile Number" + mobi + settings.getString("pin", ""));
 
 										Constants.SOURCE_MDN_NAME = loginId.getText().toString().trim();
+										settings.edit().putString("mobile", loginId.getText().toString().trim()).commit();
 										valueContainer.setAppUpdateURL(responseContainer.getAppUpdateURL());
 
 										System.out.println("hieeeeeeeee" + responseContainer.getAppUpdateURL());
