@@ -53,7 +53,6 @@
         android:label="@string/Simobi_app_name"
         android:largeHeap="true"
         android:theme="@android:style/Theme.NoTitleBar" >
-
         <activity
             android:name=".SplashScreen"
             android:label="@string/Simobi_app_name"
@@ -74,14 +73,16 @@
                     android:scheme="simobi" />
             </intent-filter>
         </activity>
-        
-        <receiver android:name=".receivers.IncomingSMS" android:permission="android.permission.BROADCAST_SMS" >
-            <intent-filter android:priority="500">
-       		<action android:name="android.provider.Telephony.SMS_RECEIVED" />
-       		<action android:name="android.intent.action.BOOT_COMPLETED" />
-       		</intent-filter>
+
+        <receiver
+            android:name=".receivers.IncomingSMS"
+            android:permission="android.permission.BROADCAST_SMS" >
+            <intent-filter android:priority="500" >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
-        
+
         <activity
             android:name=".WebviewActivity"
             android:screenOrientation="portrait"
@@ -122,39 +123,33 @@
         </activity>
         <activity
             android:name=".ActivationHome"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".ActivationConfirm"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".ResetPinDetails"
             android:configChanges="keyboardHidden|orientation"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".ReActivationDetails"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".ActivationConfirmation"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".ActivationDetails"
             android:configChanges="keyboardHidden|orientation"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -165,7 +160,6 @@
         </activity>
         <activity
             android:name=".transfer.TransferConfirm"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -201,13 +195,11 @@
         </activity>
         <activity
             android:name=".transfer.ConfirmAddReceiver"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
             android:name=".transfer.Confirmationreceiver"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -294,13 +286,11 @@
         </activity>
         <activity
             android:name=".account.ChangePinConfirmation"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".account.CheckBalanceConfirmation"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -331,7 +321,6 @@
         </activity>
         <activity
             android:name=".billpayment.BillPaymentConfirm"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -362,7 +351,6 @@
         </activity>
         <activity
             android:name=".purchase.BuyConfirm"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
@@ -414,7 +402,6 @@
         </activity>
         <activity
             android:name="com.mfino.bsim.ConfirmationScreen"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>

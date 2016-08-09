@@ -66,8 +66,13 @@ public class ToBankSinarmas extends AppCompatActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
+		if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) { 
+	        // Activity was brought to front and not created, 
+	        // Thus finishing this will get us to the last viewed activity 
+	        finish(); 
+	        return; 
+	    } 
 		setContentView(R.layout.fundtransfer_to_bank_sinarmas);
 		context = this;
 		// Header code...
