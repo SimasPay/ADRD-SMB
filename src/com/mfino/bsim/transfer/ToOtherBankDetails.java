@@ -270,19 +270,31 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										alertbox.setMessage(responseContainer.getMsg());
 									}
 
-									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface arg0, int arg1) {
-											dialog.dismiss();
+									if (msgCode == 631) {
+										alertbox.setMessage(responseContainer.getMsg());
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int arg1) {
+												dialog.dismiss();
+												finish();
+												Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+											}
+										});
+									} else {
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface arg0, int arg1) {
+												dialog.dismiss();
 
-											Intent intent = new Intent(getBaseContext(), HomeScreen.class);
-											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-											startActivity(intent);
-											pinValue.setText("");
+												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+												pinValue.setText("");
 
-										}
-									});
-									alertbox.show();
-
+											}
+										});
+										alertbox.show();
+									}
 								} else if(msgCode==631){
 									
 									alertbox.setMessage(responseContainer.getMsg());

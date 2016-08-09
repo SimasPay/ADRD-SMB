@@ -45,7 +45,7 @@
     <string name="eng_purchaseDetails"> Prepaid details </string>
     <string name="eng_credit_AC_No"> Destination account number </string>
     <string name="eng_destnatin_mdn"> Destination mobile phone number </string>
-    <string name="eng_customerName"> Account owner name </string>
+    <string name="eng_customerName"> Account Owner </string>
     <string name="eng_destinationBank "> Destination bank </string>
     <string name="eng_destinationNumber "> Destination number </string>
     <string name="eng_amount "> Amount </string>
@@ -126,7 +126,7 @@
     <string name="bahasa_purchaseDetails"> Detil Prabayar </string>
     <string name="bahasa_credit_AC_No "> Nomor Rekening Tujuan </string>
     <string name="bahasa_destnation_mdn ">  Nomor Handphone Tujuan </string>
-    <string name="bahasa_customerName "> Nama Pemilik Rekening </string>
+    <string name="bahasa_customerName "> Pemilik Rekening </string>
     <string name="bahasa_customerName_new "> Nama </string>
     <string name="bahasa_destinationBank "> Bank Tujuan </string>
     <string name="bahasa_destinationNumber "> Nomor Tujuan </string>

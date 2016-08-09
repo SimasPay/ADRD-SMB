@@ -59,7 +59,7 @@ public class TransferToUangku extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -252,21 +252,34 @@ public class TransferToUangku extends AppCompatActivity {
 										alertbox.setMessage(responseContainer.getMsg());
 									}
 
-									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface arg0, int arg1) {
-											dialog.dismiss();
+									if (msgCode == 631) {
+										alertbox.setMessage(responseContainer.getMsg());
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int arg1) {
+												dialog.dismiss();
+												finish();
+												Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+											}
+										});
+									} else {
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface arg0, int arg1) {
+												dialog.dismiss();
 
-											Intent intent = new Intent(getBaseContext(), HomeScreen.class);
-											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-											startActivity(intent);
-											pinValue.setText("");
+												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+												pinValue.setText("");
 
-										}
-									});
-									alertbox.show();
+											}
+										});
+										alertbox.show();
+									}
 
-								} else if(msgCode==631){
-									
+								} else if (msgCode == 631) {
+
 									alertbox.setMessage(responseContainer.getMsg());
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int arg1) {
@@ -277,8 +290,8 @@ public class TransferToUangku extends AppCompatActivity {
 											startActivity(intent);
 										}
 									});
-									
-								}else {
+
+								} else {
 
 									// dialog.dismiss();
 									try {
@@ -298,11 +311,11 @@ public class TransferToUangku extends AppCompatActivity {
 										dialog.dismiss();
 										Log.d("Widy-Debug", "Dialog OTP Required show");
 										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
-										showOTPRequiredDialog(pinValue.getText().toString().trim(), responseContainer.getCustName(),
-												responseContainer.getDestMDN(), responseContainer.getAccountNumber(),
-												responseContainer.getMsg(), responseContainer.getDestBank(),
-												responseContainer.getAmount(), amountValue.getText().toString(), 
-												responseContainer.getMfaMode(),
+										showOTPRequiredDialog(pinValue.getText().toString().trim(),
+												responseContainer.getCustName(), responseContainer.getDestMDN(),
+												responseContainer.getAccountNumber(), responseContainer.getMsg(),
+												responseContainer.getDestBank(), responseContainer.getAmount(),
+												amountValue.getText().toString(), responseContainer.getMfaMode(),
 												responseContainer.getEncryptedParentTxnId(),
 												responseContainer.getEncryptedTransferId());
 										/**
@@ -540,19 +553,23 @@ public class TransferToUangku extends AppCompatActivity {
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
+			if (message.contains("Kode Simobi Anda ")
+					|| message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
+				otpValue = message
+						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
+						.trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is")){
+			} else if (message.contains("Your Simobi Code is ")
+					|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is")) {
 				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
+				otpValue = message
+						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
+						.trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
-			//Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
+			// Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
 			edt.setText(otpValue);
 		} catch (Exception e) {
 
@@ -572,7 +589,7 @@ public class TransferToUangku extends AppCompatActivity {
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
-			});
+					});
 		} else {
 			builderError.setTitle(getResources().getString(R.string.bahasa_otpfailed));
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
@@ -583,7 +600,7 @@ public class TransferToUangku extends AppCompatActivity {
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
 						}
-			});
+					});
 		}
 		AlertDialog alertError = builderError.create();
 		if (!((Activity) context).isFinishing()) {
@@ -591,9 +608,10 @@ public class TransferToUangku extends AppCompatActivity {
 		}
 	}
 
-	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN, final String accountNumber,
-			final String message, final String destBank, final String amount, final String AMT, final String mfaMode,
-			final String EncryptedParentTxnId, final String EncryptedTransferId) {
+	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
+			final String accountNumber, final String message, final String destBank, final String amount,
+			final String AMT, final String mfaMode, final String EncryptedParentTxnId,
+			final String EncryptedTransferId) {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
@@ -643,7 +661,7 @@ public class TransferToUangku extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
-					if(countTimer != null) {
+					if (countTimer != null) {
 						countTimer.cancel();
 					}
 				}
@@ -655,7 +673,7 @@ public class TransferToUangku extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
-					if(countTimer != null) {
+					if (countTimer != null) {
 						countTimer.cancel();
 					}
 				}
@@ -689,34 +707,29 @@ public class TransferToUangku extends AppCompatActivity {
 		final AlertDialog b = dialogBuilder.create();
 		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		b.show();
-		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE)
-        .setEnabled(false);
+		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before,
-		            int count) {
-		    }
-		
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count,
-		            int after) {
-		    }
-		
-		    @Override
-		    public void afterTextChanged(Editable s) {
-		        // Check if edittext is empty
-		        if (TextUtils.isEmpty(s)) {
-		            // Disable ok button
-		            ((AlertDialog) b).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-		        } else {
-		            // Something into edit text. Enable the button.
-		            ((AlertDialog) b).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-		        }
-		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
-		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
-		        	Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// Check if edittext is empty
+				if (TextUtils.isEmpty(s)) {
+					// Disable ok button
+					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+				} else {
+					// Something into edit text. Enable the button.
+					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+				}
+				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
+					Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
 					intent.putExtra("SRCPOCKETCODE", "2");
 					intent.putExtra("PIN", PIN);
 					intent.putExtra("CUST_NAME", custName);
@@ -733,9 +746,9 @@ public class TransferToUangku extends AppCompatActivity {
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
-		        }
-		
-		    }
+				}
+
+			}
 		});
 	}
 

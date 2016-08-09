@@ -14,13 +14,18 @@
         <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
         <ignore path="res/layout-hdpi/home_screen1.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
+        <ignore path="res/layout/confirm_transfer.xml" />
         <ignore path="res/layout/fundtransfer_home.xml" />
         <ignore path="res/layout/home_screen1.xml" />
     </issue>
     <issue id="RtlHardcoded">
         <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
+        <ignore path="res/layout/confirm_transfer.xml" />
         <ignore path="res/layout/fundtransfer_home.xml" />
+    </issue>
+    <issue id="UnusedAttribute">
+        <ignore path="res/layout/confirm_transfer.xml" />
     </issue>
     <issue id="UseCompoundDrawables">
         <ignore path="res/layout-hdpi/fundtransfer_home.xml" />

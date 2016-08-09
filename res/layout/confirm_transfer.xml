@@ -21,7 +21,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="10dp"
             android:background="@layout/rounded"
@@ -54,15 +54,15 @@
                         style="@style/font_style_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Account Owner Name: " />
+                        android:text="Account Owner" />
 
                     <TextView
                         android:id="@+id/custName"
                         style="@style/font_style_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Medium Text" />
+                        android:layout_marginLeft="2dp"
+                        android:text=": Medium Text" />
                 </TableRow>
 
                 <TableRow
@@ -76,15 +76,15 @@
                         style="@style/font_style_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Destination Bank: " />
+                        android:text="Destination Bank " />
 
                     <TextView
                         android:id="@+id/destNumber"
                         style="@style/font_style_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Medium Text" />
+                        android:layout_marginLeft="2dp"
+                        android:text=": Medium Text" />
                 </TableRow>
 
                 <TableRow
@@ -98,15 +98,15 @@
                         style="@style/font_style_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Destination Number: " />
+                        android:text="Destination Number " />
 
                     <TextView
                         android:id="@+id/accountNumber"
                         style="@style/font_style_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Medium Text" />
+                        android:layout_marginLeft="2dp"
+                        android:text=": Medium Text" />
                 </TableRow>
 
                 <TableRow
@@ -127,8 +127,8 @@
                         style="@style/font_style_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Medium Text" />
+                        android:layout_marginLeft="2dp"
+                        android:text=": Medium Text" />
                 </TableRow>
             </TableLayout>
 

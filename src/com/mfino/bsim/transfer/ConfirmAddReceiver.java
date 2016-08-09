@@ -109,20 +109,20 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 
 			// screeTitle.setText(getResources().getString(R.string.eng_confirm));
-			txtCustName.setText(getResources().getString(R.string.eng_customerName));
-			txtDestBank.setText(getResources().getString(R.string.eng_destinationBank));
-			txtDestNum.setText(getResources().getString(R.string.eng_destinationNumber));
-			txtAmount.setText(getResources().getString(R.string.eng_amount));
+			txtCustName.setText(getResources().getString(R.string.eng_customerName) + "");
+			txtDestBank.setText(getResources().getString(R.string.eng_destinationBank) + "");
+			txtDestNum.setText(getResources().getString(R.string.eng_destinationNumber) + "");
+			txtAmount.setText(getResources().getString(R.string.eng_amount) + "");
 			btn_confirm.setText(getResources().getString(R.string.eng_confirm));
 			btn_cancel.setText(getResources().getString(R.string.eng_cancel));
 
 		} else {
 
 			// screeTitle.setText(getResources().getString(R.string.bahasa_confirm));
-			txtCustName.setText(getResources().getString(R.string.bahasa_customerName));
-			txtDestBank.setText(getResources().getString(R.string.bahasa_destinationBank));
-			txtDestNum.setText(getResources().getString(R.string.bahasa_destinationNumber));
-			txtAmount.setText(getResources().getString(R.string.bahasa_amount));
+			txtCustName.setText(getResources().getString(R.string.bahasa_customerName) + "");
+			txtDestBank.setText(getResources().getString(R.string.bahasa_destinationBank) + "");
+			txtDestNum.setText(getResources().getString(R.string.bahasa_destinationNumber) + "");
+			txtAmount.setText(getResources().getString(R.string.bahasa_amount) + "");
 			btn_confirm.setText(getResources().getString(R.string.bahasa_confirm));
 			btn_cancel.setText(getResources().getString(R.string.bahasa_cancel));
 
