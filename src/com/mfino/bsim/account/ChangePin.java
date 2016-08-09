@@ -296,7 +296,18 @@ public class ChangePin extends AppCompatActivity {
 										}
 									});
 									alertbox.show();
-								} else if (responseContainer.getMsgCode().equals("2039")) {
+								}else if(responseContainer.getMsgCode().equals("631")){
+									alertbox.setMessage(responseContainer.getMsg());
+									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int arg1) {
+											dialog.dismiss();
+											finish();
+											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+											startActivity(intent);
+										}
+									});
+								}else if (responseContainer.getMsgCode().equals("2039")) {
 
 									// Constants.SOURCE_MDN_PIN =
 									// oldpinValue.getText().toString();

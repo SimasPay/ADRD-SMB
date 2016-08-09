@@ -296,9 +296,11 @@ public class TransferToUnagkuConfirmation extends Activity {
 
 				if (selectedLanguage.equalsIgnoreCase("ENG")) {
 					/**
-					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Bank Sinarmas               ",
-							getResources().getString(R.string.eng_loading), true);
-							**/
+					 * dialog =
+					 * ProgressDialog.show(TransferToUnagkuConfirmation.this,
+					 * "  Bank Sinarmas               ",
+					 * getResources().getString(R.string.eng_loading), true);
+					 **/
 					dialog = new ProgressDialog(TransferToUnagkuConfirmation.this, R.style.MyAlertDialogStyle);
 					dialog.setCancelable(false);
 					dialog.setTitle("Bank Sinarmas");
@@ -311,9 +313,11 @@ public class TransferToUnagkuConfirmation extends Activity {
 					dialog.setMessage(getResources().getString(R.string.bahasa_loading));
 					dialog.show();
 					/**
-					dialog = ProgressDialog.show(TransferToUnagkuConfirmation.this, "  Bank Sinarmas               ",
-							getResources().getString(R.string.bahasa_loading), true);
-							**/
+					 * dialog =
+					 * ProgressDialog.show(TransferToUnagkuConfirmation.this,
+					 * "  Bank Sinarmas               ",
+					 * getResources().getString(R.string.bahasa_loading), true);
+					 **/
 				}
 
 				final Handler handler = new Handler() {
@@ -343,7 +347,7 @@ public class TransferToUnagkuConfirmation extends Activity {
 										alertbox.setMessage(getResources().getString(R.string.bahasa_appTimeout));
 									}
 								} else {
-									if(msgCode == 2000){
+									if (msgCode == 2000) {
 										if (selectedLanguage.equalsIgnoreCase("ENG")) {
 											alertbox.setMessage(
 													"You have entered incorrect code. Please try again and ensure that you enter the correct code.");
@@ -351,10 +355,10 @@ public class TransferToUnagkuConfirmation extends Activity {
 											alertbox.setMessage(
 													"Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
 										}
-									}else{
+									} else {
 										alertbox.setMessage(responseContainer.getMsg());
 									}
-									
+
 								}
 
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {

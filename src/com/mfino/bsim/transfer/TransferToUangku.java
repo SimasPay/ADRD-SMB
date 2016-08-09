@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import com.mfino.bsim.HomeScreen;
+import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
@@ -264,7 +265,20 @@ public class TransferToUangku extends AppCompatActivity {
 									});
 									alertbox.show();
 
-								} else {
+								} else if(msgCode==631){
+									
+									alertbox.setMessage(responseContainer.getMsg());
+									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int arg1) {
+											dialog.dismiss();
+											finish();
+											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+											startActivity(intent);
+										}
+									});
+									
+								}else {
 
 									// dialog.dismiss();
 									try {

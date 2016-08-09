@@ -402,6 +402,8 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 										} else {
 											alertbox.setMessage(getResources().getString(R.string.bahasa_incorrectotp));
 										}
+									}else if (msgCode == 631) {
+										alertbox.setMessage(responseContainer.getMsg());
 									}else{
 										alertbox.setMessage(responseContainer.getMsg());
 									}
