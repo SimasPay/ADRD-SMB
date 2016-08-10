@@ -68,13 +68,13 @@ public class TransferSelection extends Activity {
 			
 			screeTitle.setText(getResources().getString(R.string.eng_fundTransfer));
 			//mimage1.setImageResource(R.drawable.smartfren);
-			bankSinarmas.setText(getResources().getString(R.string.eng_toBankSinarmas));
+			bankSinarmas.setText(getResources().getString(R.string.eng_menuBankSinarmas));
 			otherBanks.setText(getResources().getString(R.string.eng_toOtherBank));
 
 		} else {
 			
 			screeTitle.setText(getResources().getString(R.string.bahasa_fundTransfer));
-			bankSinarmas.setText(getResources().getString(R.string.bahasa_toBankSinarmas));
+			bankSinarmas.setText(getResources().getString(R.string.bahasa_menuBankSinarmas));
 			otherBanks.setText(getResources().getString(R.string.bahasa_toOtherBank));
 
 		}

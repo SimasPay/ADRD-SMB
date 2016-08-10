@@ -38,7 +38,7 @@
             <Spinner
                 android:id="@+id/productCategory"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:background="@drawable/spinner" />
         </LinearLayout>
 
@@ -59,7 +59,7 @@
             <Spinner
                 android:id="@+id/provider"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:background="@drawable/spinner" />
         </LinearLayout>
 
@@ -80,7 +80,7 @@
             <Spinner
                 android:id="@+id/productType"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:background="@drawable/spinner" />
         </LinearLayout>
 

@@ -4,11 +4,13 @@
     android:layout_height="fill_parent"
     android:background="@drawable/bg_simobi"
     android:orientation="vertical" >
-<include
+
+    <include
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         layout="@layout/header" />
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
@@ -16,83 +18,80 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-         android:orientation="vertical"
-         android:background="@layout/rounded"
-         android:layout_margin="15dp"
-         android:padding="15dp"
-       >
-
-<LinearLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mdnLayout"
-            android:layout_gravity="center"
-            android:orientation="vertical" >
+            android:layout_height="fill_parent"
+            android:layout_margin="15dp"
+            android:background="@layout/rounded"
+            android:orientation="vertical"
+            android:padding="15dp" >
 
-            <TextView
-                android:id="@+id/textView_purchaseDestMDN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Destination MDN"
-                style="@style/font_style_spinner" >
-            </TextView>
-
-            <EditText
-                android:id="@+id/ed_mdnValue"
+            <LinearLayout
+                android:id="@+id/mdnLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                style="@style/text_box_style"
-                 >
-            </EditText>
-        </LinearLayout><LinearLayout
-            android:layout_width="fill_parent"
-            android:id="@+id/amountLayout"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical" >
+                android:layout_gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/amount_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Amount"
-                style="@style/font_style_spinner">
-            </TextView>
+                <TextView
+                    android:id="@+id/textView_purchaseDestMDN"
+                    style="@style/font_style_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Destination MDN" />
 
-            <EditText
-                android:id="@+id/ed_amountValue"
+                <EditText
+                    android:id="@+id/ed_mdnValue"
+                    style="@style/text_box_style"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" >
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/amountLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                style="@style/text_box_style"
-                 >
-            </EditText>
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" >
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/amount_textView"
+                    style="@style/font_style_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Amount" />
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:id="@+id/denomLayout"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
+                <EditText
+                    android:id="@+id/ed_amountValue"
+                    style="@style/text_box_style"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/denom"
-                style="@style/font_style_spinner"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/denomLayout"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Available denom are"
-                android:textStyle="bold" />
+                android:layout_marginTop="10dp" >
 
-           <!--  <EditText
+                <TextView
+                    android:id="@+id/denom"
+                    style="@style/font_style_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Available denom are"
+                    android:textStyle="bold" />
+
+                <!--
+            <EditText
                 android:id="@+id/ed_denom"
                 android:layout_width="wrap_content"
                 android:layout_toRightOf="@+id/denom"
@@ -101,57 +100,55 @@
                  android:inputType="number"
                  style="@style/text_box_style"
                 >
-            </EditText> -->
-            
-            
+            </EditText>
+                -->
 
-            <Spinner
-                android:id="@+id/denom_spinner"
-                android:layout_below="@+id/denom"
-                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/drop_down_img" />
+                <Spinner
+                    android:id="@+id/denom_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_below="@+id/denom"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/drop_down_img" />
+            </RelativeLayout>
 
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" mPIN"
-               style="@style/font_style_spinner" >
-            </TextView>
-
-            <EditText
-                android:id="@+id/ed_pinValue"
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:imeOptions="actionDone"
-                android:inputType="numberPassword" 
-                 android:maxLength="6"
-                style="@style/text_box_style"
-                 >
-            </EditText>
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/btn_EnterPin_Ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:text="Submit"
-                style="@style/font_button"
-                android:textAllCaps="false"
-                android:background="@drawable/button_empty" >
-            </Button>
+                <TextView
+                    android:id="@+id/textView1"
+                    style="@style/font_style_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" mPIN" />
+
+                <EditText
+                    android:id="@+id/ed_pinValue"
+                    style="@style/text_box_style"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberPassword"
+                    android:maxLength="6" />
+
+                <Button
+                    android:id="@+id/btn_EnterPin_Ok"
+                    style="@style/font_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_empty"
+                    android:text="Submit"
+                    android:textAllCaps="false" >
+                </Button>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
 </LinearLayout>
