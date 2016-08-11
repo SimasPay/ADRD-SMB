@@ -307,6 +307,7 @@ public class ChangePin extends AppCompatActivity {
 											startActivity(intent);
 										}
 									});
+									alertbox.show();
 								}else if (responseContainer.getMsgCode().equals("2039")) {
 
 									// Constants.SOURCE_MDN_PIN =

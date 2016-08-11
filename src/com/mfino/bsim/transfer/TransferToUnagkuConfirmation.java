@@ -336,6 +336,9 @@ public class TransferToUnagkuConfirmation extends Activity {
 								msgCode = 0;
 								e.printStackTrace();
 							}
+							
+							dialog.dismiss();
+							
 							System.out.println("Message Code &&" + msgCode);
 							Log.e("Message Code &&", msgCode + "");
 

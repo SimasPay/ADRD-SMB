@@ -310,7 +310,8 @@ public class PaymentDetails extends AppCompatActivity {
 									// e.printStackTrace();
 								}
 
-								// dialog.dismiss();
+								dialog.dismiss();
+								
 								try {
 									msgCode = Integer.parseInt(responseContainer.getMsgCode());
 								} catch (Exception e) {

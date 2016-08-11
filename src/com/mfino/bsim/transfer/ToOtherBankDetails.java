@@ -62,7 +62,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -110,14 +110,14 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		alertbox = new AlertDialog.Builder(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
 		bundle = getIntent().getExtras();
 
-		//dear rand team, next time if you want to call bundle, please init it first and check before calling it if its null or not
-		if(bundle!=null){
+		// dear rand team, next time if you want to call bundle, please init it
+		// first and check before calling it if its null or not
+		if (bundle != null) {
 			tag_name = bundle.getString("name");
-			Log.d("Simobi", "Transfer to " + tag_name );
+			Log.d("Simobi", "Transfer to " + tag_name);
 			code = bundle.getString("code");
 		}
-		
-		
+
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
@@ -218,14 +218,18 @@ public class ToOtherBankDetails extends AppCompatActivity {
 						dialog.setMessage(getResources().getString(R.string.eng_loading));
 						dialog.show();
 						/**
-						dialog = ProgressDialog.show(ToOtherBankDetails.this, "  Banksinarmas               ",
-								getResources().getString(R.string.eng_loading), true);
-						**/
+						 * dialog = ProgressDialog.show(ToOtherBankDetails.this,
+						 * "  Banksinarmas               ",
+						 * getResources().getString(R.string.eng_loading),
+						 * true);
+						 **/
 					} else {
 						/**
-						dialog = ProgressDialog.show(ToOtherBankDetails.this, "  Banksinarmas               ",
-								getResources().getString(R.string.bahasa_loading), true);
-								**/
+						 * dialog = ProgressDialog.show(ToOtherBankDetails.this,
+						 * "  Banksinarmas               ",
+						 * getResources().getString(R.string.bahasa_loading),
+						 * true);
+						 **/
 						dialog = new ProgressDialog(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
 						dialog.setTitle("Bank Sinarmas");
 						dialog.setCancelable(false);
@@ -247,7 +251,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 									e.printStackTrace();
 								}
 
-								// dialog.dismiss();
+								dialog.dismiss();
 
 								int msgCode = 0;
 								try {
@@ -282,6 +286,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 												startActivity(intent);
 											}
 										});
+										alertbox.show();
 									} else {
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface arg0, int arg1) {
@@ -296,8 +301,8 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										});
 										alertbox.show();
 									}
-								} else if(msgCode==631){
-									
+								} else if (msgCode == 631) {
+
 									alertbox.setMessage(responseContainer.getMsg());
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int arg1) {
@@ -308,8 +313,8 @@ public class ToOtherBankDetails extends AppCompatActivity {
 											startActivity(intent);
 										}
 									});
-									
-								}else {
+									alertbox.show();
+								} else {
 
 									// dialog.dismiss();
 									try {
@@ -330,11 +335,11 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										dialog.dismiss();
 										Log.d("Widy-Debug", "Dialog OTP Required show");
 										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
-										showOTPRequiredDialog(pinValue.getText().toString().trim(), responseContainer.getCustName(),
-												responseContainer.getDestMDN(), responseContainer.getAccountNumber(),
-												responseContainer.getMsg(), responseContainer.getDestBank(),
-												responseContainer.getAmount(), amountValue.getText().toString(), 
-												responseContainer.getMfaMode(),
+										showOTPRequiredDialog(pinValue.getText().toString().trim(),
+												responseContainer.getCustName(), responseContainer.getDestMDN(),
+												responseContainer.getAccountNumber(), responseContainer.getMsg(),
+												responseContainer.getDestBank(), responseContainer.getAmount(),
+												amountValue.getText().toString(), responseContainer.getMfaMode(),
 												responseContainer.getEncryptedParentTxnId(),
 												responseContainer.getEncryptedTransferId());
 										/**
@@ -491,7 +496,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										startActivity(intent);
 									}
 								}
-
+								alertbox.show();
 								pinValue.setText("");
 
 							} else {
@@ -573,15 +578,19 @@ public class ToOtherBankDetails extends AppCompatActivity {
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
+			if (message.contains("Kode Simobi Anda ")
+					|| message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
+				otpValue = message
+						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
+						.trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
+			} else if (message.contains("Your Simobi Code is ")
+					|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
 				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
+				otpValue = message
+						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
+						.trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
@@ -619,16 +628,17 @@ public class ToOtherBankDetails extends AppCompatActivity {
 					});
 		}
 		AlertDialog alertError = builderError.create();
-		if(!((Activity) context).isFinishing())
-		{
+		if (!((Activity) context).isFinishing()) {
 			alertError.show();
 		}
 	}
 
-	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN, final String accountNumber,
-			final String message, final String destBank, final String amount, final String AMT, final String mfaMode,
-			final String EncryptedParentTxnId, final String EncryptedTransferId) {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
+	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
+			final String accountNumber, final String message, final String destBank, final String amount,
+			final String AMT, final String mfaMode, final String EncryptedParentTxnId,
+			final String EncryptedTransferId) {
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ToOtherBankDetails.this,
+				R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
@@ -667,7 +677,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
-					if(myTimer != null) {
+					if (myTimer != null) {
 						myTimer.cancel();
 					}
 				}
@@ -678,7 +688,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					if(myTimer != null) {
+					if (myTimer != null) {
 						myTimer.cancel();
 					}
 					dialog.dismiss();
@@ -713,34 +723,29 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		final AlertDialog b = dialogBuilder.create();
 		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		b.show();
-		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE)
-        .setEnabled(false);
+		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before,
-		            int count) {
-		    }
-		
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count,
-		            int after) {
-		    }
-		
-		    @Override
-		    public void afterTextChanged(Editable s) {
-		        // Check if edittext is empty
-		        if (TextUtils.isEmpty(s)) {
-		            // Disable ok button
-		            ((AlertDialog) b).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-		        } else {
-		            // Something into edit text. Enable the button.
-		            ((AlertDialog) b).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-		        }
-		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
-		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
-		        	Intent intent = new Intent(ToOtherBankDetails.this, ConfirmAddReceiver.class);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// Check if edittext is empty
+				if (TextUtils.isEmpty(s)) {
+					// Disable ok button
+					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+				} else {
+					// Something into edit text. Enable the button.
+					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+				}
+				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
+					Intent intent = new Intent(ToOtherBankDetails.this, ConfirmAddReceiver.class);
 					intent.putExtra("SRCPOCKETCODE", "2");
 					intent.putExtra("PIN", PIN);
 					intent.putExtra("CUST_NAME", custName);
@@ -757,9 +762,9 @@ public class ToOtherBankDetails extends AppCompatActivity {
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
-		        }
-		
-		    }
+				}
+
+			}
 		});
 	}
 

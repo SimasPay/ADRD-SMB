@@ -400,7 +400,7 @@ public class PurchaseDetails extends AppCompatActivity {
 									// e.printStackTrace();
 								}
 
-								// dialog.dismiss();
+								dialog.dismiss();
 
 								try {
 									msgCode = Integer.parseInt(responseContainer.getMsgCode());

@@ -249,7 +249,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 									e.printStackTrace();
 								}
 
-								// dialog.dismiss();
+								dialog.dismiss();
 
 								int msgCode = 0;
 								try {
@@ -274,26 +274,26 @@ public class ToBankSinarmas extends AppCompatActivity {
 									} else {
 										Log.e("________________responseContainer.getMsg()=========___",
 												responseContainer.getMsg() + "");
-
 										alertbox.setMessage(responseContainer.getMsg());
 									}
 
-									if (msgCode == 631) {
-										alertbox.setMessage(responseContainer.getMsg());
+									if (msgCode == 631 || responseContainer.getMsg().toLowerCase(Locale.getDefault()).equals("please login again")) {
+										dialog.dismiss();
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int arg1) {
-												dialog.dismiss();
+											public void onClick(DialogInterface dlg, int arg1) {
+												dlg.dismiss();
 												finish();
 												Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
 											}
 										});
+										alertbox.show();
 									} else {
+										dialog.dismiss();
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-
 											public void onClick(DialogInterface arg0, int arg1) {
-												dialog.dismiss();
+												arg0.dismiss();
 												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
@@ -304,17 +304,19 @@ public class ToBankSinarmas extends AppCompatActivity {
 										alertbox.show();
 									}
 
-								} else if (msgCode == 631) {
+								} else if ((msgCode == 631) || responseContainer.getMsg().toLowerCase(Locale.getDefault()).equals("please login again")) {
+									dialog.dismiss();
 									alertbox.setMessage(responseContainer.getMsg());
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int arg1) {
-											dialog.dismiss();
+										public void onClick(DialogInterface dlg, int arg1) {
+											dlg.dismiss();
 											finish();
 											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											startActivity(intent);
 										}
 									});
+									alertbox.show();
 								} else {
 									System.out.println("Testing>>else>>>");
 									Log.e("___else_72___", "llllllllllllllllllllllllllllllllllllllllll");
@@ -501,7 +503,6 @@ public class ToBankSinarmas extends AppCompatActivity {
 								pinValue.setText("");
 
 							} else {
-
 								dialog.dismiss();
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
@@ -510,7 +511,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
-										dialog.dismiss();
+										arg0.dismiss();
 										Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);

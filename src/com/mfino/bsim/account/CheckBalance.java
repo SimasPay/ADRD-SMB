@@ -210,6 +210,7 @@ public class CheckBalance extends Activity {
 											startActivity(intent);
 										}
 									});
+									alertbox.show();
 								}else {
 
 									alertbox.setMessage(responseContainer.getMsg());

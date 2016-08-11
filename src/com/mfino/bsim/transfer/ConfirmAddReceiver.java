@@ -393,6 +393,8 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 								e.printStackTrace();
 							}
 							System.out.println("Message Code &&" + msgCode);
+							dialog.dismiss();
+							
 							if (!(msgCode == 703) && !(msgCode == 81)) {
 								if (responseContainer.getMsg() == null) {
 									if (selectedLanguage.equalsIgnoreCase("ENG")) {

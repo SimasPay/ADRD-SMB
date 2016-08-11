@@ -228,7 +228,7 @@ public class TransferToUangku extends AppCompatActivity {
 									e.printStackTrace();
 								}
 
-								// dialog.dismiss();
+								dialog.dismiss();
 
 								int msgCode = 0;
 								try {
@@ -263,6 +263,7 @@ public class TransferToUangku extends AppCompatActivity {
 												startActivity(intent);
 											}
 										});
+										alertbox.show();
 									} else {
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface arg0, int arg1) {
@@ -290,7 +291,7 @@ public class TransferToUangku extends AppCompatActivity {
 											startActivity(intent);
 										}
 									});
-
+									alertbox.show();
 								} else {
 
 									// dialog.dismiss();
