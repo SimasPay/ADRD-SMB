@@ -102,6 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
+                    android:textSize="14sp"
                     android:text="Account" />
             </LinearLayout>
 
@@ -126,6 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
+                    android:textSize="14sp"
                     android:text="Transfer" />
             </LinearLayout>
         </TableRow>
@@ -133,7 +135,7 @@
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="fill_parent"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="0dp"
             android:layout_height="160dp" >
 
             <LinearLayout
@@ -157,6 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
+                    android:textSize="14sp"
                     android:text="Purchase" />
             </LinearLayout>
 
@@ -182,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
+                    android:textSize="14sp"
                     android:text="Payment" />
             </LinearLayout>
         </TableRow>
@@ -211,9 +215,11 @@
                     style="@style/below_icon_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="4dp"
-                    android:text="Bayar pakai QR" />
+                    android:textSize="14sp"
+                    android:text="Bayar Pakai QR" />
             </LinearLayout>
 
             <LinearLayout
@@ -239,6 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
+                    android:textSize="14sp"
                     android:text="Promo" />
             </LinearLayout>
         </TableRow>

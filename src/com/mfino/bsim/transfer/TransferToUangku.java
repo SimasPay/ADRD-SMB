@@ -119,7 +119,7 @@ public class TransferToUangku extends AppCompatActivity {
 			btn_ok.setText(getResources().getString(R.string.eng_submit));
 
 		} else {
-			screeTitle.setText("Transfer to Uangku");
+			screeTitle.setText("Transfer ke Uangku");
 			// screeTitle.setText(getResources().getString(R.string.bahasa_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.bahasa_mobileNumber));
 			amountTxt.setText(getResources().getString(R.string.bahasa_amount));

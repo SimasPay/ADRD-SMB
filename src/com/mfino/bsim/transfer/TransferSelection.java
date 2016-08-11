@@ -60,23 +60,21 @@ public class TransferSelection extends Activity {
 
         TextView bankSinarmas=(TextView)findViewById(R.id.textView1);
         TextView otherBanks=(TextView)findViewById(R.id.textView2);
-        
+        //TextView uangku=(TextView)findViewById(R.id.textView3);
     	languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",0);
 		String selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			
 			screeTitle.setText(getResources().getString(R.string.eng_fundTransfer));
 			//mimage1.setImageResource(R.drawable.smartfren);
 			bankSinarmas.setText(getResources().getString(R.string.eng_menuBankSinarmas));
 			otherBanks.setText(getResources().getString(R.string.eng_toOtherBank));
-
+			//uangku.setText(getResources().getString(R.string.eng_toUangku));
 		} else {
-			
 			screeTitle.setText(getResources().getString(R.string.bahasa_fundTransfer));
 			bankSinarmas.setText(getResources().getString(R.string.bahasa_menuBankSinarmas));
 			otherBanks.setText(getResources().getString(R.string.bahasa_toOtherBank));
-
+			//uangku.setText(getResources().getString(R.string.bahasa_toUangku));
 		}
         
        /* mimage1.setOnClickListener(new View.OnClickListener() {

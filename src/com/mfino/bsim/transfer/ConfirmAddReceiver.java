@@ -446,12 +446,18 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 								alertbox.show();
 
 							} else {
-								System.out.println("hieeeeeeeee" + responseContainer.getMsg());
-								Intent intent = new Intent(ConfirmAddReceiver.this, ConfirmationScreen.class);
-								intent.putExtra("MSG", responseContainer.getMsg());
-								intent.putExtra("ADITIONAL_INFO", "");
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(intent);
+								if (msgCode == 631) {
+									Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
+								}else{
+									System.out.println("hieeeeeeeee" + responseContainer.getMsg());
+									Intent intent = new Intent(ConfirmAddReceiver.this, ConfirmationScreen.class);
+									intent.putExtra("MSG", responseContainer.getMsg());
+									intent.putExtra("ADITIONAL_INFO", "");
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
+								}
 							}
 
 						} else {
