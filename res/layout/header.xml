@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back_button"
+            android:contentDescription="@string/test"
             android:background="@android:color/transparent"  />
 
         <TextView
@@ -50,7 +51,8 @@
             android:layout_centerHorizontal="true"
             android:text="BSIM"
             android:textColor="#ffffff"
-            android:textSize="18dp"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
             android:textStyle="bold" />
 
         <ImageButton
@@ -58,6 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/test"
             android:layout_centerVertical="true"
             android:src="@drawable/home_button"
             android:background="@android:color/transparent" />

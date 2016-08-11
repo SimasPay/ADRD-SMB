@@ -72,7 +72,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
-		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
+		TextView screenTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
 		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
 		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
 
@@ -112,24 +112,25 @@ public class ToOtherBankDetails extends AppCompatActivity {
 
 		//dear rand team, next time if you want to call bundle, please init it first and check before calling it if its null or not
 		if(bundle!=null){
-			tag_name = bundle.getString("TAG_NAME");
+			tag_name = bundle.getString("name");
+			Log.d("Simobi", "Transfer to " + tag_name );
 			code = bundle.getString("code");
 		}
 		
-		screeTitle.setText(tag_name);
+		
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-
+			screenTitle.setText("Transfer\nto " + tag_name);
 			// screeTitle.setText(getResources().getString(R.string.eng_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.eng_destinationAccountNum));
 			amountTxt.setText(getResources().getString(R.string.eng_amount));
 			btn_ok.setText(getResources().getString(R.string.eng_submit));
 
 		} else {
-
+			screenTitle.setText("Transfer\nke " + tag_name);
 			// screeTitle.setText(getResources().getString(R.string.bahasa_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.bahasa_destinationAccountNum));
 			amountTxt.setText(getResources().getString(R.string.bahasa_amount));
