@@ -1,5 +1,6 @@
 package com.mfino.bsim.account;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,8 +18,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.mfino.bsim.ConfirmationScreen;
 import com.mfino.bsim.Confirmation_History;
 import com.mfino.bsim.HomeScreen;
+import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
@@ -34,6 +37,7 @@ public class History extends Activity {
 	public static final String EMONEY_HISTORY_MSGCODE = "39";
 	public static final String EMONEY_BALACE_MSGCODE = "274";
 	public static final String BANK_BALACE_MSGCODE = "4";
+	public static final String REQUEST_TIMEOUT_MSGCODE = "631";
 	private Button btn_ok;
 	private EditText pinValue;
 	private Bundle bundle;
@@ -62,7 +66,6 @@ public class History extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				finish();
 			}
 		});
@@ -71,7 +74,6 @@ public class History extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent=new Intent(History.this,HomeScreen.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
@@ -105,6 +107,7 @@ public class History extends Activity {
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 
+			@SuppressLint("HandlerLeak")
 			@Override
 			public void onClick(View arg0) {
 
@@ -216,8 +219,15 @@ public class History extends Activity {
 											});
 									alertbox.show();
 
-								} else {
-
+								} else if(responseContainer.getMsgCode().equals(REQUEST_TIMEOUT_MSGCODE)){
+									System.out.println("Testing>History>>"+responseContainer.getMsg()+"= Timeout");
+									Intent intent = new Intent(History.this,
+											ConfirmationScreen.class);
+									intent.putExtra("MSG",
+											responseContainer.getMsg());
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
+								}else{
 									System.out.println("Testing>History>>"+responseContainer.getMsg());
 									Intent intent = new Intent(History.this,
 											Confirmation_History.class);
@@ -230,8 +240,6 @@ public class History extends Activity {
 								pinValue.setText("");
 
 							}else {
-
-
 								dialog.dismiss();
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_appTimeout));

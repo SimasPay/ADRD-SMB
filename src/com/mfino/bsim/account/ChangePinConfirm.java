@@ -114,7 +114,7 @@ public class ChangePinConfirm extends Activity {
 				settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 				String mobileNumber = settings.getString("mobile", "");
 				valueContainer.setSourceMdn(mobileNumber);
-				//valueContainer.setSourceMdn(Constants.SOURCE_MDN_NAME);
+				// valueContainer.setSourceMdn(Constants.SOURCE_MDN_NAME);
 				valueContainer.setSourcePin(bundle.getString("OPIN"));
 				valueContainer.setNewPin(bundle.getString("NPIN"));
 				valueContainer.setConfirmPin(bundle.getString("CONFIRM_NPIN"));
@@ -126,7 +126,7 @@ public class ChangePinConfirm extends Activity {
 				dialog.setTitle("Bank Sinarmas");
 				dialog.setMessage("Loading....   ");
 				dialog.show();
-				
+
 				final Handler handler = new Handler() {
 
 					public void handleMessage(Message msg) {
@@ -171,48 +171,29 @@ public class ChangePinConfirm extends Activity {
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
 								settings.edit().putBoolean("alreadyChangePin", true).commit();
-							} else {
-								if(responseContainer.getMsgCode().equals("2000")){
-									if (selectedLanguage.equalsIgnoreCase("ENG")) {
-										alertbox.setMessage("You have entered incorrect code. Please try again and ensure that you enter the correct code.");
-									} else {
-										alertbox.setMessage("Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
-									}
-									Bundle extras = getIntent().getExtras();
-									String required= extras.getString("REQUIRED");
-									if(required.equals("yes")){
-										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int arg1) {
-												dialog.dismiss();
-												finish();
-												Intent intent = new Intent(ChangePinConfirm.this, ChangePin.class);
-												intent.putExtra("mdn", settings.getString("mobile", ""));
-												intent.putExtra("REQUIRED", "yes");
-												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-												startActivity(intent);
-											}
-										});
-									}else{
-										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int arg1) {
-												dialog.dismiss();
-												finish();
-											}
-										});
-									}
-								}else if(responseContainer.getMsgCode().equals("631")){
-									alertbox.setMessage(responseContainer.getMsg());
+							} else if (responseContainer.getMsgCode().equals("2000")) {
+								if (selectedLanguage.equalsIgnoreCase("ENG")) {
+									alertbox.setMessage(
+											"You have entered incorrect code. Please try again and ensure that you enter the correct code.");
+								} else {
+									alertbox.setMessage(
+											"Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
+								}
+								Bundle extras = getIntent().getExtras();
+								String required = extras.getString("REQUIRED");
+								if (required.equals("yes")) {
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int arg1) {
-											dialog.dismiss();
+										public void onClick(DialogInterface dlg, int arg1) {
+											dlg.dismiss();
 											finish();
-											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+											Intent intent = new Intent(ChangePinConfirm.this, ChangePin.class);
+											intent.putExtra("mdn", settings.getString("mobile", ""));
+											intent.putExtra("REQUIRED", "yes");
 											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											startActivity(intent);
 										}
 									});
-								}else{
-									alertbox.setMessage(responseContainer.getMsg());
+								} else {
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int arg1) {
 											dialog.dismiss();
@@ -220,12 +201,30 @@ public class ChangePinConfirm extends Activity {
 										}
 									});
 								}
-								
+								alertbox.show();
+							} else if (responseContainer.getMsgCode().equals("631")) {
+								alertbox.setMessage(responseContainer.getMsg());
+								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int arg1) {
+										dialog.dismiss();
+										Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+										startActivity(intent);
+									}
+								});
+								alertbox.show();
+							} else {
+								alertbox.setMessage(responseContainer.getMsg());
+								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int arg1) {
+										dialog.dismiss();
+										finish();
+									}
+								});
 								alertbox.show();
 							}
-
+							
 						} else {
-
 							dialog.dismiss();
 							if (selectedLanguage.equalsIgnoreCase("ENG")) {
 								alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
@@ -234,7 +233,7 @@ public class ChangePinConfirm extends Activity {
 							}
 							alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface arg0, int arg1) {
-
+									arg0.dismiss();
 									finish();
 								}
 							});

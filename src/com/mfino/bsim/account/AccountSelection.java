@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,6 +43,7 @@ import android.widget.TextView;
 import com.mfino.bsim.ConfirmationScreen;
 import com.mfino.bsim.Confirmation_History;
 import com.mfino.bsim.HomeScreen;
+import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
@@ -417,6 +419,7 @@ public class AccountSelection extends Activity {
 	// Check Balance end
 
 	// View Transactions
+	@SuppressLint("HandlerLeak")
 	public void viewTransactions() {
 
 		/** Set Parameters for service calling. */
@@ -478,24 +481,17 @@ public class AccountSelection extends Activity {
 						});
 						alertbox.show();
 
-					} /*
-						 * else if (!responseContainer.getMsgCode()
-						 * .equals(BANK_HISTORY_MSGCODE)) {
-						 * 
-						 * alertbox.setMessage(responseContainer .getMsg());
-						 * alertbox.setNeutralButton( "OK", new
-						 * DialogInterface.OnClickListener() { public void
-						 * onClick( DialogInterface arg0, int arg1) {
-						 * 
-						 * Intent intent = new Intent( getBaseContext(),
-						 * HomeScreen.class);
-						 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						 * startActivity(intent); pinValue.setText("");
-						 * 
-						 * } }); alertbox.show();
-						 * 
-						 * }
-						 */ else {
+					}else if(responseContainer.getMsgCode()=="631" || Integer.parseInt(responseContainer.getMsgCode()) == 631 || responseContainer.getMsg().toLowerCase(Locale.getDefault()).trim().equals("please login again")){
+						alertbox.setMessage(responseContainer.getMsg());
+						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+								Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								startActivity(intent);
+							}
+						});
+						alertbox.show();
+					}else {
 
 						System.out.println("Testing>History>>" + responseContainer.getMsg());
 						Intent intent = new Intent(AccountSelection.this, Confirmation_History.class);

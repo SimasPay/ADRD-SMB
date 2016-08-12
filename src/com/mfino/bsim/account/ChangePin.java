@@ -64,7 +64,7 @@ public class ChangePin extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class ChangePin extends AppCompatActivity {
 		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
 		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
 		home.setVisibility(View.GONE);
-		
+
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "ChangePin").commit();
@@ -91,21 +91,21 @@ public class ChangePin extends AppCompatActivity {
 			public void onClick(View arg0) {
 				String required;
 				if (savedInstanceState == null) {
-				    Bundle extras = getIntent().getExtras();
-				    if(extras == null) {
-				    	required= null;
-				    } else {
-				    	required= extras.getString("REQUIRED");
-				    	if(required.equals("yes")){
-				    		forceChangePINDialog();
-				    	}else{
-				    		Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+					Bundle extras = getIntent().getExtras();
+					if (extras == null) {
+						required = null;
+					} else {
+						required = extras.getString("REQUIRED");
+						if (required.equals("yes")) {
+							forceChangePINDialog();
+						} else {
+							Intent intent = new Intent(ChangePin.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-				    	}
-				    }
-				}else{
-					required= (String) savedInstanceState.getSerializable("STRING_I_NEED");
+						}
+					}
+				} else {
+					required = (String) savedInstanceState.getSerializable("STRING_I_NEED");
 				}
 				finish();
 			}
@@ -115,21 +115,21 @@ public class ChangePin extends AppCompatActivity {
 			public void onClick(View arg0) {
 				String required;
 				if (savedInstanceState == null) {
-				    Bundle extras = getIntent().getExtras();
-				    if(extras == null) {
-				    	required= null;
-				    } else {
-				    	required= extras.getString("REQUIRED");
-				    	if(required.equals("yes")){
-				    		forceChangePINDialog();
-				    	}else{
-				    		Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+					Bundle extras = getIntent().getExtras();
+					if (extras == null) {
+						required = null;
+					} else {
+						required = extras.getString("REQUIRED");
+						if (required.equals("yes")) {
+							forceChangePINDialog();
+						} else {
+							Intent intent = new Intent(ChangePin.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-				    	}
-				    }
-				}else{
-					required= (String) savedInstanceState.getSerializable("STRING_I_NEED");
+						}
+					}
+				} else {
+					required = (String) savedInstanceState.getSerializable("STRING_I_NEED");
 				}
 				finish();
 			}
@@ -264,7 +264,7 @@ public class ChangePin extends AppCompatActivity {
 					dialog.setTitle("Bank Sinarmas");
 					dialog.setMessage("Loading....   ");
 					dialog.show();
-					
+
 					final Handler handler = new Handler() {
 
 						public void handleMessage(Message msg) {
@@ -284,36 +284,29 @@ public class ChangePin extends AppCompatActivity {
 								dialog.dismiss();
 
 								if (responseContainer.getMsg() == null) {
-
 									if (selectedLanguage.equalsIgnoreCase("ENG")) {
 										alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 									} else {
 										alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 									}
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int arg1) {
-											dialog.dismiss();
+										public void onClick(DialogInterface dlg, int arg1) {
+											dlg.dismiss();
 										}
 									});
 									alertbox.show();
-								}else if(responseContainer.getMsgCode().equals("631")){
+								} else if (responseContainer.getMsgCode().equals("631")) {
 									alertbox.setMessage(responseContainer.getMsg());
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int arg1) {
-											dialog.dismiss();
-											finish();
+										public void onClick(DialogInterface dlg, int arg1) {
+											dlg.dismiss();
 											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											startActivity(intent);
 										}
 									});
 									alertbox.show();
-								}else if (responseContainer.getMsgCode().equals("2039")) {
-
-									// Constants.SOURCE_MDN_PIN =
-									// oldpinValue.getText().toString();
-									dialog.dismiss();
-
+								} else if (responseContainer.getMsgCode().equals("2039")) {
 									try {
 										System.out.println("MFA MODE.." + responseContainer.getMfaMode());
 										valueContainer.setMfaMode(responseContainer.getMfaMode());
@@ -329,124 +322,7 @@ public class ChangePin extends AppCompatActivity {
 										showOTPRequiredDialog(responseContainer.getMsg(),
 												responseContainer.getMfaMode(), responseContainer.getSctl(),
 												oldpinValue.getText().toString(), newpinValue.getText().toString());
-										/**********************************************
-										 * 2FA factor code start
-										 ****************************************************************/
-										/**
-										 * try {
-										 * 
-										 * final ProgressDialog dialog1 =
-										 * ProgressDialog.show(ChangePin.this,
-										 * "  Banksinarmas               ",
-										 * "Please Wait for SMS....   ", true);
-										 * Long startTimeInMillis = new
-										 * java.util.Date().getTime();
-										 * 
-										 * while (true) {
-										 * 
-										 * Thread.sleep(2000);
-										 * System.out.println(
-										 * "Testing>>inside Loop"); final Uri
-										 * SMS_INBOX =
-										 * Uri.parse("content://sms/inbox");
-										 * Cursor c =
-										 * getContentResolver().query(SMS_INBOX,
-										 * null, null, null, "DATE desc");
-										 * 
-										 * c.moveToFirst(); for (int i = 0; i <
-										 * 10; i++) { String body =
-										 * c.getString(c.getColumnIndexOrThrow(
-										 * "body")) .toString().trim();
-										 * 
-										 * if (body.contains("Kode Simobi Anda")
-										 * && body.contains(responseContainer.
-										 * getSctl())) {
-										 * 
-										 * otpValue = body.substring( new
-										 * String("Kode Simobi Anda ").length(),
-										 * body.indexOf("(no ref")); sctl =
-										 * body.substring(body.indexOf(":") + 1,
-										 * body.indexOf(")")); break;
-										 * 
-										 * } else if (body.contains(
-										 * "Your Simobi Code is") &&
-										 * body.contains(responseContainer.
-										 * getSctl())) {
-										 * 
-										 * otpValue = body.substring( new
-										 * String("Your Simobi Code is "
-										 * ).length(), body.indexOf("(ref"));
-										 * sctl = body.substring( body.indexOf(
-										 * "(ref no: ") + new String("(ref no: "
-										 * ).length(), body.indexOf(")"));
-										 * break; } else { c.moveToNext(); }
-										 * 
-										 * } c.close();
-										 * 
-										 * if (!(otpValue == null)) {
-										 * System.out.println("Testing>>SCTL");
-										 * break; } else {
-										 * 
-										 * System.out.println(
-										 * "Testing>>SCTL>>else");
-										 * 
-										 * if (new java.util.Date().getTime() -
-										 * startTimeInMillis >= 60000) {
-										 * 
-										 * System.out.println(
-										 * "Testing>>TimeOut>>"); break; }
-										 * 
-										 * }
-										 * 
-										 * } System.out.println("Testing>>OTP>>"
-										 * + otpValue); if (otpValue == null) {
-										 * 
-										 * dialog1.dismiss();
-										 * System.out.println(
-										 * "Testing>>OTP>>null"); if
-										 * (selectedLanguage.equalsIgnoreCase(
-										 * "ENG")) { alertbox.setMessage(
-										 * getResources().getString(R.string.
-										 * eng_serverNotRespond)); } else {
-										 * alertbox.setMessage(
-										 * getResources().getString(R.string.
-										 * bahasa_serverNotRespond)); }
-										 * alertbox.setNeutralButton("OK", new
-										 * DialogInterface.OnClickListener() {
-										 * public void onClick(DialogInterface
-										 * arg0, int arg1) { finish(); } });
-										 * alertbox.show(); } else {
-										 * dialog1.dismiss();
-										 * 
-										 * Intent intent = new
-										 * Intent(ChangePin.this,
-										 * ChangePinConfirm.class);
-										 * intent.putExtra("MSG",
-										 * responseContainer.getMsg());
-										 * intent.putExtra("OTP", otpValue);
-										 * intent.putExtra("SCTL",
-										 * responseContainer.getSctl());
-										 * intent.putExtra("MFA_MODE",
-										 * responseContainer.getMfaMode());
-										 * intent.putExtra("OPIN",
-										 * oldpinValue.getText().toString());
-										 * intent.putExtra("NPIN",
-										 * newpinValue.getText().toString());
-										 * intent.putExtra("CONFIRM_NPIN",
-										 * newpinValue.getText().toString());
-										 * startActivity(intent); }
-										 * 
-										 * } catch (Exception e) { //
-										 * dialog1.dismiss();
-										 * System.out.println(
-										 * "Testing>>exception>>>>>" + e); }
-										 **/
-										/**********************************************
-										 * 2FA factor code end
-										 ****************************************************************/
-
 									} else {
-
 										Constants.SOURCE_MDN_PIN = bundle.getString("NPIN");
 										System.out.println("Testing>>Without OTP>>" + responseContainer.getMsg());
 										Intent intent = new Intent(ChangePin.this, ConfirmationScreen.class);
@@ -460,29 +336,24 @@ public class ChangePin extends AppCompatActivity {
 									}
 
 								} else {
-
 									alertbox.setMessage(responseContainer.getMsg());
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dialog, int arg1) {
-											dialog.dismiss();
+										public void onClick(DialogInterface dlg, int arg1) {
+											dlg.dismiss();
 											finish();
-
 										}
 									});
 									alertbox.show();
 								}
-
 							} else {
-
-								dialog.dismiss();
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 								} else {
 									alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog, int arg1) {
-										dialog.dismiss();
+									public void onClick(DialogInterface dlg, int arg1) {
+										dlg.dismiss();
 										finish();
 									}
 								});
@@ -547,15 +418,19 @@ public class ChangePin extends AppCompatActivity {
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
+			if (message.contains("Kode Simobi Anda ")
+					|| message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
 				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
+				otpValue = message
+						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
+						.trim();
 				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
+			} else if (message.contains("Your Simobi Code is ")
+					|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
 				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
+				otpValue = message
+						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
+						.trim();
 				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
 						message.indexOf(")"));
 			}
@@ -566,7 +441,6 @@ public class ChangePin extends AppCompatActivity {
 		}
 	}
 
-	
 	public void forceChangePINDialog() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
@@ -583,12 +457,11 @@ public class ChangePin extends AppCompatActivity {
 			}
 		});
 		AlertDialog alertError = builderError.create();
-		if(!((Activity) context).isFinishing())
-		{
+		if (!((Activity) context).isFinishing()) {
 			alertError.show();
 		}
 	}
-	
+
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
@@ -614,8 +487,7 @@ public class ChangePin extends AppCompatActivity {
 					});
 		}
 		AlertDialog alertError = builderError.create();
-		if(!((Activity) context).isFinishing())
-		{
+		if (!((Activity) context).isFinishing()) {
 			alertError.show();
 		}
 	}
@@ -648,7 +520,6 @@ public class ChangePin extends AppCompatActivity {
 
 			@Override
 			public void onFinish() {
-				// info.setVisibility(View.GONE);
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -662,7 +533,7 @@ public class ChangePin extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
-					if(myTimer != null) {
+					if (myTimer != null) {
 						myTimer.cancel();
 					}
 				}
@@ -674,7 +545,7 @@ public class ChangePin extends AppCompatActivity {
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					dialog.dismiss();
-					if(myTimer != null) {
+					if (myTimer != null) {
 						myTimer.cancel();
 					}
 				}
@@ -694,46 +565,44 @@ public class ChangePin extends AppCompatActivity {
 					intent.putExtra("NPIN", newPin);
 					intent.putExtra("CONFIRM_NPIN", newPin);
 					Bundle extras = getIntent().getExtras();
-					String required= extras.getString("REQUIRED");
-					if(required.equals("yes")){
-						intent.putExtra("REQUIRED", "yes");
+					if(extras!=null){
+						String required = extras.getString("REQUIRED");
+						if (required.equals("yes")) {
+							intent.putExtra("REQUIRED", "yes");
+						}
 					}
 					startActivity(intent);
 				}
 			}
 		});
 		final AlertDialog b = dialogBuilder.create();
-		b.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		b.getWindow().clearFlags(
+				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		b.show();
-		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE)
-        .setEnabled(false);
+		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before,
-		            int count) {
-		    }
-		
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count,
-		            int after) {
-		    }
-		
-		    @Override
-		    public void afterTextChanged(Editable s) {
-		        // Check if edittext is empty
-		        if (TextUtils.isEmpty(s)) {
-		            // Disable ok button
-		            ((AlertDialog) b).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-		        } else {
-		            // Something into edit text. Enable the button.
-		            ((AlertDialog) b).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-		        }
-		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
-		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
-		        	Intent intent = new Intent(ChangePin.this, ChangePinConfirm.class);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// Check if edittext is empty
+				if (TextUtils.isEmpty(s)) {
+					// Disable ok button
+					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+				} else {
+					// Something into edit text. Enable the button.
+					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+				}
+				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
+					Intent intent = new Intent(ChangePin.this, ChangePinConfirm.class);
 					intent.putExtra("MSG", message);
 					intent.putExtra("OTP", edt.getText().toString());
 					intent.putExtra("SCTL", sctl);
@@ -742,24 +611,24 @@ public class ChangePin extends AppCompatActivity {
 					intent.putExtra("NPIN", newPin);
 					intent.putExtra("CONFIRM_NPIN", newPin);
 					startActivity(intent);
-		        }
-		
-		    }
+				}
+
+			}
 		});
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		forceChangePINDialog();
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	     if (keyCode == KeyEvent.KEYCODE_BACK) {
-	    	 forceChangePINDialog();
-	     return true;
-	     }
-	     return super.onKeyDown(keyCode, event);    
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			forceChangePINDialog();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 }
