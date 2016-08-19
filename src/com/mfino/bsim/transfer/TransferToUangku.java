@@ -616,6 +616,7 @@ public class TransferToUangku extends AppCompatActivity {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
+		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
 

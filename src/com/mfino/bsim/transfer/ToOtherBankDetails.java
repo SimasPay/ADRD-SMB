@@ -640,6 +640,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ToOtherBankDetails.this,
 				R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
+		dialogBuilder.setCancelable(false);
 		final ViewGroup nullParent = null;
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
