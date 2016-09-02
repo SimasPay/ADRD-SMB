@@ -25,66 +25,65 @@ import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
+
 /** @author pramod */
 
-
 public class ActivationDetails extends Activity {
-    /** Called when the activity is first created. */
-	private Button okButton,resentOTP;
-	private EditText otp,pin,confirmPin; 
+	/** Called when the activity is first created. */
+	private Button okButton, resentOTP;
+	private EditText otp, pin, confirmPin;
 	private AlertDialog.Builder alertbox;
 	private ValueContainer valueContainer;
 	private Bundle bundle;
-	//TextView mobileNumText;
+	// TextView mobileNumText;
 	private String responseXml;
 	SharedPreferences languageSettings;
 	String selectedLanguage;
 	ProgressDialog dialog;
 	Context context;
-	
+
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-      
-        setContentView(R.layout.activation_details);
-        context=this;
-        
-      //Header code...
-		 View headerContainer = findViewById(R.id.header); 
-	     TextView screeTitle=(TextView)findViewById(R.id.screenTitle);
-	     ImageButton back=(ImageButton)findViewById(R.id.back);
-	     
-	     
-	     back.setOnClickListener(new OnClickListener() {
-			
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.activation_details);
+		context = this;
+
+		// Header code...
+		View headerContainer = findViewById(R.id.header);
+		TextView screeTitle = (TextView) findViewById(R.id.screenTitle);
+		ImageButton back = (ImageButton) findViewById(R.id.back);
+
+		back.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				finish();
 			}
 		});
-        
-        bundle = getIntent().getExtras();
-        TextView otpText= (TextView)findViewById(R.id.textView3); 
-       // mobileNumber = (EditText)findViewById(R.id.mobileEditText);
-        otp = (EditText)findViewById(R.id.activationKeyEditText);    
-        pin = (EditText)findViewById(R.id.pinEditText);
-        confirmPin = (EditText)findViewById(R.id.rePinEditText);
-        
-        //mobileNumber.setText(bundle.getString("MDN"));
-        okButton = (Button)findViewById(R.id.okButton);
-        resentOTP= (Button)findViewById(R.id.resendOTP);    
-        alertbox = new AlertDialog.Builder(ActivationDetails.this, R.style.MyAlertDialogStyle);
-        //resentOTP.setTextColor(Color.parseColor("#3C3ABC"));
-		TextView textViewinNewPin=(TextView)findViewById(R.id.textView_newPin);
-		TextView textVieConfirmPin=(TextView)findViewById(R.id.textView_confirmNewPin);
-		//textVieConfirmPin.setTypeface(Typeface.SANS_SERIF);
-		//Language Option..
+
+		bundle = getIntent().getExtras();
+		TextView otpText = (TextView) findViewById(R.id.textView3);
+		// mobileNumber = (EditText)findViewById(R.id.mobileEditText);
+		otp = (EditText) findViewById(R.id.activationKeyEditText);
+		pin = (EditText) findViewById(R.id.pinEditText);
+		confirmPin = (EditText) findViewById(R.id.rePinEditText);
+
+		// mobileNumber.setText(bundle.getString("MDN"));
+		okButton = (Button) findViewById(R.id.okButton);
+		resentOTP = (Button) findViewById(R.id.resendOTP);
+		alertbox = new AlertDialog.Builder(ActivationDetails.this, R.style.MyAlertDialogStyle);
+		// resentOTP.setTextColor(Color.parseColor("#3C3ABC"));
+		TextView textViewinNewPin = (TextView) findViewById(R.id.textView_newPin);
+		TextView textVieConfirmPin = (TextView) findViewById(R.id.textView_confirmNewPin);
+		// textVieConfirmPin.setTypeface(Typeface.SANS_SERIF);
+		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
-		
+
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			//mobileNumText.setText(getResources().getString(R.string.eng_mobileNumber));
+			// mobileNumText.setText(getResources().getString(R.string.eng_mobileNumber));
 			screeTitle.setText(getResources().getString(R.string.eng_activation));
 			resentOTP.setText(getResources().getString(R.string.eng_resend_otp));
 			textViewinNewPin.setText(getResources().getString(R.string.eng_newPin));
@@ -94,7 +93,7 @@ public class ActivationDetails extends Activity {
 			otpText.setText("Enter Your varification code");
 
 		} else {
-			//mobileNumText.setText(getResources().getString(R.string.bahasa_mobileNumber));
+			// mobileNumText.setText(getResources().getString(R.string.bahasa_mobileNumber));
 			screeTitle.setText(getResources().getString(R.string.bahasa_activation));
 			resentOTP.setText(getResources().getString(R.string.bahasa_resend_otp));
 			textViewinNewPin.setText(getResources().getString(R.string.bahasa_newPin));
@@ -103,100 +102,96 @@ public class ActivationDetails extends Activity {
 			okButton.setText(getResources().getString(R.string.bahasa_submit));
 			otpText.setText("Masukan Kode Verifikasi");
 		}
-        
-        resentOTP.setOnClickListener(new OnClickListener() {
-			
+
+		resentOTP.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				resendOTP();
 			}
 		});
-       
-         okButton.setOnClickListener(new View.OnClickListener() {
-			
+
+		okButton.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View arg0) {
-				
-				boolean networkCheck=ConfigurationUtil.isConnectingToInternet(context);
-				if(!networkCheck){
-					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-					ConfigurationUtil.networkDisplayDialog(getResources().getString(R.string.eng_noInterent), context);
-					}else{
-						ConfigurationUtil.networkDisplayDialog(getResources().getString(R.string.bahasa_noInternet), context);
-					}
-									
-				}else if(isRequiredFieldEmpty()){
-					
-						if (selectedLanguage.equalsIgnoreCase("ENG")) {
-							
-							alertbox.setMessage(getResources().getString(R.string.eng_fieldsNotEmpty));
 
-						} else {
-							
-							alertbox.setMessage(getResources().getString(R.string.bahasa_fieldsNotEmpty));
-						}
-	                 alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-	                  public void onClick(DialogInterface arg0, int arg1) {
-	                    
-	       		      }
-	                 });
-	                 alertbox.show();
-					
-				}
-				/*else if(otp.getText().toString().trim().length()<8)
-				{
-					 alertbox.setMessage("Pin Number must be 6 digits long. ");
-	                 alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-	                  public void onClick(DialogInterface arg0, int arg1) {
-	                    
-	       		      }
-	                 });
-	                 alertbox.show();
-				} */
-				else if (pin.getText().toString().trim().length() < 4) {
+				boolean networkCheck = ConfigurationUtil.isConnectingToInternet(context);
+				if (!networkCheck) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						alertbox.setMessage(getResources().getString(R.string.eng_pinLength));
+						ConfigurationUtil.networkDisplayDialog(getResources().getString(R.string.eng_noInterent),
+								context);
 					} else {
-						alertbox.setMessage(getResources().getString(R.string.bahasa_pinLength));
+						ConfigurationUtil.networkDisplayDialog(getResources().getString(R.string.bahasa_noInternet),
+								context);
 					}
-					alertbox.setNeutralButton("OK",new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface arg0,
-										int arg1) {
-								}
-							});
+
+				} else if (isRequiredFieldEmpty()) {
+
+					if (selectedLanguage.equalsIgnoreCase("ENG")) {
+
+						alertbox.setMessage(getResources().getString(R.string.eng_fieldsNotEmpty));
+
+					} else {
+
+						alertbox.setMessage(getResources().getString(R.string.bahasa_fieldsNotEmpty));
+					}
+					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface arg0, int arg1) {
+
+						}
+					});
 					alertbox.show();
-				} else if (confirmPin.getText().toString().trim().length() < 4) {
-					
+
+				}
+				/*
+				 * else if(otp.getText().toString().trim().length()<8) {
+				 * alertbox.setMessage("Pin Number must be 6 digits long. ");
+				 * alertbox.setNeutralButton("OK", new
+				 * DialogInterface.OnClickListener() { public void
+				 * onClick(DialogInterface arg0, int arg1) {
+				 * 
+				 * } }); alertbox.show(); }
+				 */
+				else if (pin.getText().toString().trim().length() < 6) {
+					if (selectedLanguage.equalsIgnoreCase("ENG")) {
+						alertbox.setMessage(getResources().getString(R.string.eng_pinActivation));
+					} else {
+						alertbox.setMessage(getResources().getString(R.string.bahasa_pinActivation));
+					}
+					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface arg0, int arg1) {
+						}
+					});
+					alertbox.show();
+				} else if (confirmPin.getText().toString().trim().length() < 6) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_confirmPinLenth));
 					} else {
 						alertbox.setMessage(getResources().getString(R.string.bahasa_confirmPinLenth));
 					}
-					alertbox.setNeutralButton("OK",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface arg0,
-										int arg1) {
+					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface arg0, int arg1) {
 
-								}
-							});
+						}
+					});
 					alertbox.show();
-				} else if(!(pin.getText().toString().equals(confirmPin.getText().toString()))){
+				} else if (!(pin.getText().toString().equals(confirmPin.getText().toString()))) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						
+
 						alertbox.setMessage(getResources().getString(R.string.eng_mPinNotMatch));
 
 					} else {
-						
+
 						alertbox.setMessage(getResources().getString(R.string.bahasa_mPinNotMatch));
 					}
 
-					alertbox.setNeutralButton("OK",new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface arg0,
-										int arg1) {
+					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface arg0, int arg1) {
 
-								}
-							});
+						}
+					});
 					alertbox.show();
 				} else {
 
@@ -204,8 +199,8 @@ public class ActivationDetails extends Activity {
 					 * Call Activation Disclosure here and pass value of Mobile
 					 * Number, Activation Key and PIN
 					 */
-					
-					Intent intent = new Intent(ActivationDetails.this,ActivationDisclosure.class);
+
+					Intent intent = new Intent(ActivationDetails.this, ActivationDisclosure.class);
 					intent.putExtra("MDN", bundle.getString("MDN"));
 					intent.putExtra("OTP", otp.getText().toString());
 					intent.putExtra("PIN", pin.getText().toString());
@@ -216,29 +211,27 @@ public class ActivationDetails extends Activity {
 				}
 			}
 		});
-        
-       
-    }
+
+	}
 
 	private boolean isRequiredFieldEmpty() {
 
-		//mobileNumber = (EditText)findViewById(R.id.mobileEditText);
-         otp = (EditText)findViewById(R.id.activationKeyEditText);    
-         pin = (EditText)findViewById(R.id.pinEditText);
-         confirmPin = (EditText)findViewById(R.id.rePinEditText);
-         
-		if (!(otp.getText().toString().equals(""))&& !(pin.getText().toString().equals(""))&& !(confirmPin.getText().toString().equals("")))
-		{
+		// mobileNumber = (EditText)findViewById(R.id.mobileEditText);
+		otp = (EditText) findViewById(R.id.activationKeyEditText);
+		pin = (EditText) findViewById(R.id.pinEditText);
+		confirmPin = (EditText) findViewById(R.id.rePinEditText);
+
+		if (!(otp.getText().toString().equals("")) && !(pin.getText().toString().equals(""))
+				&& !(confirmPin.getText().toString().equals(""))) {
 			return false;
 		} else {
 
 			return true;
 		}
 	}
-    
-    public void resendOTP(){
-		
-		
+
+	public void resendOTP() {
+
 		/** Set Parameters for Activation Service. */
 		valueContainer = new ValueContainer();
 		valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
@@ -260,7 +253,7 @@ public class ActivationDetails extends Activity {
 			dialog.setMessage(getResources().getString(R.string.bahasa_loading));
 			dialog.show();
 		}
-		
+
 		final Handler handler = new Handler() {
 
 			public void handleMessage(Message msg) {
@@ -272,8 +265,7 @@ public class ActivationDetails extends Activity {
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
 						responseContainer = obj.parse(responseXml);
-						System.out.println("Testing>>>Message>>Activation>>"
-								+ responseContainer.getMsg());
+						System.out.println("Testing>>>Message>>Activation>>" + responseContainer.getMsg());
 					} catch (Exception e) {
 
 						e.printStackTrace();
@@ -282,63 +274,62 @@ public class ActivationDetails extends Activity {
 					dialog.dismiss();
 
 					if (responseContainer.getMsg() == null) {
-						
+
 						if (selectedLanguage.equalsIgnoreCase("ENG")) {
 							alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 						} else {
 							alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 						}
-						alertbox.setNeutralButton("OK",new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface arg0,int arg1) {
+						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
 
-									}
-								});
+							}
+						});
 						alertbox.show();
 
 					} else {
-						
-						/*if(Integer.parseInt(responseContainer.getMsgCode())==811){
-							//one Timepin not allowed for this MDN
-						}else {}*/
+
+						/*
+						 * if(Integer.parseInt(responseContainer.getMsgCode())==
+						 * 811){ //one Timepin not allowed for this MDN }else {}
+						 */
 						dialog.dismiss();
 						if (selectedLanguage.equalsIgnoreCase("ENG")) {
-							
+
 							alertbox.setMessage(getResources().getString(R.string.eng_checkSMS));
 
 						} else {
-							
+
 							alertbox.setMessage(getResources().getString(R.string.bahasa_checkSMS));
 						}
-						alertbox.setNeutralButton("OK",new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface arg0,int arg1) {
-										dialog.dismiss();
-									}
-								});
+						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+								dialog.dismiss();
+							}
+						});
 						alertbox.show();
 					}
 
 				} else {
-					
+
 					dialog.dismiss();
-					
+
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 					} else {
 						alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 					}
-					alertbox.setNeutralButton("OK",
-							new DialogInterface.OnClickListener() {
-								public void onClick(
-										DialogInterface arg0, int arg1) {
+					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface arg0, int arg1) {
 
-								}
-							});
+						}
+					});
 					alertbox.show();
 				}
 
 			}
-         };
-        
+		};
+
 		final Thread checkUpdate = new Thread() {
 
 			public void run() {

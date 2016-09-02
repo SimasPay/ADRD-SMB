@@ -1,5 +1,6 @@
 package com.mfino.bsim;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.purchase.PurchaseDetails;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
@@ -74,7 +76,7 @@ public class ResetPinDetails extends Activity {
 		pin = (EditText) findViewById(R.id.mpinEditText);
 		confirmPin = (EditText) findViewById(R.id.remPinEditText);
 		okButton = (Button) findViewById(R.id.okButton);
-		alertbox = new AlertDialog.Builder(this);
+		alertbox = new AlertDialog.Builder(ResetPinDetails.this, R.style.MyAlertDialogStyle);
 		
 		TextView textViewinNewPin=(TextView)findViewById(R.id.textView_newPin);
 		TextView textVieConfirmPin=(TextView)findViewById(R.id.textView_confirmNewPin);
@@ -104,6 +106,7 @@ public class ResetPinDetails extends Activity {
 				}
 		okButton.setOnClickListener(new View.OnClickListener() {
 
+			@SuppressLint("HandlerLeak")
 			@Override
 			public void onClick(View arg0) {
 
@@ -205,10 +208,17 @@ public class ResetPinDetails extends Activity {
 
 
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						dialog = ProgressDialog.show(ResetPinDetails.this, "  Bank Sinarmas               ",getResources().getString(R.string.eng_loading), true);
-
+						dialog = new ProgressDialog(ResetPinDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.eng_loading));
+						dialog.show();
 					} else {
-						dialog = ProgressDialog.show(ResetPinDetails.this, "  Bank Sinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
+						dialog = new ProgressDialog(ResetPinDetails.this, R.style.MyAlertDialogStyle);
+						dialog.setTitle("Bank Sinarmas");
+						dialog.setCancelable(false);
+						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+						dialog.show();
 					}
 					final Handler handler = new Handler() {
 
@@ -302,6 +312,7 @@ public class ResetPinDetails extends Activity {
 		}
 	}
 
+	@SuppressLint("HandlerLeak")
 	public void resendOTP() {
 
 		/** Set Parameters for Activation Service. */
@@ -315,7 +326,7 @@ public class ResetPinDetails extends Activity {
 				valueContainer, ResetPinDetails.this);
 
 		final ProgressDialog dialog = ProgressDialog.show(ResetPinDetails.this,
-				"  Banksinarmas               ", "Loading....   ", true);
+				"  Bank Sinarmas               ", "Loading....   ", true);
 
 		final Handler handler = new Handler() {
 

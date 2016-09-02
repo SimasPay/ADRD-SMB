@@ -1,13 +1,9 @@
 package com.mfino.bsim;
-import com.mfino.bsim.account.AccountSelection;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 /** @author pramod */
@@ -19,6 +15,7 @@ public class ActivationConfirmation extends Activity {
 	private TextView tvMsg;
 	String msg;
 	SharedPreferences languageSettings;
+	String getScreen = "";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +42,12 @@ public class ActivationConfirmation extends Activity {
         loginButton = (Button)findViewById(R.id.loginButton);
         tvMsg =  (TextView)findViewById(R.id.textView1);
         tvMsg.setText(bundle.getString("MSG"));
+        if (this.getIntent().getExtras() != null && this.getIntent().hasExtra("SCREEN")) {
+        	getScreen = bundle.getString("SCREEN");
+        }
+
+        
+        
         
       //Language Option..
   		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
@@ -63,21 +66,28 @@ public class ActivationConfirmation extends Activity {
 			//back.setBackgroundResource(R.drawable.bahasa_back_button);
 
   		}*/
+        if(!getScreen.equals("") && getScreen.equals("ResetPin")){
+        	loginButton.setText("OK");
+        	loginButton.setOnClickListener(new View.OnClickListener() {
+    			@Override
+    			public void onClick(View arg0) {
+    					Intent intent = new Intent(ActivationConfirmation.this, LandingScreen.class);
+    					startActivity(intent);
+    					finish();
+    			}
+    		});
+        }else{
+        	loginButton.setOnClickListener(new View.OnClickListener() {
+    			@Override
+    			public void onClick(View arg0) {
+    					Intent intent = new Intent(ActivationConfirmation.this, LoginScreen.class);
+    					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    					startActivity(intent);
+    					finish();
+    			}
+    		});
+        }
         
-        loginButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				
-			
-					Intent intent = new Intent(ActivationConfirmation.this, LoginScreen.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-					finish();
-				
-				
-			}
-		});
     }
 }
 

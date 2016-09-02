@@ -67,8 +67,9 @@
     <string name="eng_clickHereToResend"> Click here to resend OTP </string>
     <string name="eng_serverNotRespond"> Dear Customer,\n currently you are not connected to Bank Sinarmas server. Please try again later. </string>
     <string name="eng_enterValidMobile"> Please enter the valid mobile number </string>
-    <string name="eng_pinLength"> mPin must be 6 digits long. </string>
-    <string name="eng_confirmPinLenth">Confirm Pin Number must be 6 digits long. </string>
+    <string name="eng_pinLength"> mPIN should be 6 digits. If your mPIN is less than 6 digits, please change your mPIN to 6 digit at the nearest Bank Sinarmas ATM </string>
+    <string name="eng_confirmPinLenth"> Confirm mPIN should be 6 digits. </string>
+    <string name="eng_pinActivation">mPIN should be 6 digits</string>
     <string name="eng_fieldsNotEmpty"> Fields can not be empty </string>
     <string name="eng_loading"> Loading.... </string>
     <string name="eng_mPinNotMatch"> mPIN do not match. Please enter same mPIN in both fields and retry. </string>
@@ -153,8 +154,9 @@
     <string name="bahasa_resetPin"> Reset mPIN </string>
     <string name="bahasa_serverNotRespond"> Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
     <string name="bahasa_enterValidMobile"> Silakan masukkan nomor ponsel yang valid </string>
-    <string name="bahasa_pinLength"> panjang mPin harus 6 digit. </string>
-    <string name="bahasa_confirmPinLenth">panjang konfirmasi mpin harus 6 digit. </string>
+    <string name="bahasa_pinLength"> Panjang mPIN harus 6 digit. Apabila mPIN Anda kurang dari 6 digit, silahkan ubah dahulu mPIN Anda menjadi 6 digit di ATM Bank Sinarmas terdekat </string>
+    <string name="bahasa_confirmPinLenth">Panjang confirm mPIN harus 6 digit</string>
+    <string name="bahasa_pinActivation">Panjang mPIN harus 6 digit</string>
     <string name="bahasa_fieldsNotEmpty"> field tidak boleh kosong </string>
     <string name="bahasa_loading"> sedang proses....  </string>
     <string name="bahasa_mPinNotMatch"> mpin tidak cocok. Silakan input mpin yang sama di kedua field, kemudian coba lagi. </string>

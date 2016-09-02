@@ -138,7 +138,7 @@ public class LoginScreen extends Activity {
 						}
 					});
 					alertbox.show();
-				} else if (loginPin.getText().length() < 4) {
+				} else if (loginPin.getText().length() < 6) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_pinLength));
 					} else {

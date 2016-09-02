@@ -215,7 +215,7 @@ public class ChangePin extends AppCompatActivity {
 					});
 					alertbox.show();
 
-				} else if (newpinValue.getText().length() < 4) {
+				} else if (newpinValue.getText().length() < 6) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_pinLength));
 					} else {
@@ -223,15 +223,25 @@ public class ChangePin extends AppCompatActivity {
 					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
-
 							newpinValue.setText("");
 							confirmNewPinValue.setText("");
-
 						}
 					});
 					alertbox.show();
-				} else {
-
+				} else if(confirmNewPinValue.getText().length() < 6){
+					if (selectedLanguage.equalsIgnoreCase("ENG")) {
+						alertbox.setMessage(getResources().getString(R.string.eng_confirmPinLenth));
+					} else {
+						alertbox.setMessage(getResources().getString(R.string.bahasa_confirmPinLenth));
+					}
+					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface arg0, int arg1) {
+							newpinValue.setText("");
+							confirmNewPinValue.setText("");
+						}
+					});
+					alertbox.show();
+				}else {
 					int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 					if (currentapiVersion > android.os.Build.VERSION_CODES.LOLLIPOP) {
 						if ((checkCallingOrSelfPermission(
