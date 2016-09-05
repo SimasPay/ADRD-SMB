@@ -134,7 +134,7 @@ public class ChangePin extends AppCompatActivity {
 				finish();
 			}
 		});
-
+		home.setVisibility(View.GONE);
 		oldpinValue = (EditText) findViewById(R.id.oldPinEditText);
 		newpinValue = (EditText) findViewById(R.id.newpinEditText);
 		confirmNewPinValue = (EditText) findViewById(R.id.reNewPinEditText);
@@ -151,24 +151,17 @@ public class ChangePin extends AppCompatActivity {
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-
 			screeTitle.setText(getResources().getString(R.string.eng_changePin));
 			lodPin.setText(getResources().getString(R.string.eng_oldPin));
 			newPin.setText(getResources().getString(R.string.eng_newPin));
 			confirmPin.setText(getResources().getString(R.string.eng_confimPin));
-			home.setBackgroundResource(R.drawable.home_icon1);
-			back.setBackgroundResource(R.drawable.back_button);
 			btn_ok.setText(getResources().getString(R.string.eng_submit));
-
 		} else {
-
 			screeTitle.setText(getResources().getString(R.string.bahasa_changePin));
 			lodPin.setText(getResources().getString(R.string.bahasa_oldPin));
 			newPin.setText(getResources().getString(R.string.bahasa_newPin));
 			confirmPin.setText(getResources().getString(R.string.bahasa_confimPin));
-			// home.setBackgroundResource(R.drawable.bahasa_home_icon1);
 			btn_ok.setText(getResources().getString(R.string.bahasa_submit));
-
 		}
 
 		alertbox = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
