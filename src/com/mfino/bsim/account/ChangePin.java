@@ -207,19 +207,17 @@ public class ChangePin extends AppCompatActivity {
 
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
-
 							newpinValue.setText("");
 							confirmNewPinValue.setText("");
-
 						}
 					});
 					alertbox.show();
 
 				} else if (newpinValue.getText().length() < 6) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						alertbox.setMessage(getResources().getString(R.string.eng_pinLength));
+						alertbox.setMessage(getResources().getString(R.string.eng_pinActivation));
 					} else {
-						alertbox.setMessage(getResources().getString(R.string.bahasa_pinLength));
+						alertbox.setMessage(getResources().getString(R.string.bahasa_pinActivation));
 					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {

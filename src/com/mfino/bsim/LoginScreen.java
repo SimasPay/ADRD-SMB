@@ -116,17 +116,26 @@ public class LoginScreen extends Activity {
 					}
 
 				} else if (isRequiredFieldEmpty()) {
-
-					alertbox.setMessage(" Fields can't be empty  ");
+					if (selectedLanguage.equalsIgnoreCase("ENG")) {
+						if (loginId.getText().toString().equals("")) {
+							alertbox.setMessage(getResources().getString(R.string.eng_emptymdn));
+						} else if (loginPin.getText().toString().equals("")) {
+							alertbox.setMessage(getResources().getString(R.string.eng_emptympin));
+						}
+					}else{
+						if (loginId.getText().toString().equals("")) {
+							alertbox.setMessage(getResources().getString(R.string.bahasa_emptymdn));
+						} else if (loginPin.getText().toString().equals("")) {
+							alertbox.setMessage(getResources().getString(R.string.bahasa_emptympin));
+						}
+					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
-
+							arg0.dismiss();
 						}
 					});
 					alertbox.show();
-
 				} else if (loginId.getText().length() < 4 || loginId.getText().length() > 16) {
-
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_enterValidMobile));
 					} else {
@@ -140,9 +149,9 @@ public class LoginScreen extends Activity {
 					alertbox.show();
 				} else if (loginPin.getText().length() < 6) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						alertbox.setMessage(getResources().getString(R.string.eng_pinLength));
+						alertbox.setMessage(getResources().getString(R.string.eng_LoginpinLength));
 					} else {
-						alertbox.setMessage(getResources().getString(R.string.bahasa_pinLength));
+						alertbox.setMessage(getResources().getString(R.string.bahasa_LoginpinLength));
 					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
@@ -274,7 +283,8 @@ public class LoginScreen extends Activity {
 												"Testing>>>mobile Number" + mobi + settings.getString("pin", ""));
 
 										Constants.SOURCE_MDN_NAME = loginId.getText().toString().trim();
-										settings.edit().putString("mobile", loginId.getText().toString().trim()).commit();
+										settings.edit().putString("mobile", loginId.getText().toString().trim())
+												.commit();
 										valueContainer.setAppUpdateURL(responseContainer.getAppUpdateURL());
 
 										System.out.println("hieeeeeeeee" + responseContainer.getAppUpdateURL());
@@ -549,7 +559,6 @@ public class LoginScreen extends Activity {
 	}
 
 	private boolean isRequiredFieldEmpty() {
-
 		loginId = (EditText) findViewById(R.id.ed_Login_MobNo);
 		loginPin = (EditText) findViewById(R.id.ed_Login_Pin);
 		if (!(loginId.getText().toString().equals("")) && !(loginPin.getText().toString().equals(""))) {

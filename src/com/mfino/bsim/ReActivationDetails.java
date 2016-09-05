@@ -1,6 +1,5 @@
 package com.mfino.bsim;
 
-import com.mfino.bsim.account.AccountSelection;
 import com.mfino.bsim.services.ConfigurationUtil;
 
 import android.app.Activity;
@@ -66,7 +65,7 @@ public class ReActivationDetails extends Activity {
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
 		//Language Option..
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",Context.MODE_WORLD_READABLE);
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -126,12 +125,12 @@ public class ReActivationDetails extends Activity {
 						}
 					});
 					alertbox.show();
-				} else if (pin.getText().toString().trim().length() < 4) {
+				} else if (pin.getText().toString().trim().length() < 6) {
 					
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
-						alertbox.setMessage(getResources().getString(R.string.eng_pinLength));
+						alertbox.setMessage(getResources().getString(R.string.eng_pinActivation));
 					} else {
-						alertbox.setMessage(getResources().getString(R.string.bahasa_pinLength));
+						alertbox.setMessage(getResources().getString(R.string.bahasa_pinActivation));
 					}
 					alertbox.setNeutralButton("OK",	new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0,int arg1) {
@@ -139,7 +138,7 @@ public class ReActivationDetails extends Activity {
 						}
 					});
 					alertbox.show();
-				} else if (confirmPin.getText().toString().trim().length() < 4) {
+				} else if (confirmPin.getText().toString().trim().length() < 6) {
 					
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_confirmPinLenth));

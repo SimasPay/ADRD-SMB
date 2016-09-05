@@ -142,7 +142,7 @@ public class ResetPinDetails extends Activity {
 								}
 							});
 					alertbox.show();
-				}*/ else if (pin.getText().toString().length() < 4) {
+				}*/ else if (pin.getText().toString().length() < 6) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_pinLength));
 					} else {
@@ -154,7 +154,7 @@ public class ResetPinDetails extends Activity {
 						}
 					});
 					alertbox.show();
-				} else if (confirmPin.getText().toString().length() < 4) {
+				} else if (confirmPin.getText().toString().length() < 6) {
 					
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_confirmPinLenth));

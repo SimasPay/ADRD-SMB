@@ -67,7 +67,8 @@
     <string name="eng_clickHereToResend"> Click here to resend OTP </string>
     <string name="eng_serverNotRespond"> Dear Customer,\n currently you are not connected to Bank Sinarmas server. Please try again later. </string>
     <string name="eng_enterValidMobile"> Please enter the valid mobile number </string>
-    <string name="eng_pinLength"> mPIN should be 6 digits. If your mPIN is less than 6 digits, please change your mPIN to 6 digit at the nearest Bank Sinarmas ATM </string>
+    <string name="eng_pinLength"> mPIN should be 6 digits </string>
+    <string name="eng_LoginpinLength"> mPIN should be 6 digits. If your mPIN is less than 6 digits, please change your mPIN to 6 digit at the nearest Bank Sinarmas ATM </string>
     <string name="eng_confirmPinLenth"> Confirm mPIN should be 6 digits. </string>
     <string name="eng_pinActivation">mPIN should be 6 digits</string>
     <string name="eng_fieldsNotEmpty"> Fields can not be empty </string>
@@ -101,6 +102,8 @@
     <string name="eng_incorrectotp">You have entered incorrect code. Please try again and ensure that you  enter the correct code.</string>
     <string name="eng_forcechangepin">Please update your Simobi Application before performing transaction</string>
     <string name="eng_changepin">Please change your mPIN before performing transaction</string>
+    <string name="eng_emptymdn">Please provide phone number</string>
+    <string name="eng_emptympin">Please provide mPIN</string>
     <string name="eng_loginagain">Please login again</string>
     <!-- bahasa -->
 
@@ -154,7 +157,8 @@
     <string name="bahasa_resetPin"> Reset mPIN </string>
     <string name="bahasa_serverNotRespond"> Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
     <string name="bahasa_enterValidMobile"> Silakan masukkan nomor ponsel yang valid </string>
-    <string name="bahasa_pinLength"> Panjang mPIN harus 6 digit. Apabila mPIN Anda kurang dari 6 digit, silahkan ubah dahulu mPIN Anda menjadi 6 digit di ATM Bank Sinarmas terdekat </string>
+    <string name="bahasa_LoginpinLength"> Panjang mPIN harus 6 digit. Apabila mPIN Anda kurang dari 6 digit, silahkan ubah dahulu mPIN Anda menjadi 6 digit di ATM Bank Sinarmas terdekat </string>
+    <string name="bahasa_pinLength"> Panjang mPIN harus 6 digit </string>
     <string name="bahasa_confirmPinLenth">Panjang confirm mPIN harus 6 digit</string>
     <string name="bahasa_pinActivation">Panjang mPIN harus 6 digit</string>
     <string name="bahasa_fieldsNotEmpty"> field tidak boleh kosong </string>
@@ -191,6 +195,8 @@
     <string name="bahasa_incorrectotp">Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.</string>
     <string name="bahasa_forcechangepin">Silakan perbarui Aplikasi Simobi Anda sebelum melakukan transaksi</string>
     <string name="bahasa_changepin">Mohon ubah mPIN Anda sebelum melakukan transaksi</string>
+    <string name="bahasa_emptymdn">Silakan masukkan Nomor HP Anda</string>
+    <string name="bahasa_emptympin">Silakan masukkan mPIN Anda</string>
     <string name="bahasa_loginagain">Dimohon untuk login kembali</string>
     <string name="login_content">
 <![CDATA[

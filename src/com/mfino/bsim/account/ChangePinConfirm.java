@@ -181,27 +181,37 @@ public class ChangePinConfirm extends Activity {
 								}
 								Bundle extras = getIntent().getExtras();
 								String required = extras.getString("REQUIRED");
-								if (required.equals("yes")) {
-									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-										public void onClick(DialogInterface dlg, int arg1) {
-											dlg.dismiss();
-											finish();
-											Intent intent = new Intent(ChangePinConfirm.this, ChangePin.class);
-											intent.putExtra("mdn", settings.getString("mobile", ""));
-											intent.putExtra("REQUIRED", "yes");
-											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-											startActivity(intent);
-										}
-									});
-								} else {
+								if(extras.getString("REQUIRED")!=null){
+									if (required.equals("yes")) {
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dlg, int arg1) {
+												dlg.dismiss();
+												finish();
+												Intent intent = new Intent(ChangePinConfirm.this, ChangePin.class);
+												intent.putExtra("mdn", settings.getString("mobile", ""));
+												intent.putExtra("REQUIRED", "yes");
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+											}
+										});
+									} else {
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int arg1) {
+												dialog.dismiss();
+												finish();
+											}
+										});
+									}
+									alertbox.show();
+								}else{
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int arg1) {
 											dialog.dismiss();
 											finish();
 										}
 									});
+									alertbox.show();
 								}
-								alertbox.show();
 							} else if (responseContainer.getMsgCode().equals("631")) {
 								alertbox.setMessage(responseContainer.getMsg());
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
