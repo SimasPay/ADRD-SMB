@@ -95,8 +95,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		Log.d(LOG_TAG, "PayByQR : QRPayment2");
 		context = this;
 		payByQRSDK = new PayByQRSDK(this, this);
-		payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
-		// payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
+		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+		payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
 		payByQRSDK.setIsUsingCustomDialog(false);
 		payByQRSDK.setIsPolling(false);
 		DBHelper mydb = new DBHelper(this);
@@ -937,6 +937,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 							Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							QRPayment2.this.finish();
 						}
 					});
 		} else {
@@ -948,6 +949,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 							Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							QRPayment2.this.finish();
 						}
 					});
 		}
@@ -1001,6 +1003,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					QRPayment2.this.finish();
 				}
 			});
 		} else {
@@ -1016,6 +1019,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 					Intent intent = new Intent(QRPayment2.this, HomeScreen.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					QRPayment2.this.finish();
 				}
 			});
 		}
@@ -1051,16 +1055,19 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 				if (TextUtils.isEmpty(s)) {
 					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
-					if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
-						billPayConfirmation();
-						if (myTimer != null) {
-							myTimer.cancel();
+					if ((edt.getText().length() > 3)) {
+						if (isAutoSubmit == true){
+							if (myTimer != null) {
+								myTimer.cancel();
+								billPayConfirmation();
+							}
+						}else{
+							((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 						}
 					} else {
 						((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 					}
 				}
-
 			}
 		});
 	}
