@@ -89,6 +89,8 @@ public class IncomingSMS extends BroadcastReceiver {
 								ActivationDisclosure Sms = new ActivationDisclosure();
 								Sms.recivedSms(message);
 							}
+						}else{
+							settings.edit().putBoolean("isAutoSubmit", false).commit();
 						}
 					} catch (Exception e) {
 					}

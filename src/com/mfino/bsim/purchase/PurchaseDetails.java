@@ -883,6 +883,9 @@ public class PurchaseDetails extends AppCompatActivity {
 					if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 						errorOTP();
 					} else {
+						if (myTimer != null) {
+							myTimer.cancel();
+						}
 						if (bundle.getString("SELECTED_CATEGORY")
 								.equalsIgnoreCase("Mobile Phone")) {
 							System.out.println("Testing>>>airtime");
@@ -960,6 +963,9 @@ public class PurchaseDetails extends AppCompatActivity {
 		        }
 		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
+		        	if (myTimer != null) {
+						myTimer.cancel();
+					}
 		        	if (bundle.getString("SELECTED_CATEGORY")
 							.equalsIgnoreCase("Mobile Phone")) {
 						System.out.println("Testing>>>airtime");

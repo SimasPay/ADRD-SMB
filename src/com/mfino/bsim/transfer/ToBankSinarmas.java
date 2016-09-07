@@ -699,6 +699,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
 				} else {
+					if (myTimer != null) {
+						myTimer.cancel();
+					}
 					Intent intent = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
 					intent.putExtra("PIN", PIN);
 					intent.putExtra("MSG", message);
@@ -757,6 +760,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 				}
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
+					if (myTimer != null) {
+						myTimer.cancel();
+					}
 					Intent intent = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
 					intent.putExtra("PIN", PIN);
 					intent.putExtra("MSG", message);
@@ -772,6 +778,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 					intent.putExtra("TFNID", EncryptedTransferId);
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					startActivity(intent);
+					
 				}
 
 			}

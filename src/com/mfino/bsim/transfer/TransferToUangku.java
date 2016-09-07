@@ -686,6 +686,9 @@ public class TransferToUangku extends AppCompatActivity {
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
 				} else {
+					if (countTimer != null) {
+						countTimer.cancel();
+					}
 					Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
 					intent.putExtra("SRCPOCKETCODE", "2");
 					intent.putExtra("PIN", PIN);
@@ -731,6 +734,9 @@ public class TransferToUangku extends AppCompatActivity {
 				}
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
+					if (countTimer != null) {
+						countTimer.cancel();
+					}
 					Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
 					intent.putExtra("SRCPOCKETCODE", "2");
 					intent.putExtra("PIN", PIN);

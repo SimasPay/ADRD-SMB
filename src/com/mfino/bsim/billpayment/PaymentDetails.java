@@ -851,6 +851,9 @@ public class PaymentDetails extends AppCompatActivity {
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
 				} else {
+					if (myTimer != null) {
+						myTimer.cancel();
+					}
 					if (bundle.getBoolean("IS_CCPAYMENT")) {
 						Intent intent = new Intent(PaymentDetails.this, BillPaymentCCBillInquiry.class);
 						intent.putExtra("PIN", pinValue);
@@ -926,6 +929,9 @@ public class PaymentDetails extends AppCompatActivity {
 		        }
 		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
+		        	if (myTimer != null) {
+						myTimer.cancel();
+					}
 		        	if (bundle.getBoolean("IS_CCPAYMENT")) {
 						Intent intent = new Intent(PaymentDetails.this, BillPaymentCCBillInquiry.class);
 						Log.d(LOG_TAG, "pinValue : " + pinValue);

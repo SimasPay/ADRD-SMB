@@ -205,7 +205,6 @@ public class ChangePin extends AppCompatActivity {
 						}
 					});
 					alertbox.show();
-
 				} else if (newpinValue.getText().length() < 6) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_pinActivation));
@@ -557,6 +556,9 @@ public class ChangePin extends AppCompatActivity {
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
 				} else {
+					if (myTimer != null) {
+						myTimer.cancel();
+					}
 					Intent intent = new Intent(ChangePin.this, ChangePinConfirm.class);
 					intent.putExtra("MSG", message);
 					intent.putExtra("OTP", edt.getText().toString());
@@ -603,6 +605,9 @@ public class ChangePin extends AppCompatActivity {
 				}
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
+					if (myTimer != null) {
+						myTimer.cancel();
+					}
 					Intent intent = new Intent(ChangePin.this, ChangePinConfirm.class);
 					intent.putExtra("MSG", message);
 					intent.putExtra("OTP", edt.getText().toString());

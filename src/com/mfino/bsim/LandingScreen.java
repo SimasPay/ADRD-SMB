@@ -49,6 +49,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /** @author himanshu.kumar */
+@SuppressWarnings("deprecation")
 public class LandingScreen extends AppCompatActivity {
 	/** Called when the activity is first created. */
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
@@ -304,14 +305,14 @@ public class LandingScreen extends AppCompatActivity {
 
         }
 
-        @Override
+		@Override
         protected String doInBackground(Void... params) {
         	try {
-    			DefaultHttpClient httpclient = new DefaultHttpClient();
+				DefaultHttpClient httpclient = new DefaultHttpClient();
     			HttpGet httppost = new HttpGet("http://banksinarmas.com/id/slidersimobi.php");
-    			HttpResponse response = httpclient.execute(httppost);
+				HttpResponse response = httpclient.execute(httppost);
     			HttpEntity ht = response.getEntity();
-    			BufferedHttpEntity buf = new BufferedHttpEntity(ht);
+				BufferedHttpEntity buf = new BufferedHttpEntity(ht);
     			InputStream is = buf.getContent();
     			BufferedReader r = new BufferedReader(new InputStreamReader(is));
     			while ((line = r.readLine()) != null) {
