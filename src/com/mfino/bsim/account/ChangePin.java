@@ -186,7 +186,7 @@ public class ChangePin extends AppCompatActivity {
 					alertbox.setMessage(" Fields can't be empty ");
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
-
+							arg0.dismiss();
 						}
 					});
 					alertbox.show();
