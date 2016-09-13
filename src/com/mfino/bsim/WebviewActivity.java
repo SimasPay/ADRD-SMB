@@ -1,26 +1,21 @@
 package com.mfino.bsim;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 
 public class WebviewActivity extends Activity {
 	private WebView webView;
-	private EditText urlEditText;
+	//private EditText urlEditText;
 	// private ProgressBar progress;
 	ProgressDialog mProgress;
 	String url;
 
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -30,10 +25,17 @@ public class WebviewActivity extends Activity {
 		webView = (WebView) findViewById(R.id.webView1);
 
 		WebSettings settings = webView.getSettings();
-		settings.setJavaScriptEnabled(true);
-		mProgress = ProgressDialog.show(WebviewActivity.this, "  Banksinarmas               ",getResources().getString(R.string.bahasa_loading) , true);
-
+		mProgress = new ProgressDialog(WebviewActivity.this, R.style.MyAlertDialogStyle);
+		mProgress.setTitle("Bank Sinarmas");
+		mProgress.setCancelable(false);
+		mProgress.setMessage(getResources().getString(R.string.bahasa_loading));
+		mProgress.show();
 		webView.setBackgroundColor(0);
+		settings.setJavaScriptEnabled(true);
+		settings.setUserAgentString("Desktop");
+		settings.setLoadWithOverviewMode(true);
+		settings.setUseWideViewPort(true);
+		settings.setBuiltInZoomControls(true);
 		webView.setBackgroundResource(R.drawable.bg_simobi);
 		webView.setWebViewClient(new WebViewClient() {
 			// load url public

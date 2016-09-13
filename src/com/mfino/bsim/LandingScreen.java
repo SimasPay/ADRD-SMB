@@ -102,7 +102,7 @@ public class LandingScreen extends AppCompatActivity {
 		 */
 		LinearLayout mlogin = (LinearLayout) findViewById(R.id.mlogin);
 		LinearLayout active = (LinearLayout) findViewById(R.id.active);
-		//LinearLayout eform = (LinearLayout) findViewById(R.id.eform);
+		LinearLayout eform = (LinearLayout) findViewById(R.id.eform);
 
 		//eform.setVisibility(View.GONE);
 
@@ -160,7 +160,7 @@ public class LandingScreen extends AppCompatActivity {
 				startActivityForResult(intent, 1);
 			}
 		});
-		/**
+		
 		eform.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -173,7 +173,7 @@ public class LandingScreen extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});
-		 **/
+		
 		active.setOnClickListener(new OnClickListener() {
 
 			@Override

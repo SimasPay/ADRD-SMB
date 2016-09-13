@@ -16,9 +16,8 @@
     <include
         android:id="@+id/header"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         layout="@layout/header_no_back" />
-
     <!--
      <RelativeLayout
         android:layout_width="fill_parent"
@@ -46,100 +45,128 @@
     <include
         android:id="@+id/imgslider"
         android:layout_width="match_parent"
-        android:layout_height="195dp"
+        android:layout_height="200dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/header"
         layout="@layout/event_slider" />
 
     <LinearLayout
-        android:id="@+id/buttons_panel"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_below="@+id/imgslider"
-        android:layout_marginTop="10dp" >
+        android:layout_centerInParent="true"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/mlogin"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" >
 
-            <ImageView
-                android:id="@+id/mlogin1"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@drawable/login_icon" />
-
-            <TextView
-                android:id="@+id/textView1"
-                style="@style/below_icon_text"
+            <LinearLayout
+                android:id="@+id/mlogin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Login" />
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/mlogin1"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/login_icon" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    style="@style/below_icon_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Login" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/active"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="100dp"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/active1"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:src="@drawable/activation_icon" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/below_icon_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Activation" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/active"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="75dp"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" >
 
-            <ImageView
-                android:id="@+id/active1"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@drawable/activation_icon" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/textView2"
-                style="@style/below_icon_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Activation" />
+                <LinearLayout
+                    android:id="@+id/eform"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/elogin1"
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/login_icon" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/below_icon_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="E-Form" />
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <!--  <ImageView
-        android:id="@+id/slider"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/header"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/banner_2"
-        android:contentDescription="@null" />-->
 
     <LinearLayout
         android:id="@+id/secondLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_marginBottom="15dp" >
 
         <TextView
             android:id="@+id/termsandconditions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="70dp"
-            android:layout_marginRight="70dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="10dp"
             android:text="@string/toc"
             android:textColor="@color/white"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="normal" />
-
+        
         <TextView
             android:id="@+id/contact"
             android:layout_width="wrap_content"
@@ -152,6 +179,15 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="normal" />
+        
+        <!--  <RelativeLayout
+            android:id="@+id/contact_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/contactus" >
+        </RelativeLayout>-->
+        
+        
     </LinearLayout>
 
 </RelativeLayout>
