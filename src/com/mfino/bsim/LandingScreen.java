@@ -12,6 +12,7 @@ import java.util.TimerTask;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -104,7 +105,7 @@ public class LandingScreen extends AppCompatActivity {
 		LinearLayout active = (LinearLayout) findViewById(R.id.active);
 		LinearLayout eform = (LinearLayout) findViewById(R.id.eform);
 
-		//eform.setVisibility(View.GONE);
+		eform.setVisibility(View.GONE);
 
 		TextView contact = (TextView) findViewById(R.id.contact);
 		contact.setPaintFlags(contact.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -308,7 +309,7 @@ public class LandingScreen extends AppCompatActivity {
 		@Override
         protected String doInBackground(Void... params) {
         	try {
-				DefaultHttpClient httpclient = new DefaultHttpClient();
+        		HttpClient httpclient = new DefaultHttpClient();
     			HttpGet httppost = new HttpGet("http://banksinarmas.com/id/slidersimobi.php");
 				HttpResponse response = httpclient.execute(httppost);
     			HttpEntity ht = response.getEntity();
@@ -330,11 +331,11 @@ public class LandingScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            String[] parts = total.toString().split(" ");
+            String[] parts = total.toString().split("\\r?\\n");
     		for (int i = 0; i < parts.length; i++){
     			if(!parts[i].trim().isEmpty()){
-    				//Log.d("Simobi", "string added : " + parts[i].toString());
-    				IMAGES.add(parts[i].toString());
+    				Log.d("Simobi", "string added : " + parts[i].toString());
+    				IMAGES.add(parts[i].trim().toString());
     			}
     		}
     		init();

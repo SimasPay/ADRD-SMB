@@ -182,7 +182,6 @@ public class ChangePin extends AppCompatActivity {
 					}
 
 				} else if (isRequiredFieldEmpty()) {
-
 					alertbox.setMessage(" Fields can't be empty ");
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
@@ -200,6 +199,7 @@ public class ChangePin extends AppCompatActivity {
 
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.dismiss();
 							newpinValue.setText("");
 							confirmNewPinValue.setText("");
 						}
@@ -213,6 +213,7 @@ public class ChangePin extends AppCompatActivity {
 					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.dismiss();
 							newpinValue.setText("");
 							confirmNewPinValue.setText("");
 						}
@@ -226,6 +227,7 @@ public class ChangePin extends AppCompatActivity {
 					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.dismiss();
 							newpinValue.setText("");
 							confirmNewPinValue.setText("");
 						}
@@ -625,13 +627,45 @@ public class ChangePin extends AppCompatActivity {
 
 	@Override
 	public void onBackPressed() {
-		forceChangePINDialog();
+		Bundle extras = getIntent().getExtras();
+		if(extras!=null){
+			String required = extras.getString("REQUIRED");
+			if(extras.getString("REQUIRED")!=null){
+				if (required.equals("yes")) {
+					//forceChangePINDialog();
+				}
+			}else{
+				Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+			}
+		}else{
+			Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+		}
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			forceChangePINDialog();
+			Bundle extras = getIntent().getExtras();
+			if(extras!=null){
+				String required = extras.getString("REQUIRED");
+				if(extras.getString("REQUIRED")!=null){
+					if (required.equals("yes")) {
+						//forceChangePINDialog();
+					}
+				}else{
+					Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+				}
+			}else{
+				Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

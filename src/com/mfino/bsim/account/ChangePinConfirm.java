@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -156,7 +157,7 @@ public class ChangePinConfirm extends Activity {
 								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
-
+										arg0.dismiss();
 									}
 								});
 								alertbox.show();
@@ -270,15 +271,69 @@ public class ChangePinConfirm extends Activity {
 		});
 
 		btn_cancel.setOnClickListener(new View.OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
-
+				Bundle extras = getIntent().getExtras();
+				String required = extras.getString("REQUIRED");
+				if(extras.getString("REQUIRED")!=null){
+					if (required.equals("yes")) {
+						Intent intent = new Intent(ChangePinConfirm.this, LoginScreen.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+					}else{
+						Intent intent = new Intent(ChangePinConfirm.this, HomeScreen.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+					}
+				}else{
+					Intent intent = new Intent(ChangePinConfirm.this, HomeScreen.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Bundle extras = getIntent().getExtras();
+		if(extras!=null){
+			String required = extras.getString("REQUIRED");
+			if(extras.getString("REQUIRED")!=null){
+				if (required.equals("yes")) {
+					//do nothing
+				}
+			}else{
 				Intent intent = new Intent(ChangePinConfirm.this, HomeScreen.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 			}
-		});
+		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Bundle extras = getIntent().getExtras();
+			if(extras!=null){
+				String required = extras.getString("REQUIRED");
+				if(extras.getString("REQUIRED")!=null){
+					if (required.equals("yes")) {
+						//do nothing
+					}
+				}else{
+					Intent intent = new Intent(ChangePinConfirm.this, HomeScreen.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+				}
+			}else{
+				Intent intent = new Intent(ChangePinConfirm.this, HomeScreen.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

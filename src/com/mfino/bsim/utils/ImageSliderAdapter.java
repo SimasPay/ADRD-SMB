@@ -84,7 +84,7 @@ public class ImageSliderAdapter extends PagerAdapter {
 	    }
 
 	    protected Bitmap doInBackground(String... urls) {
-	        String urldisplay = urls[0];
+	        String urldisplay = urls[0].trim();
 	        Bitmap mIcon11 = null;
 	        try {
 	            InputStream in = new java.net.URL(urldisplay).openStream();
