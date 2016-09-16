@@ -170,6 +170,13 @@ public class ChangePinConfirm extends Activity {
 								intent.putExtra("MSG", responseContainer.getMsg());
 								intent.putExtra("SCREEN", "ChangePin");
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								Bundle extras = getIntent().getExtras();
+								if(extras.getString("REQUIRED")!=null){
+									String required = extras.getString("REQUIRED");
+									if (required.equals("yes")) {
+										intent.putExtra("REQUIRED", "yes");
+									}
+								}
 								startActivity(intent);
 								settings.edit().putBoolean("alreadyChangePin", true).commit();
 							} else if (responseContainer.getMsgCode().equals("2000")) {
@@ -181,8 +188,8 @@ public class ChangePinConfirm extends Activity {
 											"Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.");
 								}
 								Bundle extras = getIntent().getExtras();
-								String required = extras.getString("REQUIRED");
 								if(extras.getString("REQUIRED")!=null){
+									String required = extras.getString("REQUIRED");
 									if (required.equals("yes")) {
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dlg, int arg1) {
@@ -298,8 +305,8 @@ public class ChangePinConfirm extends Activity {
 	public void onBackPressed() {
 		Bundle extras = getIntent().getExtras();
 		if(extras!=null){
-			String required = extras.getString("REQUIRED");
 			if(extras.getString("REQUIRED")!=null){
+				String required = extras.getString("REQUIRED");
 				if (required.equals("yes")) {
 					//do nothing
 				}
@@ -316,8 +323,8 @@ public class ChangePinConfirm extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Bundle extras = getIntent().getExtras();
 			if(extras!=null){
-				String required = extras.getString("REQUIRED");
 				if(extras.getString("REQUIRED")!=null){
+					String required = extras.getString("REQUIRED");
 					if (required.equals("yes")) {
 						//do nothing
 					}

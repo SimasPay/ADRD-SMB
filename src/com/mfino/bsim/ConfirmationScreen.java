@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import com.mfino.bsim.account.ChangePinConfirm;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -153,6 +155,13 @@ public class ConfirmationScreen extends Activity {
 					Intent intent = new Intent(ConfirmationScreen.this, LoginScreen.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+				}else if(bundle.getString("REQUIRED")!=null){
+					String required = bundle.getString("REQUIRED");
+					if (required.equals("yes")) {
+						Intent intent = new Intent(ConfirmationScreen.this, LoginScreen.class);
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+					}
 				}else{
 					Intent intent = new Intent(ConfirmationScreen.this, HomeScreen.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -184,13 +193,38 @@ public class ConfirmationScreen extends Activity {
 	 * This method for handling the back pressing event of android device
 	 * navigate to Home Screen
 	 */
+	
+	@Override
+	public void onBackPressed() {
+		Bundle extras = getIntent().getExtras();
+		if(extras!=null){
+			if(extras.getString("REQUIRED")!=null){
+				String required = extras.getString("REQUIRED");
+				if (required.equals("yes")) {
+					//do nothing
+				}
+			}else{
+				Intent intent = new Intent(ConfirmationScreen.this, HomeScreen.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+			}
+		}
+	}
+	
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-			Intent intent = new Intent(getBaseContext(), HomeScreen.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			return true;
+			if(bundle.getString("REQUIRED")!=null){
+				String required = bundle.getString("REQUIRED");
+				if (required.equals("yes")) {
+					//do nothing
+				}
+			}else{
+				Intent intent = new Intent(getBaseContext(), HomeScreen.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				return true;
+			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}

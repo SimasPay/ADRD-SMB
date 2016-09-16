@@ -332,7 +332,15 @@ public class ChangePin extends AppCompatActivity {
 										intent.putExtra("OPIN", oldpinValue.getText().toString());
 										intent.putExtra("NPIN", newpinValue.getText().toString());
 										intent.putExtra("mdn", settings.getString("mobile", ""));
-										intent.putExtra("REQUIRED", "yes");
+										Bundle extras = getIntent().getExtras();
+										if(extras!=null){
+											if(extras.getString("REQUIRED")!=null){
+												String required = extras.getString("REQUIRED");
+												if (required.equals("yes")) {
+													intent.putExtra("REQUIRED", "yes");
+												}
+											}
+										}
 										intent.putExtra("CONFIRM_NPIN", confirmNewPinValue.getText().toString());
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
@@ -571,7 +579,6 @@ public class ChangePin extends AppCompatActivity {
 					intent.putExtra("OPIN", oldPin);
 					intent.putExtra("NPIN", newPin);
 					intent.putExtra("mdn", settings.getString("mobile", ""));
-					intent.putExtra("REQUIRED", "yes");
 					intent.putExtra("CONFIRM_NPIN", newPin);
 					Bundle extras = getIntent().getExtras();
 					if(extras!=null){
@@ -622,7 +629,15 @@ public class ChangePin extends AppCompatActivity {
 					intent.putExtra("OPIN", oldPin);
 					intent.putExtra("NPIN", newPin);
 					intent.putExtra("mdn", settings.getString("mobile", ""));
-					intent.putExtra("REQUIRED", "yes");
+					Bundle extras = getIntent().getExtras();
+					if(extras!=null){
+						if(extras.getString("REQUIRED")!=null){
+							String required = extras.getString("REQUIRED");
+							if (required.equals("yes")) {
+								intent.putExtra("REQUIRED", "yes");
+							}
+						}
+					}
 					intent.putExtra("CONFIRM_NPIN", newPin);
 					startActivity(intent);
 				}
@@ -635,8 +650,8 @@ public class ChangePin extends AppCompatActivity {
 	public void onBackPressed() {
 		Bundle extras = getIntent().getExtras();
 		if(extras!=null){
-			String required = extras.getString("REQUIRED");
 			if(extras.getString("REQUIRED")!=null){
+				String required = extras.getString("REQUIRED");
 				if (required.equals("yes")) {
 					//forceChangePINDialog();
 				}
@@ -657,8 +672,8 @@ public class ChangePin extends AppCompatActivity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Bundle extras = getIntent().getExtras();
 			if(extras!=null){
-				String required = extras.getString("REQUIRED");
 				if(extras.getString("REQUIRED")!=null){
+					String required = extras.getString("REQUIRED");
 					if (required.equals("yes")) {
 						//forceChangePINDialog();
 					}
