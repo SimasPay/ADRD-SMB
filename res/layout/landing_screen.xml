@@ -41,15 +41,15 @@
 
     </RelativeLayout>
     -->
-    
+
     <include
         android:id="@+id/imgslider"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_below="@+id/header"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/header"
         layout="@layout/event_slider" />
 
     <LinearLayout
@@ -75,6 +75,7 @@
                     android:id="@+id/mlogin1"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/login_icon" />
 
                 <TextView
@@ -91,12 +92,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="100dp"
+                android:layout_marginStart="100dp"
                 android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/active1"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/activation_icon" />
 
                 <TextView
@@ -109,6 +112,7 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!--
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -142,6 +146,7 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
+        -->
     </LinearLayout>
 
     <LinearLayout
@@ -150,9 +155,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
-        android:layout_marginBottom="15dp" >
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/termsandconditions"
@@ -166,7 +171,7 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="normal" />
-        
+
         <TextView
             android:id="@+id/contact"
             android:layout_width="wrap_content"
@@ -179,15 +184,16 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="normal" />
-        
-        <!--  <RelativeLayout
+
+        <!--
+        <RelativeLayout
             android:id="@+id/contact_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/contactus" >
-        </RelativeLayout>-->
-        
-        
+        </RelativeLayout>
+        -->
+
     </LinearLayout>
 
 </RelativeLayout>

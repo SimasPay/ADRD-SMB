@@ -103,9 +103,9 @@ public class LandingScreen extends AppCompatActivity {
 		 */
 		LinearLayout mlogin = (LinearLayout) findViewById(R.id.mlogin);
 		LinearLayout active = (LinearLayout) findViewById(R.id.active);
-		LinearLayout eform = (LinearLayout) findViewById(R.id.eform);
+		//LinearLayout eform = (LinearLayout) findViewById(R.id.eform);
 
-		eform.setVisibility(View.GONE);
+		//eform.setVisibility(View.GONE);
 
 		TextView contact = (TextView) findViewById(R.id.contact);
 		contact.setPaintFlags(contact.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -162,6 +162,7 @@ public class LandingScreen extends AppCompatActivity {
 			}
 		});
 		
+		/**
 		eform.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -174,6 +175,7 @@ public class LandingScreen extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});
+		**/
 		
 		active.setOnClickListener(new OnClickListener() {
 

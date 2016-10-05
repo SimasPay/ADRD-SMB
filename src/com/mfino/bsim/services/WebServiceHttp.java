@@ -24,7 +24,6 @@ import javax.net.ssl.X509TrustManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Resources.NotFoundException;
 import android.os.Handler;
@@ -45,16 +44,16 @@ public class WebServiceHttp extends Activity {
 	
 	
 	//Prduction
-	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
-	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+	public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
+	public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
 	
 	//Devserver
 	/*public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
 	public static String webAPIUrl ="https://175.101.5.75:8443/webapi/sdynamic";*/	
 	
 	//Local
-	public static String webAPIUrlFiles="http://175.101.5.70:8080/webapi/dynamic";
-	public static String webAPIUrl ="https://175.101.5.70:8443/webapi/sdynamic";
+	//public static String webAPIUrlFiles="http://175.101.5.70:8080/webapi/dynamic";
+	//public static String webAPIUrl ="https://175.101.5.70:8443/webapi/sdynamic";
 
 	/*	//india
 		public static String webAPIUrlFiles;
@@ -86,6 +85,7 @@ public class WebServiceHttp extends Activity {
 		System.out.println("Testing>>>webservices");
 	}
 
+	@SuppressWarnings("static-access")
 	public String getUrl() {
 		
 		
@@ -800,7 +800,7 @@ public class WebServiceHttp extends Activity {
 	 * certification.
 	 */
 
-	@SuppressLint({ "ParserError", "ParserError" })
+	@SuppressLint({ "ParserError", "ParserError", "TrulyRandom" })
 	public String getResponseSSLCertificatation() {
 
 		String contents = null;
@@ -975,6 +975,7 @@ public class WebServiceHttp extends Activity {
 
 	
 	// iP code parsing..
+		@SuppressWarnings("unused")
 		private void UrlParse() {
 
 			InputStream inputStream = null;
