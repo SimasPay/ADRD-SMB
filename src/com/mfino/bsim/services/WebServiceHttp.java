@@ -44,16 +44,16 @@ public class WebServiceHttp extends Activity {
 	
 	
 	//Prduction
-	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
-	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+	public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
+	public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
 	
 	//Devserver
 	//public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
 	//public static String webAPIUrl ="https://175.101.5.75:8443/webapi/sdynamic";
 	
 	//Local
-	public static String webAPIUrlFiles="http://175.101.5.70:8080/webapi/dynamic";
-	public static String webAPIUrl ="https://175.101.5.70:8443/webapi/sdynamic";
+	//public static String webAPIUrlFiles="http://175.101.5.70:8080/webapi/dynamic";
+	//public static String webAPIUrl ="https://175.101.5.70:8443/webapi/sdynamic";
 
 	/*	//india
 		public static String webAPIUrlFiles;

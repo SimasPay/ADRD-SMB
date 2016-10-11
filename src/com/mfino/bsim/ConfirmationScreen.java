@@ -79,7 +79,7 @@ public class ConfirmationScreen extends Activity {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
 				Calendar cal = Calendar.getInstance();
 				String date = dateFormat.format(cal.getTime());
-				msg = "Tanggal/Waktu   :   " + bundle.getString("TransactionTime") + "\nNo. Rekening      :   " + bundle.getString("AccountNumber") + "\nSaldo                    :   Rp" + bundle.getString("Amount");
+				msg = "Tanggal/Waktu   :   " + bundle.getString("TransactionTime") + "\nNo. Rekening      :   " + bundle.getString("AccountNumber") + "\nSaldo                    :   Rp " + bundle.getString("Amount");
 			}
 			if(!bundle.getString("AccountNumber").equals("") && !bundle.getString("Amount").equals("")){
 				tvDetails.setText(msg);

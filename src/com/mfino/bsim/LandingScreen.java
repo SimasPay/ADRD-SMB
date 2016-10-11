@@ -378,7 +378,7 @@ public class LandingScreen extends AppCompatActivity {
 			public void run() {
 				handler.post(Update);
 			}
-		}, 3000, 3000);
+		}, 0, 60000);
 
 		// Pager listener over indicator
 		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
