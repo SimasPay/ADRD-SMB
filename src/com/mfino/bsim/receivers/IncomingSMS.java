@@ -23,8 +23,8 @@ import android.util.Log;
 
 public class IncomingSMS extends BroadcastReceiver {
 
-	public static final String LOG_TAG = "SIMOBI";
-	private SharedPreferences settings;
+	private static final String LOG_TAG = "SIMOBI";
+	private static SharedPreferences settings;
 	
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
@@ -60,6 +60,10 @@ public class IncomingSMS extends BroadcastReceiver {
 								Log.d(LOG_TAG, "SMS diterima utk OTP BankSinarmas");
 								ToBankSinarmas Sms = new ToBankSinarmas();
 								Sms.recivedSms(message);
+							}else if(fragName.equals("QRPayment2")){
+								Log.d(LOG_TAG, "SMS diterima utk OTP QRPayment2");
+								QRPayment2 Sms = new QRPayment2();
+								Sms.recivedSms(message);
 							}else if(fragName.equals("ToOtherBankDetails")){
 								Log.d(LOG_TAG, "SMS diterima utk OTP BankLainnya");
 								ToOtherBankDetails Sms = new ToOtherBankDetails();
@@ -79,10 +83,6 @@ public class IncomingSMS extends BroadcastReceiver {
 							}else if(fragName.equals("PaymentDetails")){
 								Log.d(LOG_TAG, "SMS diterima utk OTP PaymentDetails");
 								PaymentDetails Sms = new PaymentDetails();
-								Sms.recivedSms(message);
-							}else if(fragName.equals("QRPayment2")){
-								Log.d(LOG_TAG, "SMS diterima utk OTP QRPayment2");
-								QRPayment2 Sms = new QRPayment2();
 								Sms.recivedSms(message);
 							}else if(fragName.equals("ActivationDisclosure")){
 								Log.d(LOG_TAG, "SMS diterima utk OTP ActivationDisclosure");

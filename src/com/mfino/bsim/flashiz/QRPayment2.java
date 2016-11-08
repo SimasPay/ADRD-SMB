@@ -5,9 +5,6 @@ import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.dimo.PayByQR.PayByQRProperties;
 import com.dimo.PayByQR.PayByQRSDK;
 import com.dimo.PayByQR.PayByQRSDK.SDKLocale;
@@ -57,7 +54,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 	private PayByQRSDK payByQRSDK;
 	private int module;
 	private String userApiKey, PayInAppInvoiceID, PayInAppURLCallback;
-	private String otp = "", parentTxnId, txnId;
+	private static String parentTxnId, txnId;
 	private ValueContainer valueContainer;
 	private String responseXml;
 	private int msgCode;
@@ -65,15 +62,14 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 			numberOfCoupuns, redeemAmount, redeemPoints, tipAmount;
 	private String mfa;
 	private String QRBillerCode = "QRFLASHIZ";
-	private SharedPreferences languageSettings, settings;
-	String selectedLanguage;
+	private static SharedPreferences languageSettings, settings;
+	private static String selectedLanguage;
 	// private AlertDialog.Builder alertbox;
 	// private ProgressDialog dialog;
 	// ProgressDialog dialogCon;
-	String otpValue = "", mpin = "", sctl;
-	String mfaMode;
-	String mobileNumber;
-	public static final String LOG_TAG = "SIMOBI";
+	private static String otpValue = "", mpin = "";
+	private static String mobileNumber;
+	private static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	private Context context;
 	private String DIMO_PREF = "com.mfino.bsim.paybyqr.Preference";
@@ -498,7 +494,12 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 							parentTxnId = responseContainer.getEncryptedParentTxnId();
 							txnId = responseContainer.getEncryptedTransferId();
 							Log.d(LOG_TAG, "OTP check!");
-							showOTPRequiredDialog();
+							Thread t = new Thread(new Runnable() {
+							    public void run() {
+									showOTPRequiredDialog();
+							    }
+							});
+							t.start();
 							/**
 							 * try { parentTxnId =
 							 * responseContainer.getEncryptedParentTxnId();
@@ -700,7 +701,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 				Log.e("===confirmation Response====", "=-======" + responseXml);
 				if (responseXml != null) {
-					otp = "";
 					otpValue = "";
 					XMLParser obj = new XMLParser();
 					EncryptedResponseDataContainer responseContainer = null;
@@ -908,15 +908,14 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 				otpValue = message
 						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
 						.trim();
-				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
+				//sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
 			} else if (message.contains("Your Simobi Code is ")
 					|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is")) {
 				// Log.d(LOG_TAG, "konten sms : english");
 				otpValue = message
 						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
 						.trim();
-				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
-						message.indexOf(")"));
+				//sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),message.indexOf(")"));
 			}
 			edt.setText(otpValue);
 		} catch (Exception e) {
