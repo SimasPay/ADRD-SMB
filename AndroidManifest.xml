@@ -409,6 +409,7 @@
             android:name="com.mfino.bsim.flashiz.QRPayment2"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:theme="@style/PayByQRTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>
