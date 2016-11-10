@@ -44,6 +44,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -944,6 +945,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PayByQRProperties.getSDKContext(),
 				R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
+		View viewTitle=inflater.inflate(R.layout.custom_header_otp, null);
+		dialogBuilder.setCustomTitle(viewTitle);
 		final ViewGroup nullParent = null;
 		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
