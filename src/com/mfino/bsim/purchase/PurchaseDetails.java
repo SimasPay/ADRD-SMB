@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -819,6 +820,12 @@ public class PurchaseDetails extends AppCompatActivity {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
+		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
+		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
+		if (progBar.getIndeterminateDrawable() != null) {
+			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
+		}
+		dialogBuilder.setCustomTitle(viewTitle);
 		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);		
 		dialogBuilder.setView(dialogView);

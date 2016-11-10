@@ -22,7 +22,6 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Service;
@@ -44,11 +43,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener {
@@ -72,7 +71,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 	private static String mobileNumber;
 	private static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	private Context context;
 	private String DIMO_PREF = "com.mfino.bsim.paybyqr.Preference";
 	private String DIMO_PREF_USERKEY = "com.mfino.bsim.paybyqr.UserKey";
 	public static final String QR_STORE_DB = "com.mfino.bsim.QrStore.db";
@@ -91,7 +89,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		settings.edit().putString("ActivityName", "QRPayment2").commit();
 		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "PayByQR : QRPayment2");
-		context = this;
 		payByQRSDK = new PayByQRSDK(this, this);
 		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
 		payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
@@ -945,9 +942,13 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PayByQRProperties.getSDKContext(),
 				R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
-		View viewTitle=inflater.inflate(R.layout.custom_header_otp, null);
-		dialogBuilder.setCustomTitle(viewTitle);
 		final ViewGroup nullParent = null;
+		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
+		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
+		if (progBar.getIndeterminateDrawable() != null) {
+			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
+		}
+		dialogBuilder.setCustomTitle(viewTitle);
 		dialogBuilder.setCancelable(false);
 		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
 		dialogBuilder.setView(dialogView);
