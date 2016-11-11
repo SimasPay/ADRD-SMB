@@ -13,6 +13,9 @@
     <issue id="HardcodedText">
         <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
         <ignore path="res/layout-hdpi/home_screen1.xml" />
+        <ignore path="res/layout-sw411dp/fundtransfer_home.xml" />
+        <ignore path="res/layout-sw411dp/header.xml" />
+        <ignore path="res/layout-sw411dp/home_screen1.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
         <ignore path="res/layout/confirm_transfer.xml" />
         <ignore path="res/layout/fundtransfer_home.xml" />
@@ -30,6 +33,8 @@
     <issue id="UseCompoundDrawables">
         <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
         <ignore path="res/layout-hdpi/home_screen1.xml" />
+        <ignore path="res/layout-sw411dp/fundtransfer_home.xml" />
+        <ignore path="res/layout-sw411dp/home_screen1.xml" />
         <ignore path="res/layout-xhdpi/landing_screen.xml" />
         <ignore path="res/layout/fundtransfer_home.xml" />
         <ignore path="res/layout/home_screen1.xml" />
