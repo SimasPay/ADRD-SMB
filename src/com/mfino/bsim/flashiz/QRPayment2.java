@@ -90,8 +90,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "PayByQR : QRPayment2");
 		payByQRSDK = new PayByQRSDK(this, this);
-		payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
-		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
+		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+		payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
 		payByQRSDK.setIsUsingCustomDialog(false);
 		payByQRSDK.setIsPolling(false);
 		DBHelper mydb = new DBHelper(this);

@@ -44,8 +44,8 @@ public class WebServiceHttp extends Activity {
 	
 	
 	//Prduction
-	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
-	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+	public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
+	public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
 	
 	//Devserver
 	//public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
@@ -60,8 +60,8 @@ public class WebServiceHttp extends Activity {
 		public static String webAPIUrl;*/
 	
 	//UAT
-	public static String webAPIUrlFiles="http://dev.simobi.banksinarmas.com/webapi/dynamic";
-	public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";
+	//public static String webAPIUrlFiles="http://dev.simobi.banksinarmas.com/webapi/dynamic";
+	//public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";
 	
 	
 		//Development Server
