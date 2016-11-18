@@ -90,7 +90,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:contentDescription="@string/test"
-                android:src="@drawable/uangku_transfer" />
+                android:src="@drawable/uangku_menu" />
 
             <TextView
                 android:id="@+id/textView3"

@@ -681,7 +681,7 @@ public final class R {
 		public static final int loyalty_list_no_image = 0x7f0200be;
 		public static final int middle_qrscan = 0x7f0200bf;
 		public static final int no_connection = 0x7f0200c0;
-		public static final int notification_template_icon_bg = 0x7f0200de;
+		public static final int notification_template_icon_bg = 0x7f0200df;
 		public static final int ripple_btn_qrstore = 0x7f0200c5;
 		public static final int ripple_rect_border_rounded = 0x7f0200c6;
 		public static final int ripple_store_pickup_method = 0x7f0200c7;

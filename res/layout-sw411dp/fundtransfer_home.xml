@@ -39,8 +39,9 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/bank_sinarmas" />
 
                 <TextView
@@ -49,6 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
                     android:text="Bank Sinarmas" />
             </LinearLayout>
 
@@ -56,14 +58,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
                 android:padding="5dp" >
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:contentDescription="@null"
                     android:src="@drawable/to_other_banks" />
 
                 <TextView
@@ -71,6 +75,7 @@
                     style="@style/below_icon_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     android:layout_gravity="center_horizontal"
                     android:text="Other Bank" />
             </LinearLayout>
@@ -87,8 +92,8 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:contentDescription="@string/test"
                 android:src="@drawable/uangku_menu" />
 
@@ -97,6 +102,7 @@
                 style="@style/below_icon_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:layout_gravity="center_horizontal"
                 android:text="Uangku" />
         </LinearLayout>
