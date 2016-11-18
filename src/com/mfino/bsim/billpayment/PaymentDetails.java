@@ -106,6 +106,7 @@ public class PaymentDetails extends AppCompatActivity {
 				Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				PaymentDetails.this.finish();
 			}
 		});
 
@@ -558,7 +559,7 @@ public class PaymentDetails extends AppCompatActivity {
 											intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
 											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											startActivity(intent);
-
+											PaymentDetails.this.finish();
 										} else {
 											Intent intent = new Intent(PaymentDetails.this, BillPaymentConfirm.class);
 											intent.putExtra("PIN", pinValue.getText().toString());
@@ -582,6 +583,7 @@ public class PaymentDetails extends AppCompatActivity {
 											intent.putExtra("TFNID", responseContainer.getEncryptedTransferId());
 											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											startActivity(intent);
+											PaymentDetails.this.finish();
 										}
 
 									}
@@ -603,6 +605,7 @@ public class PaymentDetails extends AppCompatActivity {
 										Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
+										PaymentDetails.this.finish();
 
 									}
 								});
@@ -688,6 +691,7 @@ public class PaymentDetails extends AppCompatActivity {
 					Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					PaymentDetails.this.finish();
 
 				} else if (msgCode == 699) {
 					amount.setText("");
@@ -756,6 +760,7 @@ public class PaymentDetails extends AppCompatActivity {
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							PaymentDetails.this.finish();
 						}
 					});
 		} else {
@@ -767,6 +772,7 @@ public class PaymentDetails extends AppCompatActivity {
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							PaymentDetails.this.finish();
 						}
 					});
 		}
@@ -880,7 +886,7 @@ public class PaymentDetails extends AppCompatActivity {
 						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
-
+						PaymentDetails.this.finish();
 					} else {
 						// dialog1.dismiss();
 						Intent intent = new Intent(PaymentDetails.this, BillPaymentConfirm.class);
@@ -902,6 +908,7 @@ public class PaymentDetails extends AppCompatActivity {
 						intent.putExtra("MFA_MODE", mfaMode);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
+						PaymentDetails.this.finish();
 					}
 				}
 			}
@@ -969,7 +976,7 @@ public class PaymentDetails extends AppCompatActivity {
 						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
-
+						PaymentDetails.this.finish();
 					} else {
 						// dialog1.dismiss();
 						Log.d(LOG_TAG, "pinValue : " + pinValue);
@@ -1005,6 +1012,7 @@ public class PaymentDetails extends AppCompatActivity {
 						intent.putExtra("MFA_MODE", mfaMode);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
+						PaymentDetails.this.finish();
 					}
 		        }
 		

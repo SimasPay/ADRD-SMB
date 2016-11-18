@@ -95,10 +95,10 @@ public class ToOtherBankDetails extends AppCompatActivity {
 
 			@Override
 			public void onClick(View v) {
-
 				Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				ToOtherBankDetails.this.finish();
 			}
 		});
 
@@ -281,10 +281,10 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dialog, int arg1) {
 												dialog.dismiss();
-												finish();
 												Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
+												ToOtherBankDetails.this.finish();
 											}
 										});
 										alertbox.show();
@@ -292,12 +292,11 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface arg0, int arg1) {
 												dialog.dismiss();
-
 												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
 												pinValue.setText("");
-
+												ToOtherBankDetails.this.finish();
 											}
 										});
 										alertbox.show();
@@ -308,10 +307,10 @@ public class ToOtherBankDetails extends AppCompatActivity {
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dialog, int arg1) {
 											dialog.dismiss();
-											finish();
 											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											startActivity(intent);
+											ToOtherBankDetails.this.finish();
 										}
 									});
 									alertbox.show();
@@ -495,6 +494,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
+										ToOtherBankDetails.this.finish();
 									}
 								}
 								alertbox.show();
@@ -515,7 +515,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 										Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
-
+										ToOtherBankDetails.this.finish();
 									}
 								});
 								alertbox.show();
@@ -614,6 +614,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ToOtherBankDetails.this.finish();
 						}
 					});
 		} else {
@@ -625,6 +626,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ToOtherBankDetails.this.finish();
 						}
 					});
 		}
@@ -727,6 +729,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					ToOtherBankDetails.this.finish();
 				}
 			}
 		});
@@ -775,6 +778,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					ToOtherBankDetails.this.finish();
 				}
 
 			}

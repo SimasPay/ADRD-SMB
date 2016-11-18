@@ -486,6 +486,7 @@ public class ChangePin extends AppCompatActivity {
 							Intent intent = new Intent(ChangePin.this, LoginScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ChangePin.this.finish();
 						}
 					});
 		} else {
@@ -496,6 +497,7 @@ public class ChangePin extends AppCompatActivity {
 							Intent intent = new Intent(ChangePin.this, LoginScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ChangePin.this.finish();
 						}
 					});
 		}
@@ -666,11 +668,13 @@ public class ChangePin extends AppCompatActivity {
 				Intent intent = new Intent(ChangePin.this, HomeScreen.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				ChangePin.this.finish();
 			}
 		}else{
 			Intent intent = new Intent(ChangePin.this, HomeScreen.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
+			ChangePin.this.finish();
 		}
 	}
 
@@ -688,11 +692,13 @@ public class ChangePin extends AppCompatActivity {
 					Intent intent = new Intent(ChangePin.this, HomeScreen.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					ChangePin.this.finish();
 				}
 			}else{
 				Intent intent = new Intent(ChangePin.this, HomeScreen.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				ChangePin.this.finish();
 			}
 			return true;
 		}

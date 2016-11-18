@@ -607,7 +607,7 @@ public class PurchaseDetails extends AppCompatActivity {
 										intent.putExtra("PTFNID", responseContainer.getEncryptedParentTxnId());
 										intent.putExtra("TFNID", responseContainer.getEncryptedTransferId());
 										startActivity(intent);
-
+										PurchaseDetails.this.finish();
 									}
 
 								}
@@ -628,6 +628,7 @@ public class PurchaseDetails extends AppCompatActivity {
 										Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
+										PurchaseDetails.this.finish();
 									}
 								});
 								alertbox.show();
@@ -722,6 +723,7 @@ public class PurchaseDetails extends AppCompatActivity {
 					Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					PurchaseDetails.this.finish();
 
 				} else if (msgCode == 699) {
 					amount.setText("");
@@ -792,6 +794,7 @@ public class PurchaseDetails extends AppCompatActivity {
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							PurchaseDetails.this.finish();
 						}
 					});
 		} else {
@@ -803,6 +806,7 @@ public class PurchaseDetails extends AppCompatActivity {
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							PurchaseDetails.this.finish();
 						}
 					});
 		}
@@ -914,7 +918,9 @@ public class PurchaseDetails extends AppCompatActivity {
 							}
 							intent.putExtra("OTP", edt.getText().toString());
 							intent.putExtra("MFA_MODE", mfaMode);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							PurchaseDetails.this.finish();
 						} else {
 							System.out.println("Testing>>>purchase");
 							Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
@@ -934,7 +940,9 @@ public class PurchaseDetails extends AppCompatActivity {
 							intent.putExtra("OTP", edt.getText().toString());
 							intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
 							intent.putExtra("MFA_MODE", mfaMode);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							PurchaseDetails.this.finish();
 						}
 					}
 					
@@ -994,7 +1002,9 @@ public class PurchaseDetails extends AppCompatActivity {
 						}
 						intent.putExtra("OTP", edt.getText().toString());
 						intent.putExtra("MFA_MODE", mfaMode);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
+						PurchaseDetails.this.finish();
 					} else {
 						System.out.println("Testing>>>purchase");
 						Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
@@ -1014,7 +1024,9 @@ public class PurchaseDetails extends AppCompatActivity {
 						intent.putExtra("OTP", edt.getText().toString());
 						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
 						intent.putExtra("MFA_MODE", mfaMode);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
+						PurchaseDetails.this.finish();
 					}
 		        }
 		    }

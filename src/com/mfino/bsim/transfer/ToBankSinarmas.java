@@ -615,6 +615,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ToBankSinarmas.this.finish();
 						}
 					});
 		} else {
@@ -626,6 +627,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ToBankSinarmas.this.finish();
 						}
 					});
 		}
@@ -724,8 +726,10 @@ public class ToBankSinarmas extends AppCompatActivity {
 					intent.putExtra("MFA_MODE", mfaMode);
 					intent.putExtra("PTFNID", EncryptedParentTxnId);
 					intent.putExtra("TFNID", EncryptedTransferId);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					startActivity(intent);
+					ToBankSinarmas.this.finish();
 					/**
 					 * Log.d(LOG_TAG, "PIN : " + PIN); Log.d(LOG_TAG, "MSG : " +
 					 * message); Log.d(LOG_TAG, "CUST_NAME : " + custName);
@@ -783,8 +787,10 @@ public class ToBankSinarmas extends AppCompatActivity {
 					intent.putExtra("MFA_MODE", mfaMode);
 					intent.putExtra("PTFNID", EncryptedParentTxnId);
 					intent.putExtra("TFNID", EncryptedTransferId);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					startActivity(intent);
+					ToBankSinarmas.this.finish();
 					
 				}
 

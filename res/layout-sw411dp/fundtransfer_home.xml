@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:layout_gravity="center_horizontal"
-                android:text="Uangku" />
+                android:text="UANGKU" />
         </LinearLayout>
 
     </LinearLayout>

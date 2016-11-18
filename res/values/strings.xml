@@ -33,7 +33,7 @@
     <string name="eng_toBankSinarmas"> Transfer to Bank Sinarmas </string>
     <string name="eng_menubankList"> Other Bank </string>
     <string name="eng_bankList"> Other Bank List </string>
-    <string name="eng_toUangku"> Transfer to Uangku </string>
+    <string name="eng_toUangku"> Transfer to UANGKU </string>
     <string name="eng_destinationAccountNum"> Destination account number</string>
     <string name="eng_toOtherBank">Other Bank</string>
     <string name="eng_confirm"> Confirm </string>
@@ -125,7 +125,7 @@
     <string name="bahasa_bankList"> Daftar Bank Lain </string>
     <string name="bahasa_destinationAccountNum"> Nomor Rekening Tujuan </string>
     <string name="bahasa_toOtherBank"> Bank Lain </string>
-    <string name="bahasa_toUangku"> Transfer ke Uangku </string>
+    <string name="bahasa_toUangku"> Transfer ke UANGKU </string>
     <string name="bahasa_confirm"> Konfirmasi </string>
     <string name="bahasa_newPin"> mPIN Baru </string>
     <string name="bahasa_confimPin"> Konfirmasi mPIN </string>

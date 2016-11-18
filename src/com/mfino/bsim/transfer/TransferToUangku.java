@@ -113,14 +113,14 @@ public class TransferToUangku extends AppCompatActivity {
 		// screeTitle.setText(bundle.getString("TAG_NAME"));
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			screeTitle.setText("Transfer to Uangku");
+			screeTitle.setText("Transfer to UANGKU");
 			// screeTitle.setText(getResources().getString(R.string.eng_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.eng_mobileNumber));
 			amountTxt.setText(getResources().getString(R.string.eng_amount));
 			btn_ok.setText(getResources().getString(R.string.eng_submit));
 
 		} else {
-			screeTitle.setText("Transfer ke Uangku");
+			screeTitle.setText("Transfer ke UANGKU");
 			// screeTitle.setText(getResources().getString(R.string.bahasa_toOtherBank));
 			destAcountTxt.setText(getResources().getString(R.string.bahasa_mobileNumber));
 			amountTxt.setText(getResources().getString(R.string.bahasa_amount));
@@ -590,6 +590,7 @@ public class TransferToUangku extends AppCompatActivity {
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							TransferToUangku.this.finish();
 						}
 					});
 		} else {
@@ -601,6 +602,7 @@ public class TransferToUangku extends AppCompatActivity {
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							TransferToUangku.this.finish();
 						}
 					});
 		}
@@ -713,6 +715,7 @@ public class TransferToUangku extends AppCompatActivity {
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					TransferToUangku.this.finish();
 				}
 			}
 		});
@@ -761,6 +764,7 @@ public class TransferToUangku extends AppCompatActivity {
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
+					TransferToUangku.this.finish();
 				}
 
 			}
