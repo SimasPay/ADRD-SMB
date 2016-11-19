@@ -63,6 +63,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
+	static AlertDialog otpDialogS;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -673,6 +674,8 @@ public class ToOtherBankDetails extends AppCompatActivity {
 			@Override
 			public void onFinish() {
 				// info.setVisibility(View.GONE);
+				otpDialogS.dismiss();
+				otpDialogS.cancel();
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -707,6 +710,8 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
+					otpDialogS.cancel();
+					otpDialogS.dismiss();
 					errorOTP();
 				} else {
 					if (myTimer != null) {
@@ -733,10 +738,10 @@ public class ToOtherBankDetails extends AppCompatActivity {
 				}
 			}
 		});
-		final AlertDialog b = dialogBuilder.create();
-		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		b.show();
-		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		otpDialogS = dialogBuilder.create();
+		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		otpDialogS.show();
+		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -751,10 +756,10 @@ public class ToOtherBankDetails extends AppCompatActivity {
 				// Check if edittext is empty
 				if (TextUtils.isEmpty(s)) {
 					// Disable ok button
-					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
 					// Something into edit text. Enable the button.
-					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 				}
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {

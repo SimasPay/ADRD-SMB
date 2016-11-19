@@ -63,6 +63,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
+	static AlertDialog otpDialogS;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -90,11 +91,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 		Log.d(LOG_TAG, "Transfer : ToBankSinarmas");
 
 		back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
-
-				finish();
+				ToBankSinarmas.this.finish();
 			}
 		});
 
@@ -102,10 +101,10 @@ public class ToBankSinarmas extends AppCompatActivity {
 
 			@Override
 			public void onClick(View v) {
-
 				Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				ToBankSinarmas.this.finish();
 			}
 		});
 
@@ -282,8 +281,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 										dialog.dismiss();
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface dlg, int arg1) {
+												dlg.cancel();
 												dlg.dismiss();
-												finish();
+												ToBankSinarmas.this.finish();
 												Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
@@ -294,11 +294,13 @@ public class ToBankSinarmas extends AppCompatActivity {
 										dialog.dismiss();
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface arg0, int arg1) {
+												arg0.cancel();
 												arg0.dismiss();
 												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
 												pinValue.setText("");
+												ToBankSinarmas.this.finish();
 
 											}
 										});
@@ -310,8 +312,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 									alertbox.setMessage(responseContainer.getMsg());
 									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 										public void onClick(DialogInterface dlg, int arg1) {
+											dlg.cancel();
 											dlg.dismiss();
-											finish();
+											ToBankSinarmas.this.finish();
 											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
 											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 											startActivity(intent);
@@ -477,7 +480,8 @@ public class ToBankSinarmas extends AppCompatActivity {
 										 * intent.putExtra("TRANSFER_TYPE",
 										 * valueContainer.getTransferType());
 										 */
-
+										
+										/**
 										Intent intent = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
 										System.out.print("Testing>>name>>" + responseContainer.getCustName());
 										System.out.print("Testing>numbaer>>>" + responseContainer.getDestMDN());
@@ -498,9 +502,9 @@ public class ToBankSinarmas extends AppCompatActivity {
 										intent.putExtra("TFNID", responseContainer.getEncryptedTransferId());
 										intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 										startActivity(intent);
+										**/
 									}
 								}
-
 								pinValue.setText("");
 
 							} else {
@@ -512,11 +516,12 @@ public class ToBankSinarmas extends AppCompatActivity {
 								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
+										arg0.cancel();
 										arg0.dismiss();
 										Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
-
+										ToBankSinarmas.this.finish();
 									}
 								});
 								alertbox.show();
@@ -611,6 +616,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 			builder.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
 							dialog.dismiss();
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -623,6 +629,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 			builder.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
 							dialog.dismiss();
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -672,6 +679,8 @@ public class ToBankSinarmas extends AppCompatActivity {
 
 			@Override
 			public void onFinish() {
+				otpDialogS.cancel();
+				otpDialogS.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -684,6 +693,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
 					dialog.dismiss();
 					if (myTimer != null) {
 						myTimer.cancel();
@@ -696,6 +706,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					dialog.cancel();
 					dialog.dismiss();
 					if (myTimer != null) {
 						myTimer.cancel();
@@ -746,10 +757,10 @@ public class ToBankSinarmas extends AppCompatActivity {
 				}
 			}
 		});
-		final AlertDialog b = dialogBuilder.create();
-		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		b.show();
-		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		otpDialogS = dialogBuilder.create();
+		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		otpDialogS.show();
+		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -764,10 +775,10 @@ public class ToBankSinarmas extends AppCompatActivity {
 				// Check if edittext is empty
 				if (TextUtils.isEmpty(s)) {
 					// Disable ok button
-					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
 					// Something into edit text. Enable the button.
-					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 				}
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
@@ -791,7 +802,6 @@ public class ToBankSinarmas extends AppCompatActivity {
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					startActivity(intent);
 					ToBankSinarmas.this.finish();
-					
 				}
 
 			}
