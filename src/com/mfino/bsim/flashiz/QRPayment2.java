@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
 import com.dimo.PayByQR.PayByQRProperties;
 import com.dimo.PayByQR.PayByQRSDK;
 import com.dimo.PayByQR.PayByQRSDK.SDKLocale;
@@ -18,6 +17,7 @@ import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.db.DBHelper;
+import com.mfino.bsim.receivers.IncomingSMS;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
@@ -43,6 +43,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener {
+public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener, IncomingSMS.AutoReadSMSListener {
 	private PayByQRSDK payByQRSDK;
 	private int module;
 	private String userApiKey, PayInAppInvoiceID, PayInAppURLCallback;
@@ -77,7 +78,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 	public static final String INTENT_EXTRA_MODULE = "com.mfino.bsim.paybyqr.module";
 	public static final String INTENT_EXTRA_INVOICE_ID = "com.mfino.bsim.paybyqr.invoiceID";
 	public static final String INTENT_EXTRA_URL_CALLBACK = "com.mfino.bsim.paybyqr.URLCallback";
-	private static AlertDialog otpDialog;
+	static AlertDialog otpDialogS, alertError;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -887,30 +888,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 		dialog.show();
 	}
 
-	public void recivedSms(String message) {
-		try {
-			// Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")
-					|| message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
-				// Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message
-						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
-						.trim();
-				//sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")
-					|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is")) {
-				// Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message
-						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
-						.trim();
-				//sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),message.indexOf(")"));
-			}
-			edt.setText(otpValue);
-		} catch (Exception e) {
-
-		}
-	}
-
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(PayByQRProperties.getSDKContext(),
 				R.style.MyAlertDialogStyle);
@@ -936,7 +913,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 						}
 					});
 		}
-		AlertDialog alertError = builderError.create();
+		alertError = builderError.create();
 		alertError.show();
 	}
 
@@ -971,7 +948,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 
 			@Override
 			public void onFinish() {
-				otpDialog.dismiss();
+				otpDialogS.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -1019,9 +996,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 			}
 		});
 
-		otpDialog = dialogBuilder.create();
-		otpDialog.show();
-		((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		otpDialogS = dialogBuilder.create();
+		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		otpDialogS.show();
+		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -1035,23 +1013,42 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener 
 			public void afterTextChanged(final Editable s) {
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if (TextUtils.isEmpty(s)) {
-					((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
 					if ((edt.getText().length() > 3)) {
 						if (isAutoSubmit == true){
 							billPayConfirmation();
 							if (myTimer != null) {
 								myTimer.cancel();
-								otpDialog.dismiss();
+								otpDialogS.dismiss();
 							}
 						}else{
-							((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+							((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 						}
 					} else {
-						((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+						((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 					}
 				}
 			}
 		});
+	}
+	
+	@Override
+	public void onReadSMS(String otp) {
+		Log.d(LOG_TAG, "otp from SMS: "+otp);
+        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
+		edt.setText(otp);
+		otpValue=otp;
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(otpDialogS!=null){
+			otpDialogS.dismiss();
+		}
+		if(alertError!=null){
+			alertError.dismiss();
+		}
 	}
 }

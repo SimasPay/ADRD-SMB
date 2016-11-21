@@ -3,12 +3,17 @@ package com.mfino.bsim;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import android.app.Activity;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,9 +29,10 @@ import com.mfino.bsim.db.DBHelper;
 import com.mfino.bsim.flashiz.QRPayment2;
 import com.mfino.bsim.purchase.PurchaseHome;
 import com.mfino.bsim.transfer.TransferSelection;
+import com.mfino.bsim.utils.AndroidPermissions;
 
 /** @author pramod */
-public class HomeScreen extends Activity {
+public class HomeScreen extends AppCompatActivity {
 	/** Called when the activity is first created. */
 	private Button logoutButton;
 	private ImageView image1, image2, image3, image4, qrPayment, promo;
@@ -37,24 +43,31 @@ public class HomeScreen extends Activity {
 	Context context;
 	DBHelper mydb;
 	ValueContainer valueContainer;
-	//private String responseXml;
+	// private String responseXml;
 	ProgressDialog dialog;
 	public static String module;
 	String userApiKey;
 	int msgcode;
-	//private AlertDialog.Builder alertbox;
+	// private AlertDialog.Builder alertbox;
 	PayByQRSDK payByQRSDK;
+	final private int PERMISSION_REQUEST_CODE = 123;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_screen1);
-		//alertbox = new AlertDialog.Builder(HomeScreen.this);
+		if (Build.VERSION.SDK_INT >= 23) {// self check permissions for Read SMS
+			requestContactPermission();
+			if (!AndroidPermissions.getInstance().checkReadSmsPermission(HomeScreen.this)) {
+				AndroidPermissions.getInstance().displaySmsPermissionAlert(HomeScreen.this);
+			}
+		}
+		// alertbox = new AlertDialog.Builder(HomeScreen.this);
 
 		mydb = new DBHelper(HomeScreen.this);
 
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
-		//String mobileNumber = settings.getString("mobile", "");
+		// String mobileNumber = settings.getString("mobile", "");
 
 		logoutButton = (Button) findViewById(R.id.logoutButton);
 		image1 = (ImageView) findViewById(R.id.imageView1);
@@ -187,6 +200,43 @@ public class HomeScreen extends Activity {
 
 			}
 		});
+	}
+
+	private void requestContactPermission() {
+		int hasContactPermission = ActivityCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS);
+		if (hasContactPermission != PackageManager.PERMISSION_GRANTED) {
+			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECEIVE_SMS },
+					PERMISSION_REQUEST_CODE);
+		} else {
+			// Toast.makeText(AddContactsActivity.this, "Contact Permission is
+			// already granted", Toast.LENGTH_LONG).show();
+		}
+	}
+
+	@SuppressLint("NewApi")
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+
+		case AndroidPermissions.REQUEST_READ_SMS:
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+			} else {
+				AndroidPermissions.getInstance().displayAlert(HomeScreen.this, AndroidPermissions.REQUEST_READ_SMS);
+			}
+			break;
+		case PERMISSION_REQUEST_CODE:
+			// Check if the only required permission has been granted
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				Log.i("Permission", "Contact permission has now been granted. Showing result.");
+			} else {
+				Log.i("Permission", "Contact permission was NOT granted.");
+			}
+			break;
+		default: {
+			super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
+		}
 	}
 
 }

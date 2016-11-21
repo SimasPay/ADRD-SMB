@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mfino.bsim"
-    android:versionCode="21"
-    android:versionName="7.9" >
+    android:versionCode="22"
+    android:versionName="8.0" >
 
     <supports-screens
         android:anyDensity="true"
@@ -16,13 +16,14 @@
         android:targetSdkVersion="27" />
 
     <!-- <uses-sdk android:minSdkVersion="10" /> -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- <uses-feature android:name="android.hardware.camera" /> -->
     <!-- <uses-feature android:name="android.hardware.camera.autofocus" /> -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -33,8 +34,6 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
 
     <!-- Features -->
     <uses-feature
@@ -48,7 +47,7 @@
         android:required="false" />
 
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/Simobi_app_name"
         android:largeHeap="true"
@@ -75,8 +74,7 @@
         </activity>
 
         <receiver
-            android:name=".receivers.IncomingSMS"
-            android:permission="android.permission.BROADCAST_SMS" >
+            android:name=".receivers.IncomingSMS">
             <intent-filter android:priority="900" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -110,7 +108,7 @@
         <activity
             android:name=".LoginScreen"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
             android:name=".Update"
@@ -119,7 +117,7 @@
         <activity
             android:name=".HomeScreen"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
             android:name=".ActivationHome"

@@ -2,19 +2,23 @@ package com.mfino.bsim;
 
 import java.util.ArrayList;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +39,7 @@ import com.mfino.handset.security.CryptoService;
 
 /** @author pramod */
 @SuppressLint("NewApi")
-public class LoginScreen extends Activity {
+public class LoginScreen extends AppCompatActivity {
 	/** Called when the activity is first created. */
 	private Button loginButton;
 	static EditText loginId, loginPin;
@@ -58,11 +62,21 @@ public class LoginScreen extends Activity {
 	SQLiteDatabase db;
 	int msgcode;
 	String new_mdn, final_mdn;
+	final private int PERMISSION_REQUEST_CODE = 765;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+
+		if (ContextCompat.checkSelfPermission(this,
+				Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)) {
+			} else {
+				ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECEIVE_SMS },
+						PERMISSION_REQUEST_CODE);
+			}
+		}
 
 		mydb = new DBHelper(this);
 
@@ -122,7 +136,7 @@ public class LoginScreen extends Activity {
 						} else if (loginPin.getText().toString().equals("")) {
 							alertbox.setMessage(getResources().getString(R.string.eng_emptympin));
 						}
-					}else{
+					} else {
 						if (loginId.getText().toString().equals("")) {
 							alertbox.setMessage(getResources().getString(R.string.bahasa_emptymdn));
 						} else if (loginPin.getText().toString().equals("")) {
@@ -675,6 +689,23 @@ public class LoginScreen extends Activity {
 			}
 		};
 		checkUpdate.start();
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+		switch (requestCode) {
+		case PERMISSION_REQUEST_CODE: {
+			if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				Log.d("Simobi", "sms read granted");
+			} else {
+				Log.d("Simobi", "sms read failed");
+			}
+			return;
+		}
+
+		// other 'switch' lines to check for other
+		// permissions this app might request
+		}
 	}
 
 }

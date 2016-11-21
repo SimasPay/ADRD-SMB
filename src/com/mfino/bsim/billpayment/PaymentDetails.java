@@ -7,7 +7,6 @@ import java.util.Locale;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -42,12 +41,13 @@ import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.receivers.IncomingSMS;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
-public class PaymentDetails extends AppCompatActivity {
+public class PaymentDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 
 	private static final int SUCCESS_MSGCODE = 660;
 	private Button btn_ok;
@@ -74,6 +74,7 @@ public class PaymentDetails extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
+	static AlertDialog otpDialogS, alertError;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -776,11 +777,8 @@ public class PaymentDetails extends AppCompatActivity {
 						}
 					});
 		}
-		AlertDialog alertError = builderError.create();
-		if(!((Activity) context).isFinishing())
-		{
-			alertError.show();
-		}
+		alertError = builderError.create();
+		alertError.show();
 	}
 
 	public void showOTPRequiredDialog(final String pinValue, final String mfaMode, final String encryptedAmount,
@@ -913,10 +911,10 @@ public class PaymentDetails extends AppCompatActivity {
 				}
 			}
 		});
-		final AlertDialog b = dialogBuilder.create();
-		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		b.show();
-		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE)
+		otpDialogS = dialogBuilder.create();
+		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		otpDialogS.show();
+		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE)
         .setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 		    @Override
@@ -934,11 +932,11 @@ public class PaymentDetails extends AppCompatActivity {
 		        // Check if edittext is empty
 		        if (TextUtils.isEmpty(s)) {
 		            // Disable ok button
-		            ((AlertDialog) b).getButton(
+		            ((AlertDialog) otpDialogS).getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		        } else {
 		            // Something into edit text. Enable the button.
-		            ((AlertDialog) b).getButton(
+		            ((AlertDialog) otpDialogS).getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 		        }
 		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
@@ -1018,6 +1016,25 @@ public class PaymentDetails extends AppCompatActivity {
 		
 		    }
 		});
+	}
+
+	@Override
+	public void onReadSMS(String otp) {
+		Log.d(LOG_TAG, "otp from SMS: "+otp);
+        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
+		edt.setText(otp);
+		otpValue=otp;
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(otpDialogS!=null){
+			otpDialogS.dismiss();
+		}
+		if(alertError!=null){
+			alertError.dismiss();
+		}
 	}
 
 }

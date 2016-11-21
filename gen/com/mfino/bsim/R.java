@@ -3436,8 +3436,8 @@ containing a value of this type.
     }
     public static final class string {
         public static final int Simobi_app_name=0x7f0c00e0;
-        public static final int _00_00=0x7f0c01a5;
-        public static final int _6_digit_kode_otp=0x7f0c01a4;
+        public static final int _00_00=0x7f0c01a7;
+        public static final int _6_digit_kode_otp=0x7f0c01a6;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f0c0001;
@@ -3547,7 +3547,7 @@ containing a value of this type.
         public static final int bahasa_destnation_mdn =0x7f0c0161;
         /**  Terms & Conditions  Bahasa 
          */
-        public static final int bahasa_disclosure=0x7f0c01a2;
+        public static final int bahasa_disclosure=0x7f0c01a4;
         public static final int bahasa_emptymdn=0x7f0c019d;
         public static final int bahasa_emptympin=0x7f0c019e;
         public static final int bahasa_enterValidMobile=0x7f0c0176;
@@ -3566,7 +3566,7 @@ containing a value of this type.
         /**  bahasa 
          */
         public static final int bahasa_login=0x7f0c0145;
-        public static final int bahasa_loginagain=0x7f0c019f;
+        public static final int bahasa_loginagain=0x7f0c01a1;
         public static final int bahasa_mPinNotMatch=0x7f0c017d;
         public static final int bahasa_mainUsat=0x7f0c0186;
         public static final int bahasa_menuBankSinarmas=0x7f0c0151;
@@ -3680,7 +3680,7 @@ containing a value of this type.
         public static final int eng_destnatin_mdn=0x7f0c010b;
         /**  Terms & Conditions  English 
          */
-        public static final int eng_disclosure=0x7f0c01a1;
+        public static final int eng_disclosure=0x7f0c01a3;
         public static final int eng_emptymdn=0x7f0c0142;
         public static final int eng_emptympin=0x7f0c0143;
         public static final int eng_enterValidMobile=0x7f0c011e;
@@ -3766,7 +3766,7 @@ containing a value of this type.
         public static final int error_transaction_canceled=0x7f0c0085;
         public static final int error_transaction_expired=0x7f0c0086;
         public static final int error_unknown=0x7f0c0081;
-        public static final int flashiz_tc=0x7f0c01a3;
+        public static final int flashiz_tc=0x7f0c01a5;
         public static final int font_helvetica=0x7f0c001e;
         public static final int font_helvetica_light=0x7f0c001f;
         public static final int font_helvetica_medium=0x7f0c0020;
@@ -3778,7 +3778,7 @@ containing a value of this type.
         /**  English 
          */
         public static final int login=0x7f0c00e8;
-        public static final int login_content=0x7f0c01a0;
+        public static final int login_content=0x7f0c01a2;
         public static final int mpin=0x7f0c00eb;
         public static final int nophone=0x7f0c00ec;
         public static final int ok=0x7f0c00e7;
@@ -3796,6 +3796,8 @@ containing a value of this type.
          */
         public static final int server_live=0x7f0c0015;
         public static final int server_uat=0x7f0c0017;
+        public static final int sms=0x7f0c019f;
+        public static final int sms_des=0x7f0c01a0;
         public static final int source_packet_code=0x7f0c00e3;
         /**  Text to use when the number in a notification info is too large
          (greater than status_bar_notification_info_maxnum, defined in

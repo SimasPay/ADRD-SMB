@@ -2,7 +2,6 @@ package com.mfino.bsim.transfer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,19 +32,18 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
-
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.receivers.IncomingSMS;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
-public class ToOtherBankDetails extends AppCompatActivity {
+public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 
 	private Button btn_ok;
 	private EditText pinValue, destAccountNo, amountValue;
@@ -63,7 +61,7 @@ public class ToOtherBankDetails extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	static AlertDialog otpDialogS;
+	static AlertDialog otpDialogS, alertError;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -577,32 +575,6 @@ public class ToOtherBankDetails extends AppCompatActivity {
 		}
 	}
 
-	public void recivedSms(String message) {
-		try {
-			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")
-					|| message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
-				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message
-						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
-						.trim();
-				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")
-					|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
-				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message
-						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
-						.trim();
-				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
-						message.indexOf(")"));
-			}
-			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
-			edt.setText(otpValue);
-		} catch (Exception e) {
-
-		}
-	}
-
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(ToOtherBankDetails.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
@@ -631,10 +603,8 @@ public class ToOtherBankDetails extends AppCompatActivity {
 						}
 					});
 		}
-		AlertDialog alertError = builderError.create();
-		if (!((Activity) context).isFinishing()) {
-			alertError.show();
-		}
+		alertError = builderError.create();
+		alertError.show();
 	}
 
 	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
@@ -788,6 +758,25 @@ public class ToOtherBankDetails extends AppCompatActivity {
 
 			}
 		});
+	}
+
+	@Override
+	public void onReadSMS(String otp) {
+		Log.d(LOG_TAG, "otp from SMS: "+otp);
+        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
+		edt.setText(otp);
+		otpValue=otp;
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(otpDialogS!=null){
+			otpDialogS.dismiss();
+		}
+		if(alertError!=null){
+			alertError.dismiss();
+		}
 	}
 
 }

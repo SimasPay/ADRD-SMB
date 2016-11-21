@@ -2,7 +2,6 @@ package com.mfino.bsim.transfer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -34,7 +33,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
-
+import com.mfino.bsim.receivers.IncomingSMS;
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
@@ -45,7 +44,7 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
-public class ToBankSinarmas extends AppCompatActivity {
+public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 
 	private Button btn_ok;
 	private EditText pinValue, creditNoValue, amountValue;
@@ -63,7 +62,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	static AlertDialog otpDialogS;
+	static AlertDialog otpDialogS, alertError;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -76,6 +75,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 	        return; 
 	    } 
 		setContentView(R.layout.fundtransfer_to_bank_sinarmas);
+		IncomingSMS.setListener(this);
 		context = this;
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
@@ -581,7 +581,16 @@ public class ToBankSinarmas extends AppCompatActivity {
 			}
 		}
 	}
+	
+	@Override
+    public void onReadSMS(String otp) {
+		Log.d(LOG_TAG, "otp from SMS: "+otp);
+        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
+		edt.setText(otp);
+		otpValue=otp;
+    }
 
+	/**
 	public void recivedSms(String message) {
 		try {
 			Log.d(LOG_TAG, "isi SMS : " + message);
@@ -607,6 +616,7 @@ public class ToBankSinarmas extends AppCompatActivity {
 
 		}
 	}
+	**/
 
 	public void errorOTP() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ToBankSinarmas.this, R.style.MyAlertDialogStyle);
@@ -638,10 +648,8 @@ public class ToBankSinarmas extends AppCompatActivity {
 						}
 					});
 		}
-		AlertDialog alert = builder.create();
-		if (!((Activity) context).isFinishing()) {
-			alert.show();
-		}
+		alertError = builder.create();
+		alertError.show();
 	}
 
 	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
@@ -806,5 +814,16 @@ public class ToBankSinarmas extends AppCompatActivity {
 
 			}
 		});
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(otpDialogS!=null){
+			otpDialogS.dismiss();
+		}
+		if(alertError!=null){
+			alertError.dismiss();
+		}
 	}
 }

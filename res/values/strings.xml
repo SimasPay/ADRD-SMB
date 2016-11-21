@@ -197,6 +197,8 @@
     <string name="bahasa_changepin">Mohon ubah mPIN Anda sebelum melakukan transaksi</string>
     <string name="bahasa_emptymdn">Silakan masukkan Nomor HP Anda</string>
     <string name="bahasa_emptympin">Silakan masukkan mPIN Anda</string>
+    <string name="sms">SMS</string>
+    <string name="sms_des">Simobi membutuhkan izin membaca SMS yang masuk, agar dapat menampilkan Kode OTP secara otomatis. Apakah anda bersedia?</string>
     <string name="bahasa_loginagain">Dimohon untuk login kembali</string>
     <string name="login_content">
 <![CDATA[
