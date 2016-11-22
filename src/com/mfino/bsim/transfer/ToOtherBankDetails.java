@@ -62,6 +62,7 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
+	static Handler handler;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -69,7 +70,7 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fundtransfer_to_other_bank_details);
 		context = this;
-
+		IncomingSMS.setListener(this);
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screenTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -236,7 +237,7 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
 						dialog.show();
 					}
-					final Handler handler = new Handler() {
+					handler = new Handler() {
 
 						public void handleMessage(Message msg) {
 
@@ -290,7 +291,6 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 									} else {
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 											public void onClick(DialogInterface arg0, int arg1) {
-												dialog.dismiss();
 												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
@@ -604,7 +604,9 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 					});
 		}
 		alertError = builderError.create();
-		alertError.show();
+		if(!isFinishing()){
+			alertError.show();
+		}
 	}
 
 	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
@@ -755,7 +757,6 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 					startActivity(intent);
 					ToOtherBankDetails.this.finish();
 				}
-
 			}
 		});
 	}
@@ -766,6 +767,9 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
         //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
 	}
 	
 	@Override

@@ -75,6 +75,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
+	static Handler handler;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -82,7 +83,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.payment_details);
 		context = this;
-
+		IncomingSMS.setListener(this);
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -300,7 +301,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 								**/
 					}
 
-					final Handler handler = new Handler() {
+					handler = new Handler() {
 						public void handleMessage(Message msg) {
 							if (responseXml != null) {
 								/** Parse the response. */
@@ -778,7 +779,9 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 					});
 		}
 		alertError = builderError.create();
-		alertError.show();
+		if(!isFinishing()){
+			alertError.show();
+		}
 	}
 
 	public void showOTPRequiredDialog(final String pinValue, final String mfaMode, final String encryptedAmount,
@@ -913,7 +916,9 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		});
 		otpDialogS = dialogBuilder.create();
 		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		otpDialogS.show();
+		if(!isFinishing()){
+			otpDialogS.show();
+		}
 		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE)
         .setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
@@ -1024,6 +1029,9 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
         //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
 	}
 	
 	@Override

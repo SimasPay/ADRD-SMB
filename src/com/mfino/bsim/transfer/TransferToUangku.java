@@ -59,6 +59,7 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
+	static Handler handler;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -66,7 +67,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fundtransfer_to_other_bank_details);
 		context = this;
-
+		IncomingSMS.setListener(this);
+		
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -213,12 +215,9 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
 						dialog.show();
 					}
-					final Handler handler = new Handler() {
-
+					handler = new Handler() {
 						public void handleMessage(Message msg) {
-
 							if (responseXml != null) {
-								/** Parse response xml. */
 								XMLParser obj = new XMLParser();
 								EncryptedResponseDataContainer responseContainer = null;
 								try {
@@ -229,7 +228,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 								}
 
 								dialog.dismiss();
-
 								int msgCode = 0;
 								try {
 									msgCode = Integer.parseInt(responseContainer.getMsgCode());
@@ -559,8 +557,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							dialog.dismiss();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -572,8 +568,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							dialog.dismiss();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -582,7 +576,9 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					});
 		}
 		alertError = builderError.create();
-		alertError.show();
+		if(!isFinishing()){
+			alertError.show();
+		}
 	}
 
 	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
@@ -614,16 +610,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 		final CountDownTimer countTimer = new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				// timer.setText(millisUntilFinished/60000 +":"+
-				// (millisUntilFinished/1000));
-				/**
-				 * timer.setText(String.format(Locale.getDefault(),
-				 * "%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished),
-				 * TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-				 * TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished))));
-				 **/
 				NumberFormat f = new DecimalFormat("00");
 				timer.setText(
 						f.format(millisUntilFinished / 60000) + ":" + f.format(millisUntilFinished % 60000 / 1000));
@@ -632,8 +618,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 			@Override
 			public void onFinish() {
 				// info.setVisibility(View.GONE);
-				otpDialogS.cancel();
-				otpDialogS.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -646,8 +630,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.cancel();
-					dialog.dismiss();
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
@@ -659,8 +641,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.cancel();
-					dialog.dismiss();
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
@@ -693,13 +673,14 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
-					TransferToUangku.this.finish();
 				}
 			}
 		});
 		otpDialogS = dialogBuilder.create();
 		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		otpDialogS.show();
+		if(!isFinishing()){
+			otpDialogS.show();
+		}
 		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -742,7 +723,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
-					TransferToUangku.this.finish();
 				}
 
 			}
@@ -752,9 +732,11 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 	@Override
 	public void onReadSMS(String otp) {
 		Log.d(LOG_TAG, "otp from SMS: "+otp);
-        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
 	}
 	
 	@Override

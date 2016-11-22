@@ -63,6 +63,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
+	static  Handler handler;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -233,7 +234,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 						 * true);
 						 **/
 					}
-					final Handler handler = new Handler() {
+					handler = new Handler() {
 
 						public void handleMessage(Message msg) {
 
@@ -293,9 +294,9 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 									} else {
 										dialog.dismiss();
 										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface arg0, int arg1) {
-												arg0.cancel();
-												arg0.dismiss();
+											public void onClick(DialogInterface dialog, int arg1) {
+												dialog.cancel();
+												dialog.dismiss();
 												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 												startActivity(intent);
@@ -588,6 +589,9 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
         //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
     }
 
 	/**
@@ -626,12 +630,9 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 			builder.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							dialog.dismiss();
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							ToBankSinarmas.this.finish();
 						}
 					});
 		} else {
@@ -639,20 +640,19 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 			builder.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							dialog.dismiss();
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							ToBankSinarmas.this.finish();
 						}
 					});
 		}
 		alertError = builder.create();
-		alertError.show();
+		if(!isFinishing()){
+			alertError.show();
+		}
 	}
 
-	public void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
+	private void showOTPRequiredDialog(final String PIN, final String custName, final String MDN,
 			final String accountNumber, final String message, final String destBank, final String amount,
 			final String mfaMode, final String EncryptedParentTxnId, final String EncryptedTransferId) {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ToBankSinarmas.this, R.style.MyAlertDialogStyle);
@@ -670,8 +670,6 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 
 		// EditText OTP
 		edt = (EditText) dialogView.findViewById(R.id.otp_value);
-		// edt.setText(otpValue);
-		// final String otpValue_new = edt.getText().toString();
 		Log.d(LOG_TAG, "otpValue : " + otpValue);
 
 		// Timer
@@ -701,8 +699,6 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.cancel();
-					dialog.dismiss();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
@@ -748,7 +744,6 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					startActivity(intent);
-					ToBankSinarmas.this.finish();
 					/**
 					 * Log.d(LOG_TAG, "PIN : " + PIN); Log.d(LOG_TAG, "MSG : " +
 					 * message); Log.d(LOG_TAG, "CUST_NAME : " + custName);
@@ -767,7 +762,9 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 		});
 		otpDialogS = dialogBuilder.create();
 		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		otpDialogS.show();
+		if(!isFinishing()){
+			otpDialogS.show();
+		}
 		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -809,7 +806,6 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					startActivity(intent);
-					ToBankSinarmas.this.finish();
 				}
 
 			}

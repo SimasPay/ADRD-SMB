@@ -79,6 +79,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 	public static final String INTENT_EXTRA_INVOICE_ID = "com.mfino.bsim.paybyqr.invoiceID";
 	public static final String INTENT_EXTRA_URL_CALLBACK = "com.mfino.bsim.paybyqr.URLCallback";
 	static AlertDialog otpDialogS, alertError;
+	static Handler handler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
 		payByQRSDK.setIsUsingCustomDialog(false);
 		payByQRSDK.setIsPolling(false);
+		IncomingSMS.setListener(this);
 		DBHelper mydb = new DBHelper(this);
 		Cursor rs = mydb.getFlashizData();
 		Log.e("countttt", rs.getCount() + "");
@@ -695,11 +697,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		}
 
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, QRPayment2.this);
-
-		final Handler handler = new Handler() {
-
+		handler = new Handler() {
 			public void handleMessage(Message msg) {
-
 				Log.e("===confirmation Response====", "=-======" + responseXml);
 				if (responseXml != null) {
 					otpValue = "";
@@ -914,7 +913,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 					});
 		}
 		alertError = builderError.create();
-		alertError.show();
+		if(!isFinishing()){
+			alertError.show();
+		}
 	}
 
 	public void showOTPRequiredDialog() {
@@ -998,7 +999,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 		otpDialogS = dialogBuilder.create();
 		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		//if(!isFinishing()){
 		otpDialogS.show();
+		//}
 		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -1039,6 +1042,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
         //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
 	}
 	
 	@Override

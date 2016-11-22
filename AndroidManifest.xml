@@ -55,6 +55,7 @@
         <activity
             android:name=".SplashScreen"
             android:label="@string/Simobi_app_name"
+            android:theme="@style/AppNoTitleBarTheme"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

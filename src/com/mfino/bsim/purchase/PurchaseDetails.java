@@ -82,14 +82,15 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
-
+	static Handler handler;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.purchase_details);
 		context = this;
-
+		IncomingSMS.setListener(this);
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -275,7 +276,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 
-			@SuppressLint({ "NewApi", "HandlerLeak" })
+			@SuppressLint({ "NewApi"})
 			@Override
 			public void onClick(View arg0) {
 
@@ -386,9 +387,9 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 								getResources().getString(R.string.bahasa_loading), true);
 								**/
 					}
-					final Handler handler = new Handler() {
-
-						public void handleMessage(Message msg) {
+					handler = new Handler(new Handler.Callback() {
+						@Override
+					    public boolean handleMessage(Message msg) {
 							if (responseXml != null) {
 								/** Parse the response. */
 								XMLParser obj = new XMLParser();
@@ -633,9 +634,10 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 								});
 								alertbox.show();
 							}
+							return false;
 
 						}
-					};
+					});
 
 					final Thread checkUpdate = new Thread() {
 						/** Service call in this thread. */
@@ -760,28 +762,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		}
 	}
 	
-	public void recivedSms(String message){
-		try{
-			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")){
-				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message.substring(message.substring(0,message.indexOf("(")).lastIndexOf(" "), message.indexOf("(")).trim();
-				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			}else if(message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")){
-				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message.substring(message.substring(0,message.indexOf("(")).lastIndexOf(" "), message.indexOf("(")).trim();
-				sctl = message.substring(
-						message.indexOf("(ref no: ")
-								+ new String("(ref no: ").length(),
-								message.indexOf(")"));
-			}
-			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
-			edt.setText(otpValue);
-		} catch (Exception e){
-				
-		}
-	}
-	
 	public void errorOTP(){
 		AlertDialog.Builder builderError = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
@@ -811,7 +791,9 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					});
 		}
 		alertError = builderError.create();
-		alertError.show();
+		if(!isFinishing()){
+			alertError.show();
+		}
 	}
 
 
@@ -947,7 +929,9 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 			});
 		otpDialogS = dialogBuilder.create();
 		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		otpDialogS.show();
+		if(!isFinishing()){
+			otpDialogS.show();
+		}
 		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE)
         .setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
@@ -1036,6 +1020,9 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
         //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
 	}
 	
 	@Override
