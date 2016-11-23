@@ -47,7 +47,7 @@
         android:required="false" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/app_icon"
         android:label="@string/Simobi_app_name"
         android:largeHeap="true"
@@ -397,7 +397,7 @@
         <activity
             android:name="com.mfino.bsim.transfer.TransferToUnagkuConfirmation"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
             android:name="com.mfino.bsim.transfer.TransferToUangku"

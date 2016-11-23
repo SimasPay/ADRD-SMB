@@ -8,6 +8,7 @@ import com.mfino.bsim.flashiz.QRPayment2;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,9 @@ import android.util.Log;
  * @author himanshu.kumar
  * */
 public class SplashScreen extends AppCompatActivity {
+	public static final String LOG_TAG = "SIMOBI";
+	SharedPreferences settings;
+	
     /** Called when the activity is first created. */
 	private final int SPLASH_DISPLAY_LENGHT = 3000;
     @Override
@@ -27,6 +31,8 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 		Fabric.with(this, new Crashlytics());
         setContentView(R.layout.main);
+        settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "SplashScreen").commit();
            
         new Handler().postDelayed(new Runnable() {
 			@SuppressLint("NewApi")

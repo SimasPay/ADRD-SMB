@@ -47,7 +47,6 @@ public class LoginScreen extends AppCompatActivity {
 	SharedPreferences languageSettings, encrptionKeys;
 	ValueContainer valueContainer;
 	private String responseXml;
-	SharedPreferences settings;
 	String selectedLanguage;
 	ProgressDialog dialog;
 	public static String module;
@@ -63,11 +62,16 @@ public class LoginScreen extends AppCompatActivity {
 	int msgcode;
 	String new_mdn, final_mdn;
 	final private int PERMISSION_REQUEST_CODE = 765;
-
+	SharedPreferences settings;
+	public static final String LOG_TAG = "SIMOBI";
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "LoginScreen").commit();
 
 		if (ContextCompat.checkSelfPermission(this,
 				Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {

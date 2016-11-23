@@ -45,6 +45,8 @@ public class CheckBalance extends Activity {
 	String selectedLanguage;
 	ProgressDialog dialog;
 	Context context;
+	SharedPreferences settings;
+	public static final String LOG_TAG = "SIMOBI";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -52,6 +54,8 @@ public class CheckBalance extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.enter_pin);
 		context=this;
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "CheckBalance").commit();
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);

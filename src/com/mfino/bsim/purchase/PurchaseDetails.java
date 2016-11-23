@@ -3,7 +3,6 @@ package com.mfino.bsim.purchase;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -16,8 +15,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -82,15 +80,23 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
-	static Handler handler;
+	static boolean isExitActivity = false;
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.purchase_details);
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "PurchaseDetails").commit();
 		context = this;
 		IncomingSMS.setListener(this);
+		
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		    StrictMode.setThreadPolicy(policy);
+		}
+		
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -124,9 +130,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		System.out.println("Test>>>" + bundle.getString("PRODUCT_DENOM") + ">>");
 		System.out.println("******** invoice>>>*" + bundle.getString("SELECTED_INVOICETYPE"));
 		System.out.println("******** paymentMode>>>*" + bundle.getString("SELECTED_PAYMENT_MODE"));
-		// LinearLayout invoice = (LinearLayout)
-		// findViewById(R.id.invoiceNumber);
-		//LinearLayout mdnLayout = (LinearLayout) findViewById(R.id.mdnLayout);
 		LinearLayout amountLayout = (LinearLayout) findViewById(R.id.amountLayout);
 		RelativeLayout denomLayout = (RelativeLayout) findViewById(R.id.denomLayout);
 		mdn = (EditText) findViewById(R.id.ed_mdnValue);
@@ -387,9 +390,10 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 								getResources().getString(R.string.bahasa_loading), true);
 								**/
 					}
-					handler = new Handler(new Handler.Callback() {
-						@Override
-					    public boolean handleMessage(Message msg) {
+					
+					responseXml = webServiceHttp.getResponseSSLCertificatation();
+					
+				
 							if (responseXml != null) {
 								/** Parse the response. */
 								XMLParser obj = new XMLParser();
@@ -398,7 +402,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 									responseContainer = obj.parse(responseXml);
 									System.out.print("Testing>>" + responseContainer.getMfaMode());
 								} catch (Exception e) {
-
 									// e.printStackTrace();
 								}
 
@@ -445,146 +448,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 										showOTPRequiredDialog(pinValue.getText().toString(), denomValue, responseContainer.getMfaMode(),
 												mdn.getText().toString(), responseContainer.getMsg(), responseContainer.getAditionalInfo(),
 												responseContainer.getEncryptedParentTxnId(), responseContainer.getEncryptedTransferId());
-										
-										/**
-										try {
-
-											// final ProgressDialog dialog1 =
-											// ProgressDialog.show(PurchaseDetails.this,
-											// " Banksinarmas ", "Please Wait
-											// for SMS.... ", true);
-											Long startTimeInMillis = new java.util.Date().getTime();
-
-											while (true) {
-
-												Thread.sleep(3000);
-												System.out.println("Testing>>inside Loop");
-												final Uri SMS_INBOX = Uri.parse("content://sms/inbox");
-												Cursor c = getContentResolver().query(SMS_INBOX, null, null, null,
-														"DATE desc");
-
-												c.moveToFirst();
-												for (int i = 0; i < 10; i++) {
-													String body = c.getString(c.getColumnIndexOrThrow("body"))
-															.toString().trim();
-
-													if (body.contains("Kode Simobi Anda")
-															&& body.contains(responseContainer.getSctl())) {
-
-														otpValue = body.substring(
-																new String("Kode Simobi Anda ").length(),
-																body.indexOf("(no ref"));
-														sctl = body.substring(body.indexOf(":") + 1, body.indexOf(")"));
-														break;
-
-													} else if (body.contains("Your Simobi Code is")
-															&& body.contains(responseContainer.getSctl())) {
-
-														otpValue = body.substring(
-																new String("Your Simobi Code is ").length(),
-																body.indexOf("(ref"));
-														sctl = body.substring(
-																body.indexOf("(ref no: ")
-																		+ new String("(ref no: ").length(),
-																body.indexOf(")"));
-														break;
-													} else {
-														c.moveToNext();
-													}
-
-												}
-												c.close();
-
-												if (!(otpValue == null)) {
-													System.out.println("Testing>>SCTL");
-													break;
-												} else {
-
-													System.out.println("Testing>>SCTL>>else");
-													if (new java.util.Date().getTime()
-															- startTimeInMillis >= Constants.MFA_CONNECTION_TIMEOUT) {
-														System.out.println("Testing>>TimeOut>>");
-														break;
-													}
-
-												}
-
-											}
-											System.out.println("Testing>>OTP>>" + otpValue);
-											if (otpValue == null) {
-
-												if (selectedLanguage.equalsIgnoreCase("ENG")) {
-													displayDialog(
-															getResources().getString(R.string.eng_transactionFail));
-												} else {
-													displayDialog(
-															getResources().getString(R.string.bahasa_transactionFail));
-												}
-
-											} else {
-												dialog.dismiss();
-
-												if (bundle.getString("SELECTED_CATEGORY")
-														.equalsIgnoreCase("Mobile Phone")) {
-													System.out.println("Testing>>>airtime");
-													Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
-													intent.putExtra("SELECTED_CATEGORY",
-															bundle.getString("SELECTED_CATEGORY"));
-													intent.putExtra("PIN", pinValue.getText().toString());
-													intent.putExtra("AMT", denomValue);
-													intent.putExtra("DESTMDN", mdn.getText().toString().trim());
-													intent.putExtra("COMPID", bundle.getString("PRODUCT_CODE"));
-													intent.putExtra("MSG", responseContainer.getMsg());
-													intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-													intent.putExtra("PTFNID",
-															responseContainer.getEncryptedParentTxnId());
-													intent.putExtra("TFNID",
-															responseContainer.getEncryptedTransferId());
-													try {
-														intent.putExtra("ADDITIONAL_INFO",
-																responseContainer.getAditionalInfo());
-
-													} catch (Exception e) {
-
-														intent.putExtra("ADDITIONAL_INFO", "null");
-													}
-													intent.putExtra("OTP", otpValue);
-													intent.putExtra("MFA_MODE", responseContainer.getMfaMode());
-
-													startActivity(intent);
-												} else {
-													System.out.println("Testing>>>purchase");
-													Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
-													intent.putExtra("PIN", pinValue.getText().toString());
-													intent.putExtra("SELECTED_CATEGORY",
-															bundle.getString("SELECTED_CATEGORY"));
-													intent.putExtra("MSG", responseContainer.getMsg());
-													intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
-													intent.putExtra("BILLERNUM", mdn.getText().toString());
-
-													try {
-														intent.putExtra("ADDITIONAL_INFO",
-																responseContainer.getAditionalInfo());
-													} catch (Exception e) {
-
-														intent.putExtra("ADDITIONAL_INFO", "null");
-													}
-
-													intent.putExtra("PTFNID",
-															responseContainer.getEncryptedParentTxnId());
-													intent.putExtra("TFNID",
-															responseContainer.getEncryptedTransferId());
-													intent.putExtra("OTP", otpValue);
-													intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-													intent.putExtra("MFA_MODE", responseContainer.getMfaMode());
-													startActivity(intent);
-
-												}
-											}
-										} catch (Exception e) {
-											System.out.println("Testing>>exception>>");
-										}
-										**/
 									} else {
 										System.out.println("Testing>>>purchase");
 										Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
@@ -634,27 +497,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 								});
 								alertbox.show();
 							}
-							return false;
-
 						}
-					});
-
-					final Thread checkUpdate = new Thread() {
-						/** Service call in this thread. */
-						public void run() {
-
-							try {
-								responseXml = webServiceHttp.getResponseSSLCertificatation();
-								System.out.println("Testing>>");
-							} catch (Exception e) {
-								responseXml = null;
-							}
-							handler.sendEmptyMessage(0);
-						}
-					};
-					checkUpdate.start();
-
-				}
 			}
 		});
 
@@ -770,11 +613,10 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
+							isExitActivity = true;
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							PurchaseDetails.this.finish();
 						}
 					});
 		} else {
@@ -782,11 +624,10 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
+							isExitActivity = true;
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							PurchaseDetails.this.finish();
 						}
 					});
 		}
@@ -825,11 +666,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 		    @Override
 		    public void onTick(long millisUntilFinished) {
-		    	//timer.setText(millisUntilFinished/60000 +":"+ (millisUntilFinished/1000));
-		    	/** timer.setText(String.format(Locale.getDefault(), "%d min, %d sec", 
-	                    TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
-	                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - 
-	                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)))); **/
 		    	NumberFormat f = new DecimalFormat("00");
 		    	timer.setText(f.format(millisUntilFinished / 60000)+":"+f.format(millisUntilFinished % 60000 / 1000));
 		    }
@@ -849,7 +685,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.dismiss();
 					if(myTimer != null) {
 						myTimer.cancel();
 					}
@@ -861,7 +696,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					+ getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.dismiss();
 					if(myTimer != null) {
 						myTimer.cancel();
 					}
@@ -959,56 +793,61 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		        }
 		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
-		        	if (myTimer != null) {
-						myTimer.cancel();
-					}
-		        	if (bundle.getString("SELECTED_CATEGORY")
-							.equalsIgnoreCase("Mobile Phone")) {
-						System.out.println("Testing>>>airtime");
-						Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
-						intent.putExtra("SELECTED_CATEGORY",
-								bundle.getString("SELECTED_CATEGORY"));
-						intent.putExtra("PIN", pinValue);
-						intent.putExtra("AMT", denomValue);
-						intent.putExtra("DESTMDN", MDNValue.trim());
-						intent.putExtra("COMPID", bundle.getString("PRODUCT_CODE"));
-						intent.putExtra("MSG", msgValue);
-						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-						intent.putExtra("PTFNID", EncryptedParentTxnId);
-						intent.putExtra("TFNID", EncryptedTransferId);
-						try {
-							intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
-						} catch (Exception e) {
-							intent.putExtra("ADDITIONAL_INFO", "null");
+		        	settings = getSharedPreferences(LOG_TAG, 0);
+			        String fragName = settings.getString("FragName", "");
+			        Log.d(LOG_TAG, "fragName : " + fragName);
+			        if (fragName.equals("PurchaseDetails")) {
+			        	if (myTimer != null) {
+							myTimer.cancel();
 						}
-						intent.putExtra("OTP", edt.getText().toString());
-						intent.putExtra("MFA_MODE", mfaMode);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);
-						PurchaseDetails.this.finish();
-					} else {
-						System.out.println("Testing>>>purchase");
-						Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
-						intent.putExtra("PIN", pinValue);
-						intent.putExtra("SELECTED_CATEGORY",
-								bundle.getString("SELECTED_CATEGORY"));
-						intent.putExtra("MSG", msgValue);
-						intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
-						intent.putExtra("BILLERNUM", MDNValue.trim());
-						try {
-							intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
-						} catch (Exception e) {
-							intent.putExtra("ADDITIONAL_INFO", "null");
+			        	if (bundle.getString("SELECTED_CATEGORY")
+								.equalsIgnoreCase("Mobile Phone")) {
+							System.out.println("Testing>>>airtime");
+							Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
+							intent.putExtra("SELECTED_CATEGORY",
+									bundle.getString("SELECTED_CATEGORY"));
+							intent.putExtra("PIN", pinValue);
+							intent.putExtra("AMT", denomValue);
+							intent.putExtra("DESTMDN", MDNValue.trim());
+							intent.putExtra("COMPID", bundle.getString("PRODUCT_CODE"));
+							intent.putExtra("MSG", msgValue);
+							intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
+							intent.putExtra("PTFNID", EncryptedParentTxnId);
+							intent.putExtra("TFNID", EncryptedTransferId);
+							try {
+								intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
+							} catch (Exception e) {
+								intent.putExtra("ADDITIONAL_INFO", "null");
+							}
+							intent.putExtra("OTP", edt.getText().toString());
+							intent.putExtra("MFA_MODE", mfaMode);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+							PurchaseDetails.this.finish();
+						} else {
+							System.out.println("Testing>>>purchase");
+							Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
+							intent.putExtra("PIN", pinValue);
+							intent.putExtra("SELECTED_CATEGORY",
+									bundle.getString("SELECTED_CATEGORY"));
+							intent.putExtra("MSG", msgValue);
+							intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
+							intent.putExtra("BILLERNUM", MDNValue.trim());
+							try {
+								intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
+							} catch (Exception e) {
+								intent.putExtra("ADDITIONAL_INFO", "null");
+							}
+							intent.putExtra("PTFNID", EncryptedParentTxnId);
+							intent.putExtra("TFNID", EncryptedTransferId);
+							intent.putExtra("OTP", edt.getText().toString());
+							intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
+							intent.putExtra("MFA_MODE", mfaMode);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+							PurchaseDetails.this.finish();
 						}
-						intent.putExtra("PTFNID", EncryptedParentTxnId);
-						intent.putExtra("TFNID", EncryptedTransferId);
-						intent.putExtra("OTP", edt.getText().toString());
-						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-						intent.putExtra("MFA_MODE", mfaMode);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);
-						PurchaseDetails.this.finish();
-					}
+			        }
 		        }
 		    }
 		});
@@ -1020,20 +859,24 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
         //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
-		if(handler!=null){
-			handler.removeMessages(0);
-		}
 	}
 	
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		isExitActivity = true;
 		if(otpDialogS!=null){
 			otpDialogS.dismiss();
 		}
 		if(alertError!=null){
 			alertError.dismiss();
 		}
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		isExitActivity = true;
 	}
 
 }

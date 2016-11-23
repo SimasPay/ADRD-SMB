@@ -3,8 +3,6 @@ package com.mfino.bsim.billpayment;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -16,8 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -75,13 +72,19 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
-	static Handler handler;
+	static boolean isExitActivity = false;
 	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.payment_details);
+		settings.edit().putBoolean("isAutoSubmit", false).commit();
+		Log.d(LOG_TAG, "Transfer : PaymentDetails");
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+		}
 		context = this;
 		IncomingSMS.setListener(this);
 		// Header code...
@@ -181,30 +184,6 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 			@SuppressLint({ "NewApi", "HandlerLeak" })
 			@Override
 			public void onClick(View arg0) {
-
-				/*
-				 * Intent intent = new
-				 * Intent(PaymentDetails.this,BillPaymentCCBillInquiry.class);
-				 * intent.putExtra("PIN", pinValue.getText().toString());
-				 * intent.putExtra("SELECTED_CATEGORY",
-				 * bundle.getString("SELECTED_CATEGORY"));
-				 * intent.putExtra("MSG","sfdgdsf");
-				 * //intent.putExtra("SELECTED_OFFLINE",
-				 * bundle.getString("SELECTED_OFFLINE")); System.out.println(
-				 * "Testing>>>Admitional INfo>>>>"+ "sk|DKL|DLKD|"); try {
-				 * intent.putExtra("IS_CCPAYMENT",true);
-				 * intent.putExtra("ADITIONAL_INFO","sk|DKL|DLKD|");
-				 * 
-				 * } catch (Exception e) {
-				 * 
-				 * intent.putExtra("ADITIONAL_INFO","null"); }
-				 * intent.putExtra("PRODUCT_CODE", "35986");
-				 * intent.putExtra("AMOUNT", "2345");
-				 * intent.putExtra("BILLERNUM", "4295803425");
-				 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				 * startActivity(intent);
-				 */
-
 				boolean networkCheck = ConfigurationUtil.isConnectingToInternet(context);
 				if (!networkCheck) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -300,9 +279,9 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 								getResources().getString(R.string.bahasa_loading), true);
 								**/
 					}
+					
+					responseXml = webServiceHttp.getResponseSSLCertificatation();
 
-					handler = new Handler() {
-						public void handleMessage(Message msg) {
 							if (responseXml != null) {
 								/** Parse the response. */
 								XMLParser obj = new XMLParser();
@@ -360,183 +339,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 												responseContainer.getMsg(), responseContainer.getAditionalInfo(),
 												responseContainer.getEncryptedParentTxnId(),
 												responseContainer.getEncryptedTransferId());
-										/**
-										 * try { // final ProgressDialog dialog1
-										 * = //
-										 * ProgressDialog.show(PaymentDetails.
-										 * this, // " Banksinarmas ", "Please
-										 * Wait // for SMS.... ", true); Long
-										 * startTimeInMillis = new
-										 * java.util.Date().getTime();
-										 * 
-										 * while (true) {
-										 * 
-										 * Thread.sleep(2000);
-										 * System.out.println(
-										 * "Testing>>inside Loop"); final Uri
-										 * SMS_INBOX =
-										 * Uri.parse("content://sms/inbox");
-										 * Cursor c =
-										 * getContentResolver().query(SMS_INBOX,
-										 * null, null, null, "DATE desc");
-										 * 
-										 * c.moveToFirst(); for (int i = 0; i <
-										 * 10; i++) { String body =
-										 * c.getString(c.getColumnIndexOrThrow(
-										 * "body")) .toString().trim();
-										 * 
-										 * if (body.contains("Kode Simobi Anda")
-										 * && body.contains(responseContainer.
-										 * getSctl())) {
-										 * 
-										 * otpValue = body.substring( new
-										 * String("Kode Simobi Anda ").length(),
-										 * body.indexOf("(no ref")); sctl =
-										 * body.substring(body.indexOf(":") + 1,
-										 * body.indexOf(")")); break;
-										 * 
-										 * } else if (body.contains(
-										 * "Your Simobi Code is") &&
-										 * body.contains(responseContainer.
-										 * getSctl())) {
-										 * 
-										 * otpValue = body.substring( new
-										 * String("Your Simobi Code is "
-										 * ).length(), body.indexOf("(ref"));
-										 * sctl = body.substring( body.indexOf(
-										 * "(ref no: ") + new String("(ref no: "
-										 * ).length(), body.indexOf(")"));
-										 * break; } else { c.moveToNext(); }
-										 * 
-										 * } c.close();
-										 * 
-										 * if (!(otpValue == null)) {
-										 * System.out.println("Testing>>SCTL");
-										 * break; } else {
-										 * 
-										 * if (new java.util.Date().getTime() -
-										 * startTimeInMillis >=
-										 * Constants.MFA_CONNECTION_TIMEOUT) {
-										 * break; }
-										 * 
-										 * }
-										 * 
-										 * } System.out.println("Testing>>OTP>>"
-										 * + otpValue); if (otpValue == null) {
-										 * // dialog1.dismiss();
-										 * System.out.println(
-										 * "Testing>>OTP>>null");
-										 * 
-										 * if
-										 * (selectedLanguage.equalsIgnoreCase(
-										 * "ENG")) {
-										 * 
-										 * displayDialog(
-										 * getResources().getString(R.string.
-										 * eng_transactionFail));
-										 * 
-										 * } else { displayDialog(
-										 * getResources().getString(R.string.
-										 * bahasa_transactionFail)); }
-										 * 
-										 * } else { dialog.dismiss();
-										 * 
-										 * if
-										 * (bundle.getBoolean("IS_CCPAYMENT")) {
-										 * 
-										 * Intent intent = new
-										 * Intent(PaymentDetails.this,
-										 * BillPaymentCCBillInquiry.class);
-										 * intent.putExtra("PIN",
-										 * pinValue.getText().toString());
-										 * intent.putExtra("SELECTED_CATEGORY",
-										 * bundle.getString("SELECTED_CATEGORY")
-										 * ); intent.putExtra("MSG",
-										 * responseContainer.getMsg()); //
-										 * intent.putExtra("SELECTED_OFFLINE",
-										 * //
-										 * bundle.getString("SELECTED_OFFLINE"))
-										 * ; System.out.println(
-										 * "Testing>>>Admitional INfo>>>>" +
-										 * responseContainer.getAditionalInfo())
-										 * ; try {
-										 * 
-										 * intent.putExtra("ADITIONAL_INFO",
-										 * responseContainer.getAditionalInfo())
-										 * ; intent.putExtra("IS_CCPAYMENT",
-										 * bundle.getBoolean("IS_CCPAYMENT")); }
-										 * catch (Exception e) {
-										 * 
-										 * intent.putExtra("ADITIONAL_INFO",
-										 * "null"); }
-										 * intent.putExtra("MFA_MODE",
-										 * responseContainer.getMfaMode());
-										 * intent.putExtra("PRODUCT_CODE",
-										 * bundle.getString("PRODUCT_CODE"));
-										 * intent.putExtra("AMOUNT",
-										 * responseContainer.getEncryptedAmount(
-										 * )); intent.putExtra("BILLERNUM",
-										 * invoiceNumber); intent.putExtra(
-										 * "SELECTED_PAYMENT_MODE",
-										 * paymentMode); intent.setFlags(Intent.
-										 * FLAG_ACTIVITY_CLEAR_TOP);
-										 * startActivity(intent);
-										 * 
-										 * } else { // dialog1.dismiss(); Intent
-										 * intent = new
-										 * Intent(PaymentDetails.this,
-										 * BillPaymentConfirm.class);
-										 * intent.putExtra("PIN",
-										 * pinValue.getText().toString());
-										 * intent.putExtra("SELECTED_CATEGORY",
-										 * bundle.getString("SELECTED_CATEGORY")
-										 * ); intent.putExtra("MSG",
-										 * responseContainer.getMsg()); //
-										 * intent.putExtra("SELECTED_OFFLINE",
-										 * //
-										 * bundle.getString("SELECTED_OFFLINE"))
-										 * ; System.out.println(
-										 * "Testing>>>Admitional INfo>>>>" +
-										 * responseContainer.getAditionalInfo())
-										 * ; try {
-										 * 
-										 * intent.putExtra("ADITIONAL_INFO",
-										 * responseContainer.getAditionalInfo())
-										 * ; intent.putExtra("IS_CCPAYMENT",
-										 * bundle.getBoolean("IS_CCPAYMENT")); }
-										 * catch (Exception e) {
-										 * 
-										 * intent.putExtra("ADITIONAL_INFO",
-										 * "null"); }
-										 * intent.putExtra("PRODUCT_CODE",
-										 * bundle.getString("PRODUCT_CODE"));
-										 * intent.putExtra("BILLERNUM",
-										 * invoiceNumber);
-										 * intent.putExtra("PTFNID",
-										 * responseContainer.
-										 * getEncryptedParentTxnId());
-										 * intent.putExtra("TFNID",
-										 * responseContainer.
-										 * getEncryptedTransferId());
-										 * intent.putExtra("OTP", otpValue);
-										 * intent.putExtra(
-										 * "SELECTED_PAYMENT_MODE",
-										 * paymentMode);
-										 * intent.putExtra("MFA_MODE",
-										 * responseContainer.getMfaMode());
-										 * intent.setFlags(Intent.
-										 * FLAG_ACTIVITY_CLEAR_TOP);
-										 * startActivity(intent); }
-										 * 
-										 * }
-										 * 
-										 * } catch (Exception e) {
-										 * System.out.println(
-										 * "Testing>>exception>>"); }
-										 **/
 									} else {
-
-										// dialog.dismiss();
 										if (bundle.getBoolean("IS_CCPAYMENT")) {
 
 											Intent intent = new Intent(PaymentDetails.this,
@@ -613,23 +416,6 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 								});
 								alertbox.show();
 							}
-
-						}
-					};
-
-					final Thread checkUpdate = new Thread() {
-						/** Service call in this thread. */
-						public void run() {
-
-							try {
-								responseXml = webServiceHttp.getResponseSSLCertificatation();
-							} catch (Exception e) {
-								responseXml = null;
-							}
-							handler.sendEmptyMessage(0);
-						}
-					};
-					checkUpdate.start();
 
 				}
 			}
@@ -728,28 +514,6 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		}
 	}
 
-	public void recivedSms(String message) {
-		try {
-			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ") || message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
-				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
-				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ") || message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
-				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "),
-						message.indexOf("(")).trim();
-				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
-						message.indexOf(")"));
-			}
-			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
-			edt.setText(otpValue);
-		} catch (Exception e) {
-
-		}
-	}
-
 	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
@@ -758,11 +522,10 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
+							isExitActivity = true;
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							PaymentDetails.this.finish();
 						}
 					});
 		} else {
@@ -770,11 +533,10 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
+							isExitActivity = true;
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							PaymentDetails.this.finish();
 						}
 					});
 		}
@@ -811,16 +573,6 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
-				// timer.setText(millisUntilFinished/60000 +":"+
-				// (millisUntilFinished/1000));
-				/**
-				 * timer.setText(String.format(Locale.getDefault(),
-				 * "%d min, %d sec", TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished),
-				 * TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-				 * TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(
-				 * millisUntilFinished))));
-				 **/
 				NumberFormat f = new DecimalFormat("00");
 				timer.setText(
 						f.format(millisUntilFinished / 60000) + ":" + f.format(millisUntilFinished % 60000 / 1000));
@@ -869,6 +621,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 						myTimer.cancel();
 					}
 					if (bundle.getBoolean("IS_CCPAYMENT")) {
+						isExitActivity = true;
 						Intent intent = new Intent(PaymentDetails.this, BillPaymentCCBillInquiry.class);
 						intent.putExtra("PIN", pinValue);
 						intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
@@ -887,9 +640,9 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
-						PaymentDetails.this.finish();
 					} else {
 						// dialog1.dismiss();
+						isExitActivity = true;
 						Intent intent = new Intent(PaymentDetails.this, BillPaymentConfirm.class);
 						intent.putExtra("PIN", pinValue);
 						intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
@@ -909,7 +662,6 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 						intent.putExtra("MFA_MODE", mfaMode);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);
-						PaymentDetails.this.finish();
 					}
 				}
 			}
@@ -949,74 +701,80 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		        	if (myTimer != null) {
 						myTimer.cancel();
 					}
-		        	if (bundle.getBoolean("IS_CCPAYMENT")) {
-						Intent intent = new Intent(PaymentDetails.this, BillPaymentCCBillInquiry.class);
-						Log.d(LOG_TAG, "pinValue : " + pinValue);
-						Log.d(LOG_TAG, "SELECTED_CATEGORY : " + bundle.getString("SELECTED_CATEGORY"));
-						Log.d(LOG_TAG, "MSG : " + msgValue);
-						Log.d(LOG_TAG, "ADITIONAL_INFO : " + aditionalInfo);
-						Log.d(LOG_TAG, "IS_CCPAYMENT : " + bundle.getBoolean("IS_CCPAYMENT"));
-						Log.d(LOG_TAG, "MFA_MODE : " + mfaMode);
-						Log.d(LOG_TAG, "PRODUCT_CODE : " + bundle.getString("PRODUCT_CODE"));
-						Log.d(LOG_TAG, "AMOUNT : " + encryptedAmount);
-						Log.d(LOG_TAG, "BILLERNUM : " + invoiceNumber);
-						Log.d(LOG_TAG, "SELECTED_PAYMENT_MODE : " + paymentMode);
-						
-						intent.putExtra("PIN", pinValue);
-						intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
-						intent.putExtra("MSG", msgValue);
-						try {
-							intent.putExtra("ADITIONAL_INFO", aditionalInfo);
-							intent.putExtra("IS_CCPAYMENT", bundle.getBoolean("IS_CCPAYMENT"));
-						} catch (Exception e) {
+		        	settings = getSharedPreferences(LOG_TAG, 0);
+			        String fragName = settings.getString("FragName", "");
+			        Log.d(LOG_TAG, "fragName : " + fragName);
+			        if (fragName.equals("PaymentDetails")) {
+			        	if (bundle.getBoolean("IS_CCPAYMENT")) {
+			        		isExitActivity = true;
+							Intent intent = new Intent(PaymentDetails.this, BillPaymentCCBillInquiry.class);
+							Log.d(LOG_TAG, "pinValue : " + pinValue);
+							Log.d(LOG_TAG, "SELECTED_CATEGORY : " + bundle.getString("SELECTED_CATEGORY"));
+							Log.d(LOG_TAG, "MSG : " + msgValue);
+							Log.d(LOG_TAG, "ADITIONAL_INFO : " + aditionalInfo);
+							Log.d(LOG_TAG, "IS_CCPAYMENT : " + bundle.getBoolean("IS_CCPAYMENT"));
+							Log.d(LOG_TAG, "MFA_MODE : " + mfaMode);
+							Log.d(LOG_TAG, "PRODUCT_CODE : " + bundle.getString("PRODUCT_CODE"));
+							Log.d(LOG_TAG, "AMOUNT : " + encryptedAmount);
+							Log.d(LOG_TAG, "BILLERNUM : " + invoiceNumber);
+							Log.d(LOG_TAG, "SELECTED_PAYMENT_MODE : " + paymentMode);
+							
+							intent.putExtra("PIN", pinValue);
+							intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
+							intent.putExtra("MSG", msgValue);
+							try {
+								intent.putExtra("ADITIONAL_INFO", aditionalInfo);
+								intent.putExtra("IS_CCPAYMENT", bundle.getBoolean("IS_CCPAYMENT"));
+							} catch (Exception e) {
 
-							intent.putExtra("ADITIONAL_INFO", "null");
+								intent.putExtra("ADITIONAL_INFO", "null");
+							}
+							intent.putExtra("MFA_MODE", mfaMode);
+							intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
+							intent.putExtra("AMOUNT", encryptedAmount);
+							intent.putExtra("BILLERNUM", invoiceNumber);
+							intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+						} else {
+							// dialog1.dismiss();
+							isExitActivity = true;
+							Log.d(LOG_TAG, "pinValue : " + pinValue);
+							Log.d(LOG_TAG, "SELECTED_CATEGORY : " + bundle.getString("SELECTED_CATEGORY"));
+							Log.d(LOG_TAG, "MSG : " + msgValue);
+							Log.d(LOG_TAG, "ADITIONAL_INFO : " + aditionalInfo);
+							Log.d(LOG_TAG, "IS_CCPAYMENT : " + bundle.getBoolean("IS_CCPAYMENT"));
+							Log.d(LOG_TAG, "MFA_MODE : " + mfaMode);
+							Log.d(LOG_TAG, "PRODUCT_CODE : " + bundle.getString("PRODUCT_CODE"));
+							Log.d(LOG_TAG, "AMOUNT : " + encryptedAmount);
+							Log.d(LOG_TAG, "BILLERNUM : " + invoiceNumber);
+							Log.d(LOG_TAG, "PTFNID : " + EncryptedParentTxnId);
+							Log.d(LOG_TAG, "TFNID : " + EncryptedTransferId);
+							Log.d(LOG_TAG, "OTP : " + edt.getText().toString());
+							Log.d(LOG_TAG, "SELECTED_PAYMENT_MODE : " + paymentMode);
+							
+							Intent intent = new Intent(PaymentDetails.this, BillPaymentConfirm.class);
+							intent.putExtra("PIN", pinValue);
+							intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
+							intent.putExtra("MSG", msgValue);
+							try {
+								intent.putExtra("ADITIONAL_INFO", aditionalInfo);
+								intent.putExtra("IS_CCPAYMENT", bundle.getBoolean("IS_CCPAYMENT"));
+							} catch (Exception e) {
+								intent.putExtra("ADITIONAL_INFO", "null");
+							}
+							intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
+							intent.putExtra("BILLERNUM", invoiceNumber);
+							intent.putExtra("PTFNID", EncryptedParentTxnId);
+							intent.putExtra("TFNID", EncryptedTransferId);
+							intent.putExtra("OTP", edt.getText().toString());
+							intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
+							intent.putExtra("MFA_MODE", mfaMode);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
 						}
-						intent.putExtra("MFA_MODE", mfaMode);
-						intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
-						intent.putExtra("AMOUNT", encryptedAmount);
-						intent.putExtra("BILLERNUM", invoiceNumber);
-						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);
-						PaymentDetails.this.finish();
-					} else {
-						// dialog1.dismiss();
-						Log.d(LOG_TAG, "pinValue : " + pinValue);
-						Log.d(LOG_TAG, "SELECTED_CATEGORY : " + bundle.getString("SELECTED_CATEGORY"));
-						Log.d(LOG_TAG, "MSG : " + msgValue);
-						Log.d(LOG_TAG, "ADITIONAL_INFO : " + aditionalInfo);
-						Log.d(LOG_TAG, "IS_CCPAYMENT : " + bundle.getBoolean("IS_CCPAYMENT"));
-						Log.d(LOG_TAG, "MFA_MODE : " + mfaMode);
-						Log.d(LOG_TAG, "PRODUCT_CODE : " + bundle.getString("PRODUCT_CODE"));
-						Log.d(LOG_TAG, "AMOUNT : " + encryptedAmount);
-						Log.d(LOG_TAG, "BILLERNUM : " + invoiceNumber);
-						Log.d(LOG_TAG, "PTFNID : " + EncryptedParentTxnId);
-						Log.d(LOG_TAG, "TFNID : " + EncryptedTransferId);
-						Log.d(LOG_TAG, "OTP : " + edt.getText().toString());
-						Log.d(LOG_TAG, "SELECTED_PAYMENT_MODE : " + paymentMode);
-						
-						Intent intent = new Intent(PaymentDetails.this, BillPaymentConfirm.class);
-						intent.putExtra("PIN", pinValue);
-						intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
-						intent.putExtra("MSG", msgValue);
-						try {
-							intent.putExtra("ADITIONAL_INFO", aditionalInfo);
-							intent.putExtra("IS_CCPAYMENT", bundle.getBoolean("IS_CCPAYMENT"));
-						} catch (Exception e) {
-							intent.putExtra("ADITIONAL_INFO", "null");
-						}
-						intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
-						intent.putExtra("BILLERNUM", invoiceNumber);
-						intent.putExtra("PTFNID", EncryptedParentTxnId);
-						intent.putExtra("TFNID", EncryptedTransferId);
-						intent.putExtra("OTP", edt.getText().toString());
-						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-						intent.putExtra("MFA_MODE", mfaMode);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);
-						PaymentDetails.this.finish();
-					}
+			        }
+		        	
 		        }
 		
 		    }
@@ -1026,23 +784,26 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	@Override
 	public void onReadSMS(String otp) {
 		Log.d(LOG_TAG, "otp from SMS: "+otp);
-        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
 		otpValue=otp;
-		if(handler!=null){
-			handler.removeMessages(0);
-		}
 	}
 	
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		isExitActivity = true;
 		if(otpDialogS!=null){
 			otpDialogS.dismiss();
 		}
 		if(alertError!=null){
 			alertError.dismiss();
 		}
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		isExitActivity = true;
 	}
 
 }

@@ -4,13 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import com.mfino.bsim.account.ChangePinConfirm;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,12 +22,15 @@ public class ConfirmationScreen extends Activity {
 	private TextView tvDetails, aditionalInfo;
 	SharedPreferences languageSettings;
 	String selectedLanguage;
-
+	public static final String LOG_TAG = "SIMOBI";
+	SharedPreferences settings;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.confirmation);
-
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "ConfirmationScreen").commit();
 		// Header code...
 		/*
 		 * View headerContainer = findViewById(R.id.header); TextView

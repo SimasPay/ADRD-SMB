@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -88,6 +87,8 @@ public class PaymentHome extends Activity {
 	private AlertDialog.Builder alertbox;
 	SharedPreferences languageSettings;
 	String selectedLanguage;
+	SharedPreferences settings;
+	public static final String LOG_TAG = "SIMOBI";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,8 @@ public class PaymentHome extends Activity {
 		ProductDenomList = new ArrayList<String>();
 		ccPayment = new ArrayList<Boolean>();
 		setContentView(R.layout.payment_selection);
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "PaymentHome").commit();
 		System.out.println("Testing>>path>>" + this.getFilesDir());
 		myFile = new File(this.getFilesDir() + "/", "payment.txt");
 		paymentVersion = getSharedPreferences("PAYMENT_VERSION", 0);

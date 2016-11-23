@@ -51,11 +51,15 @@ public class HomeScreen extends AppCompatActivity {
 	// private AlertDialog.Builder alertbox;
 	PayByQRSDK payByQRSDK;
 	final private int PERMISSION_REQUEST_CODE = 123;
+	public static final String LOG_TAG = "SIMOBI";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_screen1);
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "HomeScreen").commit();
+        
 		if (Build.VERSION.SDK_INT >= 23) {// self check permissions for Read SMS
 			requestContactPermission();
 			if (!AndroidPermissions.getInstance().checkReadSmsPermission(HomeScreen.this)) {

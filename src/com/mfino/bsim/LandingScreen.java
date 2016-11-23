@@ -66,7 +66,8 @@ public class LandingScreen extends AppCompatActivity {
 	private static int currentPage = 0;
     private static int NUM_PAGES = 0;
 	private ArrayList<String> IMAGES = new ArrayList<String>();
-	//private ArrayList<String> ImagesArray = new ArrayList<String>();
+	SharedPreferences settings;
+	public static final String LOG_TAG = "SIMOBI";
 	int flag;
 	private static final String[] requiredPermissions = new String[] { Manifest.permission.RECEIVE_SMS,
 			Manifest.permission.READ_SMS
@@ -78,6 +79,8 @@ public class LandingScreen extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.landing_screen);
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "LandingScreen").commit();
 
 		// Check Permission
 		if (Build.VERSION.SDK_INT > 22 && !hasPermissions(requiredPermissions)) {

@@ -48,6 +48,8 @@ public class History extends Activity {
 	String selectedLanguage;
 	ProgressDialog dialog;
 	Context context;
+	SharedPreferences settings;
+	public static final String LOG_TAG = "SIMOBI";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -55,6 +57,8 @@ public class History extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.enter_pin);
 		context=this;
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "History").commit();
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);

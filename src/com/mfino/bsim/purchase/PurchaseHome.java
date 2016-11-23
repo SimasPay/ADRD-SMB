@@ -82,12 +82,16 @@ public class PurchaseHome extends Activity {
 	String selectedLanguage;
 	boolean isPLNPrepaid;
 	List<Boolean> isPLNPrepaidList;
+	SharedPreferences settings;
+	public static final String LOG_TAG = "SIMOBI";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.purchase_selection);
+		settings = getSharedPreferences(LOG_TAG, 0);
+        settings.edit().putString("FragName", "PurchaseHome").commit();
 		System.out.println("Testing>>path>>" + this.getFilesDir());
 		myFile = new File(this.getFilesDir() + "/", "purchase.txt");
 		// = new File("/sdcard/purchase.txt");
