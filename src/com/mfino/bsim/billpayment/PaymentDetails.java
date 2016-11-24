@@ -337,6 +337,8 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 										dialog.dismiss();
 										Log.d("Widy-Debug", "Dialog OTP Required show");
 										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
+										settings2 = getSharedPreferences(LOG_TAG, 0);
+										settings2.edit().putString("FragName", "PaymentDetails").commit();
 										showOTPRequiredDialog(pinValue.getText().toString(),
 												responseContainer.getMfaMode(), responseContainer.getEncryptedAmount(),
 												responseContainer.getMsg(), responseContainer.getAditionalInfo(),

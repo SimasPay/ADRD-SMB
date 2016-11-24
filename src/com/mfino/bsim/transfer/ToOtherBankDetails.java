@@ -336,6 +336,8 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 								dialog.dismiss();
 								Log.d("Widy-Debug", "Dialog OTP Required show");
 								settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
+								settings2 = getSharedPreferences(LOG_TAG, 0);
+								settings2.edit().putString("FragName", "ToOtherBankDetails").commit();
 								showOTPRequiredDialog(pinValue.getText().toString().trim(),
 										responseContainer.getCustName(), responseContainer.getDestMDN(),
 										responseContainer.getAccountNumber(), responseContainer.getMsg(),

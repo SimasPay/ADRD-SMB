@@ -498,6 +498,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 							parentTxnId = responseContainer.getEncryptedParentTxnId();
 							txnId = responseContainer.getEncryptedTransferId();
 							Log.d(LOG_TAG, "OTP check!");
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+					        settings2.edit().putString("FragName", "QRPayment2").commit();
 							showOTPRequiredDialog();
 							/**
 							Thread t = new Thread(new Runnable() {
