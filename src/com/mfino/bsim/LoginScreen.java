@@ -62,7 +62,7 @@ public class LoginScreen extends AppCompatActivity {
 	int msgcode;
 	String new_mdn, final_mdn;
 	final private int PERMISSION_REQUEST_CODE = 765;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	public static final String LOG_TAG = "SIMOBI";
 	
 	@Override
@@ -70,8 +70,8 @@ public class LoginScreen extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "LoginScreen").commit();
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "LoginScreen").commit();
 
 		if (ContextCompat.checkSelfPermission(this,
 				Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {

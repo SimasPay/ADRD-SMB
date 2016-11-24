@@ -75,7 +75,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	ArrayList<String> packageCode = new ArrayList<String>();
 	ArrayList<String> packageValue = new ArrayList<String>();
 	Context context;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
@@ -87,8 +87,9 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.purchase_details);
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "PurchaseDetails").commit();
+		
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "PurchaseDetails").commit();
 		context = this;
 		IncomingSMS.setListener(this);
 		
@@ -613,6 +614,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -624,6 +627,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -685,6 +690,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelPurchaseDetails").commit();
 					if(myTimer != null) {
 						myTimer.cancel();
 					}
@@ -696,6 +703,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					+ getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelPurchaseDetails").commit();
 					if(myTimer != null) {
 						myTimer.cancel();
 					}
@@ -704,6 +713,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		}
 			dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
 					if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 						errorOTP();
 					} else {
@@ -793,8 +804,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		        }
 		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
-		        	settings = getSharedPreferences(LOG_TAG, 0);
-			        String fragName = settings.getString("FragName", "");
+		        	settings2 = getSharedPreferences(LOG_TAG, 0);
+			        String fragName = settings2.getString("FragName", "");
 			        Log.d(LOG_TAG, "fragName : " + fragName);
 			        if (fragName.equals("PurchaseDetails")) {
 			        	if (myTimer != null) {
@@ -864,6 +875,9 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
+		context = this;
 		isExitActivity = true;
 		if(otpDialogS!=null){
 			otpDialogS.dismiss();
@@ -873,10 +887,4 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		}
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-		isExitActivity = true;
-	}
-
 }

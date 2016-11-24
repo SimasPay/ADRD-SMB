@@ -56,7 +56,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 	String selectedLanguage;
 	ProgressDialog dialog;
 	Context context;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
@@ -75,8 +75,9 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 		}
 
 		setContentView(R.layout.fundtransfer_to_bank_sinarmas);
-		settings = getSharedPreferences(LOG_TAG, 0);
-		settings.edit().putString("FragName", "ToBankSinarmas").commit();
+		
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "ToBankSinarmas").commit();
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
@@ -414,6 +415,8 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 			builder.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -425,6 +428,8 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 			builder.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -483,6 +488,8 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelToBankSinarmas").commit();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
@@ -494,6 +501,8 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelToBankSinarmas").commit();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
@@ -508,6 +517,8 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
 					isExitActivity = true;
 					Intent intent = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
 					intent.putExtra("PIN", PIN);
@@ -561,8 +572,8 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 						myTimer.cancel();
 					}
 					isExitActivity = true;
-					settings = getSharedPreferences(LOG_TAG, 0);
-					String fragName = settings.getString("FragName", "");
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					String fragName = settings2.getString("FragName", "");
 					Log.d(LOG_TAG, "fragName : " + fragName);
 					if (fragName.equals("ToBankSinarmas")) {
 						Intent intent = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
@@ -591,6 +602,8 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
 		isExitActivity = true;
 		if (otpDialogS != null) {
 			otpDialogS.dismiss();
@@ -600,9 +613,4 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 		}
 	}
 
-	@Override
-	public void onStop() {
-		super.onStop();
-		isExitActivity = true;
-	}
 }

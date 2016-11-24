@@ -54,7 +54,7 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 	String selectedLanguage;
 	ProgressDialog dialog;
 	Context context;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
@@ -65,8 +65,9 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fundtransfer_to_other_bank_details);
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "TransferToUangku").commit();
+		
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "TransferToUangku").commit();
         if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
@@ -406,6 +407,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -416,6 +419,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
@@ -476,6 +481,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelTransferToUangku").commit();
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
@@ -487,6 +494,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelTransferToUangku").commit();
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
@@ -495,6 +504,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 		}
 		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
+				settings2 = getSharedPreferences(LOG_TAG, 0);
+				settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
 					otpDialogS.cancel();
@@ -557,8 +568,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					}
 					//Toast.makeText(TransferToUangku.this, "Toast dari Uangku autoreading", Toast.LENGTH_LONG).show();
 					//finish();
-					settings = getSharedPreferences(LOG_TAG, 0);
-			        String fragName = settings.getString("FragName", "");
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+			        String fragName = settings2.getString("FragName", "");
 			        Log.d(LOG_TAG, "fragName : " + fragName);
 			        if (fragName.equals("TransferToUangku")) {
 			        	Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
@@ -594,17 +605,14 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
 		if (otpDialogS != null) {
 			otpDialogS.dismiss();
 		}
 		if (alertError != null) {
 			alertError.dismiss();
 		}
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
 	}
 
 }

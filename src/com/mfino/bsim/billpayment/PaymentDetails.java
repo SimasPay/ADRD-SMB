@@ -67,7 +67,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	ArrayList<String> packageCode = new ArrayList<String>();
 	ArrayList<String> packageValue = new ArrayList<String>();
 	Context context;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
@@ -79,8 +79,11 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.payment_details);
-		settings.edit().putBoolean("isAutoSubmit", false).commit();
-		Log.d(LOG_TAG, "Transfer : PaymentDetails");
+		
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "PaymentDetails").commit();
+		Log.d(LOG_TAG, "Payment : PaymentDetails");
+		
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
@@ -522,6 +525,8 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitPaymentDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -533,6 +538,8 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "ExitPaymentDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -592,6 +599,8 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelPaymentDetails").commit();
 					dialog.dismiss();
 					if(myTimer != null) {
 						myTimer.cancel();
@@ -604,6 +613,8 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "CancelPaymentDetails").commit();
 					dialog.dismiss();
 					if(myTimer != null) {
 						myTimer.cancel();
@@ -701,8 +712,8 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		        	if (myTimer != null) {
 						myTimer.cancel();
 					}
-		        	settings = getSharedPreferences(LOG_TAG, 0);
-			        String fragName = settings.getString("FragName", "");
+		        	settings2 = getSharedPreferences(LOG_TAG, 0);
+			        String fragName = settings2.getString("FragName", "");
 			        Log.d(LOG_TAG, "fragName : " + fragName);
 			        if (fragName.equals("PaymentDetails")) {
 			        	if (bundle.getBoolean("IS_CCPAYMENT")) {
@@ -792,18 +803,15 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	public void onDestroy(){
 		super.onDestroy();
 		isExitActivity = true;
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "ExitPaymentDetails").commit();
+		Log.d(LOG_TAG, "Payment : PaymentDetails");
 		if(otpDialogS!=null){
 			otpDialogS.dismiss();
 		}
 		if(alertError!=null){
 			alertError.dismiss();
 		}
-	}
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-		isExitActivity = true;
 	}
 
 }

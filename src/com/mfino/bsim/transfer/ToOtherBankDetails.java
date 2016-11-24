@@ -56,7 +56,7 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 	String selectedLanguage;
 	ProgressDialog dialog;
 	Context context;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
@@ -67,8 +67,9 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fundtransfer_to_other_bank_details);
-		settings = getSharedPreferences(LOG_TAG, 0);
-		settings.edit().putString("FragName", "ToOtherBankDetails").commit();
+		
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "ToOtherBankDetails").commit();
 		context = this;
 		IncomingSMS.setListener(this);
 		if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -432,11 +433,12 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "CancelToOtherBankDetails").commit();
 							dialog.dismiss();
 							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							ToOtherBankDetails.this.finish();
 						}
 					});
 		} else {
@@ -444,11 +446,12 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
+							settings2 = getSharedPreferences(LOG_TAG, 0);
+							settings2.edit().putString("FragName", "CancelToOtherBankDetails").commit();
 							dialog.dismiss();
 							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
-							ToOtherBankDetails.this.finish();
 						}
 					});
 		}
@@ -494,11 +497,10 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 
 			@Override
 			public void onFinish() {
-				// info.setVisibility(View.GONE);
 				otpDialogS.dismiss();
-				otpDialogS.cancel();
 				errorOTP();
 				timer.setText("00:00");
+				
 			}
 		};
 		myTimer.start();
@@ -509,6 +511,8 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
 					dialog.dismiss();
 					if (myTimer != null) {
 						myTimer.cancel();
@@ -521,6 +525,8 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
@@ -530,6 +536,8 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 		}
 		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
+				settings2 = getSharedPreferences(LOG_TAG, 0);
+				settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					otpDialogS.cancel();
 					otpDialogS.dismiss();
@@ -587,8 +595,8 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
-					settings = getSharedPreferences(LOG_TAG, 0);
-					String fragName = settings.getString("FragName", "");
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					String fragName = settings2.getString("FragName", "");
 					Log.d(LOG_TAG, "fragName : " + fragName);
 					if (fragName.equals("ToOtherBankDetails")) {
 						Intent intent = new Intent(ToOtherBankDetails.this, ConfirmAddReceiver.class);
@@ -627,6 +635,8 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
 		if (otpDialogS != null) {
 			otpDialogS.dismiss();
 		}

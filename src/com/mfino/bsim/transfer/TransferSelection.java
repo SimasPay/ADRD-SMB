@@ -26,14 +26,14 @@ public class TransferSelection extends Activity {
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String,Object>>();
 	SharedPreferences languageSettings;
 	public static final String LOG_TAG = "SIMOBI";
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fundtransfer_home);
-        settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "TransferSelection").commit();
+        settings2 = getSharedPreferences(LOG_TAG, 0);
+        settings2.edit().putString("FragName", "TransferSelection").commit();
         
       //Header code...
 		 View headerContainer = findViewById(R.id.header); 

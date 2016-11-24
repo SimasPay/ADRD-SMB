@@ -51,7 +51,9 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 	        return; 
 	    } 
 		setContentView(R.layout.confirm_transfer);
-		settings.edit().putBoolean("isAutoSubmit", false).commit();
+		
+		settings = getSharedPreferences(LOG_TAG, 0);
+		settings.edit().putString("FragName", "ConfirmAddReceiver").commit();
 		Log.d(LOG_TAG, "Transfer : ConfirmAddReceiver");
 		bundle = getIntent().getExtras();
 
