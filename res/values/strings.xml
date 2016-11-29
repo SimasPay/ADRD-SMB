@@ -10,6 +10,10 @@
     <string name="toc">Terms &amp; Conditions</string>
     <string name="contact_us">Contact Us</string>
     <string name="ok">OK</string>
+    <string name="waiting_sms">Menunggu SMS Kode Verifikasi di Nomor </string>
+    <string name="unreadable_sms">SMS tidak terbaca secara otomatis?</string>
+    <string name="btn_sms_manual">Masukan Kode secara manual.</string>
+    <string name="manual_input">Input Manual Kode Verifikasi</string>
 
     <!-- English -->
     <string name="login">Login</string>

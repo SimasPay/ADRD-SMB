@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/halaman1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ProgressBar
+            android:id="@+id/progressbar_otp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="#F00"
+            android:indeterminateTintMode="src_in"
+            android:padding="3dp" />
+
+        <TextView
+            android:id="@+id/waitingsms_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/waiting_sms"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/unreadablesms_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/unreadable_sms"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/manualsms_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="25dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:drawableLeft="@drawable/pencil"
+            android:drawableStart="@drawable/pencil"
+            android:text="@string/btn_sms_manual"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/halaman2"
+        android:layout_below="@+id/halaman1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/titlemanualsms_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:text="@string/manual_input"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/otp_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_corners"
+            android:gravity="center"
+            android:hint="@string/_6_digit_kode_otp"
+            android:inputType="numberPassword"
+            android:padding="10dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/otp_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/_00_00"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/label_grey" />
+        
+        <LinearLayout 
+            android:layout_marginTop="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/cancel_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:gravity="end"
+                android:text="BATAL"
+                android:textColor="#F00"
+                android:textSize="14sp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textStyle="bold" />
+            
+            <Button
+                android:id="@+id/ok_otp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="@android:color/transparent"
+                android:textColor="#F00"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:textSize="14sp"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="OK" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

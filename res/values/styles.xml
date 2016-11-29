@@ -2,7 +2,7 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
 
     <color name="redsinarmas">#D60404</color>
@@ -68,6 +68,7 @@
         <item name="android:windowTitleStyle">@style/DialogWindowTitle_Holo</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 
     <style name="DialogWindowTitle_Holo">

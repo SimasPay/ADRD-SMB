@@ -20,6 +20,7 @@
         <ignore path="res/layout/confirm_transfer.xml" />
         <ignore path="res/layout/fundtransfer_home.xml" />
         <ignore path="res/layout/home_screen1.xml" />
+        <ignore path="res/layout/new_otp_dialog.xml" />
         <ignore path="res/layout/uangku_transfer_confirm.xml" />
     </issue>
     <issue id="RtlHardcoded">
@@ -30,6 +31,7 @@
     </issue>
     <issue id="UnusedAttribute">
         <ignore path="res/layout/confirm_transfer.xml" />
+        <ignore path="res/layout/new_otp_dialog.xml" />
     </issue>
     <issue id="UseCompoundDrawables">
         <ignore path="res/layout-hdpi/fundtransfer_home.xml" />
