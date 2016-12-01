@@ -681,11 +681,11 @@ public final class R {
 		public static final int loyalty_list_no_image = 0x7f0200be;
 		public static final int middle_qrscan = 0x7f0200bf;
 		public static final int no_connection = 0x7f0200c0;
-		public static final int notification_template_icon_bg = 0x7f0200e0;
+		public static final int notification_template_icon_bg = 0x7f0200e1;
 		public static final int ripple_btn_qrstore = 0x7f0200c6;
 		public static final int ripple_rect_border_rounded = 0x7f0200c7;
 		public static final int ripple_store_pickup_method = 0x7f0200c8;
-		public static final int servicebydimo = 0x7f0200cb;
+		public static final int servicebydimo = 0x7f0200cc;
 	}
 	public static final class id {
 		public static final int act_goods_name = 0x7f0b005f;

@@ -41,6 +41,7 @@
                     android:id="@+id/imageView2"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:background="@drawable/roundedcorners"
                     android:src="@drawable/bank_sinarmas" />
 
                 <TextView
@@ -64,6 +65,7 @@
                     android:id="@+id/imageView3"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:background="@drawable/roundedcorners"
                     android:src="@drawable/to_other_banks" />
 
                 <TextView
@@ -89,6 +91,7 @@
                 android:id="@+id/imageView4"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:background="@drawable/roundedcorners"
                 android:contentDescription="@string/test"
                 android:src="@drawable/uangku_menu" />
 

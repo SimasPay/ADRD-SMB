@@ -15,6 +15,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +27,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +34,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,7 +50,7 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
-public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
+public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener {
 
 	private static final int SUCCESS_MSGCODE = 660;
 	private Button btn_ok;
@@ -66,8 +66,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	String denomValue;
 	TextView amountTextView;
 	TextView denom;
-	String smsValue;
-	String sctl, otpValue, paymentMode;
+	String paymentMode;
 	int denomSize;
 	SharedPreferences languageSettings;
 	String selectedLanguage;
@@ -79,32 +78,33 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	static AlertDialog otpDialogS, alertError;
+	static AlertDialog dialogBuilder, alertError;
 	static boolean isExitActivity = false;
-	
+	LinearLayout otplay, otp2lay;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.purchase_details);
-		
+
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "PurchaseDetails").commit();
+		settings2.edit().putString("ActivityName", "PurchaseDetails").commit();
 		context = this;
 		IncomingSMS.setListener(this);
-		
+
 		if (android.os.Build.VERSION.SDK_INT > 9) {
-		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		    StrictMode.setThreadPolicy(policy);
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
 		}
-		
+
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
 		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
 		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
-		
-		settings = getSharedPreferences("LOGIN_PREFERECES",	0);
+
+		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "PurchaseDetails").commit();
 		settings.edit().putBoolean("isAutoSubmit", false).commit();
@@ -143,7 +143,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 
 		denom = (TextView) findViewById(R.id.denom);
 		TextView textViewdestMdn = (TextView) findViewById(R.id.textView_purchaseDestMDN);
-		//TextView textViewamount = (TextView) findViewById(R.id.amount_textView);
+		// TextView textViewamount = (TextView)
+		// findViewById(R.id.amount_textView);
 
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
@@ -279,11 +280,10 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		alertbox = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
-
-			@SuppressLint({ "NewApi"})
+			@SuppressLint({ "NewApi", "HandlerLeak" })
 			@Override
 			public void onClick(View arg0) {
-
+				settings2.edit().putString("ActivityName", "PurchaseDetails").commit();
 				boolean networkCheck = ConfigurationUtil.isConnectingToInternet(context);
 				if (!networkCheck) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -375,26 +375,16 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 						dialog.setCancelable(false);
 						dialog.setMessage(getResources().getString(R.string.eng_loading));
 						dialog.show();
-						/**
-						dialog = ProgressDialog.show(PurchaseDetails.this, "  Banksinarmas               ",
-								getResources().getString(R.string.eng_loading), true);
-								**/
-
 					} else {
 						dialog = new ProgressDialog(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 						dialog.setTitle("Bank Sinarmas");
 						dialog.setCancelable(false);
 						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
 						dialog.show();
-						/**
-						dialog = ProgressDialog.show(PurchaseDetails.this, "  Banksinarmas               ",
-								getResources().getString(R.string.bahasa_loading), true);
-								**/
 					}
-					
-					responseXml = webServiceHttp.getResponseSSLCertificatation();
-					
-				
+
+					final Handler handler = new Handler() {
+						public void handleMessage(Message msg) {
 							if (responseXml != null) {
 								/** Parse the response. */
 								XMLParser obj = new XMLParser();
@@ -447,10 +437,12 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 										Log.d("Widy-Debug", "Dialog OTP Required show");
 										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
 										settings2 = getSharedPreferences(LOG_TAG, 0);
-										settings2.edit().putString("FragName", "PurchaseDetails").commit();
-										showOTPRequiredDialog(pinValue.getText().toString(), denomValue, responseContainer.getMfaMode(),
-												mdn.getText().toString(), responseContainer.getMsg(), responseContainer.getAditionalInfo(),
-												responseContainer.getEncryptedParentTxnId(), responseContainer.getEncryptedTransferId());
+										settings2.edit().putString("ActivityName", "PurchaseDetails").commit();
+										showOTPRequiredDialog(pinValue.getText().toString(), denomValue,
+												responseContainer.getMfaMode(), mdn.getText().toString(),
+												responseContainer.getMsg(), responseContainer.getAditionalInfo(),
+												responseContainer.getEncryptedParentTxnId(),
+												responseContainer.getEncryptedTransferId());
 									} else {
 										System.out.println("Testing>>>purchase");
 										Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
@@ -500,7 +492,24 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 								});
 								alertbox.show();
 							}
+
 						}
+					};
+
+					final Thread checkUpdate = new Thread() {
+						public void run() {
+							try {
+								responseXml = webServiceHttp.getResponseSSLCertificatation();
+								Log.e(LOG_TAG, "====RESPONSE=========" + responseXml);
+							} catch (Exception e) {
+								responseXml = null;
+							}
+							handler.sendEmptyMessage(0);
+						}
+					};
+					checkUpdate.start();
+
+				}
 			}
 		});
 
@@ -607,8 +616,8 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 			}
 		}
 	}
-	
-	public void errorOTP(){
+
+	public void errorOTP() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -617,7 +626,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
+							settings2.edit().putString("ActivityName", "ExitPurchaseDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -630,7 +639,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
+							settings2.edit().putString("ActivityName", "ExitPurchaseDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PurchaseDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -639,96 +648,164 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 					});
 		}
 		alertError = builderError.create();
-		if(!isFinishing()){
+		if (!isFinishing()) {
 			alertError.show();
 		}
 	}
 
-
 	public void showOTPRequiredDialog(final String pinValue, final String denomValue, final String mfaMode,
-			final String MDNValue, final String msgValue, final String aditionalInfo,
-			final String EncryptedParentTxnId, final String EncryptedTransferId) {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle);
-		LayoutInflater inflater = this.getLayoutInflater();
+			final String MDNValue, final String msgValue, final String aditionalInfo, final String EncryptedParentTxnId,
+			final String EncryptedTransferId) {
+		LayoutInflater inflater = getLayoutInflater();
 		final ViewGroup nullParent = null;
-		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
-		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
-		if (progBar.getIndeterminateDrawable() != null) {
-			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
-		}
-		dialogBuilder.setCustomTitle(viewTitle);
+		View dialoglayout = inflater.inflate(R.layout.new_otp_dialog, nullParent, false);
+		dialogBuilder = new AlertDialog.Builder(PurchaseDetails.this, R.style.MyAlertDialogStyle).create();
+		dialogBuilder.setCanceledOnTouchOutside(false);
+		dialogBuilder.setTitle("");
 		dialogBuilder.setCancelable(false);
-		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);		
-		dialogBuilder.setView(dialogView);
+		dialogBuilder.setView(dialoglayout);
 
-		//EditText OTP
-		edt = (EditText) dialogView.findViewById(R.id.otp_value);
-		edt.setText(otpValue);
-		final String otpValue_new = edt.getText().toString();
-		Log.d(LOG_TAG, "otpValue_new : " + otpValue_new + ", otpValue : " + otpValue);
-		
-		//Timer
-		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
-		//120 detik
+		// EditText OTP
+		otplay = (LinearLayout) dialoglayout.findViewById(R.id.halaman1);
+		otp2lay = (LinearLayout) dialoglayout.findViewById(R.id.halaman2);
+		otp2lay.setVisibility(View.GONE);
+		TextView manualotp = (TextView) dialoglayout.findViewById(R.id.manualsms_lbl);
+		TextView waitingsms = (TextView) dialoglayout.findViewById(R.id.waitingsms_lbl);
+		Button cancel_otp = (Button) dialoglayout.findViewById(R.id.cancel_otp);
+		waitingsms.setText("Menunggu SMS Kode Verifikasi di Nomor " + mobileNumber + "\n");
+		manualotp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				otplay.setVisibility(View.GONE);
+				otp2lay.setVisibility(View.VISIBLE);
+			}
+		});
+		edt = (EditText) dialoglayout.findViewById(R.id.otp_value);
+
+		Log.d(LOG_TAG, "otpValue : " + edt.getText().toString());
+
+		// Timer
+		final TextView timer = (TextView) dialoglayout.findViewById(R.id.otp_timer);
+		// 120detik
 		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
-		    @Override
-		    public void onTick(long millisUntilFinished) {
-		    	NumberFormat f = new DecimalFormat("00");
-		    	timer.setText(f.format(millisUntilFinished / 60000)+":"+f.format(millisUntilFinished % 60000 / 1000));
-		    }
+			@Override
+			public void onTick(long millisUntilFinished) {
+				NumberFormat f = new DecimalFormat("00");
+				timer.setText(
+						f.format(millisUntilFinished / 60000) + ":" + f.format(millisUntilFinished % 60000 / 1000));
+			}
 
-		    @Override
-		    public void onFinish() {
-		        //info.setVisibility(View.GONE);
-		    	errorOTP();
-		    	timer.setText("00:00");
-		    }
+			@Override
+			public void onFinish() {
+				errorOTP();
+				timer.setText("00:00");
+			}
 		};
 		myTimer.start();
-
-		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			dialogBuilder.setTitle(getResources().getString(R.string.eng_otprequired_title));
-			dialogBuilder.setMessage(getResources().getString(R.string.eng_otprequired_desc_1) + "" + mobileNumber + " "
-					+ getResources().getString(R.string.eng_otprequired_desc_2));
-			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelPurchaseDetails").commit();
-					if(myTimer != null) {
+		cancel_otp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialogBuilder.dismiss();
+				settings2 = getSharedPreferences(LOG_TAG, 0);
+				settings2.edit().putString("ActivityName", "CancelTtransferToUangku").commit();
+				if (myTimer != null) {
+					myTimer.cancel();
+				}
+			}
+		});
+		final Button ok_otp = (Button) dialoglayout.findViewById(R.id.ok_otp);
+		ok_otp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				settings2 = getSharedPreferences(LOG_TAG, 0);
+				settings2.edit().putString("ActivityName", "ExitPurchaseDetails").commit();
+				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
+					errorOTP();
+				} else {
+					if (myTimer != null) {
 						myTimer.cancel();
 					}
-				}
-			});
-		} else {
-			dialogBuilder.setTitle(getResources().getString(R.string.bahasa_otprequired_title));
-			dialogBuilder.setMessage(getResources().getString(R.string.bahasa_otprequired_desc_1) + "" + mobileNumber + " "
-					+ getResources().getString(R.string.bahasa_otprequired_desc_2));
-			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelPurchaseDetails").commit();
-					if(myTimer != null) {
-						myTimer.cancel();
-					}
-				}
-			});
-		}
-			dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
-					if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
-						errorOTP();
+					if (bundle.getString("SELECTED_CATEGORY").equalsIgnoreCase("Mobile Phone")) {
+						System.out.println("Testing>>>airtime");
+						Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
+						intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
+						intent.putExtra("PIN", pinValue);
+						intent.putExtra("AMT", denomValue);
+						intent.putExtra("DESTMDN", MDNValue.trim());
+						intent.putExtra("COMPID", bundle.getString("PRODUCT_CODE"));
+						intent.putExtra("MSG", msgValue);
+						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
+						intent.putExtra("PTFNID", EncryptedParentTxnId);
+						intent.putExtra("TFNID", EncryptedTransferId);
+						try {
+							intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
+						} catch (Exception e) {
+							intent.putExtra("ADDITIONAL_INFO", "null");
+						}
+						intent.putExtra("OTP", edt.getText().toString());
+						intent.putExtra("MFA_MODE", mfaMode);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+						PurchaseDetails.this.finish();
 					} else {
+						System.out.println("Testing>>>purchase");
+						Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
+						intent.putExtra("PIN", pinValue);
+						intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
+						intent.putExtra("MSG", msgValue);
+						intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
+						intent.putExtra("BILLERNUM", MDNValue.trim());
+						try {
+							intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
+						} catch (Exception e) {
+							intent.putExtra("ADDITIONAL_INFO", "null");
+						}
+						intent.putExtra("PTFNID", EncryptedParentTxnId);
+						intent.putExtra("TFNID", EncryptedTransferId);
+						intent.putExtra("OTP", edt.getText().toString());
+						intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
+						intent.putExtra("MFA_MODE", mfaMode);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+						PurchaseDetails.this.finish();
+					}
+				}
+
+			}
+		});
+
+		edt.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// Check if edittext is empty
+				if (TextUtils.isEmpty(s)) {
+					// Disable ok button
+					ok_otp.setEnabled(false);
+				} else {
+					// Something into edit text. Enable the button.
+					ok_otp.setEnabled(true);
+				}
+				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
+				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					String actName = settings2.getString("ActivityName", "");
+					Log.d(LOG_TAG, "ActivityName : " + actName);
+					if (actName.equals("PurchaseDetails")) {
 						if (myTimer != null) {
 							myTimer.cancel();
 						}
-						if (bundle.getString("SELECTED_CATEGORY")
-								.equalsIgnoreCase("Mobile Phone")) {
+						if (bundle.getString("SELECTED_CATEGORY").equalsIgnoreCase("Mobile Phone")) {
 							System.out.println("Testing>>>airtime");
 							Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
-							intent.putExtra("SELECTED_CATEGORY",
-									bundle.getString("SELECTED_CATEGORY"));
+							intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
 							intent.putExtra("PIN", pinValue);
 							intent.putExtra("AMT", denomValue);
 							intent.putExtra("DESTMDN", MDNValue.trim());
@@ -751,8 +828,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 							System.out.println("Testing>>>purchase");
 							Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
 							intent.putExtra("PIN", pinValue);
-							intent.putExtra("SELECTED_CATEGORY",
-									bundle.getString("SELECTED_CATEGORY"));
+							intent.putExtra("SELECTED_CATEGORY", bundle.getString("SELECTED_CATEGORY"));
 							intent.putExtra("MSG", msgValue);
 							intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
 							intent.putExtra("BILLERNUM", MDNValue.trim());
@@ -771,122 +847,31 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 							PurchaseDetails.this.finish();
 						}
 					}
-					
 				}
-			});
-		otpDialogS = dialogBuilder.create();
-		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		if(!isFinishing()){
-			otpDialogS.show();
-		}
-		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE)
-        .setEnabled(false);
-		edt.addTextChangedListener(new TextWatcher() {
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before,
-		            int count) {
-		    }
-		
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count,
-		            int after) {
-		    }
-		
-		    @Override
-		    public void afterTextChanged(Editable s) {
-		        // Check if edittext is empty
-		        if (TextUtils.isEmpty(s)) {
-		            // Disable ok button
-		            ((AlertDialog) otpDialogS).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-		        } else {
-		            // Something into edit text. Enable the button.
-		            ((AlertDialog) otpDialogS).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-		        }
-		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
-		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
-		        	settings2 = getSharedPreferences(LOG_TAG, 0);
-			        String fragName = settings2.getString("FragName", "");
-			        Log.d(LOG_TAG, "fragName : " + fragName);
-			        if (fragName.equals("PurchaseDetails")) {
-			        	if (myTimer != null) {
-							myTimer.cancel();
-						}
-			        	if (bundle.getString("SELECTED_CATEGORY")
-								.equalsIgnoreCase("Mobile Phone")) {
-							System.out.println("Testing>>>airtime");
-							Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
-							intent.putExtra("SELECTED_CATEGORY",
-									bundle.getString("SELECTED_CATEGORY"));
-							intent.putExtra("PIN", pinValue);
-							intent.putExtra("AMT", denomValue);
-							intent.putExtra("DESTMDN", MDNValue.trim());
-							intent.putExtra("COMPID", bundle.getString("PRODUCT_CODE"));
-							intent.putExtra("MSG", msgValue);
-							intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-							intent.putExtra("PTFNID", EncryptedParentTxnId);
-							intent.putExtra("TFNID", EncryptedTransferId);
-							try {
-								intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
-							} catch (Exception e) {
-								intent.putExtra("ADDITIONAL_INFO", "null");
-							}
-							intent.putExtra("OTP", edt.getText().toString());
-							intent.putExtra("MFA_MODE", mfaMode);
-							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							startActivity(intent);
-							PurchaseDetails.this.finish();
-						} else {
-							System.out.println("Testing>>>purchase");
-							Intent intent = new Intent(PurchaseDetails.this, BuyConfirm.class);
-							intent.putExtra("PIN", pinValue);
-							intent.putExtra("SELECTED_CATEGORY",
-									bundle.getString("SELECTED_CATEGORY"));
-							intent.putExtra("MSG", msgValue);
-							intent.putExtra("PRODUCT_CODE", bundle.getString("PRODUCT_CODE"));
-							intent.putExtra("BILLERNUM", MDNValue.trim());
-							try {
-								intent.putExtra("ADDITIONAL_INFO", aditionalInfo);
-							} catch (Exception e) {
-								intent.putExtra("ADDITIONAL_INFO", "null");
-							}
-							intent.putExtra("PTFNID", EncryptedParentTxnId);
-							intent.putExtra("TFNID", EncryptedTransferId);
-							intent.putExtra("OTP", edt.getText().toString());
-							intent.putExtra("SELECTED_PAYMENT_MODE", paymentMode);
-							intent.putExtra("MFA_MODE", mfaMode);
-							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							startActivity(intent);
-							PurchaseDetails.this.finish();
-						}
-			        }
-		        }
-		    }
+			}
 		});
+		dialogBuilder.show();
 	}
 
 	@Override
 	public void onReadSMS(String otp) {
-		Log.d(LOG_TAG, "otp from SMS: "+otp);
-        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
+		Log.d(LOG_TAG, "otp from SMS: " + otp);
 		edt.setText(otp);
-		otpValue=otp;
 	}
-	
+
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		super.onDestroy();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ExitPurchaseDetails").commit();
+		settings2.edit().putString("ActivityName", "ExitPurchaseDetails").commit();
 		context = this;
 		isExitActivity = true;
-		if(otpDialogS!=null){
-			otpDialogS.dismiss();
+		if (dialogBuilder != null) {
+			dialogBuilder.dismiss();
 		}
-		if(alertError!=null){
+		if (alertError != null) {
 			alertError.dismiss();
 		}
 	}
-	
+
 }

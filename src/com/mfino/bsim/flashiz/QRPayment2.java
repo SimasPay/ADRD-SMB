@@ -47,7 +47,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener, IncomingSMS.AutoReadSMSListener {
@@ -67,7 +67,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 	// private AlertDialog.Builder alertbox;
 	// private ProgressDialog dialog;
 	// ProgressDialog dialogCon;
-	private static String otpValue = "", mpin = "";
+	private static String mpin = "";
 	private static String mobileNumber;
 	private static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
@@ -77,23 +77,24 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 	public static final String INTENT_EXTRA_MODULE = "com.mfino.bsim.paybyqr.module";
 	public static final String INTENT_EXTRA_INVOICE_ID = "com.mfino.bsim.paybyqr.invoiceID";
 	public static final String INTENT_EXTRA_URL_CALLBACK = "com.mfino.bsim.paybyqr.URLCallback";
-	private static AlertDialog otpDialog;
-	
-	
+	static AlertDialog dialogBuilder, alertError;
+	static boolean isExitActivity = false;
+	LinearLayout otplay, otp2lay;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sample);
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-        settings2.edit().putString("FragName", "QRPayment2").commit();
-        IncomingSMS.setListener(this);
+		settings2.edit().putString("ActivityName", "QRPayment2").commit();
+		IncomingSMS.setListener(this);
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "QRPayment2").commit();
 		settings.edit().putBoolean("isAutoSubmit", false).commit();
 		Log.d(LOG_TAG, "PayByQR : QRPayment2");
 		payByQRSDK = new PayByQRSDK(this, this);
-		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+		// payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
 		payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
 		payByQRSDK.setIsUsingCustomDialog(false);
 		payByQRSDK.setIsPolling(false);
@@ -498,13 +499,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 							Log.d(LOG_TAG, "OTP check!");
 							showOTPRequiredDialog();
 							/**
-							Thread t = new Thread(new Runnable() {
-							    public void run() {
-									showOTPRequiredDialog();
-							    }
-							});
-							t.start();
-							 * try { parentTxnId =
+							 * Thread t = new Thread(new Runnable() { public
+							 * void run() { showOTPRequiredDialog(); } });
+							 * t.start(); try { parentTxnId =
 							 * responseContainer.getEncryptedParentTxnId();
 							 * txnId =
 							 * responseContainer.getEncryptedTransferId(); SctlI
@@ -704,7 +701,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 				Log.e("===confirmation Response====", "=-======" + responseXml);
 				if (responseXml != null) {
-					otpValue = "";
 					XMLParser obj = new XMLParser();
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
@@ -780,7 +776,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		startActivity(intent);
 		QRPayment2.this.finish();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ExitQRPayment2").commit();
+		settings2.edit().putString("ActivityName", "ExitQRPayment2").commit();
 	}
 
 	private class DialogPIN extends Dialog {
@@ -847,6 +843,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 			btn_ok.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
+					settings2.edit().putString("ActivityName", "QRPayment2").commit();
 					InputMethodManager imm = (InputMethodManager) getSystemService(Service.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(pinValue.getWindowToken(), 0);
 
@@ -864,7 +861,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 						mpin = pinValue.getText().toString();
 						Log.e("----------", "=-------" + mpin);
 						settings2 = getSharedPreferences(LOG_TAG, 0);
-				        settings2.edit().putString("FragName", "QRPayment2").commit();
+						settings2.edit().putString("ActivityName", "QRPayment2").commit();
 						// showOTPRequiredDialog();
 						billPayInquiry(mInVoiceId, mpin, mAmount, mMarchantName, loyalityName, discountAmount,
 								discountType, numberOfCoupuns, redeemAmount, redeemPoints, tipAmount);
@@ -911,37 +908,47 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 			builderError.setTitle(getResources().getString(R.string.bahasa_otpfailed));
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-							openMainMenu();
-						}
-					});
-		}
-		AlertDialog alertError = builderError.create();
-		alertError.show();
+
+	public void onClick(DialogInterface dialog, int id) {
+		dialog.dismiss();
+		openMainMenu();
+	}});}
+
+	AlertDialog alertError = builderError.create();alertError.show();
 	}
 
-	public void showOTPRequiredDialog() {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PayByQRProperties.getSDKContext(),
-				R.style.MyAlertDialogStyle);
-		LayoutInflater inflater = this.getLayoutInflater();
+	private void showOTPRequiredDialog() {
+		LayoutInflater inflater = getLayoutInflater();
 		final ViewGroup nullParent = null;
-		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
-		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
-		if (progBar.getIndeterminateDrawable() != null) {
-			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
-		}
-		dialogBuilder.setCustomTitle(viewTitle);
+		View dialoglayout = inflater.inflate(R.layout.new_otp_dialog, nullParent, false);
+		dialogBuilder = new AlertDialog.Builder(QRPayment2.this, R.style.MyAlertDialogStyle).create();
+		dialogBuilder.setCanceledOnTouchOutside(false);
+		dialogBuilder.setTitle("");
 		dialogBuilder.setCancelable(false);
-		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
-		dialogBuilder.setView(dialogView);
+		dialogBuilder.setView(dialoglayout);
 
 		// EditText OTP
-		edt = (EditText) dialogView.findViewById(R.id.otp_value);
+		otplay = (LinearLayout) dialoglayout.findViewById(R.id.halaman1);
+		otp2lay = (LinearLayout) dialoglayout.findViewById(R.id.halaman2);
+		otp2lay.setVisibility(View.GONE);
+		TextView manualotp = (TextView) dialoglayout.findViewById(R.id.manualsms_lbl);
+		TextView waitingsms = (TextView) dialoglayout.findViewById(R.id.waitingsms_lbl);
+		Button cancel_otp = (Button) dialoglayout.findViewById(R.id.cancel_otp);
+		waitingsms.setText("Menunggu SMS Kode Verifikasi di Nomor " + mobileNumber + "\n");
+		manualotp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				otplay.setVisibility(View.GONE);
+				otp2lay.setVisibility(View.VISIBLE);
+			}
+		});
+		edt = (EditText) dialoglayout.findViewById(R.id.otp_value);
+
+		Log.d(LOG_TAG, "otpValue : " + edt.getText().toString());
 
 		// Timer
-		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
-		// 120 detik
+		final TextView timer = (TextView) dialoglayout.findViewById(R.id.otp_timer);
+		// 120detik
 		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
@@ -952,61 +959,36 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 			@Override
 			public void onFinish() {
-				otpDialog.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}
 		};
 		myTimer.start();
-
-		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			dialogBuilder.setTitle(getResources().getString(R.string.eng_otprequired_title));
-			dialogBuilder.setMessage(getResources().getString(R.string.eng_otprequired_desc_1) + "" + mobileNumber + " "
-					+ getResources().getString(R.string.eng_otprequired_desc_2));
-			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelQRPayment2").commit();
-					if (myTimer != null) {
-						myTimer.cancel();
-					}
-					dialog.dismiss();
-					openMainMenu();
-				}
-			});
-		} else {
-			dialogBuilder.setTitle(getResources().getString(R.string.bahasa_otprequired_title));
-			dialogBuilder.setMessage(getResources().getString(R.string.bahasa_otprequired_desc_1) + "" + mobileNumber
-					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
-			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelQRPayment2").commit();
-					if (myTimer != null) {
-						myTimer.cancel();
-					}
-					dialog.dismiss();
-					openMainMenu();
-				}
-			});
-		}
-		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
-					errorOTP();
-				} else {
-					Log.d(LOG_TAG, "otpValue via onclick OK : " + otpValue);
-					billPayConfirmation();
-					if (myTimer != null) {
-						myTimer.cancel();
-					}
+		cancel_otp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialogBuilder.dismiss();
+				settings2 = getSharedPreferences(LOG_TAG, 0);
+				settings2.edit().putString("ActivityName", "CancelToQRPayment2").commit();
+				if (myTimer != null) {
+					myTimer.cancel();
 				}
 			}
 		});
-
-		otpDialog = dialogBuilder.create();
-		otpDialog.show();
-		((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		final Button ok_otp = (Button) dialoglayout.findViewById(R.id.ok_otp);
+		ok_otp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
+					errorOTP();
+				} else {
+					if (myTimer != null) {
+						myTimer.cancel();
+					}
+					billPayConfirmation();
+				}
+			}
+		});
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -1018,38 +1000,35 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 			@Override
 			public void afterTextChanged(final Editable s) {
-				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if (TextUtils.isEmpty(s)) {
-					((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					ok_otp.setEnabled(false);
 				} else {
 					if ((edt.getText().length() > 3)) {
-						if (isAutoSubmit == true){
-							settings2 = getSharedPreferences(LOG_TAG, 0);
-							String fragName = settings2.getString("FragName", "");
-							Log.d(LOG_TAG, "fragName : " + fragName);
-							if (fragName.equals("QRPayment2")) {
-								billPayConfirmation();
-								if (myTimer != null) {
-									myTimer.cancel();
-									otpDialog.dismiss();
-								}
+						ok_otp.setEnabled(true);
+						settings2 = getSharedPreferences(LOG_TAG, 0);
+						String actName = settings2.getString("ActivityName", "");
+						Log.d(LOG_TAG, "ActivityName : " + actName);
+						if (actName.equals("QRPayment2")) {
+							billPayConfirmation();
+							if (myTimer != null) {
+								myTimer.cancel();
+								dialogBuilder.dismiss();
 							}
-						}else{
-							((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 						}
-					} else {
-						((AlertDialog) otpDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					}else{
+							ok_otp.setEnabled(true);
 					}
 				}
 			}
 		});
+		dialogBuilder.show();
 	}
-	
+
 	@Override
 	public void onReadSMS(String otp) {
-		Log.d(LOG_TAG, "otp from SMS: "+otp);
-        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
+		Log.d(LOG_TAG, "otp from SMS: " + otp);
+		// assigning otp after received by IncomingSMSReceiver//Broadcast
+		// receiver
 		edt.setText(otp);
-		otpValue=otp;
 	}
 }

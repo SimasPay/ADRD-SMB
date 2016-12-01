@@ -24,13 +24,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.mfino.bsim.HomeScreen;
@@ -55,7 +53,6 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	private Bundle bundle;
 	int msgCode = 0;
 	public String invoiceNumber, amountValue, paymentMode;
-	String otpValue, sctl;
 	String mfaMode;
 	SharedPreferences languageSettings;
 	Spinner denomSpinner;
@@ -71,8 +68,9 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-	static AlertDialog otpDialogS, alertError;
+	static AlertDialog dialogBuilder, alertError;
 	static boolean isExitActivity = false;
+	LinearLayout otplay, otp2lay;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -81,7 +79,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		setContentView(R.layout.payment_details);
 		
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "PaymentDetails").commit();
+		settings2.edit().putString("ActivityName", "PaymentDetails").commit();
 		Log.d(LOG_TAG, "Payment : PaymentDetails");
 		
 		if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -187,6 +185,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 			@SuppressLint({ "NewApi", "HandlerLeak" })
 			@Override
 			public void onClick(View arg0) {
+				settings2.edit().putString("ActivityName", "PaymentDetails").commit();
 				boolean networkCheck = ConfigurationUtil.isConnectingToInternet(context);
 				if (!networkCheck) {
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -338,7 +337,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 										Log.d("Widy-Debug", "Dialog OTP Required show");
 										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
 										settings2 = getSharedPreferences(LOG_TAG, 0);
-										settings2.edit().putString("FragName", "PaymentDetails").commit();
+										settings2.edit().putString("ActivityName", "PaymentDetails").commit();
 										showOTPRequiredDialog(pinValue.getText().toString(),
 												responseContainer.getMfaMode(), responseContainer.getEncryptedAmount(),
 												responseContainer.getMsg(), responseContainer.getAditionalInfo(),
@@ -528,7 +527,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitPaymentDetails").commit();
+							settings2.edit().putString("ActivityName", "ExitPaymentDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -541,7 +540,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitPaymentDetails").commit();
+							settings2.edit().putString("ActivityName", "ExitPaymentDetails").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(PaymentDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -558,27 +557,37 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	public void showOTPRequiredDialog(final String pinValue, final String mfaMode, final String encryptedAmount,
 			final String msgValue, final String aditionalInfo, final String EncryptedParentTxnId,
 			final String EncryptedTransferId) {
-		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle);
-		LayoutInflater inflater = this.getLayoutInflater();
+		LayoutInflater inflater = getLayoutInflater();
 		final ViewGroup nullParent = null;
-		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
-		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
-		if (progBar.getIndeterminateDrawable() != null) {
-			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
-		}
-		dialogBuilder.setCustomTitle(viewTitle);
+		View dialoglayout = inflater.inflate(R.layout.new_otp_dialog, nullParent, false);
+		dialogBuilder = new AlertDialog.Builder(PaymentDetails.this, R.style.MyAlertDialogStyle).create();
+		dialogBuilder.setCanceledOnTouchOutside(false);
+		dialogBuilder.setTitle("");
 		dialogBuilder.setCancelable(false);
-		final View dialogView = inflater.inflate(R.layout.otp_dialog, nullParent);
-		dialogBuilder.setView(dialogView);
+		dialogBuilder.setView(dialoglayout);
 
 		// EditText OTP
-		edt = (EditText) dialogView.findViewById(R.id.otp_value);
-		edt.setText(otpValue);
-		Log.d(LOG_TAG, "otpValue : " + otpValue);
+		otplay = (LinearLayout) dialoglayout.findViewById(R.id.halaman1);
+		otp2lay = (LinearLayout) dialoglayout.findViewById(R.id.halaman2);
+		otp2lay.setVisibility(View.GONE);
+		TextView manualotp = (TextView) dialoglayout.findViewById(R.id.manualsms_lbl);
+		TextView waitingsms = (TextView) dialoglayout.findViewById(R.id.waitingsms_lbl);
+		Button cancel_otp = (Button) dialoglayout.findViewById(R.id.cancel_otp);
+		waitingsms.setText("Menunggu SMS Kode Verifikasi di Nomor " + mobileNumber + "\n");
+		manualotp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				otplay.setVisibility(View.GONE);
+				otp2lay.setVisibility(View.VISIBLE);
+			}
+		});
+		edt = (EditText) dialoglayout.findViewById(R.id.otp_value);
+
+		Log.d(LOG_TAG, "otpValue : " + edt.getText().toString());
 
 		// Timer
-		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
-		// 120 detik
+		final TextView timer = (TextView) dialoglayout.findViewById(R.id.otp_timer);
+		// 120detik
 		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
@@ -589,43 +598,26 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 
 			@Override
 			public void onFinish() {
-				// info.setVisibility(View.GONE);
 				errorOTP();
 				timer.setText("00:00");
 			}
-		}.start();
-
-		if (selectedLanguage.equalsIgnoreCase("ENG")) {
-			dialogBuilder.setTitle(getResources().getString(R.string.eng_otprequired_title));
-			dialogBuilder.setMessage(getResources().getString(R.string.eng_otprequired_desc_1) + "" + mobileNumber + " "
-					+ getResources().getString(R.string.eng_otprequired_desc_2));
-			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelPaymentDetails").commit();
-					dialog.dismiss();
-					if(myTimer != null) {
-						myTimer.cancel();
-					}
+		};
+		myTimer.start();
+		cancel_otp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialogBuilder.dismiss();
+				settings2 = getSharedPreferences(LOG_TAG, 0);
+				settings2.edit().putString("ActivityName", "CancelToBankSinarmas").commit();
+				if (myTimer != null) {
+					myTimer.cancel();
 				}
-			});
-		} else {
-			dialogBuilder.setTitle(getResources().getString(R.string.bahasa_otprequired_title));
-			dialogBuilder.setMessage(getResources().getString(R.string.bahasa_otprequired_desc_1) + "" + mobileNumber
-					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
-			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelPaymentDetails").commit();
-					dialog.dismiss();
-					if(myTimer != null) {
-						myTimer.cancel();
-					}
-				}
-			});
-		}
-		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
+			}
+		});
+		final Button ok_otp = (Button) dialoglayout.findViewById(R.id.ok_otp);
+		ok_otp.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				dialog.dismiss();
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
@@ -679,13 +671,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 				}
 			}
 		});
-		otpDialogS = dialogBuilder.create();
-		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		if(!isFinishing()){
-			otpDialogS.show();
-		}
-		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE)
-        .setEnabled(false);
+		
 		edt.addTextChangedListener(new TextWatcher() {
 		    @Override
 		    public void onTextChanged(CharSequence s, int start, int before,
@@ -700,24 +686,22 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		    @Override
 		    public void afterTextChanged(Editable s) {
 		        // Check if edittext is empty
-		        if (TextUtils.isEmpty(s)) {
-		            // Disable ok button
-		            ((AlertDialog) otpDialogS).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-		        } else {
-		            // Something into edit text. Enable the button.
-		            ((AlertDialog) otpDialogS).getButton(
-		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-		        }
+				if (TextUtils.isEmpty(s)) {
+					// Disable ok button
+					ok_otp.setEnabled(false);
+				} else {
+					// Something into edit text. Enable the button.
+					ok_otp.setEnabled(true);
+				}
 		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 		        if((edt.getText().length()>3) && (isAutoSubmit == true)){
 		        	if (myTimer != null) {
 						myTimer.cancel();
 					}
 		        	settings2 = getSharedPreferences(LOG_TAG, 0);
-			        String fragName = settings2.getString("FragName", "");
-			        Log.d(LOG_TAG, "fragName : " + fragName);
-			        if (fragName.equals("PaymentDetails")) {
+			        String actName = settings2.getString("ActivityName", "");
+			        Log.d(LOG_TAG, "actName : " + actName);
+			        if (actName.equals("PaymentDetails")) {
 			        	if (bundle.getBoolean("IS_CCPAYMENT")) {
 			        		isExitActivity = true;
 							Intent intent = new Intent(PaymentDetails.this, BillPaymentCCBillInquiry.class);
@@ -792,13 +776,13 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		
 		    }
 		});
+		dialogBuilder.show();
 	}
 
 	@Override
 	public void onReadSMS(String otp) {
 		Log.d(LOG_TAG, "otp from SMS: "+otp);
 		edt.setText(otp);
-		otpValue=otp;
 	}
 	
 	@Override
@@ -806,10 +790,10 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 		super.onDestroy();
 		isExitActivity = true;
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ExitPaymentDetails").commit();
+		settings2.edit().putString("ActivityName", "ExitPaymentDetails").commit();
 		Log.d(LOG_TAG, "Payment : PaymentDetails");
-		if(otpDialogS!=null){
-			otpDialogS.dismiss();
+		if(dialogBuilder!=null){
+			dialogBuilder.dismiss();
 		}
 		if(alertError!=null){
 			alertError.dismiss();

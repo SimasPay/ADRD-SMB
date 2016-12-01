@@ -24,12 +24,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -81,7 +79,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 		setContentView(R.layout.fundtransfer_to_bank_sinarmas);
 
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ToBankSinarmas").commit();
+		settings2.edit().putString("ActivityName", "ToBankSinarmas").commit();
 		if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
@@ -153,7 +151,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 			@SuppressLint({ "NewApi", "HandlerLeak" })
 			@Override
 			public void onClick(View arg0) {
-
+				settings2.edit().putString("ActivityName", "ToBankSinarmas").commit();
 				if (isRequiredFieldEmpty()) {
 
 					boolean networkCheck = ConfigurationUtil.isConnectingToInternet(context);
@@ -343,7 +341,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 										Log.d("Widy-Debug", "Dialog OTP Required show");
 										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
 										settings2 = getSharedPreferences(LOG_TAG, 0);
-										settings2.edit().putString("FragName", "ToBankSinarmas").commit();
+										settings2.edit().putString("ActivityName", "ToBankSinarmas").commit();
 										showOTPRequiredDialog(pinValue.getText().toString(),
 												responseContainer.getCustName(), responseContainer.getDestMDN(),
 												responseContainer.getAccountNumber(), responseContainer.getMsg(),
@@ -439,7 +437,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
+							settings2.edit().putString("ActivityName", "ExitToBankSinarmas").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -452,7 +450,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
+							settings2.edit().putString("ActivityName", "ExitToBankSinarmas").commit();
 							isExitActivity = true;
 							Intent intent = new Intent(ToBankSinarmas.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -477,20 +475,6 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 		dialogBuilder.setTitle("");
 		dialogBuilder.setCancelable(false);
 		dialogBuilder.setView(dialoglayout);
-
-		/**
-		 * View viewTitle = inflater.inflate(R.layout.custom_header_otp,
-		 * nullParent, false); ProgressBar progBar = (ProgressBar)
-		 * viewTitle.findViewById(R.id.progressbar_otp); if
-		 * (progBar.getIndeterminateDrawable() != null) {
-		 * progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000,
-		 * android.graphics.PorterDuff.Mode.SRC_IN); }
-		 * 
-		 * dialogBuilder.setCustomTitle(viewTitle);
-		 * dialogBuilder.setCancelable(false); final View dialogView =
-		 * inflater.inflate(R.layout.otp_dialog, nullParent);
-		 * dialogBuilder.setView(dialogView);
-		 **/
 
 		// EditText OTP
 		otplay = (LinearLayout) dialoglayout.findViewById(R.id.halaman1);
@@ -534,7 +518,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 			public void onClick(View v) {
 				dialogBuilder.dismiss();
 				settings2 = getSharedPreferences(LOG_TAG, 0);
-				settings2.edit().putString("FragName", "CancelToBankSinarmas").commit();
+				settings2.edit().putString("ActivityName", "CancelToBankSinarmas").commit();
 				if (myTimer != null) {
 					myTimer.cancel();
 				}
@@ -551,7 +535,7 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 						myTimer.cancel();
 					}
 					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
+					settings2.edit().putString("ActivityName", "ExitToBankSinarmas").commit();
 					isExitActivity = true;
 					Intent intent = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
 					intent.putExtra("PIN", PIN);
@@ -600,9 +584,9 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 					}
 					isExitActivity = true;
 					settings2 = getSharedPreferences(LOG_TAG, 0);
-					String fragName = settings2.getString("FragName", "");
-					Log.d(LOG_TAG, "fragName : " + fragName);
-					if (fragName.equals("ToBankSinarmas")) {
+					String activityName = settings2.getString("ActivityName", "");
+					Log.d(LOG_TAG, "ActivityName : " + activityName);
+					if (activityName.equals("ToBankSinarmas")) {
 						Intent intent = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
 						intent.putExtra("PIN", PIN);
 						intent.putExtra("MSG", message);
@@ -625,107 +609,13 @@ public class ToBankSinarmas extends AppCompatActivity implements IncomingSMS.Aut
 			}
 		});
 		dialogBuilder.show();
-
-		/**
-		 * if (selectedLanguage.equalsIgnoreCase("ENG")) {
-		 * dialogBuilder.setTitle(getResources().getString(R.string.
-		 * eng_otprequired_title));
-		 * dialogBuilder.setMessage(getResources().getString(R.string.
-		 * eng_otprequired_desc_1) + "" + mobileNumber + " " +
-		 * getResources().getString(R.string.eng_otprequired_desc_2));
-		 * dialogBuilder.setNegativeButton("Cancel", new
-		 * DialogInterface.OnClickListener() { public void
-		 * onClick(DialogInterface dialog, int whichButton) { settings2 =
-		 * getSharedPreferences(LOG_TAG, 0);
-		 * settings2.edit().putString("FragName",
-		 * "CancelToBankSinarmas").commit(); if (myTimer != null) {
-		 * myTimer.cancel(); } } }); } else {
-		 * dialogBuilder.setTitle(getResources().getString(R.string.
-		 * bahasa_otprequired_title));
-		 * dialogBuilder.setMessage(getResources().getString(R.string.
-		 * bahasa_otprequired_desc_1) + "" + mobileNumber + " " +
-		 * getResources().getString(R.string.bahasa_otprequired_desc_2));
-		 * dialogBuilder.setNegativeButton("Batal", new
-		 * DialogInterface.OnClickListener() { public void
-		 * onClick(DialogInterface dialog, int whichButton) { settings2 =
-		 * getSharedPreferences(LOG_TAG, 0);
-		 * settings2.edit().putString("FragName",
-		 * "CancelToBankSinarmas").commit(); if (myTimer != null) {
-		 * myTimer.cancel(); } } }); } dialogBuilder.setPositiveButton("OK", new
-		 * DialogInterface.OnClickListener() { public void
-		 * onClick(DialogInterface dialog, int whichButton) { if
-		 * (edt.getText().toString() == null ||
-		 * edt.getText().toString().equals("")) { errorOTP(); } else { if
-		 * (myTimer != null) { myTimer.cancel(); } settings2 =
-		 * getSharedPreferences(LOG_TAG, 0);
-		 * settings2.edit().putString("FragName",
-		 * "ExitToBankSinarmas").commit(); isExitActivity = true; Intent intent
-		 * = new Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
-		 * intent.putExtra("PIN", PIN); intent.putExtra("MSG", message);
-		 * intent.putExtra("CUST_NAME", custName); //
-		 * intent.putExtra("DEST_NUMBER", // responseContainer.getDestMDN());
-		 * intent.putExtra("DEST_BANK", destBank);
-		 * intent.putExtra("DEST_ACCOUNT_NUM", accountNumber);
-		 * intent.putExtra("AMOUNT", amount); intent.putExtra("DEST",
-		 * bankAccount); intent.putExtra("AMT", billerAmount);
-		 * intent.putExtra("OTP", edt.getText().toString());
-		 * intent.putExtra("MFA_MODE", mfaMode); intent.putExtra("PTFNID",
-		 * EncryptedParentTxnId); intent.putExtra("TFNID", EncryptedTransferId);
-		 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		 * intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
-		 * startActivity(intent); } } }); otpDialogS = dialogBuilder.create();
-		 * otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.
-		 * SOFT_INPUT_STATE_VISIBLE); if (!isFinishing()) { otpDialogS.show(); }
-		 * ((AlertDialog)
-		 * otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-		 * edt.addTextChangedListener(new TextWatcher() {
-		 * 
-		 * @Override public void onTextChanged(CharSequence s, int start, int
-		 *           before, int count) { }
-		 * 
-		 * @Override public void beforeTextChanged(CharSequence s, int start,
-		 *           int count, int after) { }
-		 * 
-		 * @Override public void afterTextChanged(Editable s) { // Check if
-		 *           edittext is empty if (TextUtils.isEmpty(s)) { // Disable ok
-		 *           button ((AlertDialog)
-		 *           otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).
-		 *           setEnabled(false); } else { // Something into edit text.
-		 *           Enable the button. ((AlertDialog)
-		 *           otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).
-		 *           setEnabled(true); } Boolean isAutoSubmit =
-		 *           settings.getBoolean("isAutoSubmit", false); if
-		 *           ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
-		 *           if (myTimer != null) { myTimer.cancel(); } isExitActivity =
-		 *           true; settings2 = getSharedPreferences(LOG_TAG, 0); String
-		 *           fragName = settings2.getString("FragName", "");
-		 *           Log.d(LOG_TAG, "fragName : " + fragName); if
-		 *           (fragName.equals("ToBankSinarmas")) { Intent intent = new
-		 *           Intent(ToBankSinarmas.this, ConfirmAddReceiver.class);
-		 *           intent.putExtra("PIN", PIN); intent.putExtra("MSG",
-		 *           message); intent.putExtra("CUST_NAME", custName);
-		 *           intent.putExtra("DEST_BANK", destBank);
-		 *           intent.putExtra("DEST_ACCOUNT_NUM", accountNumber);
-		 *           intent.putExtra("AMOUNT", amount); intent.putExtra("DEST",
-		 *           bankAccount); intent.putExtra("AMT", billerAmount);
-		 *           intent.putExtra("OTP", edt.getText().toString());
-		 *           intent.putExtra("MFA_MODE", mfaMode);
-		 *           intent.putExtra("PTFNID", EncryptedParentTxnId);
-		 *           intent.putExtra("TFNID", EncryptedTransferId);
-		 *           intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		 *           intent.putExtra("TRANSFER_TYPE",
-		 *           valueContainer.getTransferType()); startActivity(intent); }
-		 *           }
-		 * 
-		 *           } });
-		 **/
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ExitToBankSinarmas").commit();
+		settings2.edit().putString("ActivityName", "ExitToBankSinarmas").commit();
 		isExitActivity = true;
 		if (dialogBuilder != null) {
 			dialogBuilder.dismiss();
