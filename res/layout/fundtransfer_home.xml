@@ -42,6 +42,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/roundedcorners"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/bank_sinarmas" />
 
                 <TextView

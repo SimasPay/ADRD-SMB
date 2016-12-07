@@ -39,7 +39,7 @@ public class HomeScreen extends AppCompatActivity {
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
 	SharedPreferences languageSettings;
 	private TextView transfer, purchase, payment, account, qrText, promoText;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	Context context;
 	DBHelper mydb;
 	ValueContainer valueContainer;
@@ -57,8 +57,9 @@ public class HomeScreen extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_screen1);
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "HomeScreen").commit();
+		
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("ActivityName", "HomeScreen").commit();
         
 		if (Build.VERSION.SDK_INT >= 23) {// self check permissions for Read SMS
 			requestContactPermission();

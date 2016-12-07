@@ -7,6 +7,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.graphics.PorterDuff.Mode;
 
 import com.mfino.bsim.HomeScreen;
 import com.mfino.bsim.R;
@@ -60,9 +70,12 @@ public class TransferSelection extends Activity {
        
         //mimage1 = (ImageView)findViewById(R.id.imageView1);
         mimage2 = (ImageView)findViewById(R.id.imageView2);
+        mimage2.setImageBitmap(roundCornerImage(BitmapFactory.decodeResource(getResources(), R.drawable.bank_sinarmas),52));
         mimage3 = (ImageView)findViewById(R.id.imageView3);
+        mimage3.setImageBitmap(roundCornerImage(BitmapFactory.decodeResource(getResources(), R.drawable.to_other_banks),50));
         mimage4 = (ImageView)findViewById(R.id.imageView4);
-
+        mimage4.setImageBitmap(roundCornerImage(BitmapFactory.decodeResource(getResources(), R.drawable.uangku_menu),30));
+        
         TextView bankSinarmas=(TextView)findViewById(R.id.textView1);
         TextView otherBanks=(TextView)findViewById(R.id.textView2);
         //TextView uangku=(TextView)findViewById(R.id.textView3);
@@ -114,4 +127,26 @@ public class TransferSelection extends Activity {
            	}
            });
     }
+    
+    public Bitmap roundCornerImage(Bitmap raw, float round) {
+    	  int width = raw.getWidth();
+    	  int height = raw.getHeight();
+    	  Bitmap result = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+    	  Canvas canvas = new Canvas(result);
+    	  canvas.drawARGB(0, 0, 0, 0);
+
+    	  final Paint paint = new Paint();
+    	  paint.setAntiAlias(true);
+    	  paint.setColor(Color.parseColor("#000000"));
+
+    	  final Rect rect = new Rect(0, 0, width, height);
+    	  final RectF rectF = new RectF(rect);
+
+    	  canvas.drawRoundRect(rectF, round, round, paint);
+
+    	  paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+    	  canvas.drawBitmap(raw, rect, rect, paint);
+
+    	  return result;
+    	 }
 }

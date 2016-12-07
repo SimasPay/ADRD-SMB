@@ -42,7 +42,6 @@ public class WebServiceHttp extends Activity {
 	String httpString,httpsString;
 	AssetManager assetManager;
 	
-	
 	//Prduction
 	public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
 	public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
