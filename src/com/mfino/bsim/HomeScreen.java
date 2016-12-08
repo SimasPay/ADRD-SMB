@@ -208,7 +208,7 @@ public class HomeScreen extends AppCompatActivity {
 	}
 
 	private void requestContactPermission() {
-		int hasContactPermission = ActivityCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS);
+		int hasContactPermission = ActivityCompat.checkSelfPermission(HomeScreen.this, Manifest.permission.RECEIVE_SMS);
 		if (hasContactPermission != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECEIVE_SMS },
 					PERMISSION_REQUEST_CODE);
