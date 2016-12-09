@@ -1021,7 +1021,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 				}
 			}
 		});
-		dialogBuilder.show();
+		if(dialogBuilder!=null){
+			dialogBuilder.show();
+		}
 	}
 
 	@Override
@@ -1030,5 +1032,18 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		// assigning otp after received by IncomingSMSReceiver//Broadcast
 		// receiver
 		edt.setText(otp);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("ActivityName", "ExitQRPayment2").commit();
+		if (dialogBuilder != null) {
+			dialogBuilder.dismiss();
+		}
+		if (alertError != null) {
+			alertError.dismiss();
+		}
 	}
 }
