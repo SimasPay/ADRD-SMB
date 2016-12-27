@@ -24,6 +24,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -41,9 +43,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class TransferToUangku extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener {
+public class TransferToUangku extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 	private Button btn_ok;
 	private EditText pinValue, destAccountNo, amountValue;
 	private AlertDialog.Builder alertbox;
@@ -59,27 +60,22 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
-
+	static Handler handler;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fundtransfer_to_other_bank_details);
-		
+		context = this;
+		IncomingSMS.setListener(this);
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "TransferToUangku").commit();
+		settings2.edit().putString("ActivityName", "TransferToUangku").commit();
         if (android.os.Build.VERSION.SDK_INT > 9) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
 		}
-		context = this;
-		IncomingSMS.setListener(this);
-
-		if (android.os.Build.VERSION.SDK_INT > 9) {
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy);
-		}
-
+		
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -142,7 +138,7 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 
 		btn_ok.setOnClickListener(new View.OnClickListener() {
 
-			@SuppressLint({ "NewApi" })
+			@SuppressLint({ "NewApi", "HandlerLeak" })
 			@Override
 			public void onClick(View arg0) {
 
@@ -183,6 +179,7 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					});
 					alertbox.show();
 				} else {
+
 					int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 					if (currentapiVersion > android.os.Build.VERSION_CODES.LOLLIPOP) {
 						if ((checkCallingOrSelfPermission(
@@ -225,144 +222,304 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
 						dialog.show();
 					}
+					handler = new Handler() {
+						public void handleMessage(Message msg) {
+							if (responseXml != null) {
+								XMLParser obj = new XMLParser();
+								EncryptedResponseDataContainer responseContainer = null;
+								try {
+									responseContainer = obj.parse(responseXml);
+								} catch (Exception e) {
 
-					responseXml = webServiceHttp.getResponseSSLCertificatation();
+									e.printStackTrace();
+								}
 
-					if (responseXml != null) {
-						XMLParser obj = new XMLParser();
-						EncryptedResponseDataContainer responseContainer = null;
-						try {
-							responseContainer = obj.parse(responseXml);
-						} catch (Exception e) {
+								dialog.dismiss();
+								int msgCode = 0;
+								try {
+									msgCode = Integer.parseInt(responseContainer.getMsgCode());
+								} catch (Exception e) {
+									msgCode = 0;
+								}
 
-							e.printStackTrace();
-						}
+								if (!(msgCode == 72)) {
+									if (responseContainer.getMsg() == null) {
 
-						dialog.dismiss();
-						int msgCode = 0;
-						try {
-							msgCode = Integer.parseInt(responseContainer.getMsgCode());
-						} catch (Exception e) {
-							msgCode = 0;
-						}
+										if (selectedLanguage.equalsIgnoreCase("ENG")) {
+											alertbox.setMessage(
+													getResources().getString(R.string.eng_serverNotRespond));
+										} else {
+											alertbox.setMessage(
+													getResources().getString(R.string.bahasa_serverNotRespond));
+										}
 
-						if (!(msgCode == 72)) {
-							if (responseContainer.getMsg() == null) {
+									} else {
+										alertbox.setMessage(responseContainer.getMsg());
+									}
+
+									if (msgCode == 631) {
+										alertbox.setMessage(responseContainer.getMsg());
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int arg1) {
+												dialog.dismiss();
+												finish();
+												Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+											}
+										});
+										alertbox.show();
+									} else {
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface arg0, int arg1) {
+												dialog.dismiss();
+
+												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+												pinValue.setText("");
+
+											}
+										});
+										alertbox.show();
+									}
+
+								} else if (msgCode == 631) {
+
+									alertbox.setMessage(responseContainer.getMsg());
+									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int arg1) {
+											dialog.dismiss();
+											finish();
+											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+											startActivity(intent);
+										}
+									});
+									alertbox.show();
+								} else {
+
+									// dialog.dismiss();
+									try {
+										System.out.println("MFA MODE.." + responseContainer.getMfaMode());
+										if (responseContainer.getMfaMode() == null) {
+											valueContainer.setMfaMode("NONE");
+										} else {
+											valueContainer.setMfaMode(responseContainer.getMfaMode());
+										}
+
+									} catch (Exception e1) {
+										System.out.println("Testing>>MFAMODE>>exception");
+										valueContainer.setMfaMode("NONE");
+									}
+									if (valueContainer.getMfaMode().toString().equalsIgnoreCase("OTP")) {
+										Log.e("MFA MODE..", responseContainer.getMfaMode() + "");
+										dialog.dismiss();
+										Log.d("Widy-Debug", "Dialog OTP Required show");
+										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
+										settings2 = getSharedPreferences(LOG_TAG, 0);
+										settings2.edit().putString("ActivityName", "TransferToUangku").commit();
+										showOTPRequiredDialog(pinValue.getText().toString().trim(),
+												responseContainer.getCustName(), responseContainer.getDestMDN(),
+												responseContainer.getAccountNumber(), responseContainer.getMsg(),
+												responseContainer.getDestBank(), responseContainer.getAmount(),
+												amountValue.getText().toString(), responseContainer.getMfaMode(),
+												responseContainer.getEncryptedParentTxnId(),
+												responseContainer.getEncryptedTransferId());
+										/**
+										 * try {
+										 * 
+										 * // final ProgressDialog dialog1 = //
+										 * ProgressDialog.show(
+										 * ToOtherBankDetails.this, //
+										 * " Banksinarmas ", "Please Wait // for
+										 * SMS.... ", true); Long
+										 * startTimeInMillis = new
+										 * java.util.Date().getTime();
+										 * 
+										 * while (true) { Thread.sleep(2000);
+										 * System.out.println(
+										 * "Testing>>inside Loop"); final Uri
+										 * SMS_INBOX =
+										 * Uri.parse("content://sms/inbox");
+										 * Cursor c =
+										 * getContentResolver().query(SMS_INBOX,
+										 * null, null, null, "DATE desc");
+										 * 
+										 * c.moveToFirst(); for (int i = 0; i <
+										 * 10; i++) { String body =
+										 * c.getString(c.getColumnIndexOrThrow(
+										 * "body")) .toString().trim();
+										 * 
+										 * if (body.contains("Kode Simobi Anda")
+										 * && body.contains(responseContainer.
+										 * getSctl())) {
+										 * 
+										 * otpValue = body.substring( new
+										 * String("Kode Simobi Anda ").length(),
+										 * body.indexOf("(no ref")); sctl =
+										 * body.substring(body.indexOf(":") + 1,
+										 * body.indexOf(")")); break;
+										 * 
+										 * } else if (body.contains(
+										 * "Your Simobi Code is") &&
+										 * body.contains(responseContainer.
+										 * getSctl())) {
+										 * 
+										 * otpValue = body.substring( new
+										 * String("Your Simobi Code is "
+										 * ).length(), body.indexOf("(ref"));
+										 * sctl = body.substring( body.indexOf(
+										 * "(ref no: ") + new String("(ref no: "
+										 * ).length(), body.indexOf(")"));
+										 * break; } else { c.moveToNext(); }
+										 * 
+										 * } c.close();
+										 * 
+										 * if (!(otpValue == null)) {
+										 * System.out.println("Testing>>SCTL");
+										 * break; } else {
+										 * 
+										 * System.out.println(
+										 * "Testing>>SCTL>>else"); if (new
+										 * java.util.Date().getTime() -
+										 * startTimeInMillis >=
+										 * Constants.MFA_CONNECTION_TIMEOUT) {
+										 * System.out.println(
+										 * "Testing>>TimeOut>>"); break; }
+										 * 
+										 * }
+										 * 
+										 * }
+										 * 
+										 * if (otpValue == null) { //
+										 * dialog1.dismiss();
+										 * System.out.println(
+										 * "Testing>>OTP>>null");
+										 * 
+										 * if
+										 * (selectedLanguage.equalsIgnoreCase(
+										 * "ENG")) {
+										 * 
+										 * alertbox.setMessage(
+										 * getResources().getString(R.string.
+										 * eng_transactionFail)); } else {
+										 * alertbox.setMessage(
+										 * getResources().getString(R.string.
+										 * bahasa_transactionFail)); }
+										 * 
+										 * alertbox.setNeutralButton("OK", new
+										 * DialogInterface.OnClickListener() {
+										 * public void onClick(DialogInterface
+										 * arg0, int arg1) { dialog.dismiss();
+										 * 
+										 * } }); alertbox.show(); } else { //
+										 * dialog1.dismiss(); dialog.dismiss();
+										 * System.out.println(
+										 * "Testing>>OTP>>not null"); Intent
+										 * intent = new
+										 * Intent(TransferToUangku.this,
+										 * TransferToUnagkuConfirmation.class);
+										 * intent.putExtra("SRCPOCKETCODE",
+										 * "2"); intent.putExtra("PIN",
+										 * pinValue.getText().toString());
+										 * intent.putExtra("CUST_NAME",
+										 * responseContainer.getCustName()); //
+										 * intent.putExtra("DEST_NUMBER",
+										 * responseContainer.getDestMDN());
+										 * intent.putExtra("DEST_BANK",
+										 * responseContainer.getDestBank());
+										 * intent.putExtra("DEST_ACCOUNT_NUM",
+										 * responseContainer.getAccountNumber())
+										 * ; intent.putExtra("AMOUNT",
+										 * responseContainer.getAmount());
+										 * intent.putExtra("AMT",
+										 * amountValue.getText().toString());
+										 * intent.putExtra("PTFNID",
+										 * responseContainer.
+										 * getEncryptedParentTxnId());
+										 * intent.putExtra("TFNID",
+										 * responseContainer.
+										 * getEncryptedTransferId());
+										 * intent.putExtra("TRANSFER_TYPE",
+										 * valueContainer.getTransferType());
+										 * intent.putExtra("MSG",
+										 * responseContainer.getMsg());
+										 * intent.putExtra("OTP", otpValue);
+										 * intent.putExtra("MFA_MODE",
+										 * responseContainer.getMfaMode());
+										 * intent.putExtra("TRANSFER_TYPE",
+										 * valueContainer.getTransferType());
+										 * intent.setFlags(Intent.
+										 * FLAG_ACTIVITY_CLEAR_TOP);
+										 * startActivity(intent); }
+										 * 
+										 * } catch (Exception e) {
+										 * System.out.println(
+										 * "Testing>>exception>>"); }
+										 **/
+									} else {
+
+										Intent intent = new Intent(TransferToUangku.this,
+												TransferToUnagkuConfirmation.class);
+										intent.putExtra("SRCPOCKETCODE", "2");
+										intent.putExtra("PIN", pinValue.getText().toString());
+										intent.putExtra("CUST_NAME", responseContainer.getCustName());
+										// intent.putExtra("DEST_NUMBER",responseContainer.getDestMDN());
+										intent.putExtra("DEST_BANK", responseContainer.getDestBank());
+										intent.putExtra("DEST_ACCOUNT_NUM", responseContainer.getAccountNumber());
+										intent.putExtra("AMOUNT", responseContainer.getAmount());
+										intent.putExtra("AMT", amountValue.getText().toString());
+										intent.putExtra("PTFNID", responseContainer.getEncryptedParentTxnId());
+										intent.putExtra("TFNID", responseContainer.getEncryptedTransferId());
+										intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
+										intent.putExtra("MSG", responseContainer.getMsg());
+										intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
+										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+										startActivity(intent);
+									}
+								}
+
+								pinValue.setText("");
+
+							} else {
+
+								dialog.dismiss();
 
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 								} else {
 									alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 								}
-
-							} else {
-								alertbox.setMessage(responseContainer.getMsg());
-							}
-
-							if (msgCode == 631) {
-								alertbox.setMessage(responseContainer.getMsg());
-								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog, int arg1) {
-										dialog.dismiss();
-										finish();
-										Intent intent = new Intent(getBaseContext(), LoginScreen.class);
-										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-										startActivity(intent);
-									}
-								});
-								alertbox.show();
-							} else {
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
+										dialog.dismiss();
 										Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
-										pinValue.setText("");
+
 									}
 								});
 								alertbox.show();
 							}
-						} else if (msgCode == 631) {
-							alertbox.setMessage(responseContainer.getMsg());
-							alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int arg1) {
-									Intent intent = new Intent(getBaseContext(), LoginScreen.class);
-									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-									startActivity(intent);
-								}
-							});
-							alertbox.show();
-						} else {
+
+						}
+					};
+
+					final Thread checkUpdate = new Thread() {
+						/** Service call inside the thread. */
+						public void run() {
+
 							try {
-								System.out.println("MFA MODE.." + responseContainer.getMfaMode());
-								if (responseContainer.getMfaMode() == null) {
-									valueContainer.setMfaMode("NONE");
-								} else {
-									valueContainer.setMfaMode(responseContainer.getMfaMode());
-								}
-
-							} catch (Exception e1) {
-								System.out.println("Testing>>MFAMODE>>exception");
-								valueContainer.setMfaMode("NONE");
+								responseXml = webServiceHttp.getResponseSSLCertificatation();
+							} catch (Exception e) {
+								responseXml = null;
 							}
-							if (valueContainer.getMfaMode().toString().equalsIgnoreCase("OTP")) {
-								Log.e("MFA MODE..", responseContainer.getMfaMode() + "");
-								dialog.dismiss();
-								Log.d("Widy-Debug", "Dialog OTP Required show");
-								settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
-								settings2 = getSharedPreferences(LOG_TAG, 0);
-								settings2.edit().putString("FragName", "TransferToUangku").commit();
-								showOTPRequiredDialog(pinValue.getText().toString().trim(),
-										responseContainer.getCustName(), responseContainer.getDestMDN(),
-										responseContainer.getAccountNumber(), responseContainer.getMsg(),
-										responseContainer.getDestBank(), responseContainer.getAmount(),
-										amountValue.getText().toString(), responseContainer.getMfaMode(),
-										responseContainer.getEncryptedParentTxnId(),
-										responseContainer.getEncryptedTransferId());
-							} else {
-								/**
-								Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
-								intent.putExtra("SRCPOCKETCODE", "2");
-								intent.putExtra("PIN", pinValue.getText().toString());
-								intent.putExtra("CUST_NAME", responseContainer.getCustName());
-								// intent.putExtra("DEST_NUMBER",responseContainer.getDestMDN());
-								intent.putExtra("DEST_BANK", responseContainer.getDestBank());
-								intent.putExtra("DEST_ACCOUNT_NUM", responseContainer.getAccountNumber());
-								intent.putExtra("AMOUNT", responseContainer.getAmount());
-								intent.putExtra("AMT", amountValue.getText().toString());
-								intent.putExtra("PTFNID", responseContainer.getEncryptedParentTxnId());
-								intent.putExtra("TFNID", responseContainer.getEncryptedTransferId());
-								intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
-								intent.putExtra("MSG", responseContainer.getMsg());
-								intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(intent);
-								**/
-							}
+							handler.sendEmptyMessage(0);
 						}
+					};
 
-						pinValue.setText("");
-
-					} else {
-
-						dialog.dismiss();
-
-						if (selectedLanguage.equalsIgnoreCase("ENG")) {
-							alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
-						} else {
-							alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
-						}
-						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface arg0, int arg1) {
-								dialog.dismiss();
-								Intent intent = new Intent(getBaseContext(), HomeScreen.class);
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(intent);
-
-							}
-						});
-						alertbox.show();
-					}
+					checkUpdate.start();
 
 				}
 			}
@@ -409,11 +566,10 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							TransferToUangku.this.finish();
 						}
 					});
 		} else {
@@ -421,16 +577,15 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
 							Intent intent = new Intent(TransferToUangku.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							TransferToUangku.this.finish();
 						}
 					});
 		}
 		alertError = builderError.create();
-		if (!isFinishing()) {
+		if(!isFinishing()){
 			alertError.show();
 		}
 	}
@@ -442,8 +597,8 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(TransferToUangku.this, R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
-		View viewTitle = inflater.inflate(R.layout.custom_header_otp, nullParent, false);
-		ProgressBar progBar = (ProgressBar) viewTitle.findViewById(R.id.progressbar_otp);
+		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
+		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
 		if (progBar.getIndeterminateDrawable() != null) {
 			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
 		}
@@ -471,6 +626,7 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 
 			@Override
 			public void onFinish() {
+				// info.setVisibility(View.GONE);
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -483,8 +639,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelTransferToUangku").commit();
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
@@ -496,8 +650,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "CancelTransferToUangku").commit();
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
@@ -506,8 +658,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 		}
 		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				settings2 = getSharedPreferences(LOG_TAG, 0);
-				settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					errorOTP();
 					otpDialogS.cancel();
@@ -515,8 +665,6 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
-					Toast.makeText(TransferToUangku.this, "Toast dari Uangku non-autoreading", Toast.LENGTH_LONG).show();
-					/**
 					Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
 					intent.putExtra("SRCPOCKETCODE", "2");
 					intent.putExtra("PIN", PIN);
@@ -534,13 +682,12 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
-					**/
 				}
 			}
 		});
 		otpDialogS = dialogBuilder.create();
 		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		if (!isFinishing()) {
+		if(!isFinishing()){
 			otpDialogS.show();
 		}
 		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
@@ -568,12 +715,10 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 					if (countTimer != null) {
 						countTimer.cancel();
 					}
-					//Toast.makeText(TransferToUangku.this, "Toast dari Uangku autoreading", Toast.LENGTH_LONG).show();
-					//finish();
 					settings2 = getSharedPreferences(LOG_TAG, 0);
-			        String fragName = settings2.getString("FragName", "");
-			        Log.d(LOG_TAG, "fragName : " + fragName);
-			        if (fragName.equals("TransferToUangku")) {
+			        String actName = settings2.getString("ActivityName", "");
+			        Log.d(LOG_TAG, "ActivityName : " + actName);
+			        if (actName.equals("TransferToUangku")) {
 			        	Intent intent = new Intent(TransferToUangku.this, TransferToUnagkuConfirmation.class);
 						intent.putExtra("SRCPOCKETCODE", "2");
 						intent.putExtra("PIN", PIN);
@@ -590,29 +735,33 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 						intent.putExtra("MFA_MODE", mfaMode);
 						intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent); 
+						startActivity(intent);
 			        }
 				}
+
 			}
 		});
 	}
 
 	@Override
 	public void onReadSMS(String otp) {
-		Log.d(LOG_TAG, "otp from SMS: " + otp);
+		Log.d(LOG_TAG, "otp from SMS: "+otp);
 		edt.setText(otp);
-		otpValue = otp;
+		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
 	}
-
+	
 	@Override
-	public void onDestroy() {
+	public void onDestroy(){
 		super.onDestroy();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ExitTransferToUangku").commit();
-		if (otpDialogS != null) {
+		settings2.edit().putString("ActivityName", "ExitTransferToUangku").commit();
+		if(otpDialogS!=null){
 			otpDialogS.dismiss();
 		}
-		if (alertError != null) {
+		if(alertError!=null){
 			alertError.dismiss();
 		}
 	}

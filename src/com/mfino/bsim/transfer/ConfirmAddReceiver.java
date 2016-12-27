@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -38,8 +37,6 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 	SharedPreferences languageSettings;
 	String selectedLanguage;
 	ProgressDialog dialog;
-	SharedPreferences settings;
-	public static final String LOG_TAG = "SIMOBI";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,10 +48,6 @@ public class ConfirmAddReceiver extends AppCompatActivity {
 	        return; 
 	    } 
 		setContentView(R.layout.confirm_transfer);
-		
-		settings = getSharedPreferences(LOG_TAG, 0);
-		settings.edit().putString("FragName", "ConfirmAddReceiver").commit();
-		Log.d(LOG_TAG, "Transfer : ConfirmAddReceiver");
 		bundle = getIntent().getExtras();
 
 		// Header code...

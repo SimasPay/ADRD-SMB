@@ -1,6 +1,7 @@
 package com.mfino.bsim.transfer;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -9,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,10 +26,10 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
-public class TransferToUnagkuConfirmation extends AppCompatActivity {
+public class TransferToUnagkuConfirmation extends Activity {
 
 	private Button btn_confirm, btn_cancel;
-	private TextView customerName, accountNumber, amount, destNumber;
+	private TextView customerName, destBank, accountNumber, amount, destNumber;
 	private Bundle bundle;
 	private String responseXml;
 	ValueContainer valueContainer;
@@ -38,21 +38,55 @@ public class TransferToUnagkuConfirmation extends AppCompatActivity {
 	SharedPreferences languageSettings;
 	String selectedLanguage;
 	ProgressDialog dialog;
-	public static final String LOG_TAG = "SIMOBI";
-	SharedPreferences settings;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.uangku_transfer_confirm);
-
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "TransferToUangkuConfirmation").commit();
-		
 		bundle = getIntent().getExtras();
 
-		//final String confirmMsg = bundle.getString("MSG");
+		// Header code...
+		/*
+		 * View headerContainer = findViewById(R.id.header); TextView screeTitle
+		 * = (TextView) headerContainer.findViewById(R.id.screenTitle); Button
+		 * back = (Button) headerContainer.findViewById(R.id.back); Button home
+		 * = (Button) headerContainer.findViewById(R.id.home_button);
+		 * back.setVisibility(View.GONE);
+		 * 
+		 * back.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View arg0) {
+		 * 
+		 * if (bundle.getString("TRANSFER_TYPE").equals("toSmartFren")) {
+		 * 
+		 * Intent intent = new Intent(ConfirmAddReceiver.this,
+		 * SmartFrenDetails.class);
+		 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		 * startActivity(intent);
+		 * 
+		 * } else if
+		 * (bundle.getString("TRANSFER_TYPE").equals("toBankSinarmas")) {
+		 * 
+		 * Intent intent = new
+		 * Intent(ConfirmAddReceiver.this,ToBankSinarmas.class);
+		 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		 * startActivity(intent);
+		 * 
+		 * } else { Intent intent = new
+		 * Intent(ConfirmAddReceiver.this,ToOtherBankDetails.class);
+		 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		 * startActivity(intent); } } }); home.setOnClickListener(new
+		 * OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) {
+		 * 
+		 * Intent intent=new Intent(ConfirmAddReceiver.this,HomeScreen.class);
+		 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		 * startActivity(intent); } });
+		 */
+
+		final String confirmMsg = bundle.getString("MSG");
 		alertbox = new AlertDialog.Builder(TransferToUnagkuConfirmation.this, R.style.MyAlertDialogStyle);
 		btn_confirm = (Button) findViewById(R.id.confirmButton);
 		btn_cancel = (Button) findViewById(R.id.cancelButton);

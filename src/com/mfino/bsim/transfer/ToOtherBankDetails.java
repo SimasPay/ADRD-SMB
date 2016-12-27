@@ -11,7 +11,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.StrictMode;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -42,7 +43,7 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
-public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener {
+public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 
 	private Button btn_ok;
 	private EditText pinValue, destAccountNo, amountValue;
@@ -61,21 +62,17 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
+	static Handler handler;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fundtransfer_to_other_bank_details);
-		
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ToOtherBankDetails").commit();
+		settings2.edit().putString("ActivityName", "ToOtherBankDetails").commit();
 		context = this;
 		IncomingSMS.setListener(this);
-		if (android.os.Build.VERSION.SDK_INT > 9) {
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy);
-		}
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screenTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -242,153 +239,308 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 						dialog.setMessage(getResources().getString(R.string.bahasa_loading));
 						dialog.show();
 					}
-					
-					responseXml = webServiceHttp.getResponseSSLCertificatation();
+					handler = new Handler() {
 
-					if (responseXml != null) {
-						/** Parse response xml. */
-						XMLParser obj = new XMLParser();
-						EncryptedResponseDataContainer responseContainer = null;
-						try {
-							responseContainer = obj.parse(responseXml);
-						} catch (Exception e) {
+						public void handleMessage(Message msg) {
 
-							e.printStackTrace();
-						}
+							if (responseXml != null) {
+								/** Parse response xml. */
+								XMLParser obj = new XMLParser();
+								EncryptedResponseDataContainer responseContainer = null;
+								try {
+									responseContainer = obj.parse(responseXml);
+								} catch (Exception e) {
 
-						dialog.dismiss();
+									e.printStackTrace();
+								}
 
-						int msgCode = 0;
-						try {
-							msgCode = Integer.parseInt(responseContainer.getMsgCode());
-						} catch (Exception e) {
-							msgCode = 0;
-						}
+								dialog.dismiss();
 
-						if (!(msgCode == 72)) {
-							if (responseContainer.getMsg() == null) {
+								int msgCode = 0;
+								try {
+									msgCode = Integer.parseInt(responseContainer.getMsgCode());
+								} catch (Exception e) {
+									msgCode = 0;
+								}
+
+								if (!(msgCode == 72)) {
+									if (responseContainer.getMsg() == null) {
+
+										if (selectedLanguage.equalsIgnoreCase("ENG")) {
+											alertbox.setMessage(
+													getResources().getString(R.string.eng_serverNotRespond));
+										} else {
+											alertbox.setMessage(
+													getResources().getString(R.string.bahasa_serverNotRespond));
+										}
+
+									} else {
+										alertbox.setMessage(responseContainer.getMsg());
+									}
+
+									if (msgCode == 631) {
+										alertbox.setMessage(responseContainer.getMsg());
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface dialog, int arg1) {
+												dialog.dismiss();
+												Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+												ToOtherBankDetails.this.finish();
+											}
+										});
+										alertbox.show();
+									} else {
+										alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+											public void onClick(DialogInterface arg0, int arg1) {
+												Intent intent = new Intent(getBaseContext(), HomeScreen.class);
+												intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+												startActivity(intent);
+												pinValue.setText("");
+												ToOtherBankDetails.this.finish();
+											}
+										});
+										alertbox.show();
+									}
+								} else if (msgCode == 631) {
+
+									alertbox.setMessage(responseContainer.getMsg());
+									alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int arg1) {
+											dialog.dismiss();
+											Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+											startActivity(intent);
+											ToOtherBankDetails.this.finish();
+										}
+									});
+									alertbox.show();
+								} else {
+
+									// dialog.dismiss();
+									try {
+										System.out.println("MFA MODE.." + responseContainer.getMfaMode());
+										if (responseContainer.getMfaMode() == null) {
+											valueContainer.setMfaMode("NONE");
+										} else {
+											valueContainer.setMfaMode(responseContainer.getMfaMode());
+										}
+
+									} catch (Exception e1) {
+										System.out.println("Testing>>MFAMODE>>exception");
+										valueContainer.setMfaMode("NONE");
+									}
+									if (valueContainer.getMfaMode().toString().equalsIgnoreCase("OTP")) {
+										Log.e("MFA MODE..", responseContainer.getMfaMode() + "");
+
+										dialog.dismiss();
+										Log.d("Widy-Debug", "Dialog OTP Required show");
+										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
+										settings2 = getSharedPreferences(LOG_TAG, 0);
+										settings2.edit().putString("ActivityName", "ToOtherBankDetails").commit();
+										showOTPRequiredDialog(pinValue.getText().toString().trim(),
+												responseContainer.getCustName(), responseContainer.getDestMDN(),
+												responseContainer.getAccountNumber(), responseContainer.getMsg(),
+												responseContainer.getDestBank(), responseContainer.getAmount(),
+												amountValue.getText().toString(), responseContainer.getMfaMode(),
+												responseContainer.getEncryptedParentTxnId(),
+												responseContainer.getEncryptedTransferId());
+										/**
+										 * try {
+										 * 
+										 * // final ProgressDialog dialog1 = //
+										 * ProgressDialog.show(
+										 * ToOtherBankDetails.this, //
+										 * " Banksinarmas ", "Please Wait // for
+										 * SMS.... ", true); Long
+										 * startTimeInMillis = new
+										 * java.util.Date().getTime();
+										 * 
+										 * while (true) { Thread.sleep(2000);
+										 * System.out.println(
+										 * "Testing>>inside Loop"); final Uri
+										 * SMS_INBOX =
+										 * Uri.parse("content://sms/inbox");
+										 * Cursor c =
+										 * getContentResolver().query(SMS_INBOX,
+										 * null, null, null, "DATE desc");
+										 * 
+										 * c.moveToFirst(); for (int i = 0; i <
+										 * 10; i++) { String body =
+										 * c.getString(c.getColumnIndexOrThrow(
+										 * "body")) .toString().trim(); String
+										 * number =
+										 * c.getString(c.getColumnIndexOrThrow(
+										 * "address")) .toString();
+										 * 
+										 * if (body.contains("Kode Simobi Anda")
+										 * && body.contains(responseContainer.
+										 * getSctl())) {
+										 * 
+										 * otpValue = body.substring( new
+										 * String("Kode Simobi Anda ").length(),
+										 * body.indexOf("(no ref")); sctl =
+										 * body.substring(body.indexOf(":") + 1,
+										 * body.indexOf(")")); break;
+										 * 
+										 * } else if (body.contains(
+										 * "Your Simobi Code is") &&
+										 * body.contains(responseContainer.
+										 * getSctl())) {
+										 * 
+										 * otpValue = body.substring( new
+										 * String("Your Simobi Code is "
+										 * ).length(), body.indexOf("(ref"));
+										 * sctl = body.substring( body.indexOf(
+										 * "(ref no: ") + new String("(ref no: "
+										 * ).length(), body.indexOf(")"));
+										 * break; } else { c.moveToNext(); }
+										 * 
+										 * } c.close();
+										 * 
+										 * if (!(otpValue == null)) {
+										 * System.out.println("Testing>>SCTL");
+										 * break; } else {
+										 * 
+										 * System.out.println(
+										 * "Testing>>SCTL>>else"); if (new
+										 * java.util.Date().getTime() -
+										 * startTimeInMillis >=
+										 * Constants.MFA_CONNECTION_TIMEOUT) {
+										 * System.out.println(
+										 * "Testing>>TimeOut>>"); break; }
+										 * 
+										 * }
+										 * 
+										 * }
+										 * 
+										 * if (otpValue == null) { //
+										 * dialog1.dismiss();
+										 * System.out.println(
+										 * "Testing>>OTP>>null");
+										 * 
+										 * if
+										 * (selectedLanguage.equalsIgnoreCase(
+										 * "ENG")) {
+										 * 
+										 * alertbox.setMessage(
+										 * getResources().getString(R.string.
+										 * eng_transactionFail)); } else {
+										 * alertbox.setMessage(
+										 * getResources().getString(R.string.
+										 * bahasa_transactionFail)); }
+										 * 
+										 * alertbox.setNeutralButton("OK", new
+										 * DialogInterface.OnClickListener() {
+										 * public void onClick(DialogInterface
+										 * arg0, int arg1) { dialog.dismiss();
+										 * 
+										 * } }); alertbox.show(); } else { //
+										 * dialog1.dismiss(); dialog.dismiss();
+										 * System.out.println(
+										 * "Testing>>OTP>>not null"); Intent
+										 * intent = new
+										 * Intent(ToOtherBankDetails.this,
+										 * ConfirmAddReceiver.class);
+										 * intent.putExtra("SRCPOCKETCODE",
+										 * "2"); intent.putExtra("PIN",
+										 * pinValue.getText().toString());
+										 * intent.putExtra("CUST_NAME",
+										 * responseContainer.getCustName()); //
+										 * intent.putExtra("DEST_NUMBER",
+										 * responseContainer.getDestMDN());
+										 * intent.putExtra("DEST_BANK",
+										 * responseContainer.getDestBank());
+										 * intent.putExtra("DEST_ACCOUNT_NUM",
+										 * responseContainer.getAccountNumber())
+										 * ; intent.putExtra("AMOUNT",
+										 * responseContainer.getAmount());
+										 * intent.putExtra("AMT",
+										 * amountValue.getText().toString());
+										 * intent.putExtra("PTFNID",
+										 * responseContainer.
+										 * getEncryptedParentTxnId());
+										 * intent.putExtra("TFNID",
+										 * responseContainer.
+										 * getEncryptedTransferId());
+										 * intent.putExtra("TRANSFER_TYPE",
+										 * valueContainer.getTransferType());
+										 * intent.putExtra("MSG",
+										 * responseContainer.getMsg());
+										 * intent.putExtra("OTP", otpValue);
+										 * intent.putExtra("MFA_MODE",
+										 * responseContainer.getMfaMode());
+										 * intent.putExtra("TRANSFER_TYPE",
+										 * valueContainer.getTransferType());
+										 * intent.setFlags(Intent.
+										 * FLAG_ACTIVITY_CLEAR_TOP);
+										 * startActivity(intent); }
+										 * 
+										 * } catch (Exception e) {
+										 * System.out.println(
+										 * "Testing>>exception>>"); }
+										 **/
+									} else {
+										Intent intent = new Intent(ToOtherBankDetails.this, ConfirmAddReceiver.class);
+										intent.putExtra("SRCPOCKETCODE", "2");
+										intent.putExtra("PIN", pinValue.getText().toString());
+										intent.putExtra("CUST_NAME", responseContainer.getCustName());
+										// intent.putExtra("DEST_NUMBER",responseContainer.getDestMDN());
+										intent.putExtra("DEST_BANK", responseContainer.getDestBank());
+										intent.putExtra("DEST_ACCOUNT_NUM", responseContainer.getAccountNumber());
+										intent.putExtra("AMOUNT", responseContainer.getAmount());
+										intent.putExtra("AMT", amountValue.getText().toString());
+										intent.putExtra("PTFNID", responseContainer.getEncryptedParentTxnId());
+										intent.putExtra("TFNID", responseContainer.getEncryptedTransferId());
+										intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
+										intent.putExtra("MSG", responseContainer.getMsg());
+										intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
+										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+										startActivity(intent);
+										ToOtherBankDetails.this.finish();
+									}
+								}
+								alertbox.show();
+								pinValue.setText("");
+
+							} else {
+
+								dialog.dismiss();
 
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 								} else {
 									alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
 								}
-
-							} else {
-								alertbox.setMessage(responseContainer.getMsg());
-							}
-
-							if (msgCode == 631) {
-								alertbox.setMessage(responseContainer.getMsg());
-								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog, int arg1) {
-										dialog.dismiss();
-										Intent intent = new Intent(getBaseContext(), LoginScreen.class);
-										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-										startActivity(intent);
-										ToOtherBankDetails.this.finish();
-									}
-								});
-								alertbox.show();
-							} else {
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
+										dialog.dismiss();
 										Intent intent = new Intent(getBaseContext(), HomeScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
-										pinValue.setText("");
 										ToOtherBankDetails.this.finish();
 									}
 								});
 								alertbox.show();
 							}
-						} else if (msgCode == 631) {
 
-							alertbox.setMessage(responseContainer.getMsg());
-							alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog, int arg1) {
-									dialog.dismiss();
-									Intent intent = new Intent(getBaseContext(), LoginScreen.class);
-									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-									startActivity(intent);
-									ToOtherBankDetails.this.finish();
-								}
-							});
-							alertbox.show();
-						} else {
+						}
+					};
 
-							// dialog.dismiss();
+					final Thread checkUpdate = new Thread() {
+						/** Service call inside the thread. */
+						public void run() {
+
 							try {
-								System.out.println("MFA MODE.." + responseContainer.getMfaMode());
-								if (responseContainer.getMfaMode() == null) {
-									valueContainer.setMfaMode("NONE");
-								} else {
-									valueContainer.setMfaMode(responseContainer.getMfaMode());
-								}
-
-							} catch (Exception e1) {
-								System.out.println("Testing>>MFAMODE>>exception");
-								valueContainer.setMfaMode("NONE");
+								responseXml = webServiceHttp.getResponseSSLCertificatation();
+							} catch (Exception e) {
+								responseXml = null;
 							}
-							if (valueContainer.getMfaMode().toString().equalsIgnoreCase("OTP")) {
-								Log.e("MFA MODE..", responseContainer.getMfaMode() + "");
-
-								dialog.dismiss();
-								Log.d("Widy-Debug", "Dialog OTP Required show");
-								settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
-								settings2 = getSharedPreferences(LOG_TAG, 0);
-								settings2.edit().putString("FragName", "ToOtherBankDetails").commit();
-								showOTPRequiredDialog(pinValue.getText().toString().trim(),
-										responseContainer.getCustName(), responseContainer.getDestMDN(),
-										responseContainer.getAccountNumber(), responseContainer.getMsg(),
-										responseContainer.getDestBank(), responseContainer.getAmount(),
-										amountValue.getText().toString(), responseContainer.getMfaMode(),
-										responseContainer.getEncryptedParentTxnId(),
-										responseContainer.getEncryptedTransferId());
-
-							} else {
-								Intent intent = new Intent(ToOtherBankDetails.this, ConfirmAddReceiver.class);
-								intent.putExtra("SRCPOCKETCODE", "2");
-								intent.putExtra("PIN", pinValue.getText().toString());
-								intent.putExtra("CUST_NAME", responseContainer.getCustName());
-								// intent.putExtra("DEST_NUMBER",responseContainer.getDestMDN());
-								intent.putExtra("DEST_BANK", responseContainer.getDestBank());
-								intent.putExtra("DEST_ACCOUNT_NUM", responseContainer.getAccountNumber());
-								intent.putExtra("AMOUNT", responseContainer.getAmount());
-								intent.putExtra("AMT", amountValue.getText().toString());
-								intent.putExtra("PTFNID", responseContainer.getEncryptedParentTxnId());
-								intent.putExtra("TFNID", responseContainer.getEncryptedTransferId());
-								intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
-								intent.putExtra("MSG", responseContainer.getMsg());
-								intent.putExtra("TRANSFER_TYPE", valueContainer.getTransferType());
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(intent);
-								ToOtherBankDetails.this.finish();
-							}
+							handler.sendEmptyMessage(0);
 						}
-						alertbox.show();
-						pinValue.setText("");
+					};
 
-					} else {
-
-						dialog.dismiss();
-
-						if (selectedLanguage.equalsIgnoreCase("ENG")) {
-							alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
-						} else {
-							alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
-						}
-						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface arg0, int arg1) {
-								dialog.dismiss();
-								Intent intent = new Intent(getBaseContext(), HomeScreen.class);
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(intent);
-								ToOtherBankDetails.this.finish();
-							}
-						});
-						alertbox.show();
-					}
+					checkUpdate.start();
 
 				}
 			}
@@ -435,12 +587,11 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "CancelToOtherBankDetails").commit();
 							dialog.dismiss();
 							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ToOtherBankDetails.this.finish();
 						}
 					});
 		} else {
@@ -448,17 +599,16 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("FragName", "CancelToOtherBankDetails").commit();
 							dialog.dismiss();
 							Intent intent = new Intent(ToOtherBankDetails.this, HomeScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							startActivity(intent);
+							ToOtherBankDetails.this.finish();
 						}
 					});
 		}
 		alertError = builderError.create();
-		if (!isFinishing()) {
+		if(!isFinishing()){
 			alertError.show();
 		}
 	}
@@ -471,8 +621,8 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 				R.style.MyAlertDialogStyle);
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
-		View viewTitle = inflater.inflate(R.layout.custom_header_otp, nullParent, false);
-		ProgressBar progBar = (ProgressBar) viewTitle.findViewById(R.id.progressbar_otp);
+		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
+		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
 		if (progBar.getIndeterminateDrawable() != null) {
 			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
 		}
@@ -499,10 +649,11 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 
 			@Override
 			public void onFinish() {
+				// info.setVisibility(View.GONE);
 				otpDialogS.dismiss();
+				otpDialogS.cancel();
 				errorOTP();
 				timer.setText("00:00");
-				
 			}
 		};
 		myTimer.start();
@@ -513,12 +664,13 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
 					dialog.dismiss();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
+					dialog.dismiss();
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("ActivityName", "ExitToOtherBankDetails").commit();
 				}
 			});
 		} else {
@@ -527,19 +679,17 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
 					dialog.dismiss();
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("ActivityName", "ExitToOtherBankDetails").commit();
 				}
 			});
 		}
 		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				settings2 = getSharedPreferences(LOG_TAG, 0);
-				settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
 					otpDialogS.cancel();
 					otpDialogS.dismiss();
@@ -598,9 +748,9 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 						myTimer.cancel();
 					}
 					settings2 = getSharedPreferences(LOG_TAG, 0);
-					String fragName = settings2.getString("FragName", "");
-					Log.d(LOG_TAG, "fragName : " + fragName);
-					if (fragName.equals("ToOtherBankDetails")) {
+					String actName = settings2.getString("ActivityName", "");
+					Log.d(LOG_TAG, "ActivityName : " + actName);
+					if (actName.equals("ToOtherBankDetails")) {
 						Intent intent = new Intent(ToOtherBankDetails.this, ConfirmAddReceiver.class);
 						intent.putExtra("SRCPOCKETCODE", "2");
 						intent.putExtra("PIN", PIN);
@@ -627,22 +777,24 @@ public class ToOtherBankDetails extends AppCompatActivity implements IncomingSMS
 
 	@Override
 	public void onReadSMS(String otp) {
-		Log.d(LOG_TAG, "otp from SMS: " + otp);
-		// assigning otp after received by IncomingSMSReceiver//Broadcast
-		// receiver
+		Log.d(LOG_TAG, "otp from SMS: "+otp);
+        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
 		edt.setText(otp);
-		otpValue = otp;
+		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
 	}
-
+	
 	@Override
-	public void onDestroy() {
+	public void onDestroy(){
 		super.onDestroy();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("FragName", "ExitToOtherBankDetails").commit();
-		if (otpDialogS != null) {
+		settings2.edit().putString("ActivityName", "ExitToOtherBankDetails").commit();
+		if(otpDialogS!=null){
 			otpDialogS.dismiss();
 		}
-		if (alertError != null) {
+		if(alertError!=null){
 			alertError.dismiss();
 		}
 	}

@@ -37,7 +37,7 @@ public class HomeScreen extends AppCompatActivity {
 	private Button logoutButton;
 	private ImageView image1, image2, image3, image4, qrPayment, promo;
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
-	SharedPreferences languageSettings;
+	SharedPreferences languageSettings, settings2;
 	private TextView transfer, purchase, payment, account, qrText, promoText;
 	SharedPreferences settings;
 	Context context;
@@ -57,9 +57,6 @@ public class HomeScreen extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_screen1);
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "HomeScreen").commit();
-        
 		if (Build.VERSION.SDK_INT >= 23) {// self check permissions for Read SMS
 			requestContactPermission();
 			if (!AndroidPermissions.getInstance().checkReadSmsPermission(HomeScreen.this)) {
@@ -69,6 +66,8 @@ public class HomeScreen extends AppCompatActivity {
 		// alertbox = new AlertDialog.Builder(HomeScreen.this);
 
 		mydb = new DBHelper(HomeScreen.this);
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("ActivityName", "HomeScreen").commit();
 
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		// String mobileNumber = settings.getString("mobile", "");
@@ -207,7 +206,7 @@ public class HomeScreen extends AppCompatActivity {
 	}
 
 	private void requestContactPermission() {
-		int hasContactPermission = ActivityCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS);
+		int hasContactPermission = ActivityCompat.checkSelfPermission(HomeScreen.this, Manifest.permission.RECEIVE_SMS);
 		if (hasContactPermission != PackageManager.PERMISSION_GRANTED) {
 			ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECEIVE_SMS },
 					PERMISSION_REQUEST_CODE);

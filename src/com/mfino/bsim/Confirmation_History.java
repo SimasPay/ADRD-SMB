@@ -45,15 +45,12 @@ public class Confirmation_History extends Activity {
 	SharedPreferences languageSettings;
 	ArrayList<String> nodeNames = new ArrayList<String>();
 	TableLayout table;
-	public static final String LOG_TAG = "SIMOBI";
-	SharedPreferences settings;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.last_transaction);
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "Confirmation_History").commit();
+
 		// Header code...
 		/*
 		 * View headerContainer = findViewById(R.id.header); TextView

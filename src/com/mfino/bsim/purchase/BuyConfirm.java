@@ -35,16 +35,12 @@ public class BuyConfirm extends Activity {
 	SharedPreferences languageSettings;
 	String selectedLanguage;
 	ProgressDialog dialog;
-	SharedPreferences settings;
-	public static final String LOG_TAG = "SIMOBI";
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.confirm);
-		settings = getSharedPreferences(LOG_TAG, 0);
-        settings.edit().putString("FragName", "BuyConfirm").commit();
 
 		// Header code...
 		/*
