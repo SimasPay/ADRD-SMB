@@ -626,7 +626,7 @@ public class TransferToUangku extends AppCompatActivity implements IncomingSMS.A
 
 			@Override
 			public void onFinish() {
-				// info.setVisibility(View.GONE);
+				otpDialogS.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}

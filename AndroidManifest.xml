@@ -24,8 +24,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- <uses-feature android:name="android.hardware.camera" /> -->
-    <!-- <uses-feature android:name="android.hardware.camera.autofocus" /> -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -175,13 +173,11 @@
         <activity
             android:name=".transfer.ToBankSinarmas"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
             android:name=".transfer.ToOtherBankDetails"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
@@ -237,7 +233,6 @@
         <activity
             android:name=".account.ChangePinConfirm"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
@@ -309,7 +304,6 @@
         <activity
             android:name=".billpayment.PaymentDetails"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
@@ -340,7 +334,6 @@
         <activity
             android:name=".purchase.PurchaseDetails"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
@@ -402,7 +395,6 @@
         <activity
             android:name="com.mfino.bsim.transfer.TransferToUangku"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
@@ -414,7 +406,6 @@
             android:name="com.mfino.bsim.flashiz.QRPayment2"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:screenOrientation="portrait"
-            android:noHistory="true"
             android:theme="@style/PayByQRTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
         </activity>

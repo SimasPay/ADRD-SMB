@@ -85,7 +85,6 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sample);
-
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 		settings.edit().putString("ActivityName", "QRPayment2").commit();
@@ -94,8 +93,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		settings2.edit().putString("ActivityName", "QRPayment2").commit();
 		Log.d(LOG_TAG, "PayByQR : QRPayment2");
 		payByQRSDK = new PayByQRSDK(this, this);
-		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
-		payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
+		payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
 		payByQRSDK.setIsUsingCustomDialog(false);
 		payByQRSDK.setIsPolling(false);
 		IncomingSMS.setListener(this);
@@ -954,7 +953,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 			@Override
 			public void onFinish() {
-				//otpDialogS.dismiss();
+				otpDialogS.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -995,6 +994,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
+					dialog.dismiss();
 					errorOTP();
 				} else {
 					Log.d(LOG_TAG, "otpValue via onclick OK : " + otpValue);
@@ -1064,10 +1064,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		if(otpDialogS!=null){
+		if(otpDialogS!=null && otpDialogS.isShowing()){
 			otpDialogS.dismiss();
 		}
-		if(alertError!=null){
+		if(alertError!=null && alertError.isShowing()){
 			alertError.dismiss();
 		}
 	}

@@ -223,9 +223,9 @@
                         android:layout_height="35dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
+                        android:textAllCaps="false"
                         android:background="@drawable/button_empty"
-                        android:text="@string/login" >
-                    </Button>
+                        android:text="@string/login" />
                 </LinearLayout>
 
                 <!--

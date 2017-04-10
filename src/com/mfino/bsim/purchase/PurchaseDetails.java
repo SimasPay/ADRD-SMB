@@ -836,7 +836,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 
 		    @Override
 		    public void onFinish() {
-		        //info.setVisibility(View.GONE);
+		    	otpDialogS.dismiss();
 		    	errorOTP();
 		    	timer.setText("00:00");
 		    }

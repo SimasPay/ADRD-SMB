@@ -43,12 +43,13 @@ import com.mfino.bsim.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
+import com.mfino.bsim.receivers.IncomingSMS;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
-public class ChangePin extends AppCompatActivity {
+public class ChangePin extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 
 	private Button btn_ok;
 	private EditText oldpinValue, newpinValue, confirmNewPinValue;
@@ -61,18 +62,24 @@ public class ChangePin extends AppCompatActivity {
 	SharedPreferences languageSettings;
 	String selectedLanguage;
 	Context context;
-	SharedPreferences settings;
+	SharedPreferences settings, settings2;
 	String mobileNumber;
 	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
-
+	static Handler handler;
+	static AlertDialog otpDialogS, alertError;
+	static String required;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.change_pin);
 		context = ChangePin.this;
-
+		IncomingSMS.setListener(this);
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("ActivityName", "ChangePin").commit();
+		
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
 		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
@@ -90,7 +97,7 @@ public class ChangePin extends AppCompatActivity {
 		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				String required;
+				
 				if (savedInstanceState == null) {
 					Bundle extras = getIntent().getExtras();
 					if (extras == null) {
@@ -268,7 +275,7 @@ public class ChangePin extends AppCompatActivity {
 					dialog.setMessage("Loading....   ");
 					dialog.show();
 
-					final Handler handler = new Handler() {
+					handler = new Handler() {
 
 						public void handleMessage(Message msg) {
 
@@ -428,32 +435,6 @@ public class ChangePin extends AppCompatActivity {
 		}
 	}
 
-	public void recivedSms(String message) {
-		try {
-			Log.d(LOG_TAG, "isi SMS : " + message);
-			if (message.contains("Kode Simobi Anda ")
-					|| message.toLowerCase(Locale.getDefault()).contains("kode simobi anda ")) {
-				Log.d(LOG_TAG, "konten sms : indonesia");
-				otpValue = message
-						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
-						.trim();
-				sctl = message.substring(message.indexOf(":") + 1, message.indexOf(")"));
-			} else if (message.contains("Your Simobi Code is ")
-					|| message.toLowerCase(Locale.getDefault()).contains("your simobi code is ")) {
-				Log.d(LOG_TAG, "konten sms : english");
-				otpValue = message
-						.substring(message.substring(0, message.indexOf("(")).lastIndexOf(" "), message.indexOf("("))
-						.trim();
-				sctl = message.substring(message.indexOf("(ref no: ") + new String("(ref no: ").length(),
-						message.indexOf(")"));
-			}
-			Log.d(LOG_TAG, "OPT code : " + otpValue + ", sctl : " + sctl);
-			edt.setText(otpValue);
-		} catch (Exception e) {
-
-		}
-	}
-
 	public void forceChangePINDialog() {
 		AlertDialog.Builder builderError = new AlertDialog.Builder(ChangePin.this, R.style.MyAlertDialogStyle);
 		builderError.setCancelable(false);
@@ -483,10 +464,25 @@ public class ChangePin extends AppCompatActivity {
 			builderError.setMessage(getResources().getString(R.string.eng_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							Intent intent = new Intent(ChangePin.this, LoginScreen.class);
-							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							startActivity(intent);
-							ChangePin.this.finish();
+							Bundle extras = getIntent().getExtras();
+							if (extras == null) {
+								required = null;
+								Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								startActivity(intent);
+							} else {
+								required = extras.getString("REQUIRED");
+								if (required.equals("yes")) {
+									Intent intent = new Intent(ChangePin.this, LoginScreen.class);
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
+									ChangePin.this.finish();
+								}else{
+									Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
+								}
+							}
 						}
 					});
 		} else {
@@ -494,14 +490,29 @@ public class ChangePin extends AppCompatActivity {
 			builderError.setMessage(getResources().getString(R.string.bahasa_desc_otpfailed)).setCancelable(false)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							Intent intent = new Intent(ChangePin.this, LoginScreen.class);
-							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							startActivity(intent);
-							ChangePin.this.finish();
+							Bundle extras = getIntent().getExtras();
+							if (extras == null) {
+								required = null;
+								Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								startActivity(intent);
+							} else {
+								required = extras.getString("REQUIRED");
+								if (required.equals("yes")) {
+									Intent intent = new Intent(ChangePin.this, LoginScreen.class);
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
+									ChangePin.this.finish();
+								}else{
+									Intent intent = new Intent(ChangePin.this, HomeScreen.class);
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
+								}
+							}
 						}
 					});
 		}
-		AlertDialog alertError = builderError.create();
+		alertError = builderError.create();
 		if (!((Activity) context).isFinishing()) {
 			alertError.show();
 		}
@@ -524,10 +535,7 @@ public class ChangePin extends AppCompatActivity {
 
 		// EditText OTP
 		edt = (EditText) dialogView.findViewById(R.id.otp_value);
-		edt.setText(otpValue);
-		final String otpValue_new = edt.getText().toString();
-		Log.d(LOG_TAG, "otpValue_new : " + otpValue_new + ", otpValue : " + otpValue);
-
+		
 		// Timer
 		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
 		// 120 detik
@@ -541,6 +549,8 @@ public class ChangePin extends AppCompatActivity {
 
 			@Override
 			public void onFinish() {
+				otpDialogS.cancel();
+				otpDialogS.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}
@@ -553,10 +563,11 @@ public class ChangePin extends AppCompatActivity {
 					+ getResources().getString(R.string.eng_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.dismiss();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("ActivityName", "ExitChangePin").commit();
 				}
 			});
 		} else {
@@ -565,10 +576,11 @@ public class ChangePin extends AppCompatActivity {
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					dialog.dismiss();
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					settings2.edit().putString("ActivityName", "ExitChangePin").commit();
 				}
 			});
 		}
@@ -600,12 +612,14 @@ public class ChangePin extends AppCompatActivity {
 				}
 			}
 		});
-		final AlertDialog b = dialogBuilder.create();
-		b.getWindow().clearFlags(
+		otpDialogS = dialogBuilder.create();
+		otpDialogS.getWindow().clearFlags(
 				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-		b.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		b.show();
-		((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		otpDialogS.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		if(!isFinishing()){
+			otpDialogS.show();
+		}
+		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -620,35 +634,40 @@ public class ChangePin extends AppCompatActivity {
 				// Check if edittext is empty
 				if (TextUtils.isEmpty(s)) {
 					// Disable ok button
-					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
 					// Something into edit text. Enable the button.
-					((AlertDialog) b).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 				}
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if ((edt.getText().length() > 3) && (isAutoSubmit == true)) {
 					if (myTimer != null) {
 						myTimer.cancel();
 					}
-					Intent intent = new Intent(ChangePin.this, ChangePinConfirm.class);
-					intent.putExtra("MSG", message);
-					intent.putExtra("OTP", edt.getText().toString());
-					intent.putExtra("SCTL", sctl);
-					intent.putExtra("MFA_MODE", mfaMode);
-					intent.putExtra("OPIN", oldPin);
-					intent.putExtra("NPIN", newPin);
-					intent.putExtra("mdn", settings.getString("mobile", ""));
-					Bundle extras = getIntent().getExtras();
-					if(extras!=null){
-						if(extras.getString("REQUIRED")!=null){
-							String required = extras.getString("REQUIRED");
-							if (required.equals("yes")) {
-								intent.putExtra("REQUIRED", "yes");
+					settings2 = getSharedPreferences(LOG_TAG, 0);
+					String actName = settings2.getString("ActivityName", "");
+					Log.d(LOG_TAG, "ActivityName : " + actName);
+					if (actName.equals("ChangePin")) {
+						Intent intent = new Intent(ChangePin.this, ChangePinConfirm.class);
+						intent.putExtra("MSG", message);
+						intent.putExtra("OTP", edt.getText().toString());
+						intent.putExtra("SCTL", sctl);
+						intent.putExtra("MFA_MODE", mfaMode);
+						intent.putExtra("OPIN", oldPin);
+						intent.putExtra("NPIN", newPin);
+						intent.putExtra("mdn", settings.getString("mobile", ""));
+						Bundle extras = getIntent().getExtras();
+						if(extras!=null){
+							if(extras.getString("REQUIRED")!=null){
+								String required = extras.getString("REQUIRED");
+								if (required.equals("yes")) {
+									intent.putExtra("REQUIRED", "yes");
+								}
 							}
 						}
+						intent.putExtra("CONFIRM_NPIN", newPin);
+						startActivity(intent);
 					}
-					intent.putExtra("CONFIRM_NPIN", newPin);
-					startActivity(intent);
 				}
 
 			}
@@ -703,6 +722,30 @@ public class ChangePin extends AppCompatActivity {
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void onReadSMS(String otp) {
+		Log.d(LOG_TAG, "otp from SMS: "+otp);
+        //assigning otp after received by IncomingSMSReceiver//Broadcast receiver
+		edt.setText(otp);
+		otpValue=otp;
+		if(handler!=null){
+			handler.removeMessages(0);
+		}
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		settings2 = getSharedPreferences(LOG_TAG, 0);
+		settings2.edit().putString("ActivityName", "ExitChangePin").commit();
+		if(otpDialogS!=null){
+			otpDialogS.dismiss();
+		}
+		if(alertError!=null){
+			alertError.dismiss();
+		}
 	}
 
 }

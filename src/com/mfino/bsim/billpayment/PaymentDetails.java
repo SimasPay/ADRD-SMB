@@ -828,7 +828,7 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 
 			@Override
 			public void onFinish() {
-				// info.setVisibility(View.GONE);
+				otpDialogS.dismiss();
 				errorOTP();
 				timer.setText("00:00");
 			}

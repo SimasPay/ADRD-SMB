@@ -74,6 +74,7 @@
             android:layout_below="@+id/textView1"
             android:layout_centerHorizontal="true"
             android:text="Ok"
+            android:textAllCaps="false"
             style="@style/font_button"
             android:background="@drawable/button_empty"
              />
