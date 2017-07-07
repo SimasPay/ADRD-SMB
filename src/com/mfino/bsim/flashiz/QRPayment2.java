@@ -121,16 +121,13 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		}
 
 		payByQRSDK.setMinimumTransaction(500);
-
-		Log.e("eula_state_qr2", payByQRSDK.getEULAState() + "");
-
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
-		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
-
 		settings = getSharedPreferences("LOGIN_PREFERECES", Context.MODE_PRIVATE);
 		userApiKey = settings.getString("userApiKey", "NONE");
 		Log.e("userApiKey---2222222------", userApiKey);
 
+		Log.e("eula_state_qr2", payByQRSDK.getEULAState() + "");
+		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
+		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 		if (selectedLanguage.equalsIgnoreCase("ENG"))
 			payByQRSDK.setSDKLocale(SDKLocale.ENGLISH);
 		else

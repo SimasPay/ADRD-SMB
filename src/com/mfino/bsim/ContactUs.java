@@ -37,7 +37,7 @@ public class ContactUs extends AppCompatActivity {
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			screenTitle.setText("Contact us");
 			customerCare.setText(getResources().getString(R.string.eng_bankSinarmasCare));
-			phoneNum.setText(" : 500 153" + "\n" + "(021)501 88888");
+			phoneNum.setText(" : 1500 153" + "\n" + "(021)501 88888");
 			companyWebSite.setText(getResources().getString(R.string.eng_companyWebsite));
 			webSite.setText(" : www.banksinarmas.com");
 			mailUsAt.setText(getResources().getString(R.string.eng_mainUsat));
@@ -47,7 +47,7 @@ public class ContactUs extends AppCompatActivity {
 
 			screenTitle.setText("Kontak kami");
 			customerCare.setText(getResources().getString(R.string.bahasa_bankSinarmasCare));
-			phoneNum.setText(" : 500 153" + "\n" + "  (021)501 88888");
+			phoneNum.setText(" : 1500 153" + "\n" + "  (021)501 88888");
 			companyWebSite.setText(getResources().getString(R.string.bahasa_companyWebsite));
 			webSite.setText(" : www.banksinarmas.com");
 			mailUsAt.setText(getResources().getString(R.string.bahasa_mainUsat));
