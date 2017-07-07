@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mfino.bsim"
     android:versionCode="21"
-    android:versionName="7.9" >
+    android:versionName="8.0" >
 
     <supports-screens
         android:anyDensity="true"
