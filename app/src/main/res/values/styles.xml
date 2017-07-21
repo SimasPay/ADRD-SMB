@@ -1,0 +1,95 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+
+    <color name="redsinarmas">#D60404</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+
+    <style name="AppBaseTheme" parent="Base.Theme.AppCompat">
+        <item name="colorControlNormal">@color/redsinarmas</item>
+        <item name="colorControlActivated">@color/redsinarmas</item>
+        <item name="colorControlHighlight">@color/redsinarmas</item>
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <!-- Text styles -->
+
+    <style name="AppNoTitleBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:textColorHint">#cccccc</item>
+        <item name="colorControlNormal">@color/redsinarmas</item>
+        <item name="colorControlActivated">@color/redsinarmas</item>
+        <item name="colorControlHighlight">@color/redsinarmas</item>
+    </style>
+
+    <style name="font_button">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle"> bold</item>
+    </style>
+
+    <style name="font_style_spinner">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle"> bold</item>
+    </style>
+
+    <style name="title_font_style">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle"> bold</item>
+    </style>
+
+    <style name="below_icon_text">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textStyle"> bold</item>
+    </style>
+
+    <style name="text_box_style">
+        <item name="android:background">@drawable/text_field</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorHint">#000000</item>
+    </style>
+
+    <style name="MyAlertDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle_Holo</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="DialogWindowTitle_Holo">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:background">#cccccc</item>
+        <item name="colorControlNormal">@color/redsinarmas</item>
+        <item name="colorControlActivated">@color/redsinarmas</item>
+        <item name="colorControlHighlight">@color/redsinarmas</item>
+    </style>
+
+    <style name="SpinnerItem">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/background</item>
+    </style>
+
+    <style name="SpinnerDropDownItem">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/background</item>
+    </style>
+
+</resources>

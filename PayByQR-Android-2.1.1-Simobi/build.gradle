@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('PayByQR-Android-2.1.1-Simobi.aar'))

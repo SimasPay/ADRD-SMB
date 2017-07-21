@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_simobi"
+    android:orientation="vertical" >
+<include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+         >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@layout/rounded"
+            android:layout_margin="15dp"
+            android:padding="15dp"
+            android:orientation="vertical" >
+		<LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent" >
+                <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" MDN"
+                style="@style/font_style_spinner" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_mdnValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                style="@style/text_box_style"
+                 >
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" 
+            android:orientation="vertical">
+                <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Amount"
+                android:layout_marginTop="10dp"
+                style="@style/font_style_spinner">
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_amountValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                style="@style/text_box_style"
+                >
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent" >
+                <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" mPIN"
+                android:layout_marginTop="10dp"
+                style="@style/font_style_spinner" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/ed_pinValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="6"
+                android:password="true" 
+                style="@style/text_box_style">
+            </EditText>
+        </LinearLayout>
+        
+
+            <Button
+                android:id="@+id/btn_EnterPin_Ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="Submit"
+                style="@style/font_button"
+                android:textAllCaps="false"
+                android:background="@drawable/button_empty" >
+            </Button>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!--
+    <FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_gravity="bottom"
+		android:layout_marginBottom="10dp" android:visibility="invisible">
+		<Button android:id="@+id/btn_EnterPin_Ok"
+			android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+			android:layout_width="wrap_content" android:background="@drawable/ok_btn_hover"></Button>
+		<Button android:id="@+id/btn_EnterPin_Back"
+			android:layout_height="wrap_content" android:layout_width="80dp"
+			android:layout_gravity="right" android:text="Back"
+			android:visibility="invisible"></Button>
+	</FrameLayout>
+    -->
+
+</LinearLayout>

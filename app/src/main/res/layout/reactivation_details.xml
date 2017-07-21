@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_simobi"
+    android:orientation="vertical" >
+     <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@layout/rounded"
+            android:layout_margin="15dp"
+            android:padding="15dp"
+            android:orientation="vertical" >
+
+            <!-- <LinearLayout android:orientation="vertical" -->
+            <!-- android:layout_width="fill_parent" android:layout_height="wrap_content" -->
+            <!-- android:layout_marginLeft="10dp" -->
+            <!-- android:layout_marginRight="10dp" android:layout_gravity="center" android:layout_marginTop="20dp"> -->
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dip"
+                android:text="Card Pan "
+                style="@style/font_style_spinner">
+            </TextView>
+
+            <EditText
+                android:id="@+id/cardPanEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="16"
+                style="@style/text_box_style" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Bank mPin "
+                style="@style/font_style_spinner" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/bankPinEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="6"
+                android:password="true"
+                style="@style/text_box_style" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/textView_newPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="New mPin "
+                style="@style/font_style_spinner">
+            </TextView>
+
+            <EditText
+                android:id="@+id/pinEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="6"
+                android:password="true"
+                style="@style/text_box_style" >
+            </EditText>
+
+            <TextView
+                android:id="@+id/textView_confirmNewPin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm New mPin "
+                android:layout_marginTop="10dp"
+                style="@style/font_style_spinner" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/rePinEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
+                android:password="true" 
+                style="@style/text_box_style">
+            </EditText>
+
+            <Button
+                android:id="@+id/okButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:text="Submit"
+                style="@style/font_button"
+                android:textAllCaps="false"
+                android:background="@drawable/button_empty" >
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+    <!-- </LinearLayout> -->
+
+
+    <!-- <FrameLayout android:layout_width="fill_parent" -->
+    <!-- android:layout_height="wrap_content" android:layout_gravity="bottom" android:visibility="invisible"> -->
+    <!-- <Button android:layout_height="wrap_content" android:id="@+id/okButton" -->
+    <!-- android:background="@drawable/ok_btn_hover" android:layout_width="wrap_content" -->
+    <!-- android:layout_gravity="center_horizontal"></Button> -->
+    <!-- <Button android:layout_height="wrap_content" -->
+    <!-- android:layout_gravity="right" android:layout_marginRight="10dp" -->
+    <!-- android:id="@+id/backButton" android:background="@drawable/cancel_btn_hover" -->
+    <!-- android:layout_width="wrap_content" android:visibility="invisible"></Button> -->
+    <!-- </FrameLayout> -->
+
+</LinearLayout>

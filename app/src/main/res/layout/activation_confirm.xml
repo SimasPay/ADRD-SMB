@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_simobi"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header_no_back" />
+
+    <!-- <RelativeLayout
+        android:id="@+id/header1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/white_strip" >
+
+        <TextView
+            android:id="@+id/screenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="BSIM"
+            android:textColor="#000000"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/back_button" />
+    </RelativeLayout> -->
+
+    <RelativeLayout
+        android:id="@+id/linearText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:background="@layout/rounded"
+        android:paddingBottom="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/font_style_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="Your activation is successful. Thank you for choosing BankSinarmas Mobile services" >
+        </TextView>
+        <!--
+            <TextView android:layout_height="wrap_content" android:id="@+id/textView2"
+			android:text="I understand that, by using this service that by"
+			android:layout_gravity="center_horizontal" android:gravity="center_horizontal"
+			android:textSize="30sp" android:layout_width="wrap_content"
+			android:textColor="@color/WHITE"></TextView>
+        -->
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:text="Ok"
+            android:textAllCaps="false"
+            style="@style/font_button"
+            android:background="@drawable/button_empty"
+             />
+
+    </RelativeLayout>
+
+</RelativeLayout>

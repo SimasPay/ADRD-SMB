@@ -1,0 +1,513 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mfino.bsim">
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="false"
+        android:smallScreens="true" />
+
+    <!-- <uses-sdk android:minSdkVersion="10" /> -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- Features -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/app_icon"
+        android:label="@string/Simobi_app_name"
+        android:largeHeap="true"
+        android:theme="@android:style/Theme.NoTitleBar"
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/Simobi_app_name"
+            android:theme="@style/AppNoTitleBarTheme"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="payinapp"
+                    android:scheme="simobi" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".receivers.IncomingSMS">
+            <intent-filter android:priority="900" >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".WebviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name=".Confirmation_History"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".LandingScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name=".ContactUs"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" />
+        <activity
+            android:name=".TermsAndConditions"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" />
+        <activity
+            android:name=".LoginScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name=".Update"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".HomeScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name=".ActivationHome"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ActivationConfirm"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ResetPinDetails"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ReActivationDetails"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ActivationConfirmation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ActivationDetails"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".ActivationDisclosure"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <!--<activity
+            android:name=".transfer.TransferConfirm"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".transfer.OtherBankList"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".transfer.SmartFrenDetails"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".transfer.ToBankSinarmas"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name=".transfer.ToOtherBankDetails"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name=".transfer.TransferSelection"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".transfer.SelfSelection"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".transfer.ConfirmAddReceiver"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <!--<activity
+            android:name=".transfer.Confirmationreceiver"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".transfer.Details_AddReciever"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".transfer.Unregistered_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".transfer.BBDetails"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".transfer.DetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".transfer.EnterPin"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".account.ChangeMDN"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".account.ChangePinConfirm"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".account.ChangeMDNConfirm"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".account.AccountSelection"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".account.AccountEnterPin"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".account.CashOut"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".account.ChangePin"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme"
+            android:windowSoftInputMode="stateVisible|adjustResize|adjustPan" >
+        </activity>
+        <activity
+            android:name=".account.CheckBalance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".account.History"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".account.CashOutConfirm"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".account.CashOutConfirmation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".account.ChangePinConfirmation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".account.CheckBalanceConfirmation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".account.HistoryDetails"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".billpayment.BillPaymentCCBillInquiry"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".billpayment.PaymentDetails"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name=".billpayment.PaymentHome"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".billpayment.BillpaymentEnterPin"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".billpayment.BillPaymentConfirm"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".billpayment.BillPaymentConfirmation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".billpayment.BillPaymentDetails"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".purchase.PurchaseDetails"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name=".purchase.PurchaseHome"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".purchase.BuyAccount"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name=".purchase.BuyConfirm"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--<activity
+            android:name=".purchase.BuyConfirmation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".purchase.BuyAirtimeSelection"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".purchase.BuyReceiverAmount"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".billpayment.BillPaymentSelection"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".billpayment.BillPaymentSourceAccount"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".buy.BuyDetails"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateVisible|adjustResize|adjustPan" >
+        </activity>
+        <activity
+            android:name=".transfer.SelectOthers"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>-->
+        <activity
+            android:name="com.mfino.bsim.transfer.TransferToUnagkuConfirmation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name="com.mfino.bsim.transfer.TransferToUangku"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" >
+        </activity>
+        <activity
+            android:name="com.mfino.bsim.ConfirmationScreen"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.mfino.bsim.flashiz.QRPayment2"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="com.mfino.bsim.flashiz.QRPin1"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
+        </activity>
+
+        <!-- Pay By QR SDK Manifest -->
+        <!--<activity
+            android:name="com.dimo.PayByQR.activity.SplashActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.ScanQRActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.InvoiceDetailActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.PaymentSuccessActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.FailedActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.NoConnectionActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.TipActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.LoyaltyActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.LoyaltyDetailActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.activity.OfflineQRActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreMenuActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreDetailActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreCheckout"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreCheckout1"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreCheckout2"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreKonfirmasiActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreMenuMerchant"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />-->
+        <!--
+             <activity
+            android:name="com.dimo.PayByQR.QrStore.view.StoreSuccess"
+            android:screenOrientation="portrait"
+            android:theme="@style/PayByQRTheme.NoActionBar.TranslucentStatus" />
+        -->
+        <!-- End of Pay By QR SDK Manifest -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="0958f167a1daf9bc5a5fd439e69b65377b18fb4c" />
+    </application>
+
+</manifest>

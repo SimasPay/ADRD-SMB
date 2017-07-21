@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_simobi"
+     >
+<!-- <include
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/header" /> -->
+    <RelativeLayout
+        android:id="@+id/linearText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_margin="10dp"
+        android:background="@layout/rounded"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout1"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp" >
+
+            <LinearLayout
+                android:id="@+id/linearText1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <!--
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/icons_splash"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/main_logo" />
+                </LinearLayout>
+                -->
+
+                <TextView
+                    android:id="@+id/terms_conditions"
+                    style="@style/font_style_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:text="Your consent through your Banksinarmas application is your consent to the terms and conditions of this service. Banksinarmas Bank retains the right to amend these terms any time without notice. "
+                    android:textColor="#ffffff" >
+                </TextView>
+                <!--
+            <TextView android:layout_height="wrap_content" android:id="@+id/textView2"
+			android:text="I understand that, by using this service that by"
+			android:layout_gravity="center_horizontal" android:gravity="center_horizontal"
+			android:layout_width="wrap_content"
+			android:textSize="30sp" android:layout_marginLeft="20sp"
+			android:layout_marginRight="20sp" android:textColor="@color/WHITE"></TextView>
+                -->
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/divider" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                 >
+
+                <!--
+            <Button
+                android:id="@+id/agreeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Agree"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+                -->
+
+                <Button
+                    android:id="@+id/agreeButton"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/button_empty"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textAllCaps="false"
+                    android:text="Setuju" >
+                </Button>
+
+                <Button
+                    android:id="@+id/decline"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp"
+                    android:textAllCaps="false"
+                    android:layout_toRightOf="@+id/agreeButton"
+                    android:background="@drawable/button_empty"
+                    android:text="Batal" >
+                </Button>
+
+                <!--
+            <Button
+                android:id="@+id/decline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/agreeButton"
+                android:text="Cancel"
+                style="@style/font_button"
+                android:background="@drawable/button_empty" >
+            </Button>
+                -->
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

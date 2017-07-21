@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, SplashScreen!</string>
+    <string name="Simobi_app_name">Bank Sinarmas</string>
+    <string name="app_version">3</string>
+    <string name="send_otp"><u>Click here to resend OTP</u></string>
+    <string name="source_packet_code">2</string>
+    <string name="bsim">BSIM</string>
+    <string name="toc">Terms &amp; Conditions</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="ok">OK</string>
+
+    <!-- English -->
+    <string name="login">Login</string>
+	<string name="test"></string>
+	<string name="welcome">Welcome!</string>
+	<string name="mpin">mPIN</string>
+	<string name="nophone">Mobile Phone Number </string>
+    <string name="eng_login"> Login </string>
+    <string name="eng_activation"> Activation </string>
+    <string name="eng_activationDisclosure"> Terms and conditions</string>
+    <string name="eng_languageSetting"> ChangeLangauge </string>
+    <string name="eng_fundTransfer"> Transfer </string>
+    <string name="eng_payment"> Payment </string>
+    <string name="eng_purchase">  Purchase </string>
+    <string name="eng_myaccont"> Account </string>
+    <string name="eng_Flashiz"> Pay by QR </string>
+    <string name="eng_promo"> Promo\nPay by QR </string>
+    <string name="eng_resend_otp"> Resend otp </string>
+    <string name="eng_tosmartfren"> To Smartfren </string>
+    <string name="eng_menuBankSinarmas"> Bank Sinarmas </string>
+    <string name="eng_toBankSinarmas"> Transfer to Bank Sinarmas </string>
+    <string name="eng_menubankList"> Other Bank </string>
+    <string name="eng_bankList"> Other Bank List </string>
+    <string name="eng_toUangku"> Transfer to UANGKU </string>
+    <string name="eng_destinationAccountNum"> Destination account number</string>
+    <string name="eng_toOtherBank">Other Bank</string>
+    <string name="eng_confirm"> Confirm </string>
+    <string name="eng_changePin"> Change mPIN </string>
+    <string name="eng_oldPin"> Old mPIN </string>
+    <string name="eng_newPin"> New mPIN </string>
+    <string name="eng_confimPin"> Confirm mPIN </string>
+    <string name="eng_checkBalance">  Balance </string>
+    <string name="eng_history"> History</string>
+    <string name="eng_paymentDetails"> Payment details </string>
+    <string name="eng_transferDetails"> Transfer details </string>
+    <string name="eng_purchaseDetails"> Prepaid details </string>
+    <string name="eng_credit_AC_No"> Destination account number </string>
+    <string name="eng_destnatin_mdn"> Destination mobile phone number </string>
+    <string name="eng_customerName"> Account Owner </string>
+    <string name="eng_destinationBank"> Destination bank </string>
+    <string name="eng_destinationNumber"> Destination number </string>
+    <string name="eng_amount"> Amount </string>
+    <string name="eng_mobileNumber">  Mobile number  </string>
+    <string name="eng_paymentCategory"> Payment category </string>
+    <string name="eng_paymentProvider"> Biller name </string>
+    <string name="eng_paymentType"> Payment Type </string>
+    <string name="eng_purchaseCategory"> Prepaid Category </string>
+    <string name="eng_purchaseProvider"> Biller Name </string>
+    <string name="eng_purchaseType"> Prepaid Type </string>
+    <string name="eng_invoiceNumber"> Telephone Number</string>
+    <string name="eng_result"> Summary </string>
+    <string name="eng_reactivation"> Reactivation </string>
+    <string name="eng_resetPin"> Reset mPIN </string>
+    <string name="eng_last3Transactions"> History </string>
+    <string name="eng_clickHereToResend"> Click here to resend OTP </string>
+    <string name="eng_serverNotRespond"> Dear Customer,\n currently you are not connected to Bank Sinarmas server. Please try again later. </string>
+    <string name="eng_enterValidMobile"> Please enter the valid mobile number </string>
+    <string name="eng_pinLength"> mPIN should be 6 digits </string>
+    <string name="eng_LoginpinLength"> mPIN should be 6 digits. If your mPIN is less than 6 digits, please change your mPIN to 6 digit at the nearest Bank Sinarmas ATM </string>
+    <string name="eng_confirmPinLenth"> Confirm mPIN should be 6 digits. </string>
+    <string name="eng_pinActivation">mPIN should be 6 digits</string>
+    <string name="eng_fieldsNotEmpty"> Fields can not be empty </string>
+    <string name="eng_loading"> Loading.... </string>
+    <string name="eng_mPinNotMatch"> mPIN do not match. Please enter same mPIN in both fields and retry. </string>
+    <string name="eng_transactionFail"> Dear Customer,\n Transaction failed due to sms not received.Please try again.</string>
+    <string name="eng_checkSMS"> Please check your SMS for OTP </string>
+    <string name="eng_contactCustomerCare"> Dear user, \nyour mbanking account is active. If you forget your MPIN, please contact customer care to reset your MPIN. </string>
+    <string name="eng_updateText"> A new version of this application is available at. Updating is suggested </string>
+    <string name="eng_updatedDownload"> Dear Customer,\n The updated version cannot be downloaded now.Please try again later </string>
+    <string name="eng_availableDenoms"> Available denom are: </string>
+    <string name="eng_bankSinarmasCare"> Bank Sinarmas Care </string>
+    <string name="eng_companyWebsite"> Company Website </string>
+    <string name="eng_mainUsat"> Mail us at </string>
+    <string name="eng_contactUs"> Contact us </string>
+    <string name="eng_cancel"> Cancel </string>
+    <string name="eng_submit"> Next </string>
+    <string name="eng_agree"> Agree </string>
+    <string name="eng_next"> Next </string>
+    <string name="eng_languageSelection"> Language </string>
+    <string name="eng_chooseLanguage"> Choose your language </string>
+    <string name="eng_otherAmount"> Please input payment amount </string>
+    <string name="eng_appTimeout"> Please wait while your transaction is being processed. Please check your transaction history to see this transaction status.</string>
+    <string name="eng_noInterent">Dear Customer,\n currently you are not connected to Bank Sinarmas server. Please try again later. </string>
+    <string name="eng_otprequired_title">Code Verification</string>
+    <string name="eng_otprequired_desc_1">Please wait while we are doing automatic code verification to the number : </string>
+    <string name="eng_otprequired_desc_2"> or please enter the code manually if automatic verification is failed.</string>
+    <string name="eng_otpfailed">Code Verification Failed</string>
+	<string name="eng_welcome">Welcome! </string>
+    <string name="eng_desc_otpfailed">Please enter the code within specified time limit."</string>
+    <string name="eng_incorrectotp">You have entered incorrect code. Please try again and ensure that you  enter the correct code.</string>
+    <string name="eng_forcechangepin">Please update your Simobi Application before performing transaction</string>
+    <string name="eng_changepin">Please change your mPIN before performing transaction</string>
+    <string name="eng_emptymdn">Please provide phone number</string>
+    <string name="eng_emptympin">Please provide mPIN</string>
+    <string name="eng_loginagain">Please login again</string>
+    <!-- bahasa -->
+
+    <string name="bahasa_login"> Login </string>
+    <string name="bahasa_activation"> Aktivasi  </string>
+    <string name="bahasa_activationDisclosure"> Syarat Dan Ketentuan </string>
+    <string name="bahasa_languageSetting"> Ganti Bahasa </string>
+    <string name="bahasa_fundTransfer"> Transfer </string>
+    <string name="bahasa_payment"> Pembayaran </string>
+    <string name="bahasa_purchase"> Pembelian </string>
+    <string name="bahasa_myaccont"> Rekening </string>
+    <string name="bahasa_Flashiz"> Bayar Pakai QR </string>
+    <string name="bahasa_promo"> Promo\nBayar Pakai QR </string>
+    <string name="bahasa_resend_otp"> Kirim Ulang OTP </string>
+    <string name="bahasa_tosmartfren"> Nomor Smartfren </string>
+    <string name="bahasa_menuBankSinarmas"> Bank Sinarmas </string>
+    <string name="bahasa_toBankSinarmas"> Transfer ke Bank Sinarmas </string>
+    <string name="bahasa_menubankList"> Bank Lain </string>
+    <string name="bahasa_bankList"> Daftar Bank Lain </string>
+    <string name="bahasa_destinationAccountNum"> Nomor Rekening Tujuan </string>
+    <string name="bahasa_toOtherBank"> Bank Lain </string>
+    <string name="bahasa_toUangku"> Transfer ke UANGKU </string>
+    <string name="bahasa_confirm"> Konfirmasi </string>
+    <string name="bahasa_newPin"> mPIN Baru </string>
+    <string name="bahasa_confimPin"> Konfirmasi mPIN </string>
+    <string name="bahasa_checkBalance"> Saldo </string> <!-- Info -->
+    <string name="bahasa_history"> Transaksi </string>
+    <string name="bahasa_paymentDetails">  Detil Pembayran</string>
+    <string name="bahasa_transferDetails"> Detil Transfer </string>
+    <string name="bahasa_purchaseDetails"> Detil Prabayar </string>
+    <string name="bahasa_credit_AC_No"> Nomor Rekening Tujuan </string>
+    <string name="bahasa_destnation_mdn">  Nomor Handphone Tujuan </string>
+    <string name="bahasa_customerName"> Pemilik Rekening </string>
+    <string name="bahasa_customerName_new"> Nama </string>
+    <string name="bahasa_destinationBank"> Bank Tujuan </string>
+    <string name="bahasa_destinationNumber"> Nomor Tujuan </string>
+    <string name="bahasa_amount"> Jumlah </string>
+    <string name="bahasa_mobileNumber"> Nomor Handphone </string>
+    <string name="bahasa_mobileNumber_new">  Nomor HP </string>
+    <string name="bahasa_otp"> OTP </string>
+    <string name="bahasa_paymentCategory"> Kategori Pembayaran </string>
+    <string name="bahasa_paymentType"> Jenis Pembayaran </string>
+    <string name="bahasa_purchaseCategory"> Kategori Prabayar </string>
+    <string name="bahasa_purchaseType"> Tipe Prabayar </string>
+    <string name="bahasa_clickHereToResend"> Klik di sini untuk kirim ulang OTP </string>
+    <string name="bahasa_changePin"> Ganti mPIN </string>
+    <string name="bahasa_oldPin"> mPIN lama </string>
+    <string name="bahasa_result"> Ringkasan </string>
+    <string name="bahasa_last3Transactions"> 6 Trannsaksi Terakhir </string>
+    <string name="bahasa_reactivation"> Aktivasi Ulang </string>
+    <string name="bahasa_resetPin"> Reset mPIN </string>
+    <string name="bahasa_serverNotRespond"> Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
+    <string name="bahasa_enterValidMobile"> Silakan masukkan nomor ponsel yang valid </string>
+    <string name="bahasa_LoginpinLength"> Panjang mPIN harus 6 digit. Apabila mPIN Anda kurang dari 6 digit, silahkan ubah dahulu mPIN Anda menjadi 6 digit di ATM Bank Sinarmas terdekat </string>
+    <string name="bahasa_pinLength"> Panjang mPIN harus 6 digit </string>
+    <string name="bahasa_confirmPinLenth">Panjang confirm mPIN harus 6 digit</string>
+    <string name="bahasa_pinActivation">Panjang mPIN harus 6 digit</string>
+    <string name="bahasa_fieldsNotEmpty"> field tidak boleh kosong </string>
+    <string name="bahasa_loading"> sedang proses....  </string>
+    <string name="bahasa_mPinNotMatch"> mpin tidak cocok. Silakan input mpin yang sama di kedua field, kemudian coba lagi. </string>
+    <string name="bahasa_transactionFail"> Nasabah yang terhormat,  \ntransaksi gagal karena SMS OTP tidak diterima. Silakan coba lagi.</string>
+    <string name="bahasa_checkSMS"> Silakan periksa SMS Anda untuk OTP </string>
+    <string name="bahasa_contactCustomerCare"> Dear user, your mbanking account is active. If you forget your MPIN, please contact customer care to reset your MPIN </string>
+    <string name="bahasa_updateText"> A new version of this application is available at. Updating is suggested </string>
+    <string name="bahasa_updatedDownload"> Nasabah yang terhormat,\n Versi terbaru tidak dapat didownload saat ini. silakan coba lagi nanti </string>
+    <string name="bahasa_availableDenoms"> Tersedia Denom Adalah: </string>
+    <string name="bahasa_bankSinarmasCare"> Bank Sinarmas Care </string>
+    <string name="bahasa_companyWebsite"> Website Perusahaan</string>
+    <string name="bahasa_mainUsat"> Mail Kami di </string>
+    <string name="bahasa_invoiceNumber"> Nomor Telephone</string>
+    <string name="bahasa_paymentProvider"> Nama Biller </string>
+    <string name="bahasa_purchaseProvider"> Nama Biller </string>
+    <string name="bahasa_contactUs"> Hubungi Kami </string>
+    <string name="bahasa_cancel"> Batal </string>
+    <string name="bahasa_submit"> Lanjut </string>
+    <string name="bahasa_agree">Setuju</string>
+    <string name="bahasa_next"> Lanjut </string>
+    <string name="bahasa_languageSelection"> Bahasa </string>
+    <string name="bahasa_chooseLanguage"> Pilih Bahasa </string>
+    <string name="bahasa_otherAmount"> Masukkan jumlah pembayaran </string>
+    <string name="bahasa_appTimeout">Mohon menunggu, \n transaksi Anda sedang dalam proses. Periksa riwayat transaksi untuk mengetahui status transaksi Anda. </string>
+    <string name="bahasa_noInternet">Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
+    <string name="bahasa_otprequired_title">Verifikasi Kode</string>
+    <string name="bahasa_otprequired_desc_1">Mohon menunggu selagi kami \nmelakukan verifikasi kode \nsecara otomatis ke nomor \n</string>
+    <string name="bahasa_otprequired_desc_2">atau silakan masukkan kode secara manual \njika verifikasi otomatis gagal</string>
+    <string name="bahasa_welcome">Selamat Datang! </string>
+    <string name="bahasa_otpfailed">Verifikasi Kode Gagal</string>
+    <string name="bahasa_desc_otpfailed">Silakan masukan kode sebelum batas waktu yang ditentukan</string>
+    <string name="bahasa_incorrectotp">Kode yang Anda masukkan salah. Silakan coba lagi dan pastikan Anda memasukkan kode yang benar.</string>
+    <string name="bahasa_forcechangepin">Silakan perbarui Aplikasi Simobi Anda sebelum melakukan transaksi</string>
+    <string name="bahasa_changepin">Mohon ubah mPIN Anda sebelum melakukan transaksi</string>
+    <string name="bahasa_emptymdn">Silakan masukkan Nomor HP Anda</string>
+    <string name="bahasa_emptympin">Silakan masukkan mPIN Anda</string>
+    <string name="sms">SMS</string>
+    <string name="sms_des">Simobi membutuhkan izin membaca SMS yang masuk, agar dapat menampilkan Kode OTP secara otomatis. Apakah anda bersedia?</string>
+    <string name="bahasa_loginagain">Dimohon untuk login kembali</string>
+    <string name="login_content">
+<![CDATA[
+		<html>
+		  <head></head>
+		  <body style="text-align:justify;">
+		 	Welcome to bank <B>sinarmas</B>. Please login to Continue
+		  </body>
+		</html>
+	]]>
+    </string>
+
+    <!-- Terms & Conditions  English -->
+    <string name="eng_disclosure">
+<![CDATA[
+		<html>
+		 <head></head>
+		 <body style="text-align:justify;">
+		<B>Term and condition Simobi Bank Sinarmas Service<B><BR/><BR/>
+
+		<B>Article 1: Definition</B></BR>
+		Unless defined otherwise, by:<BR/>
+		1.1 	Simobi Bank Sinarmas shall mean e-banking service to carry out the financial and non-financial transactions with clearer menu display where the application shall be downloaded firstly by using cellular phone handset/tablet computer as well as 3G/GPRS/WIFI technology.<BR/>
+		1.2 	Bank shall mean PT. Sinarmas (Persero) Tbk, having its domicile and head office in Jakarta<BR/>
+		1.3 	3G/GPRS/WIFI Technology shall mean the data package delivery and receive technology made available by the cellular network/telecommunication service provider.<BR/>
+		1.4 	Customer shall mean individual owner of Bank Sinarmas ATM card.<BR/>
+		1.5 	Simobi Bank Sinarmas service can be linked to Bank Sinarmas saving account or Bank Sinarmas current account with currency IDR.<BR/><BR/>
+		
+		</B>Article 2: Terms of Simobi Bank Sinarmas registration</B><BR/>
+		2.1. Already having Bank Sinarmas giro account or Bank Sinarmas savings account.<BR/>
+		2.2. Customer must do Simobi Bank Sinarmas Registration from Bank Sinarmas office or ATM Bank Sinarmas. Once registration successful, customer will received sms with 8 digit OTP (one time password) to be used for activation.<BR/>
+		2.3. Simobi Bank Sinarmas application service can be downloaded from www.banksinarmas.com<BR/>
+		2.4. Have read and accepting the Terms and Conditions of Simobi Bank Sinarmas.<BR/><BR/>
+		
+		<B>Article 3: Conditions of Simobi Bank Sinarmas Use</B><BR/>
+		
+		3.1 	Customer must do activation prior to be able using the Simobi Bank Sinarmas services.<BR/>
+		3.2 	The Customer may use Simobi Bank Sinarmas service to obtain information or carry out banking transaction already determined.<BR/>
+		3.3 	Simobi Bank Sinarmas service can be used by registering all cellular telephone available in Indonesia.<BR/>
+		3.4 	Simobi Bank Sinarmas service can only be used in 1 cellular telephone number (MSISDN) for one account.<BR/>
+		3.5 	For all financial transaction from Simobi Bank Sinarmas will be challenged and authenticated by mPIN.<BR/>
+		3.6 	Simobi Bank Sinarmas mPIN is created while activation process by customer.<BR/>
+		3.7 	When implementing the transaction, the Customer shall:<BR/>
+		•	Ensure the completeness and correctness of data on transaction mentioned. All consequences arising from the default, incompleteness and or error by the Customer shall fully become the Customer’s responsibility.<BR/>
+		• Enter Simobi Bank Sinarmas mPIN while making transaction.<BR/>
+		3.8 	Every instruction provided by the Customer through Simobi Bank Sinarmas service cannot be canceled.<BR/>
+		3.9 	Every instruction already provided by the Customer according to the Terms & Conditions of this service shall be valid proof, unless proven otherwise and the Bank has no obligation to examine such validity.<BR/>
+		3.10 	The Bank shall be entitled to neglect the Customer\'s instruction, if:<BR/>
+		a. Balance in Customer\'s account is insufficient.<BR/>
+		b. There is indication of crime.<BR/>
+		3.11 	All consequences arising as the consequence of the abuse of Simobi Bank Sinarmas shall become full responsibility of the Customer and the Customer hereby keeps harmless the Bank from all claims potentially arising in any terms and from any parties.<BR/>
+		3.12 As the proof of transaction implementation, the Customer will obtain the transaction number proof at every end of transaction via SMS, as long as the Customer\'s cellular phone message box still allows or there is no communication network interference. <BR/>
+		3.13 At its own consideration, the Bank shall be entitled to change the transaction limit. Such change shall bind the Customer sufficiently by the notification according to the prevailing provisions.<BR/>
+		
+		<B>Article 4: Simobi Bank Sinarmas password</B><BR/><BR/>
+		
+		4.1 	The Customer shall secure his mPIN. In this respect, the Customer shall not:<BR/>
+		a. Notify the mPIN to the others;<BR/>
+		b. Save mPIN in the cellular telephone memory or other saving facilities allowing the other parties to know it;<BR/>
+		The Customer shall also replace the mPIN periodically.<BR/>
+		4.2 	All consequences arising due to the abuse of mPIN shall fully become the Customer’s responsibility and the Customer hereby keeps harmless the Bank from all claims potentially arising in any terms and from any parties.<BR/>
+		4.3 	If the Customer wrongly enters the mPIN for 3 (three) times consecutively, then the application will be automatically blocked. To reactivate such application, the Customer shall visit the provided Bank Sinarmas office or ATM to do mPIN reset.<BR/><BR/>
+		
+		<B>Article 5: Cessation of Access to Simobi Bank Sinarmas service<B><BR/><BR/>
+		5.1 	Simobi Bank Sinarmas service will be ceased by the Bank if:<BR/>
+		a. There is written request from the Customer.<BR/>
+		b. The customer closes all accounts accessible via Simobi Bank Sinarmas service.<BR/>
+		c. Obliged by the prevailing legislation and or court’s judgment.<BR/><BR/>
+		
+		<B>Article 6: Miscellany</B><BR/>
+		
+		For the problem relating to cellular phone number, GPRS/3G network, invoice for use of GPRS/3G, SMS charge, and value added service of GPRS/3G, the Customer shall directly contact the operator of the relevant GPRS/3G cellular mobile network/ telecommunication service. While for the problem on service, the Customer may contact the Bank Sinarmas CARE 500 153.<BR/>
+		The Bank may change these Terms and Conditions according to the need. The change will be binding to the Customer sufficiently by notification according to the provisions applicable to the Bank.<BR/>
+		The Customer shall comply with the terms applicable to the Bank including but not limited to the General Conditions of Account Opening, Special Conditions of Giro Account Opening, or Special Conditions of Savings Account Opening. <BR/>
+		The powers of attorney granted relating to this service shall be a valid power of attorney that will not expire as long as the Customer still uses Simobi Bank Sinarmas service or there is still other obligation of the Customer to the bank.<BR/>
+		The Customer shall keep harmless the Bank from all claims, in case the Bank fails to implement the Customer’s instruction partly or entirely due to any events or causes beyond the control or capability of the Bank such as computer virus interference, web browser, dysfunction system or transmission, electricity failure, telecommunication failure or government policy, as well as any other events or causes beyond the control or capability of the Bank.<BR/>
+
+		 </body>
+		</html>
+		]]>
+    </string>
+
+    <!-- Terms & Conditions  Bahasa -->
+    <string name="bahasa_disclosure">
+<![CDATA[
+		<html>
+		 <head></head>
+		 <body style="text-align:justify;">
+		<B>SYARAT DAN KETENTUAN LAYANAN SIMOBI SINARMAS<B><BR/><BR/>
+	
+
+
+		<B>PasaL 1 : Definisi</B><BR/>
+		1.1Simobi Sinarmas adalah layanan e-banking untuk melakukan transaksi finansial dan non-finansial dengan tampilan menu yang lebih jelas dimana aplikasi harus diunduh terlebih dahulu menggunakan handset telepon selular/komputer tablet serta teknologi 3G/GPRS/WIFI.<BR/>
+		1.2Bank adalah PT. Bank Sinarmas, Tbk yang berkedudukan dan berkantor pusat di Jakarta Pusat.<BR/>
+		1.3Teknologi 3G/GPRS/WIFI adalah teknologi pengiriman dan penerimaan paket data yang disediakan penyedia layanan jaringan/telekomunikasi bidang selular.<BR/>
+		1.4Nasabah adalah perorangan / badan pemilik rekening tabungan dan giro yang memiliki Kartu ATM Bank Sinarmas.<BR/>
+		1.5Jenis rekening yang dapat dihubungkan dengan Layanan Simobi Sinarmas adalah rekening Tabungan perorangan atau Giro perorangan dalam mata uang Rupiah (IDR).<BR/><BR/> 
+		
+		<B>Pasal 2 : Syarat Pendaftaran Simobi Bank Sinarmas</B><BR/>
+		2.1Nasabah telah memiliki rekening Tabungan perorangan atau Giro perorangan.<BR/>
+		2.2Nasabah harus melakukan pendaftaran Layanan Sinarmas dengan mendatangi Kantor Cabang atau ATM Bank Sinarmas. Apabila registrasi berhasil, nasabah akan menerima sms berisikan 8 digit OTP (One Time Password) yang akan digunakan untuk aktivasi.<BR/>
+		2.3Nasabah dapat menggunakan Layanan aplikasi Simobi Sinarmas dengan mengunduh melalui website Bank Sinarmas www.banksinarmas.com<BR/>
+		2.4Telah membaca dan memenuhi Syarat dan Ketentuan Simobi Sinarmas.<BR/><BR/>
+		
+		<B>Pasal 3 : Ketentuan Penggunaan Simobi Sinarmas</B><BR/>
+		3.1Nasabah diharuskan melakukan aktivasi pada menu aktivasi yang terdapat dalam aplikasi Simobi Sinarmas.<BR/>
+		3.2Nasabah dapat menggunakan layanan Simobi Sinarmas untuk memperoleh informasi dan atau melakukan transaksi perbankan yang telah disediakan.<BR/>
+		3.3Layanan Simobi Sinarmas dapat digunakan dengan mendaftarkan nomor telepon selular dari semua operator selular yang tersedia di Indonesia.<BR/>
+		3.4Layanan Simobi Sinarmas hanya dapat digunakan pada 1 nomor telepon selular (MSISDN) untuk 1 nomor rekening.<BR/>
+		3.5Otentikasi yang digunakan untuk layanan keuangan melalui Simobi Sinarmas adalah menggunakan mPIN.<BR/>
+		3.6Nasabah dapat membuat mPIN pada proses aktifasi setelah nasabah melakukan registrasi Simobi Sinarmas.<BR/>
+		3.7Pada saat pelaksanaan transaksi Nasabah wajib :<BR/>
+		Memastikan kelengkapan dan kebenaran data transaksi yang dicantumkan. Segala konsekuensi yang timbul dari kelalaian, ketidaklengkapan dan atau kekeliruan Nasabah menjadi tanggung jawab Nasabah sepenuhnya.
+		Memasukkan mPIN pada setiap transaksi.<BR/>
+		3.8Setiap instruksi yang telah diberikan Nasabah melalui layanan Simobi Sinarmas tidak dapat dibatalkan<BR/>
+		3.9Setiap perintah yang telah diberikan Nasabah menurut Syarat & Ketentuan layanan ini merupakan bukti yang sah, kecuali dapat dibuktikan sebaiknya dan Bank tidak berkewajiban untuk meneliti keabsahan dimaksud.<BR/>
+		3.10Bank berhak untuk tidak melaksanakan perintah Nasabah, apabila :<BR/>
+		Saldo di rekening Nasabah tidak mencukupi.<BR/>
+		Terdapat indikasi adanya tindak pidana.<BR/>
+		3.11Segala konsekuensi yang timbul sebagai akibat penyalahgunaan Simobi Sinarmas merupakan tanggungjawab Nasabah sepenuhnya dan Nasabah dengan ini membebaskan Bank dari segala tuntutan yang mungkin timbul dalam bentuk apapun dan dari pihak manapun.<BR/>
+		3.12Sebagai bukti pelaksanaan transaksi, Nasabah akan mendapatkan bukti nomor transaksi pada setiap akhir transaksi melalui SMS, sepanjang kotak pesan ponsel Nasabah masih memungkinkan atau tidak ada gangguan jaringan komunikasi.<BR/>
+		3.13Atas pertimbangannya sendiri, Bank berhak untuk mengubah limit transaksi. Perubahan tersebut mengikat Nasabah cukup dengan pemberitahuan menurut ketentuan yang berlaku.<BR/><BR/>
+		
+		<B>Pasal 4 : mPIN Simobi Sinarmas</B><BR/>
+		4.1Nasabah wajib mengamankan mPIN yang dimilikinya. Dalam kaitan tersebut Nasabah tidak diperkenankan untuk :<BR/>
+		Memberitahukan mPIN kepada orang lain;<BR/>
+		Menyimpan mPIN dalam memori telepon selular atau sarana penyimpanan lain yang memungkinkan diketahui orang lain;<BR/>
+		Nasabah diwajibkan pula untuk mengganti mPIN secara berkala.<BR/>
+		4.2Segala konsekuensi yang timbul sebagai akibat penyalahgunaan Password tersebut merupakan tanggung jawab Nasabah sepenuhnya dan Nasabah dengan ini membebaskan Bank dari segala tuntutan yang mungkin timbul dalam bentuk apapun dan dari pihak manapun.<BR/>
+		4.3Apabila Nasabah salah memasukkan mPIN sebanyak 3 (tiga) kali berturut-turut, maka secara otomatis aplikasi akan terblokir. Untuk membuka blokir, nasabah dapat  mengunjungi cabang Bank Sinarmas atau melalui ATM Bank Sinarmas (menu reset mPIN).<BR/><BR/>
+		
+		<B>Pasal 5 : Penghentian Akses Layanan Simobi Sinarmas</B><BR/>
+		5.1Layanan Simobi Sinarmas akan diberhentikan oleh Bank apabila :<BR/>
+		Terdapat permintaan tertulis dari Nasabah.<BR/>
+		Nasabah menutup semua rekening yang dapat diakses melalui Layanan Simobi Sinarmas.<BR/>
+		Diharuskan oleh peraturan perundang-undangan yang berlaku dan atau putusan pengadilan.<BR/><BR/>
+		
+		<B>Pasal 6 : Lain-lain</B><BR/>
+		6.1Untuk permasalahan yang berkaitan dengan nomor ponsel, jaringan GPRS/3G, tagihan Penggunaan GPRS/3G, dan value added service GPRS/3G Nasabah langsung menghubungi operator penyedia layanan jaringan/telekomunikasi bergerak selular GPRS/3G yang bersangkutan.<BR/>
+		6.2Sedangkan untuk permasalahan layanan, Nasabah dapat menghubungi Bank Sinarmas CARE di 500 153 / (021) 501 88888, email : care@banksinarmas.com.<BR/>
+		6.3Bank dapat mengubah Syarat dan Ketentuan ini sesuai kebutuhan. Perubahan tersebut akan mengikat Nasabah cukup dengan pemberitahuan menurut ketentuan yang berlaku di Bank.<BR/>
+		6.4Nasabah tunduk kepada ketentuan-ketentuan yang berlaku pada Bank termasuk tetapi tidak terbatas pada Syarat Umum pembukaan rekening Tabungan perorangan atau Giro perorangan.<BR/>
+		6.5Kuasa-kuasa baik yang diberikan terkait dengan layanan ini merupakan surat kuasa yang sah yang tidak akan berakhir selama Nasabah masih memanfaatkan layanan Simobi Sinarmas atau masih terdapat kewajiban lain dari Nasabah kepada bank.<BR/>
+		6.6Nasabah akan membebaskan Bank dari segala tuntutan apapun, dalam hal Bank tidak dapat melaksanakan perintah dari Nasabah baik sebagian maupun seluruhnya karena kejadian-kejadian atau sebab-sebab di luar kekuasaan atau kemampuan Bank seperti gangguan virus komputer, web browser, sistem atau transmisi yang tidak berfungsi, gangguan listrik, gangguan telekomunikasi atau kebijakan pemerintah, serta kejadian-kejadian atau sebab-sebab lain di luar kekuasaan atau kemampuan Bank.<BR/>
+
+		 </body>
+		</html>
+		]]>
+    </string>
+    <string name="flashiz_tc">
+<![CDATA[
+				<html>
+				 <head></head>
+				 <body style="text-align:justify;color:white;font-size:15px;">
+				<p><B>SYARAT DAN KETENTUAN PEMBAYARAN QR</B><br />
+				 <br />
+				Dengan menyetujui Syarat dan Ketentuan Pembayaran QR ini, maka saya menyatakan bahwa saya telah menerima dan menyetujui untuk tunduk dan terikat pada ketentuan-ketentuan sebagai berikut:<br />
+				<br />
+				1. Pembayaran QR hanya dapat dilakukan pada merchant-merchant atau outlet-outlet yang berpartisipasi.</p>
+				
+				<p>2. Pembayaran QR ini menggunakan teknologi FLASHiZ.</p>
+				
+				<p>3. Segala ketentuan mengenai penggunaan pembayaran QR mengacu kepada ketentuan induk yang tertera pada Syarat dan Ketentuan Umum SIMOBI.</p>
+				</body>
+				</html>
+				]]>
+    </string>
+    <string name="_6_digit_kode_otp">4 digit kode Simobi</string>
+    <string name="_00_00">00:00</string>
+
+</resources>
