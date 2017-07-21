@@ -51,7 +51,7 @@
         android:background="#FF3A3A3B"
         android:padding="5dp" >
 
-        <Button
+        <ImageButton
             android:id="@+id/logoutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +59,9 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/logout" />
+            android:scaleType="fitXY"
+            android:background="@android:color/transparent"
+            android:src="@drawable/logout" />
     </RelativeLayout>
 
     <TableLayout

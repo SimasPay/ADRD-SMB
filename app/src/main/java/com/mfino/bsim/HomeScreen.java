@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,7 +35,7 @@ import com.mfino.bsim.utils.AndroidPermissions;
 /** @author pramod */
 public class HomeScreen extends AppCompatActivity {
 	/** Called when the activity is first created. */
-	private Button logoutButton;
+	private ImageButton logoutButton;
 	private ImageView image1, image2, image3, image4, qrPayment, promo;
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
 	SharedPreferences languageSettings, settings2;
@@ -67,12 +68,12 @@ public class HomeScreen extends AppCompatActivity {
 
 		mydb = new DBHelper(HomeScreen.this);
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("ActivityName", "HomeScreen").commit();
+		settings2.edit().putString("ActivityName", "HomeScreen").apply();
 
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		// String mobileNumber = settings.getString("mobile", "");
 
-		logoutButton = (Button) findViewById(R.id.logoutButton);
+		logoutButton = (ImageButton) findViewById(R.id.logoutButton);
 		image1 = (ImageView) findViewById(R.id.imageView1);
 		image2 = (ImageView) findViewById(R.id.imageView2);
 		image3 = (ImageView) findViewById(R.id.imageView3);
@@ -196,7 +197,7 @@ public class HomeScreen extends AppCompatActivity {
 				Intent intent = new Intent(HomeScreen.this, LoginScreen.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-				settings.edit().putString("userApiKey", "NONE").commit();
+				settings.edit().putString("userApiKey", "NONE").apply();
 				// LoginScreen.loginId.setText("");
 
 				startActivity(intent);

@@ -56,8 +56,7 @@ import android.widget.TextView;
 
 public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener, IncomingSMS.AutoReadSMSListener {
 	private PayByQRSDK payByQRSDK;
-	private int module;
-	private String userApiKey, PayInAppInvoiceID, PayInAppURLCallback;
+	private String userApiKey;
 	private static String parentTxnId, txnId;
 	private ValueContainer valueContainer;
 	private String responseXml;
@@ -66,7 +65,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 			numberOfCoupuns, redeemAmount, redeemPoints, tipAmount;
 	private String mfa;
 	private String QRBillerCode = "QRFLASHIZ";
-	private static SharedPreferences languageSettings, settings, settings2;
+	private static SharedPreferences settings;
+	private static SharedPreferences settings2;
 	private static String selectedLanguage;
 	// private AlertDialog.Builder alertbox;
 	// private ProgressDialog dialog;
@@ -74,10 +74,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 	private static String otpValue = "", mpin = "";
 	private static String mobileNumber;
 	private static final String LOG_TAG = "SIMOBI";
-	static EditText edt;
+	private EditText edt;
 	private String DIMO_PREF = "com.mfino.bsim.paybyqr.Preference";
 	private String DIMO_PREF_USERKEY = "com.mfino.bsim.paybyqr.UserKey";
-	public static final String QR_STORE_DB = "com.mfino.bsim.QrStore.db";
+	//public static final String QR_STORE_DB = "com.mfino.bsim.QrStore.db";
 	public static final String INTENT_EXTRA_MODULE = "com.mfino.bsim.paybyqr.module";
 	public static final String INTENT_EXTRA_INVOICE_ID = "com.mfino.bsim.paybyqr.invoiceID";
 	public static final String INTENT_EXTRA_URL_CALLBACK = "com.mfino.bsim.paybyqr.URLCallback";
@@ -90,14 +90,14 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		setContentView(R.layout.activity_sample);
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
-		settings.edit().putString("ActivityName", "QRPayment2").commit();
-		settings.edit().putBoolean("isAutoSubmit", false).commit();
+		settings.edit().putString("ActivityName", "QRPayment2").apply();
+		settings.edit().putBoolean("isAutoSubmit", false).apply();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("ActivityName", "QRPayment2").commit();
+		settings2.edit().putString("ActivityName", "QRPayment2").apply();
 		Log.d(LOG_TAG, "PayByQR : QRPayment2");
 		payByQRSDK = new PayByQRSDK(this, this);
-		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
-		payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
+		payByQRSDK.setServerURL(ServerURL.SERVER_URL_DEV);
+		//payByQRSDK.setServerURL(ServerURL.SERVER_URL_LIVE);
 		payByQRSDK.setIsUsingCustomDialog(false);
 		IncomingSMS.setListener(this);
 		DBHelper mydb = new DBHelper(this);
@@ -126,7 +126,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 		Log.e("eula_state_qr2", payByQRSDK.getEULAState() + "");
 
-		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
+		SharedPreferences languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 
 		settings = getSharedPreferences("LOGIN_PREFERECES", Context.MODE_PRIVATE);
@@ -138,33 +138,33 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		else
 			payByQRSDK.setSDKLocale(SDKLocale.INDONESIAN);
 
-		module = getIntent().getIntExtra(INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
+		int module = getIntent().getIntExtra(INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
 		if (module == PayByQRSDK.MODULE_IN_APP) {
-			PayInAppInvoiceID = getIntent().getStringExtra(INTENT_EXTRA_INVOICE_ID);
-			PayInAppURLCallback = getIntent().getStringExtra(INTENT_EXTRA_URL_CALLBACK);
+			String payInAppInvoiceID = getIntent().getStringExtra(INTENT_EXTRA_INVOICE_ID);
+			String payInAppURLCallback = getIntent().getStringExtra(INTENT_EXTRA_URL_CALLBACK);
 
-			payByQRSDK.startSDK(module, PayInAppInvoiceID, PayInAppURLCallback);
+			payByQRSDK.startSDK(module, payInAppInvoiceID, payInAppURLCallback);
 		} else {
 			payByQRSDK.startSDK(module);
 		}
 
 	}
 
-	/**
+	/*
 	 * private void resetQrStore() { SharedPreferences prefs =
 	 * getSharedPreferences(QR_STORE_DB, Context.MODE_PRIVATE);
 	 * SharedPreferences.Editor editor = prefs.edit();
 	 * editor.remove(QR_STORE_DB); editor.commit(); }
-	 **/
+	 */
 
-	/**
+	/*
 	 * private void resetUserKey() { SharedPreferences prefs =
 	 * getSharedPreferences(DIMO_PREF, Context.MODE_PRIVATE);
 	 * SharedPreferences.Editor editor = prefs.edit();
 	 * editor.remove(DIMO_PREF_USERKEY); editor.commit();
 	 * 
 	 * payByQRSDK.setEULAState(false); resetQrStore(); }
-	 **/
+	 */
 
 	// Get User API Key
 	@SuppressLint("HandlerLeak")
@@ -181,7 +181,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 			public void handleMessage(Message msg) {
 				if (responseXml != null) {
 					XMLParser obj = new XMLParser();
-					/** Parsing of response. */
+					/* Parsing of response. */
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
 						responseContainer = obj.parse(responseXml);
@@ -197,7 +197,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 						SharedPreferences prefs = getSharedPreferences(DIMO_PREF, Context.MODE_PRIVATE);
 						SharedPreferences.Editor editor = prefs.edit();
 						editor.putString(DIMO_PREF_USERKEY, userApiKey);
-						editor.commit();
+						editor.apply();
 
 						Log.e("userApiKey----111111-----", userApiKey);
 						generateUserAPIKeyHandler.setUserAPIKey(userApiKey);
@@ -412,7 +412,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		final Handler handler = new Handler() {
 			public void handleMessage(Message msg) {
 				if (responseXml != null) {
-					/** Parse the response. */
+					/* Parse the response. */
 					XMLParser obj = new XMLParser();
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
@@ -442,8 +442,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 							 * startActivity(intent); finish(); } });
 							 * alertbox.show();
 							 */
-							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-									responseContainer.getMsg(), true);
+							if (responseContainer != null) {
+								payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+                                        responseContainer.getMsg(), true);
+							}
 						} else if (msgCode == 29) {
 							// dialog.dismiss();
 							Log.e("msg_code", msgCode + "--33--------");
@@ -456,7 +458,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 							 * DialogInterface.OnClickListener() { public void
 							 * onClick( DialogInterface arg0, int arg1) {
 							 * 
-							 *//**
+							 *//*
 								 * Intent intent = new Intent( QRPayment.this,
 								 * HomeScreen.class); intent.setFlags
 								 * (Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -470,8 +472,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 								 * startActivity(intent); openMainMenu();
 								 * finish(); } }); alertbox.show();
 								 */
-							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-									responseContainer.getMsg(), true);
+							if (responseContainer != null) {
+								payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+                                        responseContainer.getMsg(), true);
+							}
 						} else {
 							if (msgCode == 2000) {
 								if (responseContainer.getMsg().equals("ERROR: Invalid Data")) {
@@ -515,7 +519,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 							txnId = responseContainer.getEncryptedTransferId();
 							Log.d(LOG_TAG, "OTP check!");
 							showOTPRequiredDialog();
-							/**
+							/*
 							Thread t = new Thread(new Runnable() {
 							    public void run() {
 									showOTPRequiredDialog();
@@ -598,7 +602,8 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 							 * } }
 							 **/
 						} else {
-							/**
+							Log.d(LOG_TAG, "else");
+							/*
 							 * Log.d(LOG_TAG, "no OTP pass!"); if
 							 * (otp.equals("")) { if
 							 * (selectedLanguage.equalsIgnoreCase("ENG")) { //
@@ -623,7 +628,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 							 * txnId =
 							 * responseContainer.getEncryptedTransferId();
 							 * billPayConfirmation();
-							 **/
+							 */
 						}
 					}
 
@@ -661,7 +666,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 	@SuppressLint("HandlerLeak")
 	private void billPayConfirmation() {
-		/** Set Parameters for Service calling . */
+		/* Set Parameters for Service calling . */
 		valueContainer = new ValueContainer();
 		valueContainer.setContext(QRPayment2.this);
 		valueContainer.setServiceName(Constants.SERVICE_BILLPAYMENT);
@@ -711,7 +716,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 				valueContainer.setMfaMode(mfa);
 			}
 		} catch (Exception e1) {
-
+			Log.d(LOG_TAG, "error: "+e1.toString());
 		}
 
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, QRPayment2.this);
@@ -731,33 +736,35 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 					}
 					// dialogCon.dismiss();
 
-					if (!((Integer.parseInt(responseContainer.getMsgCode()) == 2111)
-							|| (Integer.parseInt(responseContainer.getMsgCode()) == 715))) {
-						// displayDialog(responseContainer.getMsg());
-						if (msgCode == 2000) {
-							if (responseContainer.getMsg().equals("ERROR: Invalid Data")) {
-								if (selectedLanguage.equalsIgnoreCase("ENG")) {
-									payByQRSDK.notifyTransaction(
-											com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-											getResources().getString(R.string.eng_incorrectotp), true);
-								} else {
-									payByQRSDK.notifyTransaction(
-											com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-											getResources().getString(R.string.bahasa_incorrectotp), true);
-								}
-							} else {
-								payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-										responseContainer.getMsg(), true);
-							}
-						} else {
-							payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
-									responseContainer.getMsg(), true);
-						}
-					} else {
-						// Hand over control to Flashiz
-						// dialogCon.dismiss();
-						payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.STATUS_CODE_PAYMENT_SUCCESS,
-								getString(com.dimo.PayByQR.R.string.text_payment_success), true);
+					if (responseContainer != null) {
+						if (!((Integer.parseInt(responseContainer.getMsgCode()) == 2111)
+                                || (Integer.parseInt(responseContainer.getMsgCode()) == 715))) {
+                            // displayDialog(responseContainer.getMsg());
+                            if (msgCode == 2000) {
+                                if (responseContainer.getMsg().equals("ERROR: Invalid Data")) {
+                                    if (selectedLanguage.equalsIgnoreCase("ENG")) {
+                                        payByQRSDK.notifyTransaction(
+                                                com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+                                                getResources().getString(R.string.eng_incorrectotp), true);
+                                    } else {
+                                        payByQRSDK.notifyTransaction(
+                                                com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+                                                getResources().getString(R.string.bahasa_incorrectotp), true);
+                                    }
+                                } else {
+                                    payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+                                            responseContainer.getMsg(), true);
+                                }
+                            } else {
+                                payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.ERROR_CODE_PAYMENT_FAILED,
+                                        responseContainer.getMsg(), true);
+                            }
+                        } else {
+                            // Hand over control to Flashiz
+                            // dialogCon.dismiss();
+                            payByQRSDK.notifyTransaction(com.dimo.PayByQR.data.Constant.STATUS_CODE_PAYMENT_SUCCESS,
+                                    getString(com.dimo.PayByQR.R.string.text_payment_success), true);
+                        }
 					}
 
 				} else {
@@ -795,7 +802,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		startActivity(intent);
 		QRPayment2.this.finish();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("ActivityName", "CancelToQRPayment2").commit();
+		settings2.edit().putString("ActivityName", "CancelToQRPayment2").apply();
 	}
 
 	private class DialogPIN extends Dialog {
@@ -805,7 +812,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		SharedPreferences settings;
 		private EditText pinValue;
 
-		public DialogPIN(Context context) {
+		DialogPIN(Context context) {
 			super(context, android.R.style.Theme_NoTitleBar_Fullscreen);
 			setContentView(R.layout.enter_pin);
 		}
@@ -821,9 +828,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 			// Header code...
 			View headerContainer = findViewById(R.id.header);
-			TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
-			ImageButton back = (ImageButton) findViewById(R.id.back);
-			ImageButton home = (ImageButton) findViewById(R.id.home_button);
+			TextView screeTitle = headerContainer.findViewById(R.id.screenTitle);
+			ImageButton back = findViewById(R.id.back);
+			ImageButton home = findViewById(R.id.home_button);
 
 			back.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -843,9 +850,9 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 			 */
 			screeTitle.setText("QR Payment");
 			userApiKey = settings.getString("userApiKey", "NONE");
-			pinValue = (EditText) findViewById(R.id.ed_pinValue);
-			btn_ok = (Button) findViewById(R.id.btn_EnterPin_Ok);
-			btn_cancel = (Button) findViewById(R.id.btn_EnterPin_cancel1);
+			pinValue = findViewById(R.id.ed_pinValue);
+			btn_ok = findViewById(R.id.btn_EnterPin_Ok);
+			btn_cancel = findViewById(R.id.btn_EnterPin_cancel1);
 
 			if (!selectedLanguage.equalsIgnoreCase("ENG")) {
 				btn_ok.setText(getResources().getString(R.string.bahasa_submit));
@@ -862,7 +869,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 			btn_ok.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					settings2.edit().putString("ActivityName", "QRPayment2").commit();
+					settings2.edit().putString("ActivityName", "QRPayment2").apply();
 					InputMethodManager imm = (InputMethodManager) getSystemService(Service.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(pinValue.getWindowToken(), 0);
 
@@ -880,7 +887,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 						mpin = pinValue.getText().toString();
 						Log.e("----------", "=-------" + mpin);
 						settings2 = getSharedPreferences(LOG_TAG, 0);
-						settings2.edit().putString("ActivityName", "QRPayment2").commit();
+						settings2.edit().putString("ActivityName", "QRPayment2").apply();
 						// showOTPRequiredDialog();
 						billPayInquiry(mInVoiceId, mpin, mAmount, mMarchantName, loyalityName, discountAmount,
 								discountType, numberOfCoupuns, redeemAmount, redeemPoints, tipAmount);
@@ -945,7 +952,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
-		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
+		ProgressBar progBar = viewTitle.findViewById(R.id.progressbar_otp);
 		if (progBar.getIndeterminateDrawable() != null) {
 			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
 		}
@@ -955,10 +962,10 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		dialogBuilder.setView(dialogView);
 
 		// EditText OTP
-		edt = (EditText) dialogView.findViewById(R.id.otp_value);
+		edt = dialogView.findViewById(R.id.otp_value);
 
 		// Timer
-		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
+		final TextView timer = dialogView.findViewById(R.id.otp_timer);
 		// 120 detik
 		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 			@Override
@@ -988,7 +995,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 					}
 					dialog.dismiss();
 					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("ActivityName", "CancelToQRPayment2").commit();
+					settings2.edit().putString("ActivityName", "CancelToQRPayment2").apply();
 					openMainMenu();
 				}
 			});
@@ -998,27 +1005,23 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 					+ " " + getResources().getString(R.string.bahasa_otprequired_desc_2));
 			dialogBuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					if (myTimer != null) {
-						myTimer.cancel();
-					}
+					myTimer.cancel();
 					dialog.dismiss();
 					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("ActivityName", "CancelToQRPayment2").commit();
+					settings2.edit().putString("ActivityName", "CancelToQRPayment2").apply();
 					openMainMenu();
 				}
 			});
 		}
 		dialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				if (edt.getText().toString() == null || edt.getText().toString().equals("")) {
+				if (edt.getText().toString().equals("")) {
 					dialog.dismiss();
 					errorOTP();
 				} else {
 					Log.d(LOG_TAG, "otpValue via onclick OK : " + otpValue);
 					billPayConfirmation();
-					if (myTimer != null) {
-						myTimer.cancel();
-					}
+					myTimer.cancel();
 				}
 			}
 		});
@@ -1028,7 +1031,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		//if(!isFinishing()){
 		otpDialogS.show();
 		//}
-		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		otpDialogS.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -1042,25 +1045,23 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 			public void afterTextChanged(final Editable s) {
 				Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);
 				if (TextUtils.isEmpty(s)) {
-					((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+					otpDialogS.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				} else {
 					if ((edt.getText().length() > 3)) {
-						if (isAutoSubmit == true){
+						if (isAutoSubmit){
 							settings2 = getSharedPreferences(LOG_TAG, 0);
 							String actName = settings2.getString("ActivityName", "");
 							Log.d(LOG_TAG, "ActivityName : " + actName);
 							if (actName.equals("QRPayment2")) {
 								billPayConfirmation();
 							}
-							if (myTimer != null) {
-								myTimer.cancel();
-								otpDialogS.dismiss();
-							}
+							myTimer.cancel();
+							otpDialogS.dismiss();
 						}else{
-							((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+							otpDialogS.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 						}
 					} else {
-						((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+						otpDialogS.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 					}
 				}
 			}

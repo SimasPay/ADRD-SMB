@@ -32,6 +32,8 @@ import android.util.Log;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.ValueContainer;
 
+import static com.mfino.bsim.LoginScreen.LOG_TAG;
+
 public class WebServiceHttp extends Activity {
 
 	private ValueContainer edContainer;
@@ -43,9 +45,9 @@ public class WebServiceHttp extends Activity {
 	AssetManager assetManager;
 	
 	
-	//Prduction
-	public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
-	public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+	//Production
+	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
+	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
 	
 	//Devserver
 	//public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
@@ -60,11 +62,18 @@ public class WebServiceHttp extends Activity {
 		public static String webAPIUrl;*/
 	
 	//UAT
-	//public static String webAPIUrlFiles="http://dev.simobi.banksinarmas.com/webapi/dynamic";
-	//public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";
-	
-	
-		//Development Server
+	public static String webAPIUrlFiles="http://dev.simobi.banksinarmas.com/webapi/dynamic";
+	public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";
+
+	//AWS-Simobi
+	//public static String webAPIUrlFiles = "https://54.255.194.95:8443/webapi/sdynamic";
+	//public static String webAPIUrl = "https://54.255.194.95:8443/webapi/sdynamic";
+
+	//AWS-Simaspay
+	//public static String webAPIUrlFiles = "https://13.124.89.175:8443/webapi/sdynamic";
+	//public static String webAPIUrl = "https://13.124.89.175:8443/webapi/sdynamic";
+
+	//Development Server
 		/*
 		public static String webAPIUrlFiles="http://staging.dimo.co.id:8082/webapi/dynamic";//Public
 		public static String webAPIUrl ="https://staging.dimo.co.id:8445/webapi/sdynamic";//
@@ -510,7 +519,6 @@ public class WebServiceHttp extends Activity {
 				requestUrl +=Constants.PARAMETER_NON_FINANCIAL_ENQUIRY + "="
 						+ "Inquiry";
 			}
-			System.out.println("Testing>>>url"+requestUrl);
 		}
 		
 	/*	else if (Constants.TRANSACTION_CHANGEPIN_CONFIRM.equals(edContainer.getTransactionName())) {
@@ -791,7 +799,8 @@ public class WebServiceHttp extends Activity {
 		}
 		//System.out.println("URL: " + requestUrl);
 		//System.out.println("URL: " );
-
+		Log.d(LOG_TAG, "url: "+ requestUrl);
+		System.out.println("Testing>>>url "+requestUrl);
 		return requestUrl;
 	}
 
@@ -844,7 +853,9 @@ public class WebServiceHttp extends Activity {
 		}
 
 		try {
-			tmf.init(ksTrust);
+			if (tmf != null) {
+				tmf.init(ksTrust);
+			}
 		} catch (KeyStoreException e1) {
 
 			e1.printStackTrace();
@@ -898,8 +909,10 @@ public class WebServiceHttp extends Activity {
 
 		HttpsURLConnection conn = null;
 		try {
-				
-			conn = (HttpsURLConnection) url.openConnection();
+
+			if (url != null) {
+				conn = (HttpsURLConnection) url.openConnection();
+			}
 			conn.setHostnameVerifier(new NullVerifier());
 			conn.setSSLSocketFactory(sslContext.getSocketFactory());
 
@@ -967,7 +980,9 @@ public class WebServiceHttp extends Activity {
 			//System.out.println(e.printStackTrace());
 			contents=null;
 		} finally {
-			conn.disconnect();
+			if (conn != null) {
+				conn.disconnect();
+			}
 		}
 
 		return contents;
@@ -982,28 +997,28 @@ public class WebServiceHttp extends Activity {
 			try {
 				inputStream = assetManager.open("ipChangeFile.csv");
 				String str = "";
-				StringBuffer buf = new StringBuffer();
+				StringBuilder buf = new StringBuilder();
 				String cvsSplitBy = ",";
 
 				BufferedReader reader = new BufferedReader(new InputStreamReader(
 						inputStream));
-				if (inputStream != null) {
-					while ((str = reader.readLine()) != null) {
-						buf.append(str + "\n");
-						String[] parse = str.split(cvsSplitBy);
-						httpString = parse[0];
-						httpsString = parse[1];
-						System.out.println("http= " + httpString+ " , https=" + httpsString + "]");
-					}
-				}
+				while ((str = reader.readLine()) != null) {
+                    buf.append(str).append("\n");
+                    String[] parse = str.split(cvsSplitBy);
+                    httpString = parse[0];
+                    httpsString = parse[1];
+                    System.out.println("http= " + httpString+ " , https=" + httpsString + "]");
+                }
 				inputStream.close();
 
 			} catch (IOException e) {
+				Log.d(LOG_TAG, "error: "+e.toString());
 			} finally {
 				if (inputStream != null)
 					try {
 						inputStream.close();
 					} catch (IOException e) {
+						Log.d(LOG_TAG, "error: "+e.toString());
 					}
 			}
 		}

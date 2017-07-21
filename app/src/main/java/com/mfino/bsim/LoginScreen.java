@@ -42,7 +42,7 @@ import com.mfino.handset.security.CryptoService;
 public class LoginScreen extends AppCompatActivity {
 	/** Called when the activity is first created. */
 	private Button loginButton;
-	static EditText loginId, loginPin;
+	private EditText loginId, loginPin;
 	private AlertDialog.Builder alertbox;
 	SharedPreferences languageSettings, encrptionKeys;
 	ValueContainer valueContainer;
@@ -192,7 +192,7 @@ public class LoginScreen extends AppCompatActivity {
 						valueContainer = new ValueContainer();
 						valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 						String mdn = loginId.getText().toString().trim();
-						settings.edit().putString("mobile", mdn).commit();
+						settings.edit().putString("mobile", mdn).apply();
 						Constants.SOURCE_MDN_NAME = loginId.getText().toString().trim();
 						valueContainer.setSourceMdn(mdn);
 						// settings.edit().putString("SOURCE_MDN_PIN",loginId.getText().toString()).commit();
