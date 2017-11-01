@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_simobi"
+    tools:ignore="PrivateResource"
     android:orientation="vertical" >
 
     <!--
@@ -18,6 +20,49 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         layout="@layout/header_no_back" />
+
+    <RelativeLayout
+        android:id="@+id/banner_upgrade"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:background="@drawable/banner_upgrade"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/upgrade_now"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/white_bg_btn"
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"
+            tools:ignore="RelativeOverlap"
+            android:id="@+id/upgrade_now" />
+
+        <ImageButton
+            android:id="@+id/close_btn"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@null"
+            android:background="@drawable/close_btn" />
+    </RelativeLayout>
+
     <!--
      <RelativeLayout
         android:layout_width="fill_parent"
@@ -68,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/footer"
-        android:layout_below="@id/header"
+        android:layout_below="@id/banner_upgrade"
         android:layout_centerInParent="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

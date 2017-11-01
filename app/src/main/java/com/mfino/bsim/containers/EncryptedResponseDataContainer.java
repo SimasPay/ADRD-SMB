@@ -29,6 +29,7 @@ public class EncryptedResponseDataContainer {
     private String amount;
     private String destBank;
     private String destMDN;
+    private String migrateToken;
     
     private String resetPinRequested;
     private String status;
@@ -39,6 +40,10 @@ public class EncryptedResponseDataContainer {
 	private String publicKeyExponet;
 	private String success;
 	private String userApiKey;
+
+    public String getMigrateToken () {
+        return migrateToken;
+    }
 	
 	public String getUserApiKey() {
 		return userApiKey;
@@ -366,6 +371,10 @@ public class EncryptedResponseDataContainer {
      */
     public void setEncryptedCreditAmount(String encryptedCreditAmount) {
         this.encryptedCreditAmount = encryptedCreditAmount;
+    }
+
+    public void setMigrateToken(String migrateToken) {
+        this.migrateToken = migrateToken;
     }
 
     /**

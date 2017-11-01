@@ -22,7 +22,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -45,7 +44,7 @@
         android:theme="@android:style/Theme.NoTitleBar"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".SplashScreen"
+            android:name=".activities.SplashScreen"
             android:label="@string/Simobi_app_name"
             android:theme="@style/AppNoTitleBarTheme"
             android:screenOrientation="portrait" >
@@ -67,7 +66,8 @@
         </activity>
 
         <receiver
-            android:name=".receivers.IncomingSMS">
+            android:name=".receivers.IncomingSMS"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="900" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -75,77 +75,81 @@
         </receiver>
 
         <activity
-            android:name=".WebviewActivity"
+            android:name=".activities.WebviewActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity
-            android:name=".Confirmation_History"
+            android:name=".activities.Confirmation_History"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".LandingScreen"
+            android:name=".activities.LandingScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
-            android:name=".ContactUs"
+            android:name=".activities.ContactUs"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoTitleBarTheme" />
         <activity
-            android:name=".TermsAndConditions"
+            android:name=".activities.TermsAndConditions"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoTitleBarTheme" />
         <activity
-            android:name=".LoginScreen"
+            android:name=".activities.LoginScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
-            android:name=".Update"
+            android:name=".activities.UpgradeToSimobiPlus"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppNoTitleBarTheme" />
+        <activity
+            android:name=".activities.Update"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".HomeScreen"
+            android:name=".activities.HomeScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
-            android:name=".ActivationHome"
+            android:name=".activities.ActivationHome"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".ActivationConfirm"
+            android:name=".activities.ActivationConfirm"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".ResetPinDetails"
+            android:name=".activities.ResetPinDetails"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".ReActivationDetails"
+            android:name=".activities.ReActivationDetails"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".ActivationConfirmation"
+            android:name=".activities.ActivationConfirmation"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".ActivationDetails"
+            android:name=".activities.ActivationDetails"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name=".ActivationDisclosure"
+            android:name=".activities.ActivationDisclosure"
             android:screenOrientation="portrait"
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
@@ -392,7 +396,7 @@
             android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <activity
-            android:name="com.mfino.bsim.ConfirmationScreen"
+            android:name="com.mfino.bsim.activities.ConfirmationScreen"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>

@@ -24,10 +24,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.mfino.bsim.HomeScreen;
-import com.mfino.bsim.LoginScreen;
+import com.mfino.bsim.activities.HomeScreen;
 import com.mfino.bsim.R;
-import com.mfino.bsim.account.AccountSelection;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
 import com.mfino.bsim.services.ConfigurationUtil;

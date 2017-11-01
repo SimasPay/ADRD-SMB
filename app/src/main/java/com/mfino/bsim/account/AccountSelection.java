@@ -2,7 +2,6 @@ package com.mfino.bsim.account;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -13,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -40,10 +38,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.mfino.bsim.ConfirmationScreen;
-import com.mfino.bsim.Confirmation_History;
-import com.mfino.bsim.HomeScreen;
-import com.mfino.bsim.LoginScreen;
+import com.mfino.bsim.activities.ConfirmationScreen;
+import com.mfino.bsim.activities.Confirmation_History;
+import com.mfino.bsim.activities.HomeScreen;
+import com.mfino.bsim.activities.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;

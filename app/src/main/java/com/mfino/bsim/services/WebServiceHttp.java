@@ -32,7 +32,7 @@ import android.util.Log;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.ValueContainer;
 
-import static com.mfino.bsim.LoginScreen.LOG_TAG;
+import static com.mfino.bsim.activities.LoginScreen.LOG_TAG;
 
 public class WebServiceHttp extends Activity {
 
@@ -48,6 +48,10 @@ public class WebServiceHttp extends Activity {
 	//Production
 	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
 	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+
+	//local-new0ct17
+	public static String webAPIUrlFiles="https://192.168.0.18:8443/webapi/sdynamic";
+	public static String webAPIUrl ="https://192.168.0.18:8443/webapi/sdynamic";
 	
 	//Devserver
 	//public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
@@ -62,8 +66,8 @@ public class WebServiceHttp extends Activity {
 		public static String webAPIUrl;*/
 	
 	//UAT
-	public static String webAPIUrlFiles="http://dev.simobi.banksinarmas.com/webapi/dynamic";
-	public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";
+	//public static String webAPIUrlFiles="http://dev.simobi.banksinarmas.com/webapi/dynamic";
+	//public static String webAPIUrl ="https://dev.simobi.banksinarmas.com/webapi/sdynamic";
 
 	//AWS-Simobi
 	//public static String webAPIUrlFiles = "https://54.255.194.95:8443/webapi/sdynamic";

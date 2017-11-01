@@ -18,10 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.mfino.bsim.ConfirmationScreen;
-import com.mfino.bsim.Confirmation_History;
-import com.mfino.bsim.HomeScreen;
-import com.mfino.bsim.LoginScreen;
+import com.mfino.bsim.activities.ConfirmationScreen;
+import com.mfino.bsim.activities.Confirmation_History;
+import com.mfino.bsim.activities.HomeScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;
@@ -29,7 +28,6 @@ import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
-import com.mfino.bsim.transfer.ToBankSinarmas;
 
 public class History extends Activity {
 

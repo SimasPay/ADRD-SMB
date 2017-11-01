@@ -119,6 +119,9 @@ public class XMLParser {
                     } else if (Constants.XML_CREDIT_AMOUNT.equals(event.getName())) {
                         pe = parser.read();
                         result.setEncryptedCreditAmount(pe.getText());
+                    } else if (Constants.XML_MIGRATE_TOKEN.equals(event.getName())) {
+                        pe = parser.read();
+                        result.setMigrateToken(pe.getText());
                     }else if (Constants.XML_APPUPDATEURL.equals(event.getName())) {
                         pe = parser.read();
                         result.setAppUpdateURL(pe.getText());

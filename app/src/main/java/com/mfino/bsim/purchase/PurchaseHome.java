@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -37,7 +36,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.mfino.bsim.HomeScreen;
+import com.mfino.bsim.activities.HomeScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.services.JSONParser;
 import com.mfino.bsim.services.Product;

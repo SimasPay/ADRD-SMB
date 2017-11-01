@@ -32,8 +32,8 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import com.mfino.bsim.HomeScreen;
-import com.mfino.bsim.LoginScreen;
+import com.mfino.bsim.activities.HomeScreen;
+import com.mfino.bsim.activities.LoginScreen;
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
 import com.mfino.bsim.containers.ValueContainer;

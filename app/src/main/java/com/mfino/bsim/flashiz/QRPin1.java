@@ -1,8 +1,5 @@
 package com.mfino.bsim.flashiz;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.R.layout;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,27 +10,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.mfino.bsim.HomeScreen;
+import com.mfino.bsim.activities.HomeScreen;
 import com.mfino.bsim.R;
-import com.mfino.bsim.account.AccountSelection;
 import com.mfino.bsim.containers.ValueContainer;
-import com.mfino.bsim.purchase.PurchaseDetails;
-import com.mfino.bsim.services.Constants;
-import com.mfino.bsim.services.WebServiceHttp;
-import com.mfino.bsim.services.XMLParser;
-import com.mfino.handset.security.CryptoService;
 
 public class QRPin1 extends Activity {
 

@@ -13,10 +13,14 @@
 
     <!-- English -->
     <string name="login">Login</string>
-	<string name="test"></string>
+    <string name="test" />
 	<string name="welcome">Welcome!</string>
 	<string name="mpin">mPIN</string>
 	<string name="nophone">Mobile Phone Number </string>
+    <string name="eng_simobiplus_exist">You have SimobiPlus on your phone</string>
+    <string name="eng_simobiplus_doesntexist">You dont have SimobiPlus on your phone</string>
+    <string name="eng_register_now"> REGISTER NOW </string>
+    <string name="eng_install_now"> INSTALL NOW </string>
     <string name="eng_login"> Login </string>
     <string name="eng_activation"> Activation </string>
     <string name="eng_activationDisclosure"> Terms and conditions</string>
@@ -149,6 +153,10 @@
     <string name="bahasa_purchaseCategory"> Kategori Prabayar </string>
     <string name="bahasa_purchaseType"> Tipe Prabayar </string>
     <string name="bahasa_clickHereToResend"> Klik di sini untuk kirim ulang OTP </string>
+    <string name="bahasa_simobiplus_exist">SimobiPlus terdapat di Handphone anda</string>
+    <string name="bahasa_simobiplus_doesntexist">SimobiPlus tidak terdapat di Handphone anda</string>
+    <string name="bahasa_register_now"> DAFTAR SEKARANG </string>
+    <string name="bahasa_install_now"> PASANG SEKARANG </string>
     <string name="bahasa_changePin"> Ganti mPIN </string>
     <string name="bahasa_oldPin"> mPIN lama </string>
     <string name="bahasa_result"> Ringkasan </string>
@@ -369,5 +377,21 @@
     </string>
     <string name="_6_digit_kode_otp">4 digit kode Simobi</string>
     <string name="_00_00">00:00</string>
+    <string name="get_better_banking_experience_with_new_simobiplus">Get better banking experience with New SimobiPlus</string>
+    <string name="payment_for_go_pay_insurance_transport_and_other_bill_payments">Payment for Go-Pay, insurance,transport and other bill payments</string>
+    <string name="pay_by_qr_exp">Pay by QR, experience cashless and enjoy discounts</string>
+    <string name="pay_creditcard">Pay credit card bills form all banks*</string>
+    <string name="open_deposit">Open time deposit start from IDR 500.000 (7% interest)</string>
+    <string name="termsandconditions">*Terms and conditions apply</string>
+    <string name="upgrade_now">UPGRADE NOW</string>
+    <string name="your_prev_details">Your details from previous Simobi account is safe</string>
+    <string name="account">Account</string>
+    <string name="transfer">Transfer</string>
+    <string name="purchase">Purchase</string>
+    <string name="payment">Payment</string>
+    <string name="bayar_pakai_qr">Bayar Pakai QR</string>
+    <string name="promo">Promo</string>
+    <string name="x">x</string>
+    <string name="you_have_simobiplus_on_your_phone">You have SimobiPlus on your phone</string>
 
 </resources>

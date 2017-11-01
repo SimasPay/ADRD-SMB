@@ -24,6 +24,7 @@ public class Constants {
     public static final String SERVICE_SHOPPING = "Shopping";
     public static final String SERVICE_BUY = "Buy";
     public static final String SERVICE_BILLPAYMENT="Payment";
+    public static final String SERVICE_MIGRATE_TOKENSIMPLUS = "GenerateMigrateToken";
     
     public static String TRANSACTION_CASHOUT_AT_ATM_INQUIRY= "CashOutAtATMInquiry";
     public static String TRANSACTION_CASHOUT_AT_ATM= "CashOutAtATM";
@@ -199,6 +200,7 @@ public class Constants {
     public static final String XML_TRANSACTION_CHARGES = "charges";
     public static final String XML_DEBIT_AMOUNT = "debitamt";
     public static final String XML_CREDIT_AMOUNT = "creditamt";
+    public static final String XML_MIGRATE_TOKEN = "migrateToken";
     public static final String XML_APPUPDATEURL="url";
     public static final String XML_REGISTRATION_MEDIUM="RegistrationMedium";
     public static final String XML_RESET_PIN_REQUEST="ResetPinRequested";

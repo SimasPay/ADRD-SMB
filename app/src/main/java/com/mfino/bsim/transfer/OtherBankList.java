@@ -26,16 +26,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.mfino.bsim.HomeScreen;
+import com.mfino.bsim.activities.HomeScreen;
 import com.mfino.bsim.R;
-import com.mfino.bsim.account.AccountSelection;
 import com.mfino.bsim.services.ConfigurationUtil;
 import com.mfino.bsim.services.JSONParser;
 import com.mfino.bsim.services.WebServiceHttp;
