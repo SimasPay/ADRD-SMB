@@ -31,9 +31,7 @@ import com.mfino.handset.security.CryptoService;
 /** @author pramod */
 
 public class ResetPinDetails extends Activity {
-	/** Called when the activity is first created. */
-	private Button okButton;
-	private EditText otp, pin, confirmPin;
+	private EditText pin, confirmPin;
 	private AlertDialog.Builder alertbox;
 	private ValueContainer valueContainer;
 	private Bundle bundle;
@@ -72,10 +70,11 @@ public class ResetPinDetails extends Activity {
 		 */
 
 		bundle = getIntent().getExtras();
-		otp = (EditText) findViewById(R.id.otpEditText);
+		//otp = (EditText) findViewById(R.id.otpEditText);
 		pin = (EditText) findViewById(R.id.mpinEditText);
 		confirmPin = (EditText) findViewById(R.id.remPinEditText);
-		okButton = (Button) findViewById(R.id.okButton);
+		/* Called when the activity is first created. */
+		Button okButton = (Button) findViewById(R.id.okButton);
 		alertbox = new AlertDialog.Builder(ResetPinDetails.this, R.style.MyAlertDialogStyle);
 		
 		TextView textViewinNewPin=(TextView)findViewById(R.id.textView_newPin);
@@ -195,7 +194,7 @@ public class ResetPinDetails extends Activity {
 					valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 					valueContainer.setSourceMdn(bundle.getString("MDN"));
 					valueContainer.setTransactionName(Constants.TRANSACTION_RESET_PIN);
-					valueContainer.setOTP(otp.getText().toString().trim());
+					valueContainer.setOTP(bundle.getString("otp"));
 					
 					//Without RSA
 					/* valueContainer.setActivationConfirmPin(bundle.getString("PIN"));
@@ -300,11 +299,10 @@ public class ResetPinDetails extends Activity {
 	}
 
 	private boolean isRequiredFieldEmpty() {
-
-		otp = (EditText) findViewById(R.id.otpEditText);
+		//otp = (EditText) findViewById(R.id.otpEditText);
 		pin = (EditText) findViewById(R.id.mpinEditText);
 		confirmPin = (EditText) findViewById(R.id.remPinEditText);
-		if (!(otp.getText().toString().equals(""))&& !(pin.getText().toString().equals(""))	&& !(confirmPin.getText().toString().equals(""))) {
+		if (!(pin.getText().toString().equals(""))	&& !(confirmPin.getText().toString().equals(""))) {
 			return false;
 		} else {
 
@@ -315,7 +313,7 @@ public class ResetPinDetails extends Activity {
 	@SuppressLint("HandlerLeak")
 	public void resendOTP() {
 
-		/** Set Parameters for Activation Service. */
+		/* Set Parameters for Activation Service. */
 
 		valueContainer = new ValueContainer();
 		valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
@@ -411,7 +409,7 @@ public class ResetPinDetails extends Activity {
 				try {
 					responseXml = webServiceHttp
 							.getResponseSSLCertificatation();
-					/** Service call for Activation */
+					/* Service call for Activation */
 				} catch (Exception e) {
 					responseXml = null;
 				}

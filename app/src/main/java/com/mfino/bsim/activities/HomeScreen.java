@@ -80,6 +80,7 @@ public class HomeScreen extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 
+
 		final RelativeLayout bannerUpgradeLayout = findViewById(R.id.banner_upgrade);
 		Bundle extras = getIntent().getExtras();
 		if(extras != null){
@@ -109,6 +110,8 @@ public class HomeScreen extends AppCompatActivity {
 				bannerUpgradeLayout.setVisibility(View.GONE);
 			}
 		});
+
+
 		/* Called when the activity is first created. */
 		ImageButton logoutButton = findViewById(R.id.logoutButton);
 		ImageView image1 = findViewById(R.id.imageView1);
@@ -365,8 +368,10 @@ public class HomeScreen extends AppCompatActivity {
 
 	private void checkIfSimPlusExist(){
 		final boolean isInstalled = isPackageInstalled();
+		final RelativeLayout bannerUpgradeLayout = findViewById(R.id.banner_upgrade);
 		Log.d(LOG_TAG, "simobiplus installed? " + isInstalled);
 		if(isInstalled){
+			//if installed: true
 			final AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
 			builder.setCancelable(true);
 			LayoutInflater inflater = this.getLayoutInflater();
@@ -383,7 +388,13 @@ public class HomeScreen extends AppCompatActivity {
 					@Override
 					public void onClick(View v) {
 						dialog.dismiss();
+						bannerUpgradeLayout.setVisibility(View.GONE);
 						Log.d(LOG_TAG, "isInstalled: " + isInstalled);
+						Intent intent = new Intent (Intent.ACTION_VIEW);
+						intent.setData (Uri.parse("smbplus://migrate/#"+token));
+						Log.d(LOG_TAG, "smbplus://migrate/#" + token);
+						startService(intent);
+						//startActivity(intent);
 					}
 				});
 			}else{
@@ -395,7 +406,13 @@ public class HomeScreen extends AppCompatActivity {
 					@Override
 					public void onClick(View v) {
 						dialog.dismiss();
+						bannerUpgradeLayout.setVisibility(View.GONE);
 						Log.d(LOG_TAG, "isInstalled: " + isInstalled);
+						Intent intent = new Intent (Intent.ACTION_VIEW);
+						intent.setData (Uri.parse("smbplus://migrate/#"+token));
+						Log.d(LOG_TAG, "smbplus://migrate/#" + token);
+						startService(intent);
+						//startActivity(intent);
 					}
 				});
 			}
@@ -404,6 +421,7 @@ public class HomeScreen extends AppCompatActivity {
 			dialog.show();
 
 		}else{
+			//if installed: false
 			final AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
 			builder.setCancelable(true);
 			LayoutInflater inflater = this.getLayoutInflater();

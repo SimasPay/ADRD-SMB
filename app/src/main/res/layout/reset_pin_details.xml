@@ -25,7 +25,7 @@
             android:orientation="vertical"
             android:padding="15dp" >
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/textView3"
                 style="@style/font_style_spinner"
                 android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_marginRight="5dp"
                 android:imeOptions="actionNext"
                 android:inputType="numberPassword" 
-                android:maxLength="8" />
+                android:maxLength="8" />-->
 
             <TextView
                 android:id="@+id/textView_newPin"
@@ -63,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
                 android:imeOptions="actionNext"
                 android:inputType="numberPassword" 
                 android:maxLength="6" />
@@ -95,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="Submit"
+                android:text="@string/submit"
                 style="@style/font_button"
                 android:textAllCaps="false"
                 android:background="@drawable/button_empty" />

@@ -47,11 +47,8 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-/** @author pramod */
 
 public class ActivationDisclosure extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener {
-	/** Called when the activity is first created. */
-	private Button agreeButton, decline;
 	private ValueContainer valueContainer;
 	private Bundle bundle;
 	private String responseXml;
@@ -84,14 +81,14 @@ public class ActivationDisclosure extends AppCompatActivity implements IncomingS
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		f_mdn = settings.getString("mobile", "");
 		mobileNumber = settings.getString("mobile", "");
-		settings.edit().putString("ActivityName", "ActivationDisclosure").commit();
-		settings.edit().putBoolean("isAutoSubmit", false).commit();
+		settings.edit().putString("ActivityName", "ActivationDisclosure").apply();
+		settings.edit().putBoolean("isAutoSubmit", false).apply();
 		Log.d(LOG_TAG, "Activation : ActivationDisclosure");
 		context = this;
 		mydb = new DBHelper(ActivationDisclosure.this);
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("ActivityName", "ActivationDisclosure").commit();
-		if (android.os.Build.VERSION.SDK_INT > 9) {
+		settings2.edit().putString("ActivityName", "ActivationDisclosure").apply();
+		if (android.os.Build.VERSION.SDK_INT > 14) {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy);
 		}
@@ -112,8 +109,9 @@ public class ActivationDisclosure extends AppCompatActivity implements IncomingS
 
 		bundle = getIntent().getExtras();
 		alertbox = new AlertDialog.Builder(ActivationDisclosure.this, R.style.MyAlertDialogStyle);
-		agreeButton = (Button) findViewById(R.id.agreeButton);
-		decline = (Button) findViewById(R.id.decline);
+		/* Called when the activity is first created. */
+		Button agreeButton = (Button) findViewById(R.id.agreeButton);
+		Button decline = (Button) findViewById(R.id.decline);
 
 		// Public key
 		encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES", 0);
@@ -161,7 +159,7 @@ public class ActivationDisclosure extends AppCompatActivity implements IncomingS
 			@Override
 			public void onClick(View arg0) {
 
-				/** Set Parameters for Activation Service. */
+				/* Set Parameters for Activation Service. */
 
 				String module = encrptionKeys.getString("MODULE", "NONE");
 				String exponent = encrptionKeys.getString("EXPONENT", "NONE");
@@ -288,11 +286,11 @@ public class ActivationDisclosure extends AppCompatActivity implements IncomingS
 									valueContainer.setMfaMode("NONE");
 								}
 
-								if (valueContainer.getMfaMode().toString().equalsIgnoreCase("OTP")) {
+								if (valueContainer.getMfaMode().equalsIgnoreCase("OTP")) {
 									Log.e("MFA MODE..", responseContainer.getMfaMode() + "");
 									dialog.dismiss();
 									Log.d("Widy-Debug", "Dialog OTP Required show");
-									settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
+									settings.edit().putString("Sctl", responseContainer.getSctl()).apply();
 									if (bundle.getString("ACTIVATION_TYPE").equals("Activation")) {
 										showOTPRequiredDialog(responseContainer.getMsg(), "", "",
 												responseContainer.getMfaMode(), responseContainer.getSctl(),
@@ -384,7 +382,7 @@ public class ActivationDisclosure extends AppCompatActivity implements IncomingS
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.dismiss();
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("ActivityName", "ExitActivationDisclosure").commit();
+							settings2.edit().putString("ActivityName", "ExitActivationDisclosure").apply();
 							isExitActivity = true;
 							Intent intent = new Intent(ActivationDisclosure.this, LandingScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -398,7 +396,7 @@ public class ActivationDisclosure extends AppCompatActivity implements IncomingS
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.dismiss();
 							settings2 = getSharedPreferences(LOG_TAG, 0);
-							settings2.edit().putString("ActivityName", "ExitActivationDisclosure").commit();
+							settings2.edit().putString("ActivityName", "ExitActivationDisclosure").apply();
 							isExitActivity = true;
 							Intent intent = new Intent(ActivationDisclosure.this, LandingScreen.class);
 							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -479,7 +477,7 @@ public class ActivationDisclosure extends AppCompatActivity implements IncomingS
 						countTimer.cancel();
 					}
 					settings2 = getSharedPreferences(LOG_TAG, 0);
-					settings2.edit().putString("ActivityName", "ExitActivationDisclosure").commit();
+					settings2.edit().putString("ActivityName", "ExitActivationDisclosure").apply();
 				}
 			});
 		}

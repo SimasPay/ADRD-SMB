@@ -26,14 +26,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-/** @author pramod */
+import static com.mfino.bsim.activities.HomeScreen.LOG_TAG;
 
 public class ActivationHome extends Activity {
 	/** Called when the activity is first created. */
 	private AlertDialog.Builder alertbox;
-	private ValueContainer valueContainer;
 	private String responseXml;
-	EditText mdn;
+	EditText mdn, otp;
 	SharedPreferences languageSettings;
 	String selectedLanguage;
 	ProgressDialog dialog;
@@ -49,8 +48,8 @@ public class ActivationHome extends Activity {
 
 		// Header code...
 		// View headerContainer = findViewById(R.id.header);
-		TextView screeTitle = (TextView) findViewById(R.id.screenTitle);
-		ImageButton back = (ImageButton) findViewById(R.id.back);
+		TextView screeTitle = findViewById(R.id.screenTitle);
+		ImageButton back = findViewById(R.id.back);
 		back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -60,9 +59,11 @@ public class ActivationHome extends Activity {
 		});
 
 		alertbox = new AlertDialog.Builder(ActivationHome.this, R.style.MyAlertDialogStyle);
-		mdn = (EditText) findViewById(R.id.mobileEditText);
-		Button activation = (Button) findViewById(R.id.okButton);
-		TextView mdnText = (TextView) findViewById(R.id.textView2);
+		mdn = findViewById(R.id.mobileEditText);
+		otp = findViewById(R.id.activationKeyEditText);
+		Button activation = findViewById(R.id.okButton);
+		Button resendOTP = findViewById(R.id.resendOTP);
+		TextView mdnText = findViewById(R.id.textView2);
 
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
@@ -79,8 +80,15 @@ public class ActivationHome extends Activity {
 			back.setBackgroundResource(R.drawable.back_button);
 			mdnText.setText(getResources().getString(R.string.bahasa_mobileNumber));
 			activation.setText(getResources().getString(R.string.bahasa_submit));
-
 		}
+
+		resendOTP.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				resendOTP();
+			}
+		});
+
 
 		activation.setOnClickListener(new OnClickListener() {
 
@@ -111,6 +119,12 @@ public class ActivationHome extends Activity {
 
 				} else {
 					registrationMedium();
+					/*
+					Intent intent = new Intent(ActivationHome.this, ActivationDetails.class);
+					intent.putExtra("MDN", mdn.getText().toString());
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					*/
 				}
 			}
 		});
@@ -119,14 +133,14 @@ public class ActivationHome extends Activity {
 
 	@SuppressLint("HandlerLeak")
 	public void registrationMedium() {
-
-		/** Set Parameters for Activation Service. */
-
-		valueContainer = new ValueContainer();
+		/* Set Parameters for Activation Service. */
+		ValueContainer valueContainer = new ValueContainer();
 		valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
 		valueContainer.setSourceMdn(mdn.getText().toString());
+		Log.d(LOG_TAG, "otp:"+otp.getText().toString());
+		valueContainer.setOTP(otp.getText().toString());
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
-		settings.edit().putString("mobile", mdn.getText().toString()).commit();
+		settings.edit().putString("mobile", mdn.getText().toString()).apply();
 		valueContainer.setTransactionName(Constants.TRANSACTION_REGISTRATION_MEDIUM);
 
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ActivationHome.this);
@@ -163,8 +177,9 @@ public class ActivationHome extends Activity {
 
 					dialog.dismiss();
 
-					if (responseContainer.getRegistrationMedium() == null) {
+					if ((responseContainer != null ? responseContainer.getRegistrationMedium() : null) == null) {
 
+						assert responseContainer != null;
 						alertbox.setMessage(responseContainer.getMsg());
 						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
@@ -189,12 +204,13 @@ public class ActivationHome extends Activity {
 						 * }else{
 						 */
 
-						if (responseContainer.getStatus().toString().equalsIgnoreCase("Active")) {
+						if (responseContainer.getStatus().equalsIgnoreCase("Active")) {
 
-							if (responseContainer.getResetPinRequested().toString().equalsIgnoreCase("true")) {
+							if (responseContainer.getResetPinRequested().equalsIgnoreCase("true")) {
 
 								Intent intent = new Intent(ActivationHome.this, ResetPinDetails.class);
 								intent.putExtra("MDN", mdn.getText().toString());
+								intent.putExtra("otp", otp.getText().toString());
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
 
@@ -222,6 +238,7 @@ public class ActivationHome extends Activity {
 									&& responseContainer.getIsActivated().equalsIgnoreCase("false")) {
 								Intent intent = new Intent(ActivationHome.this, ReActivationDetails.class);
 								intent.putExtra("MDN", mdn.getText().toString());
+								intent.putExtra("otp", otp.getText().toString());
 								startActivity(intent);
 
 							} /*
@@ -237,6 +254,7 @@ public class ActivationHome extends Activity {
 								 */else {
 								Intent intent = new Intent(ActivationHome.this, ActivationDetails.class);
 								intent.putExtra("MDN", mdn.getText().toString());
+								intent.putExtra("otp", otp.getText().toString());
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
 							}
@@ -270,7 +288,7 @@ public class ActivationHome extends Activity {
 
 				try {
 					responseXml = webServiceHttp.getResponseSSLCertificatation();
-					/** Service call for Activation */
+					/* Service call for Activation */
 				} catch (Exception e) {
 					responseXml = null;
 				}
@@ -282,13 +300,126 @@ public class ActivationHome extends Activity {
 	}
 
 	private boolean isRequiredFieldEmpty() {
+		mdn = findViewById(R.id.mobileEditText);
+		otp = findViewById(R.id.activationKeyEditText);
+		return !(!(mdn.getText().toString().equals("")) && !(otp.getText().toString().equals("")));
+	}
 
-		mdn = (EditText) findViewById(R.id.mobileEditText);
-		if (!(mdn.getText().toString().equals(""))) {
-			return false;
-		} else {
+	public void resendOTP() {
 
-			return true;
+		if(mdn.getText().toString().equals("")){
+			if (selectedLanguage.equalsIgnoreCase("ENG")) {
+				alertbox.setMessage("Please input your MDN");
+			}else{
+				alertbox.setMessage("Silahkan masukkan nomor MDN anda");
+			}
+			alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface arg0, int arg1) {
+					arg0.dismiss();
+				}
+			});
+			alertbox.show();
+		}else{
+			/* Set Parameters for Activation Service. */
+			ValueContainer valueContainer = new ValueContainer();
+			valueContainer.setServiceName(Constants.SERVICE_ACCOUNT);
+			valueContainer.setSourceMdn(mdn.getText().toString());
+			valueContainer.setTransactionName(Constants.TRANSACTION_RESEND_OTP);
+
+			final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, ActivationHome.this);
+
+			if (selectedLanguage.equalsIgnoreCase("ENG")) {
+				dialog = new ProgressDialog(ActivationHome.this, R.style.MyAlertDialogStyle);
+				dialog.setTitle("Bank Sinarmas");
+				dialog.setCancelable(false);
+				dialog.setMessage(getResources().getString(R.string.eng_loading));
+				dialog.show();
+			} else {
+				dialog = new ProgressDialog(ActivationHome.this, R.style.MyAlertDialogStyle);
+				dialog.setTitle("Bank Sinarmas");
+				dialog.setCancelable(false);
+				dialog.setMessage(getResources().getString(R.string.bahasa_loading));
+				dialog.show();
+			}
+
+			@SuppressLint("HandlerLeak") final Handler handler = new Handler() {
+
+				public void handleMessage(Message msg) {
+
+					if (responseXml != null) {
+
+						XMLParser obj = new XMLParser();
+
+						EncryptedResponseDataContainer responseContainer = null;
+						try {
+							responseContainer = obj.parse(responseXml);
+							System.out.println("Testing>>>Message>>Activation>>" + responseContainer.getMsg());
+						} catch (Exception e) {
+
+							e.printStackTrace();
+						}
+
+						dialog.dismiss();
+
+						if (responseContainer != null) {
+							if (responseContainer.getMsg() == null) {
+
+								if (selectedLanguage.equalsIgnoreCase("ENG")) {
+									alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
+								} else {
+									alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
+								}
+								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface arg0, int arg1) {
+
+									}
+								});
+								alertbox.show();
+
+							} else {
+								dialog.dismiss();
+								alertbox.setMessage(responseContainer.getMsg());
+								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface arg0, int arg1) {
+										dialog.dismiss();
+									}
+								});
+								alertbox.show();
+							}
+						}
+
+					} else {
+						dialog.dismiss();
+						if (selectedLanguage.equalsIgnoreCase("ENG")) {
+							alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
+						} else {
+							alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
+						}
+						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+
+							}
+						});
+						alertbox.show();
+					}
+
+				}
+			};
+
+			final Thread checkUpdate = new Thread() {
+
+				public void run() {
+
+					try {
+						responseXml = webServiceHttp.getResponseSSLCertificatation();
+					/* Service call for Activation */
+					} catch (Exception e) {
+						responseXml = null;
+					}
+					handler.sendEmptyMessage(0);
+				}
+			};
+			checkUpdate.start();
 		}
 	}
 

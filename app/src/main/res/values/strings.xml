@@ -163,7 +163,7 @@
     <string name="bahasa_last3Transactions"> 6 Trannsaksi Terakhir </string>
     <string name="bahasa_reactivation"> Aktivasi Ulang </string>
     <string name="bahasa_resetPin"> Reset mPIN </string>
-    <string name="bahasa_serverNotRespond"> Nasabah yang terhormat, \n saat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
+    <string name="bahasa_serverNotRespond"> Nasabah yang terhormat, \nsaat ini tidak dapat terhubung dengan server Bank Sinarmas. Silakan coba lagi nanti. </string>
     <string name="bahasa_enterValidMobile"> Silakan masukkan nomor ponsel yang valid </string>
     <string name="bahasa_LoginpinLength"> Panjang mPIN harus 6 digit. Apabila mPIN Anda kurang dari 6 digit, silahkan ubah dahulu mPIN Anda menjadi 6 digit di ATM Bank Sinarmas terdekat </string>
     <string name="bahasa_pinLength"> Panjang mPIN harus 6 digit </string>
@@ -393,5 +393,7 @@
     <string name="promo">Promo</string>
     <string name="x">x</string>
     <string name="you_have_simobiplus_on_your_phone">You have SimobiPlus on your phone</string>
+    <string name="submit">Submit</string>
+    <string name="resend_otp">Resend OTP</string>
 
 </resources>

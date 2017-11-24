@@ -17,6 +17,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,7 +58,7 @@ public class LoginScreen extends AppCompatActivity {
     String userApiKey;
     String mobileNumber;
     DBHelper mydb;
-    String mdn_name;
+    String mdn_name, mdn;
     ArrayList<String> array = new ArrayList<>();
     int msgcode;
     String new_mdn, final_mdn;
@@ -101,6 +103,30 @@ public class LoginScreen extends AppCompatActivity {
         TextView welcomeTxt = findViewById(R.id.lbl_welcome);
         loginId.setText(mobileNumber);
 
+        if(!loginId.getText().toString().equals("")){
+            loginPin.requestFocus();
+        }
+        /*
+        loginPin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 6) {
+                    nextProcess();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        */
+
         if (selectedLanguage.equalsIgnoreCase("ENG")) {
             System.out.println("Testing1>>" + selectedLanguage);
             // loginButton.setBackgroundResource(R.drawable.login_button);
@@ -121,9 +147,6 @@ public class LoginScreen extends AppCompatActivity {
             @SuppressLint("HandlerLeak")
             @Override
             public void onClick(View arg0) {
-
-                // SDKLinkFragmentActivity.resetUserSession();
-
                 boolean networkCheck = ConfigurationUtil.isConnectingToInternet(context);
                 if (!networkCheck) {
                     if (selectedLanguage.equalsIgnoreCase("ENG")) {
@@ -182,12 +205,8 @@ public class LoginScreen extends AppCompatActivity {
 
                     try {
                         // ** Set Parameters for login service. *//*
-
-                        // ** Set Parameters for login service. *//*
                         String module = encrptionKeys.getString("MODULE", "NONE");
                         String exponent = encrptionKeys.getString("EXPONENT", "NONE");
-                        System.out.println(module + ">>KEYs>>" + exponent + ">>Login>>"
-                                + Arrays.toString(loginPin.getText().toString().getBytes()));
                         String rsaKey = CryptoService.encryptWithPublicKey(module, exponent,
                                 loginPin.getText().toString().getBytes());
                         String appVersion = getResources().getString(R.string.app_version);
@@ -197,9 +216,6 @@ public class LoginScreen extends AppCompatActivity {
                         settings.edit().putString("mobile", mdn).apply();
                         Constants.SOURCE_MDN_NAME = loginId.getText().toString().trim();
                         valueContainer.setSourceMdn(mdn);
-                        // settings.edit().putString("SOURCE_MDN_PIN",loginId.getText().toString()).commit();
-                        // Without RSA
-                        // valueContainer.setSourcePin(loginPin.getText().toString());
 
                         // RSA
                         valueContainer.setSourcePin(rsaKey);
@@ -226,7 +242,7 @@ public class LoginScreen extends AppCompatActivity {
 
                         dialog.setCancelable(true);
 
-                        final Handler handler = new Handler() {
+                        @SuppressLint("HandlerLeak") final Handler handler = new Handler() {
 
                             public void handleMessage(Message msg) {
 
@@ -376,64 +392,13 @@ public class LoginScreen extends AppCompatActivity {
 
                                                 } else {
                                                     Log.e("check_mdn_name", mobileNumber + "elseeeeeee");
-
-                                                    // SDKLinkFragmentActivity.resetUserSession();
-                                                    /*
-													 * Log.e("check_mdn_name",
-													 * mobileNumber+
-													 * "else_outtttttt");
-													 * if(new_mdn.startsWith("0"
-													 * )){
-													 * Log.e("check_mdn_name+0",
-													 * new_mdn);
-													 * 
-													 * final_mdn=new_mdn.
-													 * substring(1);
-													 * final_mdn="62"+final_mdn;
-													 * Log.e("check_mdn_name",
-													 * new_mdn+final_mdn);
-													 * 
-													 * 
-													 * 
-													 * }else
-													 * if(new_mdn.startsWith(
-													 * "62")){
-													 * Log.e("check_mdn_name+62"
-													 * ,new_mdn);
-													 * 
-													 * final_mdn=new_mdn;
-													 * Log.e("check_mdn_name",
-													 * new_mdn+final_mdn);
-													 * 
-													 * 
-													 * }else{ Log.e(
-													 * "check_mdn_name----",
-													 * new_mdn);
-													 * 
-													 * final_mdn="62"+new_mdn;
-													 * Log.e("check_mdn_name",
-													 * new_mdn+final_mdn);
-													 * 
-													 * 
-													 * }
-													 */
                                                     Log.e("check_mdn_name------lllllllllllll----------",
                                                             new_mdn + final_mdn);
-
                                                     mydb.insertMdn(final_mdn);
                                                     mydb.insertfalshiz("false", "");
-
-                                                    // mydb.insertMdn(loginId.getText().toString());
-                                                    // mydb.insertfalshiz("false","");
-
-                                                    // mydb.insertfalshiz("false",
-                                                    // loginId.getText().toString());
-
                                                 }
 
                                             }
-                                            // mydb.insertMdn(loginId.getText().toString());
-
                                         } else {
                                             Log.e("no data", "founddddddd");
                                             new_mdn = loginId.getText().toString();
@@ -461,11 +426,6 @@ public class LoginScreen extends AppCompatActivity {
 
                                             mydb.insertMdn(final_mdn);
                                             mydb.insertfalshiz("false", "");
-                                            // mydb.insertMdn(loginId.getText().toString());
-                                            // mydb.insertfalshiz("false","");
-                                            // mydb.insertfalshiz("false",
-                                            // loginId.getText().toString());
-
                                             rs = mydb.getData();
                                             Log.e("countttt", rs.getCount() + "");
                                             if (rs.getCount() != 0) {
@@ -521,27 +481,8 @@ public class LoginScreen extends AppCompatActivity {
                                             Intent intent = new Intent(LoginScreen.this, UpgradeToSimobiPlus.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
-                                        }
 
-										/*
-										 * if ("-1".equals(responseContainer.
-										 * getAppUpdateURL())) {
-										 * 
-										 * Intent intent = new
-										 * Intent(LoginScreen.this,HomeScreen.
-										 * class); intent.setFlags(Intent.
-										 * FLAG_ACTIVITY_CLEAR_TOP);
-										 * startActivity(intent);
-										 * 
-										 * } else { Intent intent = new
-										 * Intent(LoginScreen.this,Update.class)
-										 * ;
-										 * intent.putExtra("msg",valueContainer.
-										 * getAppUpdateURL());
-										 * intent.setFlags(Intent.
-										 * FLAG_ACTIVITY_CLEAR_TOP);
-										 * startActivity(intent); }
-										 */
+                                        }
                                     }
                                     loginPin.setText("");
                                 } else {
@@ -581,7 +522,6 @@ public class LoginScreen extends AppCompatActivity {
                     }
 
                 }
-
             }
         });
     }
@@ -590,6 +530,10 @@ public class LoginScreen extends AppCompatActivity {
         loginId = findViewById(R.id.ed_Login_MobNo);
         loginPin = findViewById(R.id.ed_Login_Pin);
         return !(!(loginId.getText().toString().equals("")) && !(loginPin.getText().toString().equals("")));
+    }
+
+    private void nextProcess(){
+        // SDKLinkFragmentActivity.resetUserSession();
     }
 
     @SuppressLint("HandlerLeak")

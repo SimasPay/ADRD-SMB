@@ -25,7 +25,7 @@
         android:id="@+id/banner_upgrade"
         android:layout_below="@+id/header"
         android:layout_width="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="wrap_content">
 
         <ImageView

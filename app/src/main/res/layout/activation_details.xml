@@ -56,7 +56,7 @@
             </EditText>
             -->
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/textView3"
                 style="@style/font_style_spinner"
                 android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                 android:ems="10"
                 android:imeOptions="actionNext"
                 android:inputType="numberPassword"
-                android:maxLength="8" />
+                android:maxLength="8" />-->
 
             <!--
             <TextView
@@ -123,6 +123,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionNext"
+                android:layout_marginBottom="10dp"
                 android:inputType="numberPassword"
                 android:maxLength="6" >
             </EditText>
@@ -151,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" >
 
-                <Button
+                <!--<Button
                     android:id="@+id/resendOTP"
                     style="@style/font_button"
                     android:layout_width="wrap_content"
@@ -160,22 +161,21 @@
                     android:layout_marginTop="10dp"
                     android:textAllCaps="false"
                     android:background="@drawable/button_empty"
-                    android:text="Resend OTP" />
+                    android:text="Resend OTP" />-->
 
                 <Button
                     android:id="@+id/okButton"
                     style="@style/font_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/button_empty"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:textAllCaps="false"
-                    android:text="Submit" />
+                    android:text="@string/submit" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

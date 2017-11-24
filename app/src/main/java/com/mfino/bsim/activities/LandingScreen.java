@@ -84,7 +84,7 @@ public class LandingScreen extends AppCompatActivity {
         languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
         encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES", 0);
         selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
-        System.out.println("Testing>>" + selectedLanguage);
+        //System.out.println("Testing>>" + selectedLanguage);
 
         // Image Slider
         new ImageSliderTask().execute();
@@ -109,7 +109,7 @@ public class LandingScreen extends AppCompatActivity {
         //toc.setVisibility(View.GONE);
 
         if (selectedLanguage.equalsIgnoreCase("ENG")) {
-            System.out.println("Testing1>>" + selectedLanguage);
+            //System.out.println("Testing1>>" + selectedLanguage);
             activationText.setText(getResources().getString(R.string.eng_activation));
 
         } else {
@@ -205,12 +205,14 @@ public class LandingScreen extends AppCompatActivity {
             dialog = new ProgressDialog(LandingScreen.this, R.style.MyAlertDialogStyle);
             dialog.setTitle("Bank Sinarmas");
             dialog.setCancelable(false);
+            //dialog.setMessage("connecting to: "+ WebServiceHttp.webAPIUrl);
             dialog.setMessage(getResources().getString(R.string.eng_loading));
             dialog.show();
         } else {
             dialog = new ProgressDialog(LandingScreen.this, R.style.MyAlertDialogStyle);
             dialog.setTitle("Bank Sinarmas");
             dialog.setCancelable(false);
+            //dialog.setMessage("connecting to: "+ WebServiceHttp.webAPIUrl);
             dialog.setMessage(getResources().getString(R.string.bahasa_loading));
             dialog.show();
         }
@@ -238,8 +240,10 @@ public class LandingScreen extends AppCompatActivity {
                         if (responseContainer.getSuccess() != null) {
                             if (!responseContainer.getSuccess().equalsIgnoreCase("true")) {
                                 if (selectedLanguage.equalsIgnoreCase("ENG")) {
+                                    //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                                     alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
                                 } else {
+                                    //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                                     alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
                                 }
                                 alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
@@ -249,15 +253,15 @@ public class LandingScreen extends AppCompatActivity {
                                 });
                                 alertbox.show();
                             } else {
-                                System.out.println(responseContainer.getPublicKeyExponet() + "MODULUS:"
-                                        + responseContainer.getPublicKeyModulus());
                                 encrptionKeys.edit().putString("MODULE", responseContainer.getPublicKeyModulus()).apply();
                                 encrptionKeys.edit().putString("EXPONENT", responseContainer.getPublicKeyExponet()).apply();
                             }
                         } else {
                             if (selectedLanguage.equalsIgnoreCase("ENG")) {
+                                //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                                 alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
                             } else {
+                                //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                                 alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
                             }
                             alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
@@ -272,8 +276,10 @@ public class LandingScreen extends AppCompatActivity {
                 } else {
                     dialog.dismiss();
                     if (selectedLanguage.equalsIgnoreCase("ENG")) {
+                        //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                         alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
                     } else {
+                        //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                         alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
                     }
                     alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
@@ -344,7 +350,7 @@ public class LandingScreen extends AppCompatActivity {
             String[] parts = total.toString().split("\\r?\\n");
             for (String part : parts) {
                 if (!part.trim().isEmpty()) {
-                    Log.d("Simobi", "string added : " + part);
+                    //Log.d("Simobi", "string added : " + part);
                     IMAGES.add(part.trim());
                 }
             }
@@ -355,7 +361,7 @@ public class LandingScreen extends AppCompatActivity {
     private void init() {
         mPager = findViewById(R.id.pager);
         if (IMAGES == null) {
-            Log.d("SIMOBI", "Images null!");
+            //Log.d("SIMOBI", "Images null!");
         }
         mPager.setAdapter(new ImageSliderAdapter(LandingScreen.this, IMAGES));
 

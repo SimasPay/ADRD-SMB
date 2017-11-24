@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -37,7 +38,6 @@ import static com.mfino.bsim.activities.LoginScreen.LOG_TAG;
 public class WebServiceHttp extends Activity {
 
 	private ValueContainer edContainer;
-	private final int SPLASH_DISPLAY_LENGHT = 3000;
 	Context context;
 	String otpCode;
 	Context ctx;
@@ -49,10 +49,20 @@ public class WebServiceHttp extends Activity {
 	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
 	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
 
+	//local-didik-nov-17
+	//public static String webAPIUrlFiles="https://192.168.1.101:8443/webapi/sdynamic";
+	//public static String webAPIUrl ="https://192.168.1.101:8443/webapi/sdynamic";
+
+
 	//local-new0ct17
 	public static String webAPIUrlFiles="https://192.168.0.18:8443/webapi/sdynamic";
 	public static String webAPIUrl ="https://192.168.0.18:8443/webapi/sdynamic";
-	
+
+
+	//QA-newnov17
+	//public static String webAPIUrlFiles="https://10.32.3.65:8443/webapi/sdynamic";
+	//public static String webAPIUrl ="https://10.32.3.65:8443/webapi/sdynamic";
+
 	//Devserver
 	//public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
 	//public static String webAPIUrl ="https://175.101.5.75:8443/webapi/sdynamic";
@@ -226,6 +236,7 @@ public class WebServiceHttp extends Activity {
 					+ edContainer.getServiceName() + "&"
 					+ Constants.PARAMETER_SOURCE_MDN + "="
 					+ edContainer.getSourceMdn() + "&"
+					+ Constants.PARAMETER_OTP + "=" + edContainer.getOTP().trim() + "&"
 					+ Constants.PARAMETER_TRANSACTIONNAME + "="
 					+ edContainer.getTransactionName();
 			System.out.println(" Inside the code....................");
@@ -414,7 +425,7 @@ public class WebServiceHttp extends Activity {
 
 			if (edContainer.getTransferType().equals("toUnagku")) {
 				// System.out.println("tranferrrr111111111");
-				Log.e("Transfer_to_uangku", "testing");
+				//Log.e("Transfer_to_uangku", "testing");
 
 				requestUrl += "&" + Constants.PARAMETER_AMOUNT + "="
 						+ edContainer.getAmount() + "&"
@@ -830,8 +841,10 @@ public class WebServiceHttp extends Activity {
 		}
 
 		try {
-			ksTrust.load(context.getResources().openRawResource(R.raw.ddtcert),
-					passphrase);
+			if (ksTrust != null) {
+				ksTrust.load(context.getResources().openRawResource(R.raw.ddtcert),
+                        passphrase);
+			}
 		} catch (NoSuchAlgorithmException e1) {
 
 			e1.printStackTrace();
@@ -876,7 +889,11 @@ public class WebServiceHttp extends Activity {
 		}
 
 		try {
-			sslContext.init(null, tmf.getTrustManagers(), new SecureRandom());
+			if (sslContext != null) {
+				if (tmf != null) {
+					sslContext.init(null, tmf.getTrustManagers(), new SecureRandom());
+				}
+			}
 		} catch (KeyManagementException e1) {
 
 			e1.printStackTrace();
@@ -897,7 +914,9 @@ public class WebServiceHttp extends Activity {
 			X509TrustManager nullTrustManager = new NullTrustManager();
 			TrustManager[] nullTrustManagers = { nullTrustManager };
 			try {
-				sslContext.init(null, nullTrustManagers, new SecureRandom());
+				if (sslContext != null) {
+					sslContext.init(null, nullTrustManagers, new SecureRandom());
+				}
 			} catch (KeyManagementException e) {
 
 				e.printStackTrace();
@@ -909,15 +928,18 @@ public class WebServiceHttp extends Activity {
 
 			e.printStackTrace();
 		}
-		System.setProperty("http.keepAlive", "false");
+		//System.setProperty("http.keepAlive", "false");
 
 		HttpsURLConnection conn = null;
 		try {
 
 			if (url != null) {
-				conn = (HttpsURLConnection) url.openConnection();
+				//conn = (HttpsURLConnection) url.openConnection();
+				conn = (HttpsURLConnection) url.openConnection(Proxy.NO_PROXY);
 			}
-			conn.setHostnameVerifier(new NullVerifier());
+			if (conn != null) {
+				conn.setHostnameVerifier(new NullVerifier());
+
 			conn.setSSLSocketFactory(sslContext.getSocketFactory());
 
 			conn.setUseCaches(false);
@@ -933,10 +955,11 @@ public class WebServiceHttp extends Activity {
 			int rc = 0;
 			
 			rc = conn.getResponseCode();
-			System.out.println("------------clen--------------------------------"+rc);
+			//System.out.println("------------clen--------------------------------"+rc);
 
 
 			if (rc == 0) {
+				int SPLASH_DISPLAY_LENGHT = 3000;
 				new Handler().postDelayed(new Runnable() {
 
 					@Override
@@ -949,33 +972,34 @@ public class WebServiceHttp extends Activity {
 					InputStreamReader resultInputStream = new InputStreamReader(conn.getInputStream());
 					BufferedReader rd = new BufferedReader(resultInputStream);
 					String line;
-					StringBuffer sb = new StringBuffer("");
+					StringBuilder sb = new StringBuilder("");
 					
 					while ((line = rd.readLine()) != null) {
-						sb.append(line+ "\n");
+						sb.append(line).append("\n");
 						// contents +=rd.readLine();
 
-						Log.i("Nav", "version res:: " + line);
+						//Log.i("Nav", "version res:: " + line);
 					}
 					// contents = line;
 					contents = sb.toString();
-					System.out.println("-----------Check for content--------------------------------"+contents);
-					Log.e("contents______________", contents+"");
+					//System.out.println("-----------Check for content--------------------------------"+contents);
+					//Log.e("contents______________", contents+"");
 
 					rd.close();
 					resultInputStream.close();
 
 				
 			}
-			System.out.println("------------ resp  --------------------------------"+ rc);
+			}
+			//System.out.println("------------ resp  --------------------------------"+ rc);
 			
-			Log.e("response))))))))))))))))", rc+"");
+			//Log.e("response))))))))))))))))", rc+"");
 
 		}catch (SocketTimeoutException e) {
-	        System.out.println("Time out " );
+	        //System.out.println("Time out " );
 	        contents=null;
 	    }catch (ConnectException e) {
-	        System.out.println("connectionException ");
+	        //System.out.println("connectionException ");
 	        contents=null;
 	    }catch (java.net.ProtocolException e) {
 			e.printStackTrace();

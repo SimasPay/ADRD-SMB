@@ -3,22 +3,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_simobi"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="30dp" >
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@layout/rounded"
-            android:padding="15dp"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="15dp">
 
             <!-- <LinearLayout android:orientation="vertical" -->
             <!-- android:layout_width="fill_parent" android:layout_height="wrap_content" -->
@@ -34,8 +35,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="20dip"
                 android:paddingLeft="3dp"
-                android:text="MDN " >
-            </TextView>
+                android:text="MDN "></TextView>
 
             <EditText
                 android:id="@+id/mobileEditText"
@@ -46,20 +46,65 @@
                 android:layout_marginRight="5dp"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:maxLength="13" >
-            </EditText>
+                android:maxLength="13"></EditText>
 
-            <Button
-                android:id="@+id/okButton"
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/font_style_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="30dp"
-                android:text="Submit"
-                style="@style/font_button"
-                android:background="@drawable/button_empty" >
-            </Button>
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dip"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp"
+                android:text="Enter your varification code(OTP) "></TextView>
+
+            <EditText
+                android:id="@+id/activationKeyEditText"
+                style="@style/text_box_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:inputType="numberPassword"
+                android:maxLength="8" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/resendOTP"
+                    style="@style/font_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_empty"
+                    android:padding="2dp"
+                    android:text="@string/resend_otp"
+                    android:textAllCaps="false"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/okButton"
+                    style="@style/font_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_empty"
+                    android:padding="2dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textSize="13sp"></Button>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
     <!-- </LinearLayout> -->
@@ -78,10 +123,10 @@
 
     <include
         android:id="@+id/header"
+        layout="@layout/header1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        layout="@layout/header1" />
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>
