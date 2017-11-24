@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    flavorDimensions "tier"
+    signingConfigs {
+        release {
+            keyAlias 'bsim'
+            keyPassword 'bsim123'
+            storeFile file('/Users/widy/Documents/workspace/DIMO/bsim.keystore')
+            storePassword 'bsim123'
+        }
+    }
     compileSdkVersion 27
     buildToolsVersion "26.0.2"
     defaultConfig {
@@ -10,11 +19,27 @@ android {
         versionCode 24
         versionName "8.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    productFlavors {
+        releaseversion {
+            dimension "tier"
+            minSdkVersion 14
+            applicationId 'com.mfino.bsim'
+            signingConfig signingConfigs.release
+            versionCode 24
+            versionName '8.2'
         }
     }
 }

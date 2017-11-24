@@ -395,5 +395,7 @@
     <string name="you_have_simobiplus_on_your_phone">You have SimobiPlus on your phone</string>
     <string name="submit">Submit</string>
     <string name="resend_otp">Resend OTP</string>
+    <string name="enter_your_verification_code_otp">Enter your verification code(OTP)</string>
+    <string name="mdn">MDN</string>
 
 </resources>

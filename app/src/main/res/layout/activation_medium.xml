@@ -35,7 +35,10 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="20dip"
                 android:paddingLeft="3dp"
-                android:text="MDN "/>
+                android:paddingStart="3dp"
+                android:paddingRight="3dp"
+                android:paddingEnd="3dp"
+                android:text="@string/mdn"/>
 
             <EditText
                 android:id="@+id/mobileEditText"
@@ -58,7 +61,9 @@
                 android:layout_marginTop="20dip"
                 android:paddingLeft="3dp"
                 android:paddingStart="3dp"
-                android:text="Enter your varification code(OTP) "/>
+                android:paddingRight="3dp"
+                android:paddingEnd="3dp"
+                android:text="@string/enter_your_verification_code_otp"/>
 
             <EditText
                 android:id="@+id/activationKeyEditText"
