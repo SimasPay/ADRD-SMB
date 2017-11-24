@@ -35,7 +35,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="20dip"
                 android:paddingLeft="3dp"
-                android:text="MDN "></TextView>
+                android:text="MDN "/>
 
             <EditText
                 android:id="@+id/mobileEditText"
@@ -46,7 +46,7 @@
                 android:layout_marginRight="5dp"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:maxLength="13"></EditText>
+                android:maxLength="13"/>
 
             <TextView
                 android:id="@+id/textView3"
@@ -58,7 +58,7 @@
                 android:layout_marginTop="20dip"
                 android:paddingLeft="3dp"
                 android:paddingStart="3dp"
-                android:text="Enter your varification code(OTP) "></TextView>
+                android:text="Enter your varification code(OTP) "/>
 
             <EditText
                 android:id="@+id/activationKeyEditText"
@@ -86,7 +86,7 @@
                     android:padding="2dp"
                     android:text="@string/resend_otp"
                     android:textAllCaps="false"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/okButton"
@@ -103,7 +103,7 @@
                     android:paddingRight="10dp"
                     android:text="@string/submit"
                     android:textAllCaps="false"
-                    android:textSize="13sp"></Button>
+                    android:textSize="14sp"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

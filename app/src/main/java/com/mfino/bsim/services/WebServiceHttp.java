@@ -55,13 +55,13 @@ public class WebServiceHttp extends Activity {
 
 
 	//local-new0ct17
-	public static String webAPIUrlFiles="https://192.168.0.18:8443/webapi/sdynamic";
-	public static String webAPIUrl ="https://192.168.0.18:8443/webapi/sdynamic";
+	//public static String webAPIUrlFiles="https://192.168.0.18:8443/webapi/sdynamic";
+	//public static String webAPIUrl ="https://192.168.0.18:8443/webapi/sdynamic";
 
 
 	//QA-newnov17
-	//public static String webAPIUrlFiles="https://10.32.3.65:8443/webapi/sdynamic";
-	//public static String webAPIUrl ="https://10.32.3.65:8443/webapi/sdynamic";
+	public static String webAPIUrlFiles="https://10.32.3.65:8443/webapi/sdynamic";
+	public static String webAPIUrl ="https://10.32.3.65:8443/webapi/sdynamic";
 
 	//Devserver
 	//public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
@@ -814,8 +814,8 @@ public class WebServiceHttp extends Activity {
 		}
 		//System.out.println("URL: " + requestUrl);
 		//System.out.println("URL: " );
-		Log.d(LOG_TAG, "url: "+ requestUrl);
-		System.out.println("Testing>>>url "+requestUrl);
+		//Log.d(LOG_TAG, "url: "+ requestUrl);
+		//System.out.println("Testing>>>url "+requestUrl);
 		return requestUrl;
 	}
 

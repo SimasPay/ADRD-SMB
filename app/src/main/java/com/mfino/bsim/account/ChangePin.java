@@ -77,7 +77,7 @@ public class ChangePin extends AppCompatActivity implements IncomingSMS.AutoRead
 		context = ChangePin.this;
 		IncomingSMS.setListener(this);
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("ActivityName", "ChangePin").commit();
+		settings2.edit().putString("ActivityName", "ChangePin").apply();
 		
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
@@ -89,8 +89,8 @@ public class ChangePin extends AppCompatActivity implements IncomingSMS.AutoRead
 
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
-		settings.edit().putString("ActivityName", "ChangePin").commit();
-		settings.edit().putBoolean("isAutoSubmit", false).commit();
+		settings.edit().putString("ActivityName", "ChangePin").apply();
+		settings.edit().putBoolean("isAutoSubmit", false).apply();
 		Log.d(LOG_TAG, "Account : ChangePin");
 
 		back.setOnClickListener(new OnClickListener() {
@@ -327,7 +327,7 @@ public class ChangePin extends AppCompatActivity implements IncomingSMS.AutoRead
 										Log.e("MFA MODE..", responseContainer.getMfaMode() + "");
 										dialog.dismiss();
 										Log.d("Widy-Debug", "Dialog OTP Required show");
-										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
+										settings.edit().putString("Sctl", responseContainer.getSctl()).apply();
 										showOTPRequiredDialog(responseContainer.getMsg(),
 												responseContainer.getMfaMode(), responseContainer.getSctl(),
 												oldpinValue.getText().toString(), newpinValue.getText().toString());
@@ -738,7 +738,7 @@ public class ChangePin extends AppCompatActivity implements IncomingSMS.AutoRead
 	public void onDestroy(){
 		super.onDestroy();
 		settings2 = getSharedPreferences(LOG_TAG, 0);
-		settings2.edit().putString("ActivityName", "ExitChangePin").commit();
+		settings2.edit().putString("ActivityName", "ExitChangePin").apply();
 		if(otpDialogS!=null){
 			otpDialogS.dismiss();
 		}
