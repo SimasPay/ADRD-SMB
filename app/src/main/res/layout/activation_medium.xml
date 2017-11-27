@@ -63,7 +63,7 @@
                 android:paddingStart="3dp"
                 android:paddingRight="3dp"
                 android:paddingEnd="3dp"
-                android:text="@string/enter_your_verification_code_otp"/>
+                android:text="@string/bahasa_enter_your_verification_code_otp"/>
 
             <EditText
                 android:id="@+id/activationKeyEditText"

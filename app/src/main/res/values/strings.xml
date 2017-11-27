@@ -109,7 +109,7 @@
     <string name="eng_emptymdn">Please provide phone number</string>
     <string name="eng_emptympin">Please provide mPIN</string>
     <string name="eng_loginagain">Please login again</string>
-    <string name="eng_resendotp_messages">Pastikan nomor handphone anda sudah benar. Kami telah mengirimkan OTP kembali</string>
+    <string name="eng_resendotp_messages">Please make sure the phone number is correct. The OTP code has been resend to your number</string>
 
     <!-- bahasa -->
 
@@ -398,7 +398,8 @@
     <string name="you_have_simobiplus_on_your_phone">You have SimobiPlus on your phone</string>
     <string name="submit">Submit</string>
     <string name="resend_otp">Resend OTP</string>
-    <string name="enter_your_verification_code_otp">Enter your verification code(OTP)</string>
+    <string name="bahasa_enter_your_verification_code_otp">Kode verifikasi anda(OTP)</string>
+    <string name="eng_enter_your_verification_code_otp">Your verification code(OTP)</string>
     <string name="mdn">MDN</string>
 
 </resources>

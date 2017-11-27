@@ -67,18 +67,20 @@ public class ActivationHome extends Activity {
 		Button activation = findViewById(R.id.okButton);
 		resendOTP = findViewById(R.id.resendOTP);
 		TextView mdnText = findViewById(R.id.textView2);
-
+		TextView verificationText = findViewById(R.id.textView3);
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
 		selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
 
 		if (selectedLanguage.equalsIgnoreCase("ENG")) {
 			mdnText.setText(getResources().getString(R.string.eng_mobileNumber));
+			verificationText.setText(getResources().getString(R.string.eng_enter_your_verification_code_otp));
 			screeTitle.setText(getResources().getString(R.string.eng_activation));
 			activation.setText(getResources().getString(R.string.eng_submit));
 			back.setBackgroundResource(R.drawable.back_button);
 		} else {
 			screeTitle.setText(getResources().getString(R.string.bahasa_activation));
+			verificationText.setText(getResources().getString(R.string.eng_enter_your_verification_code_otp));
 			back.setBackgroundResource(R.drawable.back_button);
 			mdnText.setText(getResources().getString(R.string.bahasa_mobileNumber));
 			activation.setText(getResources().getString(R.string.bahasa_submit));
