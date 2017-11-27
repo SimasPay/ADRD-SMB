@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mfino.bsim.R;
 import com.mfino.bsim.flashiz.QRPayment2;
+import com.testfairy.TestFairy;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -26,7 +27,7 @@ public class SplashScreen extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-           
+		TestFairy.begin(this, "2447dc5b8cd33676a01e30965b527a2df368e6df");
         new Handler().postDelayed(new Runnable() {
 			@SuppressLint("NewApi")
 			@Override

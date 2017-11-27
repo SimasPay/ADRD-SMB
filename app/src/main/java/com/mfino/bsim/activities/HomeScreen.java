@@ -80,7 +80,7 @@ public class HomeScreen extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 
-
+		/*
 		final RelativeLayout bannerUpgradeLayout = findViewById(R.id.banner_upgrade);
 		Bundle extras = getIntent().getExtras();
 		if(extras != null){
@@ -110,7 +110,7 @@ public class HomeScreen extends AppCompatActivity {
 				bannerUpgradeLayout.setVisibility(View.GONE);
 			}
 		});
-
+		*/
 
 		/* Called when the activity is first created. */
 		ImageButton logoutButton = findViewById(R.id.logoutButton);

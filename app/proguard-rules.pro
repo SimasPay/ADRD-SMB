@@ -101,3 +101,6 @@
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
 -dontwarn org.bouncycastle.crypto.**
+-keep class com.testfairy.** { *; }
+-dontwarn com.testfairy.**
+-keepattributes Exceptions, Signature, LineNumberTable

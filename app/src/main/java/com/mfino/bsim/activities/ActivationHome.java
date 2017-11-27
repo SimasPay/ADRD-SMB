@@ -41,6 +41,7 @@ public class ActivationHome extends Activity {
 	Context context;
 	SharedPreferences settings;
 	private Button resendOTP;
+	int msgCode = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -166,8 +167,9 @@ public class ActivationHome extends Activity {
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
 						responseContainer = obj.parse(responseXml);
+						msgCode = Integer.parseInt(responseContainer.getMsgCode());
 					} catch (Exception e) {
-
+						msgCode = 0;
 						e.printStackTrace();
 					}
 
@@ -182,7 +184,16 @@ public class ActivationHome extends Activity {
 							}
 						});
 						alertbox.show();
-
+					} else if(msgCode==2186){
+						alertbox.setMessage(responseContainer.getMsg());
+						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+								dialog.dismiss();
+							}
+						});
+						alertbox.show();
+						resendOTP.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+						resendOTP.setClickable(false);
 					} else {
 						if (responseContainer.getStatus().equalsIgnoreCase("Active")) {
 							if (responseContainer.getResetPinRequested().equalsIgnoreCase("true")) {
@@ -191,6 +202,16 @@ public class ActivationHome extends Activity {
 								intent.putExtra("otp", otp.getText().toString());
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
+							} else if(msgCode==2186){
+								alertbox.setMessage(responseContainer.getMsg());
+								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface arg0, int arg1) {
+										dialog.dismiss();
+									}
+								});
+								alertbox.show();
+								resendOTP.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+								resendOTP.setClickable(false);
 							} else {
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_contactCustomerCare));
@@ -310,9 +331,9 @@ public class ActivationHome extends Activity {
 						EncryptedResponseDataContainer responseContainer = null;
 						try {
 							responseContainer = obj.parse(responseXml);
-							System.out.println("Testing>>>Message>>Activation>>" + responseContainer.getMsg());
+							msgCode = Integer.parseInt(responseContainer.getMsgCode());
 						} catch (Exception e) {
-
+							msgCode = 0;
 							e.printStackTrace();
 						}
 
@@ -331,7 +352,7 @@ public class ActivationHome extends Activity {
 									}
 								});
 								alertbox.show();
-							} else if(responseContainer.getMsgCode().equals("2186")){
+							} else if(msgCode==2186){
 								dialog.dismiss();
 								alertbox.setMessage(responseContainer.getMsg());
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
@@ -345,11 +366,7 @@ public class ActivationHome extends Activity {
 								resendOTP.setClickable(false);
 							} else {
 								dialog.dismiss();
-								if (selectedLanguage.equalsIgnoreCase("ENG")) {
-									alertbox.setMessage(getResources().getString(R.string.eng_resendotp_messages));
-								} else {
-									alertbox.setMessage(getResources().getString(R.string.bahasa_resendotp_messages));
-								}
+								alertbox.setMessage(responseContainer.getMsg());
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
 										dialog.dismiss();
