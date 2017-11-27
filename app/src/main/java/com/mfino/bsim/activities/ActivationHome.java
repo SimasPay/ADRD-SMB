@@ -15,6 +15,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,6 +40,7 @@ public class ActivationHome extends Activity {
 	ProgressDialog dialog;
 	Context context;
 	SharedPreferences settings;
+	private Button resendOTP;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class ActivationHome extends Activity {
 		mdn = findViewById(R.id.mobileEditText);
 		otp = findViewById(R.id.activationKeyEditText);
 		Button activation = findViewById(R.id.okButton);
-		Button resendOTP = findViewById(R.id.resendOTP);
+		resendOTP = findViewById(R.id.resendOTP);
 		TextView mdnText = findViewById(R.id.textView2);
 
 		// Language Option..
@@ -74,7 +77,6 @@ public class ActivationHome extends Activity {
 			screeTitle.setText(getResources().getString(R.string.eng_activation));
 			activation.setText(getResources().getString(R.string.eng_submit));
 			back.setBackgroundResource(R.drawable.back_button);
-
 		} else {
 			screeTitle.setText(getResources().getString(R.string.bahasa_activation));
 			back.setBackgroundResource(R.drawable.back_button);
@@ -88,8 +90,6 @@ public class ActivationHome extends Activity {
 				resendOTP();
 			}
 		});
-
-
 		activation.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -112,19 +112,13 @@ public class ActivationHome extends Activity {
 					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
-
+							arg0.dismiss();
 						}
 					});
 					alertbox.show();
 
 				} else {
 					registrationMedium();
-					/*
-					Intent intent = new Intent(ActivationHome.this, ActivationDetails.class);
-					intent.putExtra("MDN", mdn.getText().toString());
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-					*/
 				}
 			}
 		});
@@ -178,44 +172,24 @@ public class ActivationHome extends Activity {
 					dialog.dismiss();
 
 					if ((responseContainer != null ? responseContainer.getRegistrationMedium() : null) == null) {
-
 						assert responseContainer != null;
 						alertbox.setMessage(responseContainer.getMsg());
 						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
-
+								arg0.dismiss();
 							}
 						});
 						alertbox.show();
 
 					} else {
-
-						// Check activation Medium here....
-						/*
-						 * System.out.println("Testing>>>"+
-						 * responseContainer.getRegistrationMedium());
-						 * if(responseContainer.getIsActivated().toString().
-						 * equals("true")){ Intent intent = new
-						 * Intent(ActivationHome.this, ResetPinDetails.class);
-						 * intent.putExtra("MDN", mdn.getText().toString());
-						 * intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						 * startActivity(intent);
-						 * 
-						 * }else{
-						 */
-
 						if (responseContainer.getStatus().equalsIgnoreCase("Active")) {
-
 							if (responseContainer.getResetPinRequested().equalsIgnoreCase("true")) {
-
 								Intent intent = new Intent(ActivationHome.this, ResetPinDetails.class);
 								intent.putExtra("MDN", mdn.getText().toString());
 								intent.putExtra("otp", otp.getText().toString());
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
-
 							} else {
-
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_contactCustomerCare));
 								} else {
@@ -223,16 +197,13 @@ public class ActivationHome extends Activity {
 								}
 								alertbox.setNeutralButton("ok", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
-
 										Intent intent = new Intent(ActivationHome.this, LoginScreen.class);
 										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 										startActivity(intent);
 									}
 								});
 								alertbox.show();
-
 							}
-
 						} else {
 							if (responseContainer.getRegistrationMedium().equalsIgnoreCase("BulkUpload")
 									&& responseContainer.getIsActivated().equalsIgnoreCase("false")) {
@@ -240,18 +211,7 @@ public class ActivationHome extends Activity {
 								intent.putExtra("MDN", mdn.getText().toString());
 								intent.putExtra("otp", otp.getText().toString());
 								startActivity(intent);
-
-							} /*
-								 * else if(responseContainer.getIsActivated().
-								 * equalsIgnoreCase("true")) { Intent intent =
-								 * new Intent(ActivationHome.this,
-								 * ResetPinDetails.class);
-								 * intent.putExtra("MDN",
-								 * mdn.getText().toString());
-								 * intent.setFlags(Intent.
-								 * FLAG_ACTIVITY_CLEAR_TOP);
-								 * startActivity(intent); }
-								 */else {
+							} else {
 								Intent intent = new Intent(ActivationHome.this, ActivationDetails.class);
 								intent.putExtra("MDN", mdn.getText().toString());
 								intent.putExtra("otp", otp.getText().toString());
@@ -259,12 +219,8 @@ public class ActivationHome extends Activity {
 								startActivity(intent);
 							}
 						}
-						// }
-
 					}
-
 				} else {
-
 					dialog.dismiss();
 					if (selectedLanguage.equalsIgnoreCase("ENG")) {
 						alertbox.setMessage(getResources().getString(R.string.eng_appTimeout));
@@ -273,7 +229,7 @@ public class ActivationHome extends Activity {
 					}
 					alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface arg0, int arg1) {
-
+							arg0.dismiss();
 						}
 					});
 					alertbox.show();
@@ -285,7 +241,6 @@ public class ActivationHome extends Activity {
 		final Thread checkUpdate = new Thread() {
 
 			public void run() {
-
 				try {
 					responseXml = webServiceHttp.getResponseSSLCertificatation();
 					/* Service call for Activation */
@@ -363,7 +318,6 @@ public class ActivationHome extends Activity {
 
 						if (responseContainer != null) {
 							if (responseContainer.getMsg() == null) {
-
 								if (selectedLanguage.equalsIgnoreCase("ENG")) {
 									alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 								} else {
@@ -371,14 +325,29 @@ public class ActivationHome extends Activity {
 								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
-
+										arg0.dismiss();
 									}
 								});
 								alertbox.show();
-
-							} else {
+							} else if(responseContainer.getMsgCode().equals("2186")){
 								dialog.dismiss();
 								alertbox.setMessage(responseContainer.getMsg());
+								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface arg0, int arg1) {
+										dialog.dismiss();
+									}
+								});
+								alertbox.show();
+								//resendOTP.setAlpha(.5f);
+								resendOTP.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+								resendOTP.setClickable(false);
+							} else {
+								dialog.dismiss();
+								if (selectedLanguage.equalsIgnoreCase("ENG")) {
+									alertbox.setMessage(getResources().getString(R.string.eng_resendotp_messages));
+								} else {
+									alertbox.setMessage(getResources().getString(R.string.bahasa_resendotp_messages));
+								}
 								alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface arg0, int arg1) {
 										dialog.dismiss();
@@ -389,7 +358,6 @@ public class ActivationHome extends Activity {
 						}
 
 					} else {
-						dialog.dismiss();
 						if (selectedLanguage.equalsIgnoreCase("ENG")) {
 							alertbox.setMessage(getResources().getString(R.string.eng_serverNotRespond));
 						} else {
@@ -397,7 +365,7 @@ public class ActivationHome extends Activity {
 						}
 						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
-
+								dialog.dismiss();
 							}
 						});
 						alertbox.show();

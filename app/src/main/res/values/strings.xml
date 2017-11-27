@@ -109,11 +109,14 @@
     <string name="eng_emptymdn">Please provide phone number</string>
     <string name="eng_emptympin">Please provide mPIN</string>
     <string name="eng_loginagain">Please login again</string>
+    <string name="eng_resendotp_messages">Pastikan nomor handphone anda sudah benar. Kami telah mengirimkan OTP kembali</string>
+
     <!-- bahasa -->
 
     <string name="bahasa_login"> Login </string>
     <string name="bahasa_activation"> Aktivasi  </string>
     <string name="bahasa_activationDisclosure"> Syarat Dan Ketentuan </string>
+    <string name="bahasa_resendotp_messages">Pastikan nomor handphone anda sudah benar. Kami telah mengirimkan OTP kembali</string>
     <string name="bahasa_languageSetting"> Ganti Bahasa </string>
     <string name="bahasa_fundTransfer"> Transfer </string>
     <string name="bahasa_payment"> Pembayaran </string>
