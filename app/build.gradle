@@ -16,8 +16,8 @@ android {
         applicationId "com.mfino.bsim"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 32
-        versionName "8.2"
+        versionCode 33
+        versionName "8.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release
     }
@@ -38,8 +38,8 @@ android {
             minSdkVersion 14
             applicationId 'com.mfino.bsim'
             signingConfig signingConfigs.release
-            versionCode 32
-            versionName '8.2'
+            versionCode 33
+            versionName '8.3'
         }
     }
 }

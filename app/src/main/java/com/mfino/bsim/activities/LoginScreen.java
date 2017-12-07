@@ -513,14 +513,32 @@ public class LoginScreen extends AppCompatActivity {
                                             setResult(RESULT_OK);
                                             finish();
                                         } else {
-                                            /*
-                                            Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(intent);
-                                            */
-                                            Intent intent = new Intent(LoginScreen.this, UpgradeToSimobiPlus.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(intent);
+                                            switch (responseContainer.getSimobiPlusUpgrade()) {
+                                                case "0": {
+                                                    Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    intent.putExtra("upgradeEnable", false);
+                                                    intent.putExtra("getUpgradeValue", 0);
+                                                    startActivity(intent);
+                                                    break;
+                                                }
+                                                case "1": {
+                                                    Intent intent = new Intent(LoginScreen.this, UpgradeToSimobiPlus.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    intent.putExtra("upgradeEnable", true);
+                                                    intent.putExtra("getUpgradeValue", 1);
+                                                    startActivity(intent);
+                                                    break;
+                                                }
+                                                case "2": {
+                                                    Intent intent = new Intent(LoginScreen.this, UpgradeToSimobiPlus.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    intent.putExtra("upgradeEnable", true);
+                                                    intent.putExtra("getUpgradeValue", 2);
+                                                    startActivity(intent);
+                                                    break;
+                                                }
+                                            }
                                         }
 
 										/*

@@ -30,6 +30,7 @@ public class EncryptedResponseDataContainer {
     private String destBank;
     private String destMDN;
     private String migrateToken;
+    private String simobiPlusUpgrade;
     
     private String resetPinRequested;
     private String status;
@@ -52,6 +53,14 @@ public class EncryptedResponseDataContainer {
 	public void setUserApiKey(String userApiKey) {
 		this.userApiKey = userApiKey;
 	}
+
+    public String getSimobiPlusUpgrade() {
+        return simobiPlusUpgrade;
+    }
+
+    public void setSimobiPlusUpgrade(String simobiPlusUpgrade) {
+        this.simobiPlusUpgrade = simobiPlusUpgrade;
+    }
 
 	public String getSuccess() {
 		return success;

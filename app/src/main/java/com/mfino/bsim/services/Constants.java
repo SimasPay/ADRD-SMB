@@ -209,6 +209,7 @@ public class Constants {
     public static final String XML_PROMO_IMAGE_URL="promoImageURL";
     public static final String XML_USER_API_KEY = "userAPIKey";
     public static final String XML_INVOICE_NO = "invoiceNo";
+    public static final String XML_SIMOBIPLUS_UPGRADE = "simobiPlusUpgrade";
     //NOTIFICATIONS
     public static final String NOTIFICATIONCODE_WRONGPINSPECIFIED = "29";
     public static final String NOTIFICATIONCODE_TRANSFERINQUIRY_SUCCESS = "72";

@@ -186,7 +186,7 @@ public class TransferToUnagkuConfirmation extends Activity {
 			amountLayout.setVisibility(View.VISIBLE);
 
 			try {
-				if (bundle.getString("CUST_NAME").toString().equalsIgnoreCase("null")
+				if (bundle.getString("CUST_NAME").equalsIgnoreCase("null")
 						|| bundle.getString("CUST_NAME").length() <= 0) {
 
 					custNameLayout.setVisibility(View.GONE);

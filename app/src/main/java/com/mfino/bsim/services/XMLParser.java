@@ -137,6 +137,9 @@ public class XMLParser {
                     }else if (Constants.XML_STATUS.equals(event.getName())) {
                         pe = parser.read();
                         result.setStatus(pe.getText());
+                    }else if (Constants.XML_SIMOBIPLUS_UPGRADE.equals(event.getName())) {
+                        pe = parser.read();
+                        result.setSimobiPlusUpgrade(pe.getText());
                     }else if (Constants.XML_USER_API_KEY.equals(event.getName())) {
                         pe = parser.read();
                         result.setUserApiKey(pe.getText());
