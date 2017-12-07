@@ -80,7 +80,7 @@ public class HomeScreen extends AppCompatActivity {
 		settings = getSharedPreferences("LOGIN_PREFERECES", 0);
 		mobileNumber = settings.getString("mobile", "");
 
-		/*
+
 		final RelativeLayout bannerUpgradeLayout = findViewById(R.id.banner_upgrade);
 		Bundle extras = getIntent().getExtras();
 		if(extras != null){
@@ -110,7 +110,7 @@ public class HomeScreen extends AppCompatActivity {
 				bannerUpgradeLayout.setVisibility(View.GONE);
 			}
 		});
-		*/
+
 
 		/* Called when the activity is first created. */
 		ImageButton logoutButton = findViewById(R.id.logoutButton);
@@ -389,11 +389,9 @@ public class HomeScreen extends AppCompatActivity {
 					public void onClick(View v) {
 						dialog.dismiss();
 						bannerUpgradeLayout.setVisibility(View.GONE);
-						Log.d(LOG_TAG, "isInstalled: " + isInstalled);
-						Intent intent = new Intent (Intent.ACTION_VIEW);
-						intent.setData (Uri.parse("smbplus://migrate/#"+token));
-						Log.d(LOG_TAG, "smbplus://migrate/#" + token);
-						startService(intent);
+						Log.d(LOG_TAG, "smbplus://migrate/" + token);
+						startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(
+								"smbplus://migrate/"+ token)));
 						//startActivity(intent);
 					}
 				});
@@ -407,12 +405,9 @@ public class HomeScreen extends AppCompatActivity {
 					public void onClick(View v) {
 						dialog.dismiss();
 						bannerUpgradeLayout.setVisibility(View.GONE);
-						Log.d(LOG_TAG, "isInstalled: " + isInstalled);
-						Intent intent = new Intent (Intent.ACTION_VIEW);
-						intent.setData (Uri.parse("smbplus://migrate/#"+token));
-						Log.d(LOG_TAG, "smbplus://migrate/#" + token);
-						startService(intent);
-						//startActivity(intent);
+						Log.d(LOG_TAG, "smbplus://migrate/" + token);
+						startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(
+								"smbplus://migrate/"+ token)));
 					}
 				});
 			}

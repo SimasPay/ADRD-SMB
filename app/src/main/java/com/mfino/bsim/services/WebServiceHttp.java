@@ -46,8 +46,8 @@ public class WebServiceHttp extends Activity {
 	
 	
 	//Production
-	public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
-	public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+	//public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
+	//public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
 
 	//local-didik-nov-17
 	//public static String webAPIUrlFiles="https://192.168.1.101:8443/webapi/sdynamic";
@@ -60,8 +60,8 @@ public class WebServiceHttp extends Activity {
 
 
 	//QA-newnov17
-	//public static String webAPIUrlFiles="https://10.32.3.65:8443/webapi/sdynamic";
-	//public static String webAPIUrl ="https://10.32.3.65:8443/webapi/sdynamic";
+	public static String webAPIUrlFiles="https://10.32.3.65:8443/webapi/sdynamic";
+	public static String webAPIUrl ="https://10.32.3.65:8443/webapi/sdynamic";
 
 	//Devserver
 	//public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
@@ -105,7 +105,7 @@ public class WebServiceHttp extends Activity {
 		UrlParse();
 		webAPIUrlFiles=httpString;
 		webAPIUrl=httpsString;*/
-		System.out.println("Testing>>>webservices");
+		//System.out.println("Testing>>>webservices");
 	}
 
 	@SuppressWarnings("static-access")
@@ -125,7 +125,7 @@ public class WebServiceHttp extends Activity {
 
 		if (Constants.TRANSACTION_ACTIVATION.equals(edContainer
 				.getTransactionName())) {
-			System.out.println("Testing>>>>mfa Otp>>service>>"+edContainer.getMfaMode() );
+			//System.out.println("Testing>>>>mfa Otp>>service>>"+edContainer.getMfaMode() );
 			requestUrl = webAPIUrl + "?" + Constants.PARAMETER_CHANNEL_ID + "="
 					+ Constants.CONSTANT_CHANNEL_ID + "&"
 					+ Constants.PARAMETER_SERVICE_NAME + "="
@@ -176,7 +176,7 @@ public class WebServiceHttp extends Activity {
 					+ Constants.PARAMETER_ACTIVATION_NEWPIN + "="
 					+ edContainer.getActivationNewPin();
 
-			System.out.println(" Inside the code....................");
+			//System.out.println(" Inside the code....................");
 
 		} else if (Constants.TRANSACTION_REACTIVATION.equals(edContainer
 				.getTransactionName())) {
@@ -212,7 +212,7 @@ public class WebServiceHttp extends Activity {
 						+ "Inquiry";
 			}
 
-			System.out.println(" Inside the code....................");
+			//System.out.println(" Inside the code....................");
 
 		} else if (Constants.TRANSACTION_RESEND_OTP.equals(edContainer
 				.getTransactionName())) {
@@ -225,7 +225,7 @@ public class WebServiceHttp extends Activity {
 					+ edContainer.getSourceMdn() + "&"
 					+ Constants.PARAMETER_TRANSACTIONNAME + "="
 					+ edContainer.getTransactionName();
-			System.out.println(" Inside the code....................");
+			//System.out.println(" Inside the code....................");
 
 		} else if (Constants.TRANSACTION_REGISTRATION_MEDIUM.equals(edContainer
 				.getTransactionName())) {
@@ -239,7 +239,7 @@ public class WebServiceHttp extends Activity {
 					+ Constants.PARAMETER_OTP + "=" + edContainer.getOTP().trim() + "&"
 					+ Constants.PARAMETER_TRANSACTIONNAME + "="
 					+ edContainer.getTransactionName();
-			System.out.println(" Inside the code....................");
+			//System.out.println(" Inside the code....................");
 
 		} else if (Constants.TRANSACTION_LOGIN.equals(edContainer
 				.getTransactionName())) {
@@ -264,7 +264,7 @@ public class WebServiceHttp extends Activity {
 				.getTransactionName())) {
 			// System.out.println("url :"+edContainer.getTransferType());
 			if (edContainer.getTransferType().equals("toBankSinarmas")) {
-				System.out.println("raaaaaaa");
+				//System.out.println("raaaaaaa");
 				requestUrl += "&" + Constants.PARAMETER_SRC_POCKET_CODE + "="
 						+ edContainer.getSourcePocketCode() + "&"
 						+ Constants.PARAMETER_AMOUNT + "="
@@ -513,7 +513,7 @@ public class WebServiceHttp extends Activity {
 
 		else if (Constants.TRANSACTION_CHANGEPIN.equals(edContainer
 				.getTransactionName())) {
-			System.out.println("Testing>>>change pin");
+			//System.out.println("Testing>>>change pin");
 			
 			requestUrl = requestUrl + "&" + Constants.PARAMETER_NEW_PIN + "="
 					+ edContainer.getNewPin() + "&"
@@ -992,7 +992,6 @@ public class WebServiceHttp extends Activity {
 			}
 			}
 			//System.out.println("------------ resp  --------------------------------"+ rc);
-			
 			//Log.e("response))))))))))))))))", rc+"");
 
 		}catch (SocketTimeoutException e) {

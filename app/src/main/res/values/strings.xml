@@ -3,7 +3,7 @@
 
     <string name="hello">Hello World, SplashScreen!</string>
     <string name="Simobi_app_name">Bank Sinarmas</string>
-    <string name="app_version">3</string>
+    <string name="app_version">4</string>
     <string name="send_otp"><u>Click here to resend OTP</u></string>
     <string name="source_packet_code">2</string>
     <string name="bsim">BSIM</string>

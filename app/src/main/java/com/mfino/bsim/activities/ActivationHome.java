@@ -162,19 +162,19 @@ public class ActivationHome extends Activity {
 				if (responseXml != null) {
 
 					XMLParser obj = new XMLParser();
-					System.out.println("Testing>>>" + responseXml);
-					Log.e("---------------XML_RESPONSE---------------------", responseXml);
+					//System.out.println("Testing>>>" + responseXml);
+					//Log.e("---------------XML_RESPONSE---------------------", responseXml);
 					EncryptedResponseDataContainer responseContainer = null;
 					try {
 						responseContainer = obj.parse(responseXml);
-						msgCode = Integer.parseInt(responseContainer.getMsgCode());
+						//msgCode = Integer.parseInt(responseContainer.getMsgCode());
 					} catch (Exception e) {
-						msgCode = 0;
+						//msgCode = 0;
 						e.printStackTrace();
 					}
 
 					dialog.dismiss();
-
+					Log.d("response code:", "response code" + msgCode);
 					if ((responseContainer != null ? responseContainer.getRegistrationMedium() : null) == null) {
 						assert responseContainer != null;
 						alertbox.setMessage(responseContainer.getMsg());
@@ -184,6 +184,7 @@ public class ActivationHome extends Activity {
 							}
 						});
 						alertbox.show();
+						/*
 					} else if(msgCode==2186){
 						alertbox.setMessage(responseContainer.getMsg());
 						alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
@@ -194,6 +195,7 @@ public class ActivationHome extends Activity {
 						alertbox.show();
 						resendOTP.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 						resendOTP.setClickable(false);
+						*/
 					} else {
 						if (responseContainer.getStatus().equalsIgnoreCase("Active")) {
 							if (responseContainer.getResetPinRequested().equalsIgnoreCase("true")) {
@@ -331,9 +333,9 @@ public class ActivationHome extends Activity {
 						EncryptedResponseDataContainer responseContainer = null;
 						try {
 							responseContainer = obj.parse(responseXml);
-							msgCode = Integer.parseInt(responseContainer.getMsgCode());
+							//msgCode = Integer.parseInt(responseContainer.getMsgCode());
 						} catch (Exception e) {
-							msgCode = 0;
+							//msgCode = 0;
 							e.printStackTrace();
 						}
 
@@ -352,6 +354,7 @@ public class ActivationHome extends Activity {
 									}
 								});
 								alertbox.show();
+								/*
 							} else if(msgCode==2186){
 								dialog.dismiss();
 								alertbox.setMessage(responseContainer.getMsg());
@@ -364,6 +367,7 @@ public class ActivationHome extends Activity {
 								//resendOTP.setAlpha(.5f);
 								resendOTP.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
 								resendOTP.setClickable(false);
+								*/
 							} else {
 								dialog.dismiss();
 								alertbox.setMessage(responseContainer.getMsg());

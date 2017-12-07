@@ -513,14 +513,14 @@ public class LoginScreen extends AppCompatActivity {
                                             setResult(RESULT_OK);
                                             finish();
                                         } else {
+                                            /*
                                             Intent intent = new Intent(LoginScreen.this, HomeScreen.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
-                                            /*
+                                            */
                                             Intent intent = new Intent(LoginScreen.this, UpgradeToSimobiPlus.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             startActivity(intent);
-                                            */
                                         }
 
 										/*
