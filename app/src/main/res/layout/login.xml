@@ -226,6 +226,17 @@
                         android:textAllCaps="false"
                         android:background="@drawable/button_empty"
                         android:text="@string/login" />
+
+                    <!--<Button
+                        android:id="@+id/test_button"
+                        style="@style/font_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:textAllCaps="false"
+                        android:background="@drawable/button_empty"
+                        android:text="Test" />-->
                 </LinearLayout>
 
                 <!--

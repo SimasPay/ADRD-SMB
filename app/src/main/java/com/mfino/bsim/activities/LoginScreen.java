@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -94,6 +95,16 @@ public class LoginScreen extends AppCompatActivity {
       Called when the activity is first created.
      */
         Button loginButton = findViewById(R.id.btn_Login);
+        /*
+        Button testButton = findViewById(R.id.test_button);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                        "contoh://deeplinknya")));
+            }
+        });
+        */
         loginId = findViewById(R.id.ed_Login_MobNo);
         loginPin = findViewById(R.id.ed_Login_Pin);
         TextView loginTxt = findViewById(R.id.loginText);
