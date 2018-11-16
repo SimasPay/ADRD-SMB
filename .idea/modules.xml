@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PayByQR-Android-2.1.1-Simobi/PayByQR-Android-2.1.1-Simobi.iml" filepath="$PROJECT_DIR$/PayByQR-Android-2.1.1-Simobi/PayByQR-Android-2.1.1-Simobi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Simobi.iml" filepath="$PROJECT_DIR$/Simobi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Simobi-Android-AS.iml" filepath="$PROJECT_DIR$/Simobi-Android-AS.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
