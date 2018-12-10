@@ -49,6 +49,8 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static com.mfino.bsim.services.Constants.LOG_TAG;
+
 
 public class LandingScreen extends AppCompatActivity {
     SharedPreferences languageSettings;
@@ -84,23 +86,10 @@ public class LandingScreen extends AppCompatActivity {
         languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
         encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES", 0);
         selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
-        //System.out.println("Testing>>" + selectedLanguage);
-
         // Image Slider
         new ImageSliderTask().execute();
-
-		/*
-		 * RelativeLayout login=(RelativeLayout)findViewById(R.id.login);
-		 * RelativeLayout active=(RelativeLayout)findViewById(R.id.active);
-		 * RelativeLayout contact=(RelativeLayout)findViewById(R.id.contact_us);
-		 * TextView activationText=(TextView)findViewById(R.id.textView2);
-		 */
         LinearLayout mlogin = findViewById(R.id.mlogin);
         LinearLayout active = findViewById(R.id.active);
-        //LinearLayout eform = (LinearLayout) findViewById(R.id.eform);
-
-        //eform.setVisibility(View.GONE);
-
         TextView contact = findViewById(R.id.contact);
         contact.setPaintFlags(contact.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         TextView activationText = findViewById(R.id.textView2);
@@ -326,7 +315,7 @@ public class LandingScreen extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httppost = new HttpGet("http://banksinarmas.com/id/slidersimobi.php");
+                HttpGet httppost = new HttpGet("https://banksinarmas.com/id/slidersimobi.php");
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity ht = response.getEntity();
                 BufferedHttpEntity buf = new BufferedHttpEntity(ht);
@@ -347,10 +336,10 @@ public class LandingScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            String[] parts = total.toString().split("\\r?\\n");
+            String[] parts = total.toString().split("\\r?\\n?\\s");
             for (String part : parts) {
                 if (!part.trim().isEmpty()) {
-                    //Log.d("Simobi", "string added : " + part);
+                    Log.d("Simobi", "string added : " + part);
                     IMAGES.add(part.trim());
                 }
             }
@@ -361,21 +350,17 @@ public class LandingScreen extends AppCompatActivity {
     private void init() {
         mPager = findViewById(R.id.pager);
         if (IMAGES == null) {
-            //Log.d("SIMOBI", "Images null!");
+            Log.d("SIMOBI", "Images null!");
         }
         mPager.setAdapter(new ImageSliderAdapter(LandingScreen.this, IMAGES));
-
         CirclePageIndicator indicator = findViewById(R.id.indicator);
-
         indicator.setViewPager(mPager);
-
         final float density = getResources().getDisplayMetrics().density;
 
         // Set circle indicator radius
         indicator.setRadius(5 * density);
-
         NUM_PAGES = IMAGES.size();
-
+        Log.d(LOG_TAG, "Number of Pages: "+ NUM_PAGES);
         // Auto start of viewpager
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {

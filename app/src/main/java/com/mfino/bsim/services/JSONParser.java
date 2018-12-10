@@ -26,25 +26,6 @@ public class JSONParser {
 	}
 
 	public JSONObject getJSONFromUrl(String strURL) {
-
-		// Making HTTP request
-		/*try {
-			// defaultHttpClient
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
-
-			HttpResponse httpResponse = httpClient.execute(httpPost);
-			HttpEntity httpEntity = httpResponse.getEntity();
-			is = httpEntity.getContent();			
-
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		
 		HttpURLConnection conn;
         try{
 			URL url = new URL(strURL);
@@ -58,7 +39,7 @@ public class JSONParser {
 	        conn.setRequestMethod("POST");
 	        conn.setDoInput(true);
 	        conn.setRequestProperty("Accept", "application/json");
-	        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+	        conn.setRequestProperty("Content-Type", "application/json");
 	        System.out.println("\nSending POST request to URL : " + url);
 	        
 	        is = conn.getInputStream();

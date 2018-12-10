@@ -428,7 +428,7 @@ public class LoginScreen extends AppCompatActivity {
 													 *
 													 * }
 													 */
-                                                    Log.e("check_mdn_name------lllllllllllll----------",
+                                                    Log.e("check_mdn_name",
                                                             new_mdn + final_mdn);
 
                                                     mydb.insertMdn(final_mdn);
@@ -468,7 +468,7 @@ public class LoginScreen extends AppCompatActivity {
                                                 Log.e("check_mdn_name", new_mdn + final_mdn);
 
                                             }
-                                            Log.e("check_mdn_name------lllllllllllll----------", new_mdn + final_mdn);
+                                            Log.e("check_mdn_name", new_mdn + final_mdn);
 
                                             mydb.insertMdn(final_mdn);
                                             mydb.insertfalshiz("false", "");
@@ -678,7 +678,7 @@ public class LoginScreen extends AppCompatActivity {
                         // UserAPI Key
                         // userApiKey = settings.getString("userApiKey",
                         // "NONE");
-                        Log.e("userApiKey----111111-----", userApiKey);
+                        Log.e("userApiKey", userApiKey);
 
                     } else {
                         userApiKey = "NONE";

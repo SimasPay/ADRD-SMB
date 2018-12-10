@@ -51,10 +51,11 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
+import static com.mfino.bsim.services.Constants.LOG_TAG;
+
 public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 
 	private static final int SUCCESS_MSGCODE = 660;
-	private Button btn_ok;
 	private EditText pinValue, mdn, amount;
 	private AlertDialog.Builder alertbox;
 	private String responseXml;
@@ -78,7 +79,6 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	Context context;
 	SharedPreferences settings;
 	String mobileNumber;
-	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
 	static Handler handler;
@@ -92,14 +92,14 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		IncomingSMS.setListener(this);
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
-		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
-		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
-		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
+		TextView screeTitle = headerContainer.findViewById(R.id.screenTitle);
+		ImageButton back = headerContainer.findViewById(R.id.back);
+		ImageButton home = headerContainer.findViewById(R.id.home_button);
 		
 		settings = getSharedPreferences("LOGIN_PREFERECES",	0);
 		mobileNumber = settings.getString("mobile", "");
-		settings.edit().putString("ActivityName", "PurchaseDetails").commit();
-		settings.edit().putBoolean("isAutoSubmit", false).commit();
+		settings.edit().putString("ActivityName", "PurchaseDetails").apply();
+		settings.edit().putBoolean("isAutoSubmit", false).apply();
 		Log.d(LOG_TAG, "Purchase : PurchaseDetails");
 
 		back.setOnClickListener(new OnClickListener() {
@@ -126,18 +126,18 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		// LinearLayout invoice = (LinearLayout)
 		// findViewById(R.id.invoiceNumber);
 		//LinearLayout mdnLayout = (LinearLayout) findViewById(R.id.mdnLayout);
-		LinearLayout amountLayout = (LinearLayout) findViewById(R.id.amountLayout);
-		RelativeLayout denomLayout = (RelativeLayout) findViewById(R.id.denomLayout);
-		mdn = (EditText) findViewById(R.id.ed_mdnValue);
+		LinearLayout amountLayout = findViewById(R.id.amountLayout);
+		RelativeLayout denomLayout = findViewById(R.id.denomLayout);
+		mdn = findViewById(R.id.ed_mdnValue);
 
-		amount = (EditText) findViewById(R.id.ed_amountValue);
-		pinValue = (EditText) findViewById(R.id.ed_pinValue);
-		btn_ok = (Button) findViewById(R.id.btn_EnterPin_Ok);
-		denomSpinner = (Spinner) findViewById(R.id.denom_spinner);
-		amountTextView = (TextView) findViewById(R.id.amount_textView);
+		amount = findViewById(R.id.ed_amountValue);
+		pinValue = findViewById(R.id.ed_pinValue);
+		Button btn_ok = findViewById(R.id.btn_EnterPin_Ok);
+		denomSpinner = findViewById(R.id.denom_spinner);
+		amountTextView = findViewById(R.id.amount_textView);
 
-		denom = (TextView) findViewById(R.id.denom);
-		TextView textViewdestMdn = (TextView) findViewById(R.id.textView_purchaseDestMDN);
+		denom = findViewById(R.id.denom);
+		TextView textViewdestMdn = findViewById(R.id.textView_purchaseDestMDN);
 		//TextView textViewamount = (TextView) findViewById(R.id.amount_textView);
 
 		// Language Option..
@@ -193,9 +193,9 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 
 			String data = bundle.getString("PRODUCT_DENOM");
 			denomArray = data.split("\\|");
-			for (int i = 0; i < denomArray.length; i++) {
-				denoms.add(denomArray[i]);
-				System.out.println(denomArray[i] + "Test>>");
+			for (String aDenomArray : denomArray) {
+				denoms.add(aDenomArray);
+				System.out.println(aDenomArray + "Test>>");
 			}
 
 			amountLayout.setVisibility(View.GONE);
@@ -436,11 +436,11 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 									} catch (Exception e1) {
 										valueContainer.setMfaMode("NONE");
 									}
-									if (valueContainer.getMfaMode().toString().equalsIgnoreCase("OTP")) {
+									if (valueContainer.getMfaMode().equalsIgnoreCase("OTP")) {
 										Log.e("MFA MODE..", responseContainer.getMfaMode() + "");
 										dialog.dismiss();
 										Log.d("Widy-Debug", "Dialog OTP Required show");
-										settings.edit().putString("Sctl", responseContainer.getSctl()).commit();
+										settings.edit().putString("Sctl", responseContainer.getSctl()).apply();
 										showOTPRequiredDialog(pinValue.getText().toString(), denomValue, responseContainer.getMfaMode(),
 												mdn.getText().toString(), responseContainer.getMsg(), responseContainer.getAditionalInfo(),
 												responseContainer.getEncryptedParentTxnId(), responseContainer.getEncryptedTransferId());
@@ -662,12 +662,12 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 	/** Empty field validation. */
 	private boolean isRequiredFieldEmpty() {
 
-		pinValue = (EditText) findViewById(R.id.ed_pinValue);
-		amount = (EditText) findViewById(R.id.ed_amountValue);
+		pinValue = findViewById(R.id.ed_pinValue);
+		amount = findViewById(R.id.ed_amountValue);
 
 		if (bundle.getString("SELECTED_CATEGORY").equalsIgnoreCase("Mobile Phone")) {
 
-			mdn = (EditText) findViewById(R.id.ed_mdnValue);
+			mdn = findViewById(R.id.ed_mdnValue);
 			// if (!(pinValue.getText().toString().equals(""))&&
 			// !(mdn.getText().toString().equals("")))
 			if (!(pinValue.getText().toString().equals(""))) {
@@ -679,7 +679,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 			}
 
 		} else {
-			mdn = (EditText) findViewById(R.id.ed_mdnValue);
+			mdn = findViewById(R.id.ed_mdnValue);
 
 			// if (!(pinValue.getText().toString().equals(""))&&
 			// !(inVoiceNumber.getText().toString().equals(""))&&
@@ -803,7 +803,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		LayoutInflater inflater = this.getLayoutInflater();
 		final ViewGroup nullParent = null;
 		View viewTitle=inflater.inflate(R.layout.custom_header_otp, nullParent, false);
-		ProgressBar progBar = (ProgressBar)viewTitle.findViewById(R.id.progressbar_otp);
+		ProgressBar progBar = viewTitle.findViewById(R.id.progressbar_otp);
 		if (progBar.getIndeterminateDrawable() != null) {
 			progBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.SRC_IN);
 		}
@@ -813,13 +813,13 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		dialogBuilder.setView(dialogView);
 
 		//EditText OTP
-		edt = (EditText) dialogView.findViewById(R.id.otp_value);
+		edt = dialogView.findViewById(R.id.otp_value);
 		edt.setText(otpValue);
 		final String otpValue_new = edt.getText().toString();
 		Log.d(LOG_TAG, "otpValue_new : " + otpValue_new + ", otpValue : " + otpValue);
 		
 		//Timer
-		final TextView timer = (TextView) dialogView.findViewById(R.id.otp_timer);
+		final TextView timer = dialogView.findViewById(R.id.otp_timer);
 		//120 detik
 		final CountDownTimer myTimer = new CountDownTimer(120000, 1000) {
 		    @Override
@@ -931,7 +931,7 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		if(!isFinishing()){
 			otpDialogS.show();
 		}
-		((AlertDialog) otpDialogS).getButton(AlertDialog.BUTTON_POSITIVE)
+		otpDialogS.getButton(AlertDialog.BUTTON_POSITIVE)
         .setEnabled(false);
 		edt.addTextChangedListener(new TextWatcher() {
 		    @Override
@@ -949,11 +949,11 @@ public class PurchaseDetails extends AppCompatActivity implements IncomingSMS.Au
 		        // Check if edittext is empty
 		        if (TextUtils.isEmpty(s)) {
 		            // Disable ok button
-		            ((AlertDialog) otpDialogS).getButton(
+		            otpDialogS.getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 		        } else {
 		            // Something into edit text. Enable the button.
-		            ((AlertDialog) otpDialogS).getButton(
+		            otpDialogS.getButton(
 		                    AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 		        }
 		        Boolean isAutoSubmit = settings.getBoolean("isAutoSubmit", false);

@@ -1,22 +1,6 @@
 package com.mfino.bsim.billpayment;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -24,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,21 +20,37 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.mfino.bsim.activities.HomeScreen;
+
 import com.mfino.bsim.R;
+import com.mfino.bsim.activities.HomeScreen;
 import com.mfino.bsim.services.JSONParser;
 import com.mfino.bsim.services.Product;
 import com.mfino.bsim.services.WebServiceHttp;
 
-public class PaymentHome extends Activity {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import static com.mfino.bsim.services.Constants.LOG_TAG;
+
+public class PaymentHome extends AppCompatActivity {
 
 	Spinner productCategory, provider_sp, productName;
 	LinearLayout spin2, spin3;
-	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
+	//ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
 	ProgressDialog dialog;
-	// private AlertDialog.Builder alertbox;
-	// url to make request
-	private static String url;
 	// JSON Node names
 	private static final String TAG_PAYMENT_DATA = "paymentData";
 	private static final String TAG_PRODUCT_CATEGORY = "productCategory";
@@ -65,22 +66,22 @@ public class PaymentHome extends Activity {
 	// private static final String TAG_SUCCESS = "success";
 	// private static final String TAG_TOTAL_COUNT = "totalCount";
 	// contacts JSONArray
-	String productArray[][][] = null;
-	int i = 0, j = 0, k = 0;
-	int CategoryLen, providerLen, productLen;
+	//String productArray[][][] = null;
+	//int i = 0, j = 0, k = 0;
+	//int CategoryLen, providerLen, productLen;
 	String selectedCategory, selectedProvider, productCode = "Select", selectedPaymentMode, selectedInvoiceType,
 			selectedProductDenom;
 	List<String> listOfProviders, categoriesList, providersList, ProductDenomList, productNameList, productCodeList,
 			paymentModeList, inVoiceModeList;
 	List<Boolean> ccPayment;
 	List<Product> listOfProducts, readlistOfProducts;
-	LinkedHashMap<String, List<String>> providersMapArray = new LinkedHashMap<String, List<String>>();
-	LinkedHashMap<String, List<Product>> productsMapArray = new LinkedHashMap<String, List<Product>>();
+	LinkedHashMap<String, List<String>> providersMapArray = new LinkedHashMap<>();
+	LinkedHashMap<String, List<Product>> productsMapArray = new LinkedHashMap<>();
 	Button continueButton;
 	File myFile;
 	String jSONproductName, jSONproductCode, jSONPaymentMode, jSONInvoiceType;
 	boolean isCCPayment;
-	String jSONoffLine;
+	//String jSONoffLine;
 	StringBuilder sb = new StringBuilder();
 
 	SharedPreferences paymentVersion;
@@ -91,12 +92,12 @@ public class PaymentHome extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		productNameList = new ArrayList<String>();
-		productCodeList = new ArrayList<String>();
-		paymentModeList = new ArrayList<String>();
-		inVoiceModeList = new ArrayList<String>();
-		ProductDenomList = new ArrayList<String>();
-		ccPayment = new ArrayList<Boolean>();
+		productNameList = new ArrayList<>();
+		productCodeList = new ArrayList<>();
+		paymentModeList = new ArrayList<>();
+		inVoiceModeList = new ArrayList<>();
+		ProductDenomList = new ArrayList<>();
+		ccPayment = new ArrayList<>();
 		setContentView(R.layout.payment_selection);
 		System.out.println("Testing>>path>>" + this.getFilesDir());
 		myFile = new File(this.getFilesDir() + "/", "payment.txt");
@@ -106,10 +107,10 @@ public class PaymentHome extends Activity {
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
-		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
-		screeTitle.setText("PAYMENT");
-		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
-		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
+		TextView screeTitle = headerContainer.findViewById(R.id.screenTitle);
+		screeTitle.setText(getResources().getText(R.string.eng_payment));
+		ImageButton back = headerContainer.findViewById(R.id.back);
+		ImageButton home = headerContainer.findViewById(R.id.home_button);
 
 		back.setOnClickListener(new OnClickListener() {
 			@Override
@@ -130,15 +131,15 @@ public class PaymentHome extends Activity {
 		GetPayment payment = new GetPayment();
 		payment.execute();
 
-		productCategory = (Spinner) findViewById(R.id.productCategory);
-		provider_sp = (Spinner) findViewById(R.id.provider);
-		spin2 = (LinearLayout) findViewById(R.id.lt_spin2);
-		spin3 = (LinearLayout) findViewById(R.id.lt_spin3);
-		productName = (Spinner) findViewById(R.id.productType);
-		continueButton = (Button) findViewById(R.id.continue_button);
-		TextView category = (TextView) findViewById(R.id.textView_paymentCategory);
-		TextView provider = (TextView) findViewById(R.id.textView_paymentProvider);
-		TextView type = (TextView) findViewById(R.id.textView_paymentType);
+		productCategory = findViewById(R.id.productCategory);
+		provider_sp = findViewById(R.id.provider);
+		spin2 = findViewById(R.id.lt_spin2);
+		spin3 = findViewById(R.id.lt_spin3);
+		productName = findViewById(R.id.productType);
+		continueButton = findViewById(R.id.continue_button);
+		TextView category = findViewById(R.id.textView_paymentCategory);
+		TextView provider = findViewById(R.id.textView_paymentProvider);
+		TextView type = findViewById(R.id.textView_paymentType);
 
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
@@ -149,60 +150,29 @@ public class PaymentHome extends Activity {
 			category.setText(getResources().getString(R.string.eng_paymentCategory));
 			provider.setText(getResources().getString(R.string.eng_paymentProvider));
 			type.setText(getResources().getString(R.string.eng_paymentType));
-			// continueButton.setBackgroundResource(R.drawable.continue_button);
 			continueButton.setText(getResources().getString(R.string.eng_next));
-			/*
-			 * home.setBackgroundResource(R.drawable.home_icon1);
-			 * back.setBackgroundResource(R.drawable.back_button);
-			 */
 		} else {
-
 			screeTitle.setText(getResources().getString(R.string.bahasa_payment));
 			category.setText(getResources().getString(R.string.bahasa_paymentCategory));
 			provider.setText(getResources().getString(R.string.bahasa_paymentProvider));
 			type.setText(getResources().getString(R.string.bahasa_paymentType));
 			continueButton.setText(getResources().getString(R.string.bahasa_next));
-			// continueButton.setBackgroundResource(R.drawable.bahasa_continue_button);
-			/*
-			 * home.setBackgroundResource(R.drawable.bahasa_home_icon1);
-			 * back.setBackgroundResource(R.drawable.bahasa_back_button);
-			 */
-
 		}
 
 		productCategory.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-
-				/*
-				 * if(selectedCategory.equalsIgnoreCase("Select")){
-				 * Log.e("================",
-				 * "---------Ramya---------"+selectedCategory);
-				 * alertbox.setMessage(" Please Select payment category  ");
-				 * alertbox.setNeutralButton("OK", new
-				 * DialogInterface.OnClickListener() { public void
-				 * onClick(DialogInterface arg0, int arg1) {
-				 * Log.e("================",
-				 * "---------1111111---------"+selectedCategory); } });
-				 * alertbox.show(); }
-				 */
-
 				selectedCategory = categoriesList.get(arg2);
-				Log.e("================", "---------Ramya---------" + selectedCategory);
-
 				if (selectedCategory.equalsIgnoreCase("Select")) {
-					Log.e("================", "---------Ramya---111------" + selectedCategory);
+					Log.e(LOG_TAG, "SelectedCategory: " + selectedCategory);
 				} else {
-					Log.e("================", "---------Ramya--222-------" + selectedCategory);
 					List<String> provid = providersMapArray.get(selectedCategory);
 					providersList.clear();
 					providersList.add("Select");
-					for (int i = 0; i < provid.size(); i++) {
-						//Object obj = provid.get(i);
-						providersList.add(provid.get(i));
-					}
-					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PaymentHome.this, R.layout.spinner_row,
+					//Object obj = provid.get(i);
+					providersList.addAll(provid);
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(PaymentHome.this, R.layout.spinner_row,
 							providersList);
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					provider_sp.setAdapter(dataAdapter);
@@ -210,12 +180,12 @@ public class PaymentHome extends Activity {
 				if (selectedCategory.equalsIgnoreCase("Select")) {
 					providersList.clear();
 					productNameList.clear();
-					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PaymentHome.this, R.layout.spinner_row,
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(PaymentHome.this, R.layout.spinner_row,
 							providersList);
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					provider_sp.setAdapter(dataAdapter);
 
-					ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(PaymentHome.this, R.layout.spinner_row,
+					ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(PaymentHome.this, R.layout.spinner_row,
 							productNameList);
 					dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					productName.setAdapter(dataAdapter1);
@@ -233,12 +203,9 @@ public class PaymentHome extends Activity {
 					List<String> provid = providersMapArray.get(selectedCategory);
 					providersList.clear();
 					providersList.add("Select");
-					for (int i = 0; i < provid.size(); i++) {
-						//Object obj = provid.get(i);
-						providersList.add(provid.get(i));
-					}
-
-					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PaymentHome.this, R.layout.spinner_row,
+					//Object obj = provid.get(i);
+					providersList.addAll(provid);
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(PaymentHome.this, R.layout.spinner_row,
 							providersList);
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					provider_sp.setAdapter(dataAdapter);
@@ -262,24 +229,9 @@ public class PaymentHome extends Activity {
 		});
 
 		provider_sp.setOnItemSelectedListener(new OnItemSelectedListener() {
-
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Log.e("================", "---------Ramya---------" + selectedCategory);
-				/*
-				 * if(selectedCategory.equalsIgnoreCase("Select")){
-				 * Log.e("================",
-				 * "---------Ramya---------"+selectedCategory);
-				 * alertbox.setMessage(
-				 * " Please Select Provider or product type  ");
-				 * alertbox.setNeutralButton("OK", new
-				 * DialogInterface.OnClickListener() { public void
-				 * onClick(DialogInterface arg0, int arg1) {
-				 * Log.e("================",
-				 * "---------1111111---------"+selectedCategory); } });
-				 * alertbox.show(); } else {
-				 */
-
 				selectedProvider = providersList.get(arg2);
 				if (selectedProvider.equalsIgnoreCase("Select")) {
 					productName.setEnabled(false);
@@ -287,7 +239,7 @@ public class PaymentHome extends Activity {
 					productName.setFocusableInTouchMode(false);
 					productName.setClickable(false);
 					productNameList.clear();
-					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PaymentHome.this, R.layout.spinner_row,
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(PaymentHome.this, R.layout.spinner_row,
 							productNameList);
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -307,7 +259,7 @@ public class PaymentHome extends Activity {
 						// productOffLineList.add(prod.getOffline());
 					}
 
-					ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PaymentHome.this, R.layout.spinner_row,
+					ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(PaymentHome.this, R.layout.spinner_row,
 							productNameList);
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					productName.setAdapter(dataAdapter);
@@ -395,18 +347,18 @@ public class PaymentHome extends Activity {
 	}
 
 	public void getPayment() {
-
 		try {
-
 			String version = paymentVersion.getString("VERSION", "-1");
 			// version = "-1";
 			if (!myFile.exists()) {
 				version = "-1";
 			}
-			System.out.println("Verion" + version);
+			System.out.println("Version: " + version);
 			JSONParser jParser = new JSONParser();
-			url = WebServiceHttp.webAPIUrlFiles
-					+ "?category=category.payments&channelID=7&service=Payment&txnName=GetThirdPartyData&version=" + 1;
+			// private AlertDialog.Builder alertbox;
+			// url to make request
+			//String url2 = "https://www.banksinarmas.com/webapi/dynamic?category=category.payments&channelID=7&service=Payment&txnName=GetThirdPartyData&version=1";
+			String url = WebServiceHttp.webAPIUrlFiles + "?category=category.payments&channelID=7&service=Payment&txnName=GetThirdPartyData&version=" + 1+"&addedby=widy";
 			JSONObject json = jParser.getJSONFromUrl(url);
 			System.out.println("JSON OBJect" + json);
 			Log.e("jsonobject_________", json + "");
@@ -418,8 +370,13 @@ public class PaymentHome extends Activity {
 				String message = json.getString("message");
 			} catch (Exception e) {
 				String verStr = json.getString("version");
-				paymentVersion.edit().putString("VERSION", verStr).commit();
-				myFile.createNewFile();
+				paymentVersion.edit().putString("VERSION", verStr).apply();
+				boolean success = myFile.createNewFile();
+				if(success){
+					Log.d(LOG_TAG, "file created");
+				}else{
+					Log.d(LOG_TAG, "file create failed");
+				}
 				FileOutputStream fOut = new FileOutputStream(myFile);
 				OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
 				myOutWriter.append(json.toString());
@@ -430,7 +387,7 @@ public class PaymentHome extends Activity {
 
 			FileInputStream in = new FileInputStream(myFile);
 			BufferedReader myReader = new BufferedReader(new InputStreamReader(in));
-			String aDataRow = "";
+			String aDataRow;
 			while ((aDataRow = myReader.readLine()) != null) {
 
 				sb = sb.append(aDataRow);
@@ -447,26 +404,26 @@ public class PaymentHome extends Activity {
 				JSONObject temp = ar1.getJSONObject(i);
 				String productCategory = temp.getString(TAG_PRODUCT_CATEGORY);
 				System.out.println("Testing>>>" + productCategory);
-				listOfProviders = new ArrayList<String>();
+				listOfProviders = new ArrayList<>();
 
 				JSONArray tempArr = temp.getJSONArray(TAG_PROVIDERS);
 				for (int j = 0; j < tempArr.length(); j++) {
 
 					JSONObject providerObject = tempArr.getJSONObject(j);
 					String providerName = providerObject.getString(TAG_PROVIDER_NAME);
-					listOfProducts = new ArrayList<Product>();
+					listOfProducts = new ArrayList<>();
 					JSONArray prodArr = providerObject.getJSONArray(TAG_PRODUCTS);
 
 					for (int k = 0; k < prodArr.length(); k++) {
 
 						JSONObject jsonProd = prodArr.getJSONObject(k);
-						jSONproductName = jsonProd.getString(TAG_PRODUCT_NAME).toString();
-						jSONproductCode = jsonProd.getString(TAG_PRODUCT_CODE).toString();
-						jSONPaymentMode = jsonProd.getString(TAG_PAYMENT_MODE).toString();
-						jSONInvoiceType = jsonProd.getString(TAG_INVOICE_TYPE).toString();
-						jSONInvoiceType = jsonProd.getString(TAG_INVOICE_TYPE).toString();
+						jSONproductName = jsonProd.getString(TAG_PRODUCT_NAME);
+						jSONproductCode = jsonProd.getString(TAG_PRODUCT_CODE);
+						jSONPaymentMode = jsonProd.getString(TAG_PAYMENT_MODE);
+						jSONInvoiceType = jsonProd.getString(TAG_INVOICE_TYPE);
+						jSONInvoiceType = jsonProd.getString(TAG_INVOICE_TYPE);
 						try {
-							isCCPayment = Boolean.parseBoolean(jsonProd.getString(TAG_IS_CCPAYMENT).toString());
+							isCCPayment = Boolean.parseBoolean(jsonProd.getString(TAG_IS_CCPAYMENT));
 						} catch (Exception e) {
 							isCCPayment = false;
 						}
@@ -481,8 +438,8 @@ public class PaymentHome extends Activity {
 					listOfProviders.add(providerName);
 				}
 				System.out.println("Test>>>>>categories>>" + productCategory);
-				Log.e("productCategory--------------", productCategory);
-				Log.e("listOfProviders--------------", listOfProviders + "");
+				Log.e("productCategory", productCategory);
+				Log.e("listOfProviders", listOfProviders + "");
 				providersMapArray.put(productCategory, listOfProviders);
 			}
 
@@ -506,6 +463,7 @@ public class PaymentHome extends Activity {
 
 	}
 
+	@SuppressLint("StaticFieldLeak")
 	private class GetPayment extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected void onPreExecute() {
@@ -536,7 +494,7 @@ public class PaymentHome extends Activity {
 			super.onPostExecute(result);
 			dialog.cancel();
 
-			categoriesList = new ArrayList<String>();
+			categoriesList = new ArrayList<>();
 			//Vector<String> categories = new Vector<String>(providersMapArray.keySet());
 			categoriesList.add("Select");
 			for (String key : providersMapArray.keySet()) {
@@ -679,9 +637,8 @@ public class PaymentHome extends Activity {
 	}
 
 	public void setDataToSpinners() {
-		providersList = new ArrayList<String>();
-
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(PaymentHome.this, R.layout.spinner_row,
+		providersList = new ArrayList<>();
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(PaymentHome.this, R.layout.spinner_row,
 				categoriesList);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		productCategory.setAdapter(dataAdapter);

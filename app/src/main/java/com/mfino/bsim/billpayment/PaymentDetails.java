@@ -47,6 +47,8 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 
+import static com.mfino.bsim.services.Constants.LOG_TAG;
+
 public class PaymentDetails extends AppCompatActivity implements IncomingSMS.AutoReadSMSListener{
 
 	private static final int SUCCESS_MSGCODE = 660;
@@ -72,7 +74,6 @@ public class PaymentDetails extends AppCompatActivity implements IncomingSMS.Aut
 	Context context;
 	SharedPreferences settings;
 	String mobileNumber;
-	public static final String LOG_TAG = "SIMOBI";
 	static EditText edt;
 	static AlertDialog otpDialogS, alertError;
 	static Handler handler;

@@ -41,8 +41,11 @@ public class WebServiceHttp {
     //private AssetManager assetManager;
 
     //Production
-    //public static String webAPIUrlFiles="http://simobi.banksinarmas.com/webapi/dynamic";
-    //public static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+    //public static String webAPIUrlFiles="https://simobi.banksinarmas.com/webapi/dynamic";
+    //private static String webAPIUrl ="https://simobi.banksinarmas.com/webapi/sdynamic";
+    public static String webAPIUrlFiles="https://www.banksinarmas.com/webapi/dynamic";
+    private static String webAPIUrl ="https://www.banksinarmas.com/webapi/sdynamic";
+
 
     //local-didik-nov-17
     //public static String webAPIUrlFiles="https://192.168.1.101:8443/webapi/sdynamic";
@@ -55,7 +58,8 @@ public class WebServiceHttp {
 
 
     //QA-newnov17
-    public static String webAPIUrlFiles = "https://10.32.3.65:8443/webapi/sdynamic";
+    //public static String webAPIUrlFiles = "https://10.32.3.65:8443/webapi/sdynamic";
+    //public static String webAPIUrl = "https://10.32.3.65:8443/webapi/sdynamic";
 
     //Devserver
     //public static String webAPIUrlFiles="http://175.101.5.75:8080/webapi/dynamic";
@@ -104,9 +108,6 @@ public class WebServiceHttp {
 
     @SuppressWarnings("static-access")
     public String getUrl() {
-
-
-        String webAPIUrl = "https://10.32.3.65:8443/webapi/sdynamic";
         String requestUrl = webAPIUrl + "?" + Constants.PARAMETER_CHANNEL_ID
                 + "=" + Constants.CONSTANT_CHANNEL_ID + "&"
                 + Constants.PARAMETER_SERVICE_NAME + "="
@@ -792,9 +793,9 @@ public class WebServiceHttp {
                 e.printStackTrace();
             }
         }
-        //System.out.println("URL: " + requestUrl);
+        System.out.println("URL: " + requestUrl);
         //System.out.println("URL: " );
-        //Log.d(LOG_TAG, "url: "+ requestUrl);
+        Log.d(LOG_TAG, "url: "+ requestUrl);
         //System.out.println("Testing>>>url "+requestUrl);
         return requestUrl;
     }

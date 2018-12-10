@@ -7,7 +7,8 @@ public class Constants {
 	public static String SOURCE_MDN_PIN = "1234";
 	//public static String DESTINATION_MDN_NAME = "";
 	public static String SOURCE_PAYMENT_MODE = "";
-	
+    public static String LOG_TAG = "SIMOBI";
+
 	public static int MFA_CONNECTION_TIMEOUT =60000 ;
 	public static int CONNECTION_TIMEOUT =120000 ;
     public static final String ZEROES_STRING = "000";

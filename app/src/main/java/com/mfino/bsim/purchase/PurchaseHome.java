@@ -1,5 +1,34 @@
 package com.mfino.bsim.purchase;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.mfino.bsim.R;
+import com.mfino.bsim.activities.HomeScreen;
+import com.mfino.bsim.services.JSONParser;
+import com.mfino.bsim.services.Product;
+import com.mfino.bsim.services.WebServiceHttp;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,36 +42,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.mfino.bsim.activities.HomeScreen;
-import com.mfino.bsim.R;
-import com.mfino.bsim.services.JSONParser;
-import com.mfino.bsim.services.Product;
-import com.mfino.bsim.services.WebServiceHttp;
-
-public class PurchaseHome extends Activity {
+public class PurchaseHome extends AppCompatActivity {
 
 	Spinner productCategory, provider, productName;
 	ArrayList<HashMap<String, Object>> recentItems = new ArrayList<HashMap<String, Object>>();
@@ -70,8 +70,8 @@ public class PurchaseHome extends Activity {
 	List<String> listOfProviders, categoriesList, providersList, productNameList, productCodeList, ProductDenomList,
 			paymentModeList, invoiceTypeList;
 	List<Product> listOfProducts, readlistOfProducts;
-	LinkedHashMap<String, List<String>> providersMapArray = new LinkedHashMap<String, List<String>>();
-	LinkedHashMap<String, List<Product>> productsMapArray = new LinkedHashMap<String, List<Product>>();
+	LinkedHashMap<String, List<String>> providersMapArray = new LinkedHashMap<>();
+	LinkedHashMap<String, List<Product>> productsMapArray = new LinkedHashMap<>();
 	Button continueButton;
 	Context ctx;
 	String jSONproductName, jSONproductCode, jSONPaymentMode, jSONInvoiceType;
@@ -96,10 +96,10 @@ public class PurchaseHome extends Activity {
 
 		// Header code...
 		View headerContainer = findViewById(R.id.header);
-		TextView screeTitle = (TextView) headerContainer.findViewById(R.id.screenTitle);
+		TextView screeTitle = headerContainer.findViewById(R.id.screenTitle);
 		screeTitle.setText("PURCHASE");
-		ImageButton back = (ImageButton) headerContainer.findViewById(R.id.back);
-		ImageButton home = (ImageButton) headerContainer.findViewById(R.id.home_button);
+		ImageButton back = headerContainer.findViewById(R.id.back);
+		ImageButton home = headerContainer.findViewById(R.id.home_button);
 		back.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -118,22 +118,22 @@ public class PurchaseHome extends Activity {
 			}
 		});
 
-		productNameList = new ArrayList<String>();
-		productCodeList = new ArrayList<String>();
-		ProductDenomList = new ArrayList<String>();
-		paymentModeList = new ArrayList<String>();
-		invoiceTypeList = new ArrayList<String>();
-		isPLNPrepaidList = new ArrayList<Boolean>();
+		productNameList = new ArrayList<>();
+		productCodeList = new ArrayList<>();
+		ProductDenomList = new ArrayList<>();
+		paymentModeList = new ArrayList<>();
+		invoiceTypeList = new ArrayList<>();
+		isPLNPrepaidList = new ArrayList<>();
 		GetPurchase payment = new GetPurchase();
 		payment.execute();
-		productCategory = (Spinner) findViewById(R.id.productCategory);
-		provider = (Spinner) findViewById(R.id.provider);
-		productName = (Spinner) findViewById(R.id.productType);
-		continueButton = (Button) findViewById(R.id.continue_button);
+		productCategory = findViewById(R.id.productCategory);
+		provider = findViewById(R.id.provider);
+		productName = findViewById(R.id.productType);
+		continueButton = findViewById(R.id.continue_button);
 
-		TextView category = (TextView) findViewById(R.id.textView_purchaseCategory);
-		TextView provider = (TextView) findViewById(R.id.textView_purchaseProvider);
-		TextView type = (TextView) findViewById(R.id.textView_purchaseType);
+		TextView category = findViewById(R.id.textView_purchaseCategory);
+		TextView provider = findViewById(R.id.textView_purchaseProvider);
+		TextView type = findViewById(R.id.textView_purchaseType);
 
 		// Language Option..
 		languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
@@ -159,32 +159,63 @@ public class PurchaseHome extends Activity {
 	}
 
 	public void getPayment() {
-
 		try {
 			String version = purchaseVersion.getString("VERSION", "-1");
-			if (!myFile.exists()) {
-				version = "-1";
-			}
-			version = "-1";
-			System.out.println("Verion" + version);
-			JSONParser jParser = new JSONParser();
-			url = WebServiceHttp.webAPIUrlFiles
-					+ "?category=category.purchase&channelID=7&service=Payment&txnName=GetThirdPartyData&version="
-					+ version;
-			JSONObject json = jParser.getJSONFromUrl(url);
-			System.out.println("JSON OBJect" + json);
-			System.out.println("URL>>>" + url);
+            if (!myFile.exists()) {
+                version = "-1";
+            }
+            System.out.println("Version: " + version);
+            JSONParser jParser = new JSONParser();
+            url = WebServiceHttp.webAPIUrlFiles
+                    + "?category=category.purchase&channelID=7&service=Payment&txnName=GetThirdPartyData&version="
+                    + version;
+            JSONObject json = new JSONObject(jParser.getJSONFromUrl(url).toString().trim());
+            //System.out.println("JSON OBJect" + json);
+            System.out.println("URL>>>" + url);
+            /*
+            Ion.with(this)
+                    .load("GET", url)
+                    .setHeader("Content-Type", "application/json")
+                    .asString()
+                    .setCallback(new FutureCallback<String>() {
+                        @Override
+                        public void onCompleted(Exception e, String result) {
+                            try {
+                            	Log.d(LOG_TAG, "response: "+result);
+                                JSONObject json = new JSONObject(result);
+                                String message = json.getString("message");
+                                System.out.println("Testing>>>>>>>>>>message" + message);
+								String verStr = json.getString("version");
+								purchaseVersion.edit().putString("VERSION", verStr).apply();
+								System.out.println("Testing>>>>>>>>>>verStr" + verStr);
+								System.out.println("Testing>>>>>>>>>>Catch");
+								// myFile.delete();
+								myFile.createNewFile();
+								FileOutputStream fOut = new FileOutputStream(myFile);
+								OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+								myOutWriter.append(json.toString());
+								myOutWriter.close();
+								fOut.close();
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                                e.printStackTrace();
+                            } catch (FileNotFoundException e1) {
+								e1.printStackTrace();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						}
+                    });
+			*/
 
 			try {
 				String message = json.getString("message");
 				System.out.println("Testing>>>>>>>>>>message" + message);
 				// System.out.println("Testing>>>>>>>>>>verStr"+verStr);
-
 			} catch (Exception e) {
-
 				// Download file and store in local file
 				String verStr = json.getString("version");
-				purchaseVersion.edit().putString("VERSION", verStr).commit();
+				purchaseVersion.edit().putString("VERSION", verStr).apply();
 				System.out.println("Testing>>>>>>>>>>verStr" + verStr);
 				System.out.println("Testing>>>>>>>>>>Catch");
 				// myFile.delete();
@@ -195,7 +226,6 @@ public class PurchaseHome extends Activity {
 				myOutWriter.close();
 				fOut.close();
 				e.printStackTrace();
-
 			}
 
 			System.out.println("Testing" + myFile.length());
@@ -226,25 +256,25 @@ public class PurchaseHome extends Activity {
 
 					JSONObject providerObject = tempArr.getJSONObject(j);
 					String providerName = providerObject.getString("providerName");
-					listOfProducts = new ArrayList<Product>();
+					listOfProducts = new ArrayList<>();
 					JSONArray prodArr = providerObject.getJSONArray("products");
 
 					for (int k = 0; k < prodArr.length(); k++) {
 
 						JSONObject jsonProd = prodArr.getJSONObject(k);
-						jSONproductName = jsonProd.getString(TAG_PRODUCT_NAME).toString();
-						jSONproductCode = jsonProd.getString(TAG_PRODUCT_CODE).toString();
-						jSONPaymentMode = jsonProd.getString(TAG_PAYMENT_MODE).toString();
-						jSONInvoiceType = jsonProd.getString(TAG_INVOICE_TYPE).toString();
+						jSONproductName = jsonProd.getString(TAG_PRODUCT_NAME);
+						jSONproductCode = jsonProd.getString(TAG_PRODUCT_CODE);
+						jSONPaymentMode = jsonProd.getString(TAG_PAYMENT_MODE);
+						jSONInvoiceType = jsonProd.getString(TAG_INVOICE_TYPE);
 						try {
-							isPLNPrepaid = Boolean.parseBoolean(jsonProd.getString(TAG_IS_PLNP_REPAID).toString());
+							isPLNPrepaid = Boolean.parseBoolean(jsonProd.getString(TAG_IS_PLNP_REPAID));
 						} catch (Exception e) {
 							isPLNPrepaid = false;
 						}
 
 						try {
 
-							jSONDenom = jsonProd.getString(TAG_DENOM).toString();
+							jSONDenom = jsonProd.getString(TAG_DENOM);
 							// jSONoffLine =
 							// jsonProd.getString(TAG_OFFLINE).toString();
 

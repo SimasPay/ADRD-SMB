@@ -311,7 +311,7 @@
         <activity
             android:name=".billpayment.PaymentHome"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@style/AppNoTitleBarTheme">
         </activity>
         <!--<activity
             android:name=".billpayment.BillpaymentEnterPin"
@@ -341,7 +341,7 @@
         <activity
             android:name=".purchase.PurchaseHome"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@style/AppNoTitleBarTheme" >
         </activity>
         <!--<activity
             android:name=".purchase.BuyAccount"
