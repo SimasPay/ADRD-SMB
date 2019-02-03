@@ -102,7 +102,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		IncomingSMS.setListener(this);
 		DBHelper mydb = new DBHelper(this);
 		Cursor rs = mydb.getFlashizData();
-		Log.e("countttt", rs.getCount() + "");
+		Log.e("count", rs.getCount() + "");
 		if (rs.getCount() != 0) {
 
 			while (rs.moveToNext()) {
@@ -116,8 +116,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 				}
 			}
 		} else {
-			Log.e("Nodata_founddd", "*******************");
-
+			Log.e("Nodata_found", "*******************");
 			// Log.e("cursor-----count_****************",
 			// rs2.getCount()+"");
 		}
@@ -131,7 +130,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 
 		settings = getSharedPreferences("LOGIN_PREFERECES", Context.MODE_PRIVATE);
 		userApiKey = settings.getString("userApiKey", "NONE");
-		Log.e("userApiKey---2222222------", userApiKey);
+		Log.e("userApiKey: ", userApiKey);
 
 		if (selectedLanguage.equalsIgnoreCase("ENG"))
 			payByQRSDK.setSDKLocale(SDKLocale.ENGLISH);
@@ -199,7 +198,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 						editor.putString(DIMO_PREF_USERKEY, userApiKey);
 						editor.apply();
 
-						Log.e("userApiKey----111111-----", userApiKey);
+						Log.e("userApiKey : ", userApiKey);
 						generateUserAPIKeyHandler.setUserAPIKey(userApiKey);
 					} else {
 						generateUserAPIKeyHandler.setUserAPIKey(null);
@@ -285,14 +284,14 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		redeemPoints = invoiceModel.pointsRedeemed + "";
 		tipAmount = invoiceModel.tipAmount + "";
 
-		Log.e("mInVoiceId--------", mInVoiceId);
+		Log.e("mInVoiceId ", mInVoiceId);
 		// Log.e("pin--------", pin);
-		Log.e("mAmount-------", mAmount);
-		Log.e("mMarchantName--------", mMarchantName);
-		Log.e("loyalityName---------", loyalityName);
-		Log.e("discountAmount----------", discountAmount);
-		Log.e("discountType---------", discountType);
-		Log.e("numberOfCoupuns", numberOfCoupuns);
+		Log.e("mAmount ", mAmount);
+		Log.e("mMarchantName ", mMarchantName);
+		Log.e("loyalityName ", loyalityName);
+		Log.e("discountAmount ", discountAmount);
+		Log.e("discountType ", discountType);
+		Log.e("numberOfCoupuns ", numberOfCoupuns);
 
 		/*
 		 * if(settings.getString("invoiceId", "").equals("")){
@@ -722,7 +721,7 @@ public class QRPayment2 extends AppCompatActivity implements PayByQRSDKListener,
 		final WebServiceHttp webServiceHttp = new WebServiceHttp(valueContainer, QRPayment2.this);
 		handler = new Handler() {
 			public void handleMessage(Message msg) {
-				Log.e("===confirmation Response====", "=-======" + responseXml);
+				Log.e("confirmation Response ", "=-======" + responseXml);
 				if (responseXml != null) {
 					otpValue = "";
 					XMLParser obj = new XMLParser();

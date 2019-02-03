@@ -793,9 +793,9 @@ public class WebServiceHttp {
                 e.printStackTrace();
             }
         }
-        System.out.println("URL: " + requestUrl);
+        //System.out.println("URL: " + requestUrl);
         //System.out.println("URL: " );
-        Log.d(LOG_TAG, "url: "+ requestUrl);
+        //Log.d(LOG_TAG, "url: "+ requestUrl);
         //System.out.println("Testing>>>url "+requestUrl);
         return requestUrl;
     }

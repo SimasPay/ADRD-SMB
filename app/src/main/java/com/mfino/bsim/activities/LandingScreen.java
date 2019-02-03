@@ -1,20 +1,20 @@
 package com.mfino.bsim.activities;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Paint;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mfino.bsim.R;
 import com.mfino.bsim.containers.EncryptedResponseDataContainer;
@@ -26,28 +26,21 @@ import com.mfino.bsim.services.XMLParser;
 import com.mfino.bsim.utils.ImageSliderAdapter;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Paint;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.mfino.bsim.services.Constants.LOG_TAG;
 
@@ -64,10 +57,12 @@ public class LandingScreen extends AppCompatActivity {
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private ArrayList<String> IMAGES = new ArrayList<>();
+    /*
     private static final String[] requiredPermissions = new String[]{Manifest.permission.RECEIVE_SMS,
             Manifest.permission.READ_SMS
-            /* ETC.. */
-    };
+            };
+            */
+
 
     @SuppressLint("NewApi")
     @Override
@@ -76,12 +71,14 @@ public class LandingScreen extends AppCompatActivity {
         setContentView(R.layout.landing_screen);
 
         // Check Permission
+        /*
         if (Build.VERSION.SDK_INT > 22 && !hasPermissions(requiredPermissions)) {
             requestPermissions(new String[]{Manifest.permission.READ_SMS}, 1);
             Log.d("Simobi", "permission requested");
         } else {
             Log.d("Simobi", "permission granted");
         }
+        */
 
         languageSettings = getSharedPreferences("LANGUAGE_PREFERECES", 0);
         encrptionKeys = getSharedPreferences("PUBLIC_KEY_PREFERECES", 0);
@@ -109,39 +106,28 @@ public class LandingScreen extends AppCompatActivity {
         // Get public key
         getPublick();
 
-        toc.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(LandingScreen.this, TermsAndConditions.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent, 1);
-            }
+        toc.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(LandingScreen.this, TermsAndConditions.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForResult(intent, 1);
         });
 
-        contact.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(LandingScreen.this, ContactUs.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent, 1);
-            }
+        contact.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(LandingScreen.this, ContactUs.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForResult(intent, 1);
         });
 
-        mlogin.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(LandingScreen.this, LoginScreen.class);
-                if (getIntent().hasExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID)) {
-                    intent.putExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID,
-                            getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID));
-                    intent.putExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK,
-                            getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK));
-                }
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent, 1);
+        mlogin.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(LandingScreen.this, LoginScreen.class);
+            if (getIntent().hasExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID)) {
+                intent.putExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID,
+                        getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_INVOICE_ID));
+                intent.putExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK,
+                        getIntent().getStringExtra(QRPayment2.INTENT_EXTRA_URL_CALLBACK));
             }
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForResult(intent, 1);
         });
 
         /*
@@ -158,14 +144,10 @@ public class LandingScreen extends AppCompatActivity {
         });
          **/
 
-        active.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(LandingScreen.this, ActivationHome.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
+        active.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(LandingScreen.this, ActivationHome.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
     }
 
@@ -235,10 +217,8 @@ public class LandingScreen extends AppCompatActivity {
                                     //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                                     alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
                                 }
-                                alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface arg0, int arg1) {
+                                alertbox.setNeutralButton("OK", (arg0, arg1) -> {
 
-                                    }
                                 });
                                 alertbox.show();
                             } else {
@@ -253,10 +233,8 @@ public class LandingScreen extends AppCompatActivity {
                                 //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                                 alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
                             }
-                            alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface arg0, int arg1) {
+                            alertbox.setNeutralButton("OK", (arg0, arg1) -> {
 
-                                }
                             });
                             alertbox.show();
                         }
@@ -271,12 +249,7 @@ public class LandingScreen extends AppCompatActivity {
                         //alertbox.setMessage("gagal konek ke "+WebServiceHttp.webAPIUrl);
                         alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
                     }
-                    alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            finish();
-
-                        }
-                    });
+                    alertbox.setNeutralButton("OK", (arg0, arg1) -> finish());
                     alertbox.show();
                 }
 
@@ -363,13 +336,11 @@ public class LandingScreen extends AppCompatActivity {
         Log.d(LOG_TAG, "Number of Pages: "+ NUM_PAGES);
         // Auto start of viewpager
         final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
+        final Runnable Update = () -> {
+            if (currentPage == NUM_PAGES) {
+                currentPage = 0;
             }
+            mPager.setCurrentItem(currentPage++, true);
         };
         Timer swipeTimer = new Timer();
         swipeTimer.schedule(new TimerTask() {
@@ -400,6 +371,7 @@ public class LandingScreen extends AppCompatActivity {
         });
     }
 
+    /*
     @SuppressLint("NewApi")
     public boolean hasPermissions(@NonNull String... permissions) {
         for (String permission : permissions)
@@ -407,5 +379,6 @@ public class LandingScreen extends AppCompatActivity {
                 return false;
         return true;
     }
+    */
 
 }

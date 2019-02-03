@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+
     flavorDimensions "tier"
     signingConfigs {
         release {
@@ -13,22 +14,27 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     useLibrary  'org.apache.http.legacy'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     productFlavors {
         releaseversion {
             dimension "tier"
             minSdkVersion 14
             applicationId 'com.mfino.bsim'
             signingConfig signingConfigs.release
-            versionCode 35
-            versionName '8.5'
+            versionCode 36
+            versionName '8.6'
+            targetSdkVersion 28
         }
     }
     defaultConfig {
         applicationId "com.mfino.bsim"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 34
-        versionName "8.4"
+        versionCode 36
+        versionName "8.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release
     }
@@ -63,6 +69,5 @@ dependencies {
     implementation 'eu.davidea:flipview:1.1.3'
     implementation 'com.viewpagerindicator:library:2.4.1@aar'
     implementation project(':PayByQR-Android-2.1.1-Simobi')
-    implementation 'testfairy:testfairy-android-sdk:1.8.3'
     implementation 'com.koushikdutta.ion:ion:2.2.1'
 }
