@@ -1,20 +1,15 @@
 package com.mfino.bsim.activities;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +34,6 @@ import com.mfino.bsim.services.Constants;
 import com.mfino.bsim.services.WebServiceHttp;
 import com.mfino.bsim.services.XMLParser;
 import com.mfino.bsim.transfer.TransferSelection;
-import com.mfino.bsim.utils.AndroidPermissions;
 
 
 /**
@@ -53,7 +47,7 @@ public class HomeScreen extends AppCompatActivity {
     DBHelper mydb;
     ValueContainer valueContainer;
     String mobileNumber, selectedLanguage;
-    final private int PERMISSION_REQUEST_CODE = 123;
+    //final private int PERMISSION_REQUEST_CODE = 123;
     public static final String LOG_TAG = "SIMOBI";
     private String token = "";
     private AlertDialog dialog;
@@ -66,13 +60,14 @@ public class HomeScreen extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen1);
+        /*
         if (Build.VERSION.SDK_INT >= 23) {// self check permissions for Read SMS
             requestContactPermission();
             if (!AndroidPermissions.getInstance().checkReadSmsPermission(HomeScreen.this)) {
                 AndroidPermissions.getInstance().displaySmsPermissionAlert(HomeScreen.this);
             }
         }
-
+        */
 
         mydb = new DBHelper(HomeScreen.this);
         settings2 = getSharedPreferences(LOG_TAG, 0);
@@ -102,14 +97,11 @@ public class HomeScreen extends AppCompatActivity {
                 }
             }
             Button upgradeNow = findViewById(R.id.upgrade_now);
-            upgradeNow.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (token.equals("")) {
-                        getToken();
-                    }
-                    checkIfSimPlusExist();
+            upgradeNow.setOnClickListener(v -> {
+                if (token.equals("")) {
+                    getToken();
                 }
+                checkIfSimPlusExist();
             });
             ImageButton closeBtn = findViewById(R.id.close_btn);
             if(getUpgradeValue==2){
@@ -117,12 +109,7 @@ public class HomeScreen extends AppCompatActivity {
             }else{
                 closeBtn.setVisibility(View.VISIBLE);
             }
-            closeBtn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bannerUpgradeLayout.setVisibility(View.GONE);
-                }
-            });
+            closeBtn.setOnClickListener(v -> bannerUpgradeLayout.setVisibility(View.GONE));
         }
 
 		/* Called when the activity is first created. */
@@ -144,92 +131,77 @@ public class HomeScreen extends AppCompatActivity {
         String selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
         System.out.println("Testing>>language>>" + selectedLanguage);
 
-        if (selectedLanguage.equalsIgnoreCase("ENG")) {
-            logoutButton.setBackgroundResource(R.drawable.logout);
-            transfer.setText(getResources().getString(R.string.eng_fundTransfer));
-            purchase.setText(getResources().getString(R.string.eng_purchase));
-            payment.setText(getResources().getString(R.string.eng_payment));
-            account.setText(getResources().getString(R.string.eng_myaccont));
-            qrText.setText(getResources().getString(R.string.eng_Flashiz));
-            promoText.setText(getResources().getString(R.string.eng_promo));
+        if (selectedLanguage != null) {
+            if (selectedLanguage.equalsIgnoreCase("ENG")) {
+                logoutButton.setBackgroundResource(R.drawable.logout);
+                transfer.setText(getResources().getString(R.string.eng_fundTransfer));
+                purchase.setText(getResources().getString(R.string.eng_purchase));
+                payment.setText(getResources().getString(R.string.eng_payment));
+                account.setText(getResources().getString(R.string.eng_myaccont));
+                qrText.setText(getResources().getString(R.string.eng_Flashiz));
+                promoText.setText(getResources().getString(R.string.eng_promo));
 
-        } else {
-            System.out.println("Testing>>Bahasa");
-            logoutButton.setBackgroundResource(R.drawable.logout);
-            transfer.setText(getResources().getString(R.string.eng_fundTransfer));
-            purchase.setText(getResources().getString(R.string.bahasa_purchase));
-            payment.setText(getResources().getString(R.string.bahasa_payment));
-            account.setText(getResources().getString(R.string.bahasa_myaccont));
-            qrText.setText(getResources().getString(R.string.bahasa_Flashiz));
-            promoText.setText(getResources().getString(R.string.bahasa_promo));
+            } else {
+                System.out.println("Testing>>Bahasa");
+                logoutButton.setBackgroundResource(R.drawable.logout);
+                transfer.setText(getResources().getString(R.string.eng_fundTransfer));
+                purchase.setText(getResources().getString(R.string.bahasa_purchase));
+                payment.setText(getResources().getString(R.string.bahasa_payment));
+                account.setText(getResources().getString(R.string.bahasa_myaccont));
+                qrText.setText(getResources().getString(R.string.bahasa_Flashiz));
+                promoText.setText(getResources().getString(R.string.bahasa_promo));
+            }
         }
 
-        qrPayment.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(HomeScreen.this, QRPayment2.class);
-                intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
-                startActivity(intent);
+        qrPayment.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(HomeScreen.this, QRPayment2.class);
+            intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_PAYMENT);
+            startActivity(intent);
 
-                Log.e("agree_clicked", "");
+            Log.e("agree_clicked", "");
 
-            }
         });
 
-        promo.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(HomeScreen.this, QRPayment2.class);
-                intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_LOYALTY);
-                startActivity(intent);
-            }
+        promo.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(HomeScreen.this, QRPayment2.class);
+            intent.putExtra(QRPayment2.INTENT_EXTRA_MODULE, PayByQRSDK.MODULE_LOYALTY);
+            startActivity(intent);
         });
 
-        image1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Intent intent = new Intent(HomeScreen.this, TransferSelection.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
+        image1.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(HomeScreen.this, TransferSelection.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
 
-        image2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Intent intent = new Intent(HomeScreen.this, PaymentHome.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
+        image2.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(HomeScreen.this, PaymentHome.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         });
 
-        image3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
+        image3.setOnClickListener(arg0 -> {
                 Intent intent = new Intent(HomeScreen.this, PurchaseHome.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
         });
 
-        image4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
+        image4.setOnClickListener(arg0 -> {
                 Intent intent = new Intent(HomeScreen.this, AccountSelection.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
         });
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(HomeScreen.this, LoginScreen.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                settings.edit().putString("userApiKey", "NONE").apply();
-                startActivity(intent);
+        logoutButton.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(HomeScreen.this, LoginScreen.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            settings.edit().putString("userApiKey", "NONE").apply();
+            startActivity(intent);
 
-            }
         });
     }
 
+    /*
     private void requestContactPermission() {
         int hasContactPermission = ActivityCompat.checkSelfPermission(HomeScreen.this, Manifest.permission.RECEIVE_SMS);
         if (hasContactPermission != PackageManager.PERMISSION_GRANTED) {
@@ -237,7 +209,9 @@ public class HomeScreen extends AppCompatActivity {
                     PERMISSION_REQUEST_CODE);
         }
     }
+    */
 
+    /*
     @SuppressLint("NewApi")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -263,6 +237,7 @@ public class HomeScreen extends AppCompatActivity {
             }
         }
     }
+    */
 
     public void getToken() {
         valueContainer = new ValueContainer();
@@ -302,11 +277,7 @@ public class HomeScreen extends AppCompatActivity {
                         } else {
                             alertbox.setMessage(getResources().getString(R.string.bahasa_transactionFail));
                         }
-                        alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                arg0.dismiss();
-                            }
-                        });
+                        alertbox.setNeutralButton("OK", (arg0, arg1) -> arg0.dismiss());
                         alertbox.show();
                     } else if (responseContainer.getMsgCode().equals("2183")) {
                         //sukses
@@ -314,22 +285,18 @@ public class HomeScreen extends AppCompatActivity {
                         Log.d(LOG_TAG, "token value: " + token);
                     } else if (responseContainer.getMsgCode().equals("631")) {
                         alertbox.setMessage(responseContainer.getMsg());
-                        alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int arg1) {
-                                dialog.dismiss();
-                                Intent intent = new Intent(getBaseContext(), LoginScreen.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
+                        alertbox.setNeutralButton("OK", (dialog12, arg1) -> {
+                            dialog12.dismiss();
+                            Intent intent = new Intent(getBaseContext(), LoginScreen.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
                         });
                         alertbox.show();
                     } else {
                         alertbox.setMessage(responseContainer.getMsg());
-                        alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int arg1) {
-                                dialog.dismiss();
-                                finish();
-                            }
+                        alertbox.setNeutralButton("OK", (dialog1, arg1) -> {
+                            dialog1.dismiss();
+                            finish();
                         });
                         alertbox.show();
                     }
@@ -341,11 +308,9 @@ public class HomeScreen extends AppCompatActivity {
                     } else {
                         alertbox.setMessage(getResources().getString(R.string.bahasa_serverNotRespond));
                     }
-                    alertbox.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            arg0.dismiss();
-                            finish();
-                        }
+                    alertbox.setNeutralButton("OK", (arg0, arg1) -> {
+                        arg0.dismiss();
+                        finish();
                     });
                     alertbox.show();
                 }
@@ -412,15 +377,12 @@ public class HomeScreen extends AppCompatActivity {
                 text_label.setText(getResources().getString(R.string.bahasa_simobiplus_exist));
                 Button text_button = dialogView.findViewById(R.id.text_button);
                 text_button.setText(getResources().getString(R.string.bahasa_register_now));
-                text_button.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        bannerUpgradeLayout.setVisibility(View.GONE);
-                        Log.d(LOG_TAG, "smbplus://migrate/" + token);
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                "smbplus://migrate/" + token)));
-                    }
+                text_button.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    bannerUpgradeLayout.setVisibility(View.GONE);
+                    Log.d(LOG_TAG, "smbplus://migrate/" + token);
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                            "smbplus://migrate/" + token)));
                 });
             }
 
@@ -440,17 +402,14 @@ public class HomeScreen extends AppCompatActivity {
                 text_label.setText(getResources().getString(R.string.eng_simobiplus_doesntexist));
                 Button text_button = dialogView.findViewById(R.id.text_button);
                 text_button.setText(getResources().getString(R.string.eng_install_now));
-                text_button.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        Log.d(LOG_TAG, "isInstalled: " + isInstalled);
-                        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                        }
+                text_button.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    Log.d(LOG_TAG, "isInstalled: " + isInstalled);
+                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                     }
                 });
             } else {
@@ -458,17 +417,14 @@ public class HomeScreen extends AppCompatActivity {
                 text_label.setText(getResources().getString(R.string.bahasa_simobiplus_doesntexist));
                 Button text_button = dialogView.findViewById(R.id.text_button);
                 text_button.setText(getResources().getString(R.string.bahasa_install_now));
-                text_button.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        Log.d(LOG_TAG, "isInstalled: " + isInstalled);
-                        final String appPackageName = "com.simas.mobile.SimobiPlus"; // getPackageName() from Context or Activity object
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                        }
+                text_button.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    Log.d(LOG_TAG, "isInstalled: " + isInstalled);
+                    final String appPackageName = "com.simas.mobile.SimobiPlus"; // getPackageName() from Context or Activity object
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                     }
                 });
             }

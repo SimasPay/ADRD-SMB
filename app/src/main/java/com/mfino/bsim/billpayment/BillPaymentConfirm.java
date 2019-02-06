@@ -25,8 +25,6 @@ import com.mfino.bsim.services.XMLParser;
 
 public class BillPaymentConfirm extends Activity {
 
-	private Button btn_confirm, btn_cancel;
-	private TextView tvConfirmInfo, aditionalInfo;
 	private String responseXml;
 	ValueContainer valueContainer;
 	private Bundle bundle;
@@ -69,10 +67,10 @@ public class BillPaymentConfirm extends Activity {
 		});*/
 
 		bundle = getIntent().getExtras();
-		tvConfirmInfo = (TextView) findViewById(R.id.tv_Confirm_info);
-		aditionalInfo = (TextView) findViewById(R.id.aditional_info);
-		btn_confirm = (Button) findViewById(R.id.confirmButton);
-		btn_cancel = (Button) findViewById(R.id.cancelButton);
+		TextView tvConfirmInfo = findViewById(R.id.tv_Confirm_info);
+		TextView aditionalInfo = findViewById(R.id.aditional_info);
+		Button btn_confirm = findViewById(R.id.confirmButton);
+		Button btn_cancel = findViewById(R.id.cancelButton);
 		//LinearLayout ccPaymentLayout=(LinearLayout)findViewById(R.id.isCreditCardLayout);
 		alertbox = new AlertDialog.Builder(BillPaymentConfirm.this, R.style.MyAlertDialogStyle);
    /*     if (bundle.getBoolean("IS_CCPAYMENT")) {
@@ -92,9 +90,10 @@ public class BillPaymentConfirm extends Activity {
 		//Language Option..
 			languageSettings = getSharedPreferences("LANGUAGE_PREFERECES",0);
 			selectedLanguage = languageSettings.getString("LANGUAGE", "BAHASA");
-			
+
+		if (selectedLanguage != null) {
 			if (selectedLanguage.equalsIgnoreCase("ENG")) {
-				
+
 				//screeTitle.setText(getResources().getString(R.string.eng_confirm));
 				/*btn_confirm.setBackgroundResource(R.drawable.confirm);
 				btn_cancel.setBackgroundResource(R.drawable.cancel);*/
@@ -102,19 +101,20 @@ public class BillPaymentConfirm extends Activity {
 				btn_cancel.setText(getResources().getString(R.string.eng_cancel));
 				/*home.setBackgroundResource(R.drawable.home_icon1);
 				back.setBackgroundResource(R.drawable.back_button);*/
-	
+
 			} else {
-				
+
 				//screeTitle.setText(getResources().getString(R.string.bahasa_confirm));
 				/*btn_confirm.setBackgroundResource(R.drawable.bahasa_confirm);
 				btn_cancel.setBackgroundResource(R.drawable.bahasa_cancel);*/
-				
+
 				btn_confirm.setText(getResources().getString(R.string.eng_confirm));
 				btn_cancel.setText(getResources().getString(R.string.eng_cancel));
 				/*home.setBackgroundResource(R.drawable.bahasa_home_icon1);
 				back.setBackgroundResource(R.drawable.bahasa_back_button);*/
-	
+
 			}
+		}
 
 		try {
 			if (bundle.getString("ADITIONAL_INFO").length() <= 0|| bundle.getString("ADITIONAL_INFO").equalsIgnoreCase("null")) {
@@ -127,10 +127,12 @@ public class BillPaymentConfirm extends Activity {
 				String adInfo = bundle.getString("ADITIONAL_INFO");
 				StringBuilder sb = new StringBuilder();
 				String delimiter = "\\|";
-				String temp[] = adInfo.split(delimiter);
-				
-				for (int i = 0; i < temp.length; i++)
-					sb.append(temp[i]).append("\n");
+				String temp[] = new String[0];
+				if (adInfo != null) {
+					temp = adInfo.split(delimiter);
+				}
+
+				for (String aTemp : temp) sb.append(aTemp).append("\n");
 
 				aditionalInfo.setText(sb.toString());
 			}
@@ -144,7 +146,7 @@ public class BillPaymentConfirm extends Activity {
 			@Override
 			public void onClick(View arg0) {
 
-				/** Set Parameters for Service calling . */
+				/* Set Parameters for Service calling . */
 				valueContainer = new ValueContainer();
 				
 				valueContainer.setServiceName(Constants.SERVICE_BILLPAYMENT);
@@ -165,7 +167,7 @@ public class BillPaymentConfirm extends Activity {
 						valueContainer.setOTP(bundle.getString("OTP"));
 						valueContainer.setMfaMode(bundle.getString("MFA_MODE"));
 					}
-				} catch (Exception e1) {
+				} catch (Exception ignored) {
 
 				}
 
@@ -191,7 +193,7 @@ public class BillPaymentConfirm extends Activity {
 					public void handleMessage(Message msg) {
 
 						if (responseXml != null) {
-							/** Parse the response xml. */
+							/* Parse the response xml. */
 							XMLParser obj = new XMLParser();
 							EncryptedResponseDataContainer responseContainer = null;
 							try {
@@ -204,7 +206,9 @@ public class BillPaymentConfirm extends Activity {
 							dialog.dismiss();
 
 							try {
-								msgCode = Integer.parseInt(responseContainer.getMsgCode());
+								if (responseContainer != null) {
+									msgCode = Integer.parseInt(responseContainer.getMsgCode());
+								}
 							} catch (Exception e) {
 								msgCode = 0;
 							}
@@ -215,14 +219,12 @@ public class BillPaymentConfirm extends Activity {
 								} else {
 									alertbox.setMessage(getResources().getString(R.string.bahasa_appTimeout));
 								}
-								alertbox.setNeutralButton("OK",	new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface arg0, int arg1) {
+								alertbox.setNeutralButton("OK", (arg01, arg1) -> {
 
-										Intent intent = new Intent(	getBaseContext(),PaymentHome.class);
-										intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-										startActivity(intent);
+									Intent intent = new Intent(	getBaseContext(),PaymentHome.class);
+									intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(intent);
 
-									}
 								});
 								alertbox.show();
 							} else {
@@ -275,16 +277,12 @@ public class BillPaymentConfirm extends Activity {
 			}
 		});
 
-		/** Cancel button event handling. */
-		btn_cancel.setOnClickListener(new View.OnClickListener() {
+		/* Cancel button event handling. */
+		btn_cancel.setOnClickListener(arg0 -> {
 
-			@Override
-			public void onClick(View arg0) {
-
-				Intent intent = new Intent(BillPaymentConfirm.this,HomeScreen.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-			}
+			Intent intent = new Intent(BillPaymentConfirm.this,HomeScreen.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 		});
 	}
 
